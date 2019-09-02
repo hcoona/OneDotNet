@@ -12,7 +12,7 @@ namespace OxyPlot.Series
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    
+
     /// <summary>
     /// Provides methods to collect data samples into bins for use with a <see cref="HistogramSeries" />.
     /// </summary>
@@ -38,7 +38,7 @@ namespace OxyPlot.Series
             {
                 throw new ArgumentException("End cannot be less than or equal to Start.", nameof(end));
             }
-            
+
             List<double> binBreaks = new List<double>(binCount);
 
             for (int i = 0; i <= binCount; i++)
@@ -64,7 +64,7 @@ namespace OxyPlot.Series
             // count samples
             List<int> counts = new List<int>();
             long total = 0;
-            
+
             for (int i = 0; i < binBreaks.Count - 1; i++)
             {
                 counts.Add(0);
@@ -75,7 +75,7 @@ namespace OxyPlot.Series
                 int idx = System.Array.BinarySearch(orderedBreaks, sample);
 
                 bool placed = false;
-                
+
                 if (idx >= 0)
                 {
                     // exact match, place in the corresponding bin (exclude last bin)
@@ -89,7 +89,7 @@ namespace OxyPlot.Series
                 {
                     // inexact match, place in lower bin
                     idx = ~idx - 1;
-                    
+
                     if (idx >= 0 && idx < counts.Count)
                     {
                         counts[idx] += 1;
@@ -105,7 +105,7 @@ namespace OxyPlot.Series
 
             // create items
             List<HistogramItem> items = new List<HistogramItem>(counts.Count);
-            
+
             for (int i = 0; i < binBreaks.Count - 1; i++)
             {
                 items.Add(new HistogramItem(binBreaks[i], binBreaks[i + 1], (double)counts[i] / total));

@@ -93,9 +93,9 @@ namespace OxyPlot.Series
             var dashArray = this.LineStyle.GetDashArray();
 
             var datacandlewidth = (this.CandleWidth > 0) ? this.CandleWidth : this.minDx * 0.80;
-            var candlewidth = 
+            var candlewidth =
                 this.XAxis.Transform(items[0].X + datacandlewidth) -
-                this.XAxis.Transform(items[0].X); 
+                this.XAxis.Transform(items[0].X);
 
             // colors
             var fillUp = this.GetSelectableFillColor(this.IncreasingColor);
@@ -260,11 +260,11 @@ namespace OxyPlot.Series
             };
 
             // determine closest point
-            var midx = distance(this.Items[pidx]) <= distance(this.Items[nidx]) ? pidx : nidx; 
+            var midx = distance(this.Items[pidx]) <= distance(this.Items[nidx]) ? pidx : nidx;
             var mbar = this.Items[midx];
 
             var hit = new DataPoint(mbar.X, mbar.Close);
-            return new TrackerHitResult 
+            return new TrackerHitResult
             {
                 Series = this,
                 DataPoint = hit,
@@ -291,7 +291,7 @@ namespace OxyPlot.Series
         protected internal override void UpdateData()
         {
             base.UpdateData();
-            
+
             // determine minimum X gap between successive points
             var items = this.Items;
             var nitems = items.Count;

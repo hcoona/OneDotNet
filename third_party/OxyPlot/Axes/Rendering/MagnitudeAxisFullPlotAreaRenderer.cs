@@ -346,7 +346,7 @@ namespace OxyPlot.Axes
         /// <param name="pen">The pen.</param>
         private void RenderTickArc(Axis axis, AngleAxis angleAxis, double x, OxyPen pen, double startangle, double endangle)
         {
-            if(startangle>endangle)
+            if (startangle > endangle)
             {
 
             }

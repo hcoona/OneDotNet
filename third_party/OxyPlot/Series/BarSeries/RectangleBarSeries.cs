@@ -175,7 +175,8 @@ namespace OxyPlot.Series
             }
 
             int clipCount = 0;
-            for (int i = startIdx; i < this.Items.Count; i++){
+            for (int i = startIdx; i < this.Items.Count; i++)
+            {
                 var item = this.Items[i];
                 if (!this.IsValid(item.X0) || !this.IsValid(item.X1)
                     || !this.IsValid(item.Y0) || !this.IsValid(item.Y1))

@@ -331,7 +331,7 @@ namespace OxyPlot.Axes
         internal IList<double> SubdividedDecadeTicks(bool clip = true)
         {
             var ret = new List<double>();
-            for (var exponent = (int)Math.Floor(this.LogActualMinimum);; exponent++)
+            for (var exponent = (int)Math.Floor(this.LogActualMinimum); ; exponent++)
             {
                 if (exponent > this.LogActualMaximum)
                 {
@@ -384,7 +384,7 @@ namespace OxyPlot.Axes
             var logPreviousMajorTick = double.NaN;
 
             // loop through all desired steps and find a suitable candidate for each of them
-            for (var d = Math.Floor(this.LogActualMinimum);; d += logDesiredStepSize)
+            for (var d = Math.Floor(this.LogActualMinimum); ; d += logDesiredStepSize)
             {
                 if (d < this.LogActualMinimum - logDesiredStepSize)
                 {

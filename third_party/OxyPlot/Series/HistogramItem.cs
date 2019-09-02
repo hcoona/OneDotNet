@@ -32,13 +32,13 @@ namespace OxyPlot.Series
         /// </summary>
         /// <value>The range start.</value>
         public double RangeStart { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the range end.
         /// </summary>
         /// <value>The range end.</value>
         public double RangeEnd { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the area.
         /// </summary>
@@ -49,13 +49,13 @@ namespace OxyPlot.Series
         /// Gets the computed width of the item.
         /// </summary>
         public double Width => this.RangeEnd - this.RangeStart;
-        
+
         /// <summary>
         /// Gets the computed height of the item.
         /// </summary>
         /// <value>The computed height of the item</value>
         public double Height => this.Area / this.Width;
-        
+
         /// <summary>
         /// Gets the value of the item. Equivalent to the Height;
         /// </summary>
@@ -81,7 +81,7 @@ namespace OxyPlot.Series
                        (p.X <= this.RangeStart && p.X >= this.RangeEnd && p.Y <= this.Height && p.Y >= 0);
             }
         }
-        
+
         /// <summary>
         /// Returns C# code that generates this instance.
         /// </summary>

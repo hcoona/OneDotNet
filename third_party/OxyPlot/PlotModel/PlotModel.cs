@@ -856,7 +856,7 @@ namespace OxyPlot
 
             foreach (var axis in this.Axes)
             {
-                if(!axis.IsAxisVisible)
+                if (!axis.IsAxisVisible)
                 {
                     continue;
                 }
@@ -1125,7 +1125,7 @@ namespace OxyPlot
         {
             if (key != null)
             {
-                var axis = this.Axes.FirstOrDefault(a => a.Key == key);                
+                var axis = this.Axes.FirstOrDefault(a => a.Key == key);
                 return axis != null ? axis : defaultAxis;
             }
 

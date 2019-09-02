@@ -21,5 +21,5 @@ namespace SimpleDemo
         {
             this.InitializeComponent();
         }
-   }
+    }
 }

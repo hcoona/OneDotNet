@@ -42,7 +42,7 @@ namespace OxyPlot
             this.ThicknessScale = 2;
 
             this.FontFamily = "Humor Sans"; // http://antiyawn.com/uploads/humorsans.html
-            //// this.FontFamily = "Comic Sans MS";
+                                            //// this.FontFamily = "Comic Sans MS";
         }
 
         /// <summary>

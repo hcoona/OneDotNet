@@ -189,11 +189,11 @@ namespace OxyPlot
             }
 
             var lines = Regex.Split(text, "\r\n");
-            
+
             var textSize = this.MeasureText(text, fontFamily, fontSize, fontWeight);
             var lineHeight = textSize.Height / lines.Length;
             var lineOffset = new ScreenVector(-Math.Sin(rotate / 180.0 * Math.PI) * lineHeight, +Math.Cos(rotate / 180.0 * Math.PI) * lineHeight);
-            
+
             if (this.UseVerticalTextAlignmentWorkaround)
             {
                 // offset the position, and set the valign to neutral value of `Bottom`

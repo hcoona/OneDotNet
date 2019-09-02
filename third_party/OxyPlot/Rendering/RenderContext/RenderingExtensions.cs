@@ -127,8 +127,8 @@ namespace OxyPlot
                 EnsureNonEmptyLineIsVisible(outputBuffer);
                 rc.DrawLine(outputBuffer, stroke, strokeThickness, dashArray, lineJoin, aliased);
 
-                // Execute the 'callback'
-                if (pointsRendered != null)
+          // Execute the 'callback'
+          if (pointsRendered != null)
                 {
                     pointsRendered(outputBuffer);
                 }

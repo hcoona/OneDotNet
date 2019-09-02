@@ -347,14 +347,14 @@ namespace OxyPlot.Axes
                 if (this.MajorPen != null)
                 {
                     this.AddSegments(
-                        majorSegments, 
-                        perpAxes, 
-                        isHorizontal, 
-                        cropGridlines, 
-                        transformedValue, 
-                        plotAreaLeft, 
-                        plotAreaRight, 
-                        plotAreaTop, 
+                        majorSegments,
+                        perpAxes,
+                        isHorizontal,
+                        cropGridlines,
+                        transformedValue,
+                        plotAreaLeft,
+                        plotAreaRight,
+                        plotAreaTop,
                         plotAreaBottom);
                 }
 
@@ -625,7 +625,7 @@ namespace OxyPlot.Axes
         /// <param name="plotAreaTop">Plot area top position.</param>
         /// <param name="plotAreaBottom">Plot area bottom position.</param>
         private void AddSegments(
-            List<ScreenPoint> segments, 
+            List<ScreenPoint> segments,
             List<Axis> perpAxes,
             bool isHorizontal,
             bool cropGridlines,

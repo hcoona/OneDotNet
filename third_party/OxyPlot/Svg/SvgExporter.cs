@@ -40,7 +40,7 @@ namespace OxyPlot
         /// Gets or sets a value indicating whether the xml headers should be included.
         /// </summary>
         public bool IsDocument { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to use a workaround for vertical text alignment to support renderers with limited support for the dominate-baseline attribute.
         /// </summary>

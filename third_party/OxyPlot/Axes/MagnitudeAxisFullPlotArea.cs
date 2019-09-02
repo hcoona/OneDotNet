@@ -130,7 +130,7 @@ namespace OxyPlot.Axes
             this.ScreenMax = new ScreenPoint(x1, y0);
 
             this.MidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height); //new ScreenPoint((x0 + x1) / 2, (y0 + y1) / 2);
-            //this.ShiftedMidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height);
+                                                                                                                                            //this.ShiftedMidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height);
 
             // this.ActualMinimum = 0;
             double r = Math.Min(Math.Abs(x1 - x0), Math.Abs(y1 - y0));

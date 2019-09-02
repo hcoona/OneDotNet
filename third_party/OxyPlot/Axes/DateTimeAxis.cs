@@ -251,9 +251,9 @@ namespace OxyPlot.Axes
                     }
 
                     break;
-                    
-                    
-                    
+
+
+
                 case DateTimeIntervalType.Milliseconds:
                     this.ActualMinorStep = this.ActualMajorStep;
                     if (this.ActualStringFormat == null)
@@ -262,7 +262,7 @@ namespace OxyPlot.Axes
                     }
 
                     break;
-                    
+
                 case DateTimeIntervalType.Manual:
                     break;
                 case DateTimeIntervalType.Auto:
@@ -368,7 +368,7 @@ namespace OxyPlot.Axes
                 {
                     this.actualIntervalType = DateTimeIntervalType.Seconds;
                 }
-                    
+
                 if (interval >= 1.0 / 24 / 60)
                 {
                     this.actualIntervalType = DateTimeIntervalType.Minutes;

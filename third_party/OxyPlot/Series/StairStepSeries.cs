@@ -160,13 +160,13 @@ namespace OxyPlot.Series
 
             Action<IList<ScreenPoint>, IList<ScreenPoint>> renderPoints = (lpts, mpts) =>
                 {
-              // clip the line segments with the clipping rectangle
-              if (this.StrokeThickness > 0 && lineStyle != LineStyle.None)
+                    // clip the line segments with the clipping rectangle
+                    if (this.StrokeThickness > 0 && lineStyle != LineStyle.None)
                     {
                         if (!verticalStrokeThickness.Equals(this.StrokeThickness) || this.VerticalLineStyle != lineStyle)
                         {
-                      // TODO: change to array
-                      var hlpts = new List<ScreenPoint>();
+                            // TODO: change to array
+                            var hlpts = new List<ScreenPoint>();
                             var vlpts = new List<ScreenPoint>();
                             for (int i = 0; i + 2 < lpts.Count; i += 2)
                             {

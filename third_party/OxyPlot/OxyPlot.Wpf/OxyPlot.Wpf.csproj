@@ -4,18 +4,12 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <PackageId>OxyPlot.Wpf</PackageId>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>OxyPlot is a plotting library for .NET. This package targets WPF applications.</Description>
-    <PackageLicense>https://raw.githubusercontent.com/oxyplot/oxyplot/master/LICENSE</PackageLicense>
-    <Copyright>OxyPlot contributors</Copyright>
-    <PackageProjectUrl>http://oxyplot.org/</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/oxyplot/oxyplot/develop/Icons/OxyPlot_128.png</PackageIconUrl>
-    <PackageTags>wpf plotting plot charting chart</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/oxyplot/oxyplot.git</RepositoryUrl>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>OxyPlot.Wpf.snk</AssemblyOriginatorKeyFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>wpf plotting plot charting chart</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

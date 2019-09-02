@@ -3,17 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <PackageId>OxyPlot.Core</PackageId>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>OxyPlot is a plotting library for .NET. This is the portable core library that is referenced by the platform-specific OxyPlot packages.</Description>
-    <PackageLicense>https://raw.githubusercontent.com/oxyplot/oxyplot/master/LICENSE</PackageLicense>
-    <Copyright>OxyPlot contributors</Copyright>
-    <PackageProjectUrl>http://oxyplot.org/</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/oxyplot/oxyplot/develop/Icons/OxyPlot_128.png</PackageIconUrl>
-    <PackageTags>plotting plot charting chart</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/oxyplot/oxyplot.git</RepositoryUrl>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>OxyPlot.snk</AssemblyOriginatorKeyFile>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>plotting plot charting chart</PackageTags>
   </PropertyGroup>
 
 </Project>

@@ -18,5 +18,5 @@ Install .NET Framework 4.7 or DotNet Core 3.0 for runtime.
 
 [source]
 ----
-msbuild /m
+dotnet build
 ----

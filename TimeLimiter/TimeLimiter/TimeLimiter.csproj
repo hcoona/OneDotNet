@@ -12,7 +12,7 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Concurrent, Utility</PackageTags>
     <Copyright>Copyright 2017 Shuai Zhang under GPLv3</Copyright>
-    <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0-standalone.html</PackageLicenseUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/hcoona/TimeLimiter</PackageProjectUrl>
     <Version>1.0.1</Version>
     <PackageReleaseNotes>

@@ -15,6 +15,7 @@
     <RepositoryUrl>https://github.com/oxyplot/oxyplot.git</RepositoryUrl>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>OxyPlot.Wpf.snk</AssemblyOriginatorKeyFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

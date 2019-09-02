@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "third_party", "third_party", "{E307CA64-13F5-446A-BCA5-C611A235A2E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot", "third_party\OxyPlot\OxyPlot.csproj", "{CCA35025-490F-47F5-98CD-F93B7795DFE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot", "third_party\OxyPlot\OxyPlot\OxyPlot.csproj", "{CCA35025-490F-47F5-98CD-F93B7795DFE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.Wpf", "third_party\OxyPlot.Wpf\OxyPlot.Wpf.csproj", "{9CF6A044-860F-40A0-A755-2B015FE0D538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.Wpf", "third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj", "{9CF6A044-860F-40A0-A755-2B015FE0D538}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "codelab", "codelab", "{9D7C39A1-EF36-4491-8CC0-2D45C3B51580}"
 EndProject

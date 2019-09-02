@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.Wpf", "third_party\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "codelab", "codelab", "{9D7C39A1-EF36-4491-8CC0-2D45C3B51580}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.OxyPlot.Wpf", "codelab\Lab.OxyPlot.Wpf\Lab.OxyPlot.Wpf.csproj", "{EF1770BD-DBD5-4776-9F8F-CC648E52D9B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.SimpleDemo", "codelab\OxyPlot.SimpleDemo\OxyPlot.SimpleDemo.csproj", "{EF1770BD-DBD5-4776-9F8F-CC648E52D9B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "gitCommitIdShortFixedLength": 7,
+  "gitCommitIdShortAutoMinimum": 7,
+  "nugetPackageVersion": {
+     "semVer": 2
+  },
+  "publicReleaseRefSpec": [
+    "^refs/heads/master$",
+    "^refs/tags/v\\d+\\.\\d+"
+  ],
+  "cloudBuild": {
+    "setVersionVariables": true,
+    "buildNumber": {
+      "enabled": false,
+      "includeCommitId": {
+        "when": "nonPublicReleaseOnly",
+        "where": "buildMetadata"
+      }
+    }
+  },
+  "release" : {
+    "branchName" : "v{version}",
+    "versionIncrement" : "minor",
+    "firstUnstableTag" : "alpha"
+  },
+  "inherit": false
+}

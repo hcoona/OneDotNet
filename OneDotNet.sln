@@ -13,6 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "codelab", "codelab", "{9D7C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.SimpleDemo", "codelab\OxyPlot.SimpleDemo\OxyPlot.SimpleDemo.csproj", "{EF1770BD-DBD5-4776-9F8F-CC648E52D9B8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{2D9A3D47-34C0-472D-9E67-EC8DEADD7387}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		README.adoc = README.adoc
+		version.json = version.json
+		version.props = version.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

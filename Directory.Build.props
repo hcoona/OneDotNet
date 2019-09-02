@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
-
   <PropertyGroup>
     <EnlistmentRoot>$(MSBuildThisFileDirectory)</EnlistmentRoot>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" PrivateAssets="All" />
-  </ItemGroup>
-
+  <Import Project="version.props" />
 </Project>

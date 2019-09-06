@@ -1,11 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindow.xaml.cs" company="OxyPlot">
-//   Copyright (c) 2014 OxyPlot contributors
+﻿// <copyright file="MainWindow.xaml.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
-// <summary>
-//   Interaction logic for MainWindow.xaml
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
 
 namespace SimpleDemo
 {

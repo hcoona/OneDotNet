@@ -18,6 +18,7 @@ tab_width = 2
 
 [**/*.cs]
 indent_size = 4
+max_line_length = 100
 
 ###############################
 # .NET Coding Conventions     #
@@ -29,7 +30,7 @@ dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
 # this. preferences
-dotnet_style_qualification_for_field = true:silent
+dotnet_style_qualification_for_field = true
 dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent

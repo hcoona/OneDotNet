@@ -1,4 +1,9 @@
-﻿using System;
+// <copyright file="CircularList.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +12,9 @@ namespace IO.Github.Hcoona.Collections
 {
     public class CircularList<T> : IList<T>
     {
-        internal readonly T[] m_objects;
-        internal int m_count;
-        internal int m_firstItemIdx;
+        private readonly T[] objects;
+        private int countValue;
+        private int firstItemIdx;
 
         public CircularList(int capacity)
         {
@@ -18,47 +23,47 @@ namespace IO.Github.Hcoona.Collections
                 throw new ArgumentOutOfRangeException("capacity must be a non-negative number.");
             }
 
-            m_objects = new T[capacity];
-            m_count = 0;
-            m_firstItemIdx = 0;
+            this.objects = new T[capacity];
+            this.countValue = 0;
+            this.firstItemIdx = 0;
         }
 
         public event EventHandler<T> OnOverflow;
 
-        public int Capacity => m_objects.Length;
+        public int Capacity => this.objects.Length;
 
-        public int Count => m_count;
+        public int Count => this.countValue;
 
         public bool IsReadOnly => false;
 
         public T this[int index]
         {
-            get => m_objects[GetPhysicalIndex(index)];
-            set => this.m_objects[this.GetPhysicalIndex(index)] = value;
+            get => this.objects[this.GetPhysicalIndex(index)];
+            set => this.objects[this.GetPhysicalIndex(index)] = value;
         }
 
         public void Add(T item)
         {
-            if (Count == Capacity)
+            if (this.Count == this.Capacity)
             {
                 var overrittenObject = this[0];
                 this[0] = item;
-                m_firstItemIdx = (m_firstItemIdx + 1) % Capacity;
+                this.firstItemIdx = (this.firstItemIdx + 1) % this.Capacity;
 
-                OnOverflow?.Invoke(this, overrittenObject);
+                this.OnOverflow?.Invoke(this, overrittenObject);
             }
             else
             {
-                this[Count] = item;
-                m_count++;
+                this[this.Count] = item;
+                this.countValue++;
             }
         }
 
         public bool Contains(T item)
         {
-            if (Count == Capacity)
+            if (this.Count == this.Capacity)
             {
-                return Array.Exists(m_objects, v => v.Equals(item));
+                return Array.Exists(this.objects, v => v.Equals(item));
             }
             else
             {
@@ -73,7 +78,7 @@ namespace IO.Github.Hcoona.Collections
 
         public void Clear()
         {
-            m_count = 0;
+            this.countValue = 0;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -100,13 +105,13 @@ namespace IO.Github.Hcoona.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            if (m_firstItemIdx + Count < Capacity)
+            if (this.firstItemIdx + this.Count < this.Capacity)
             {
-                return this.Skip(m_firstItemIdx).Take(Count).GetEnumerator();
+                return this.Skip(this.firstItemIdx).Take(this.Count).GetEnumerator();
             }
             else
             {
-                return this.Skip(m_firstItemIdx).Take(Count).Concat(this.Take(Count - m_firstItemIdx)).GetEnumerator();
+                return this.Skip(this.firstItemIdx).Take(this.Count).Concat(this.Take(this.Count - this.firstItemIdx)).GetEnumerator();
             }
         }
 
@@ -117,7 +122,7 @@ namespace IO.Github.Hcoona.Collections
 
         private int GetPhysicalIndex(int logicalIndex)
         {
-            return (m_firstItemIdx + logicalIndex) % Capacity;
+            return (this.firstItemIdx + logicalIndex) % this.Capacity;
         }
 
         private void RemoveFirst()

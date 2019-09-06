@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{2D9A3D47
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		README.adoc = README.adoc
+		stylecop.json = stylecop.json
 		version.json = version.json
 		version.props = version.props
 	EndProjectSection

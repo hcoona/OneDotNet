@@ -1,17 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainViewModel.cs" company="OxyPlot">
-//   Copyright (c) 2014 OxyPlot contributors
+// <copyright file="MainViewModel.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
-// <summary>
-//   Represents the view-model for the main window.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+
+using OxyPlot;
+using OxyPlot.Series;
 
 namespace SimpleDemo
 {
-    using OxyPlot;
-    using OxyPlot.Series;
-
     /// <summary>
     /// Represents the view-model for the main window.
     /// </summary>
@@ -39,7 +35,6 @@ namespace SimpleDemo
             series2.Points.Add(new DataPoint(20, 16));
             series2.Points.Add(new DataPoint(30, 25));
             series2.Points.Add(new DataPoint(40, 5));
-
 
             // Add the series to the plot model
             tmp.Series.Add(series1);

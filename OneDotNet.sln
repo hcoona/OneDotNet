@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CircularList", "SharpCircul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CircularList.UnitTest", "SharpCircularList\CircularList.UnitTest\CircularList.UnitTest.csproj", "{D02A89B8-11B4-4960-A2AE-21F0141BE9E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeothermalResearchInstitute", "GeothermalResearchInstitute", "{BB7EFF62-B03A-4996-9798-17DB422DD96F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.Wpf", "GeothermalResearchInstitute\GeothermalResearchInstitute.Wpf\GeothermalResearchInstitute.Wpf.csproj", "{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,10 @@ Global
 		{D02A89B8-11B4-4960-A2AE-21F0141BE9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02A89B8-11B4-4960-A2AE-21F0141BE9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02A89B8-11B4-4960-A2AE-21F0141BE9E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +89,7 @@ Global
 		{696DFE8A-5583-4075-9E23-C8F07353EA3B} = {6DDAAC1D-785E-4C4C-94EC-011B25584712}
 		{336E9728-12BF-430D-B136-D8ADDBC612C7} = {69DF0A41-E03F-4947-B4A9-BD87FA0F9573}
 		{D02A89B8-11B4-4960-A2AE-21F0141BE9E5} = {69DF0A41-E03F-4947-B4A9-BD87FA0F9573}
+		{C0FE8EF3-D6D3-4531-8E95-378EFBD9CFF3} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

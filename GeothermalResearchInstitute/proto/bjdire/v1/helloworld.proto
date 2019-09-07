@@ -4,12 +4,6 @@ package bjdire.v1;
 
 option csharp_namespace = "GeothermalResearchInstitute.v1";
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-}
-
 // The request message containing the user's name.
 message HelloRequest {
   string name = 1;
@@ -18,4 +12,41 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+}
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+message AuthenticateRequest {
+  string username = 1;
+  string password = 2;
+}
+
+enum UserRole {
+  USER_ROLE_INVALID = 0;
+  USER_ROLE_USER = 1;
+  USER_ROLE_ADMINISTRATOR = 2;
+}
+
+message AuthenticateResponse {
+  UserRole role = 1;
+}
+
+message ListDevicesRequest {}
+
+message Device {
+  string name = 1;
+}
+
+message ListDevicesResponse {
+  repeated Device devices = 1;
+}
+
+service RemoteControl {
+  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {}
+
+  rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 }

@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="logo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
     <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot\OxyPlot.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="logo.png" />
     <Resource Include="logo.png" />
   </ItemGroup>
 

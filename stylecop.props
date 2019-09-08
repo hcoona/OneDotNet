@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" developmentDependency="true" />
   </ItemGroup>
   <PropertyGroup>
-    <CodeAnalysisRuleSetLocation Condition=" '$(CodeAnalysisRuleSetLocation)' == '' and '$(SolutionDir)' != '' ">$(SolutionDir)</CodeAnalysisRuleSetLocation>
+    <CodeAnalysisRuleSetLocation>$(EnlistmentRoot)</CodeAnalysisRuleSetLocation>
   </PropertyGroup>
   <ItemGroup>
-    <AdditionalFiles Include="$(CodeAnalysisRuleSetLocation)\stylecop.json" Link="stylecop.json" />
+    <AdditionalFiles Include="$(EnlistmentRoot)/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>

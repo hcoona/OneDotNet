@@ -47,18 +47,21 @@ message ListDevicesResponse {
   repeated Device devices = 1;
 }
 
-enum WorkingMode {
-  WORKING_MODE_INVALID = 0;
-  // 温度测定
-  WORKING_MODE_MEASURE_TEMPERATURE = 1;
-  // 稳定热流，恒定热量
-  WORKING_MODE_KEEP_WARM_CAPACITY = 2;
-  // 稳定热流，恒定冷量
-  WORKING_MODE_KEEP_COLD_CAPACITY = 3;
-  // 稳定工况，夏季工况
-  WORKING_MODE_SUMMER_CONDITION = 4;
-  // 稳定工况，冬季工况
-  WORKING_MODE_WINTER_CONDITION = 4;
+message WorkingMode {
+  enum Mode {
+    WORKING_MODE_INVALID = 0;
+    // 温度测定
+    WORKING_MODE_MEASURE_TEMPERATURE = 1;
+    // 稳定热流，恒定热量
+    WORKING_MODE_KEEP_WARM_CAPACITY = 2;
+    // 稳定热流，恒定冷量
+    WORKING_MODE_KEEP_COLD_CAPACITY = 3;
+    // 稳定工况，夏季工况
+    WORKING_MODE_SUMMER_CONDITION = 4;
+    // 稳定工况，冬季工况
+    WORKING_MODE_WINTER_CONDITION = 5;
+  }
+  Mode mode = 1;
 }
 
 message GetWorkingModeRequest {
@@ -77,5 +80,5 @@ service RemoteControl {
 
   rpc GetWorkingMode (GetWorkingModeRequest) returns (WorkingMode) {}
 
-  rpc UpdateWorkingMode (UpdateWorkingModeRequest) return (WorkingMode) {}
+  rpc UpdateWorkingMode (UpdateWorkingModeRequest) returns (WorkingMode) {}
 }

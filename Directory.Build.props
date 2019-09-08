@@ -4,6 +4,6 @@
     <EnlistmentRoot>$(MSBuildThisFileDirectory)</EnlistmentRoot>
   </PropertyGroup>
 
-  <Import Project="version.props" />
-  <Import Project="stylecop.props" />
+  <Import Project="$(EnlistmentRoot)/version.props" />
+  <Import Project="$(EnlistmentRoot)/stylecop.props" />
 </Project>

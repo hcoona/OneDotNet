@@ -2,23 +2,9 @@ syntax = "proto3";
 
 package bjdire.v1;
 
+import "google/protobuf/field_mask.proto";
+
 option csharp_namespace = "GeothermalResearchInstitute.v1";
-
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
-}
-
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-}
 
 message AuthenticateRequest {
   string username = 1;
@@ -26,7 +12,7 @@ message AuthenticateRequest {
 }
 
 enum UserRole {
-  USER_ROLE_INVALID = 0;
+  USER_ROLE_UNSPECIFIED = 0;
   USER_ROLE_USER = 1;
   USER_ROLE_ADMINISTRATOR = 2;
 }
@@ -36,41 +22,122 @@ message AuthenticateResponse {
   UserRole role = 2;
 }
 
-message ListDevicesRequest {}
+enum DeviceWorkingMode {
+  DEVICE_WORKING_MODE_UNSPECIFIED = 0;
+  // 温度测定
+  DEVICE_WORKING_MODE_MEASURE_TEMPERATURE = 1;
+  // 稳定热流，恒定热量
+  DEVICE_WORKING_MODE_KEEP_WARM_CAPACITY = 2;
+  // 稳定热流，恒定冷量
+  DEVICE_WORKING_MODE_KEEP_COLD_CAPACITY = 3;
+  // 稳定工况，夏季工况
+  DEVICE_WORKING_MODE_SUMMER_CONDITION = 4;
+  // 稳定工况，冬季工况
+  DEVICE_WORKING_MODE_WINTER_CONDITION = 5;
+}
+
+enum MotorMode {
+  MOTOR_MODE_UNSPECIFIED = 0;
+  // 变频
+  MOTOR_MODE_VARIABLE_FREQUENCY = 1;
+  // 工频
+  MOTOR_MODE_WORK_FREQUENCY = 2;
+}
+
+enum WaterPumpMode {
+  WATER_PUMP_MODE_UNSPECIFIED = 0;
+  // TODO(zhangshuai.ustc): Ask for name.
+  WATER_PUMP_MODE_A = 1;
+  // TODO(zhangshuai.ustc): Ask for name.
+  WATER_PUMP_MODE_B = 2;
+}
+
+message DeviceOption {
+  // 稳定工况夏季设定温度值
+  float summer_temperature = 1;
+  // 稳定工况冬季设定温度值
+  float winter_temperature = 2;
+  // 稳定热流制热量值
+  float warm_capacity = 3;
+  // 稳定热流制冷量值
+  float cold_capacity = 4;
+  // 定流量值
+  float flow_capacity = 5;
+  // 定频率值
+  float rate_capacity = 6;
+
+  // 工频/变频状态值
+  MotorMode motor_mode = 7;
+  // 水泵运行模式值
+  WaterPumpMode water_pump_mode = 8;
+}
+
+message DeviceMetrics {
+  // 出水温度
+  float water_out_temperature = 1;
+  // 回水温度
+  float water_in_temperature = 2;
+  // 加热器出水温度
+  float heater_water_out_temperature = 3;
+  // 环境温度
+  float environment_temperature = 4;
+  // 出水压力
+  float water_out_pressure = 5;
+  // 回水压力
+  float water_in_pressure = 6;
+  // 加热器加热功率
+  float heater_power = 7;
+  // 流量
+  float flow_capacity = 8;
+}
+
+message DeviceControls {
+  // 设备运行状态
+  bool device_power = 1;
+  // 排气运行状态
+  bool exhaust_power = 2;
+  // 热泵自动按键状态
+  bool heat_pump_auto = 3;
+  // 热泵电源按键状态
+  bool heat_pump_power = 4;
+  // 热泵风扇按键状态
+  bool heat_pump_fan_on = 5;
+  // 热泵压缩机按键状态
+  bool heat_pump_compressor_on = 6;
+  // 热泵四通换向阀状态
+  bool heat_pump_four_way_reversing_value = 7;
+}
 
 message Device {
   bytes id = 1;
   string name = 2;
+  DeviceWorkingMode working_mode = 3;
+  DeviceOption device_option = 4;
+  DeviceMetrics metrics = 5;
+  DeviceControls controls = 6;
 }
+
+enum DeviceView {
+  DEVICE_VIEW_NAME_ONLY = 0;
+  DEVICE_VIEW_WORKING_MODE_ONLY = 1;
+  DEVICE_VIEW_DEVICE_OPTION_ONLY = 2;
+  DEVICE_VIEW_METRICS_AND_CONTROL = 3;
+}
+
+message ListDevicesRequest {}
 
 message ListDevicesResponse {
   repeated Device devices = 1;
 }
 
-message WorkingMode {
-  enum Mode {
-    WORKING_MODE_INVALID = 0;
-    // 温度测定
-    WORKING_MODE_MEASURE_TEMPERATURE = 1;
-    // 稳定热流，恒定热量
-    WORKING_MODE_KEEP_WARM_CAPACITY = 2;
-    // 稳定热流，恒定冷量
-    WORKING_MODE_KEEP_COLD_CAPACITY = 3;
-    // 稳定工况，夏季工况
-    WORKING_MODE_SUMMER_CONDITION = 4;
-    // 稳定工况，冬季工况
-    WORKING_MODE_WINTER_CONDITION = 5;
-  }
-  Mode mode = 1;
+message GetDeviceRequest {
+  bytes id = 1;
+  DeviceView view = 2;
 }
 
-message GetWorkingModeRequest {
-  bytes device_id = 1;
-}
-
-message UpdateWorkingModeRequest {
-  bytes device_id = 1;
-  WorkingMode updating_mode = 2;
+message UpdateDeviceRequest {
+  Device device = 1;
+  google.protobuf.FieldMask update_mask = 2;
 }
 
 service RemoteControl {
@@ -78,7 +145,7 @@ service RemoteControl {
 
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 
-  rpc GetWorkingMode (GetWorkingModeRequest) returns (WorkingMode) {}
+  rpc GetDevice (GetDeviceRequest) returns (Device) {}
 
-  rpc UpdateWorkingMode (UpdateWorkingModeRequest) returns (WorkingMode) {}
+  rpc UpdateDevice (UpdateDeviceRequest) returns (Device) {}
 }

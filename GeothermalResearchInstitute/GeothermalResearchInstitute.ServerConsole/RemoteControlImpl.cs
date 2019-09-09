@@ -12,11 +12,7 @@ using Grpc.Core;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
-    internal class GreeterImpl : Greeter.GreeterBase
+    internal class RemoteControlImpl : RemoteControl.RemoteControlBase
     {
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new HelloReply { Message = "Hello " + request.Name });
-        }
     }
 }

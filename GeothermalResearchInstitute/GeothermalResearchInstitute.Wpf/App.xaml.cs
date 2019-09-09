@@ -10,6 +10,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -18,5 +20,15 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            IServiceProvider serviceProvider = new ServiceCollection()
+                .AddLogging(b => b.AddDebug())
+                .AddSingleton<MainWindow>()
+                .BuildServiceProvider();
+
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
+        }
     }
 }

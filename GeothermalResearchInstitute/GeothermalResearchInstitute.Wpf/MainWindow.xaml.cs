@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -25,9 +26,17 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly ILogger<MainWindow> logger;
+
+        public MainWindow(ILogger<MainWindow> logger)
         {
+            this.logger = logger;
             this.InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Hello World!");
         }
     }
 }

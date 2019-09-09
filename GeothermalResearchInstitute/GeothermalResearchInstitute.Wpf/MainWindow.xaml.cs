@@ -28,6 +28,32 @@ namespace GeothermalResearchInstitute.Wpf
         public MainWindow()
         {
             this.InitializeComponent();
+            //this._mainFrame.Navigate(new MainFrame());
         }
+
+        private UserIdentity User
+        {
+            get { return (UserIdentity)Application.Current.FindResource("User"); }
+        }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            this.User.Reset();
+        }
+
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow
+            {
+                Owner = this
+            };
+
+            if (loginWindow.ShowDialog() == true)
+            {
+                this.User.Username = "刘冰";
+                this.User.Role = "管理员";
+            }
+        }
+
     }
 }

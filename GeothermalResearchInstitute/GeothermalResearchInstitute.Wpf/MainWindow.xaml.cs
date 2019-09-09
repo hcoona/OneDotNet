@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -25,10 +26,12 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly ILogger<MainWindow> logger;
+
+        public MainWindow(ILogger<MainWindow> logger)
         {
+            this.logger = logger;
             this.InitializeComponent();
-            //this._mainFrame.Navigate(new MainFrame());
         }
 
         private UserIdentity User
@@ -36,24 +39,16 @@ namespace GeothermalResearchInstitute.Wpf
             get { return (UserIdentity)Application.Current.FindResource("User"); }
         }
 
+        //private void Window_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.logger.LogInformation("Hello World!");
+        //}
+
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            this.User.Reset();
+            User.Reset();
         }
 
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            LoginWindow loginWindow = new LoginWindow
-            {
-                Owner = this
-            };
-
-            if (loginWindow.ShowDialog() == true)
-            {
-                this.User.Username = "刘冰";
-                this.User.Role = "管理员";
-            }
-        }
-
+        
     }
 }

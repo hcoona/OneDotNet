@@ -5,12 +5,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -19,17 +20,15 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class App : Application
     {
-        public ObservableCollection<string> PeerNodes
+        protected override void OnStartup(StartupEventArgs e)
         {
-            get; set;
-        } = new ObservableCollection<string>();
+            IServiceProvider serviceProvider = new ServiceCollection()
+                .AddLogging(b => b.AddDebug())
+                .AddSingleton<MainWindow>()
+                .BuildServiceProvider();
 
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            // TODO: change to peer list
-            this.PeerNodes.Add("A");
-            this.PeerNodes.Add("B");
-            this.PeerNodes.Add("C");
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
         }
     }
 }

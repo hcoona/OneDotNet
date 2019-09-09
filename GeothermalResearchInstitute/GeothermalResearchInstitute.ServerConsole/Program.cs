@@ -17,12 +17,15 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             Server server = new Server
             {
-                Services = { RemoteControl.BindService(new RemoteControlImpl()) },
+                Services = {
+                    AuthenticationService.BindService(new AuthenticationServiceImpl()),
+                    DeviceService.BindService(new DeviceServiceImpl()),
+                },
                 Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) },
             };
             server.Start();
 
-            Console.WriteLine("RemoteControl server listening on port " + Port);
+            Console.WriteLine("DeviceService server listening on port " + Port);
             Console.WriteLine("Press any key to stop the server...");
             Console.ReadKey();
 

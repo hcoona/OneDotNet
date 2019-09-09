@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="../proto/bjdire/v1/helloworld.proto" Link="helloworld_v1.proto" />
+    <Protobuf Include="../proto/bjdire/v1/authentication.proto" Link="authentication_v1.proto" />
+    <Protobuf Include="../proto/bjdire/v1/device.proto" Link="device_v1.proto" />
   </ItemGroup>
 
 </Project>

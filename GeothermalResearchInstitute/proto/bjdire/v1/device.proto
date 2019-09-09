@@ -6,22 +6,6 @@ import "google/protobuf/field_mask.proto";
 
 option csharp_namespace = "GeothermalResearchInstitute.v1";
 
-message AuthenticateRequest {
-  string username = 1;
-  string password = 2;
-}
-
-enum UserRole {
-  USER_ROLE_UNSPECIFIED = 0;
-  USER_ROLE_USER = 1;
-  USER_ROLE_ADMINISTRATOR = 2;
-}
-
-message AuthenticateResponse {
-  string nickname = 1;
-  UserRole role = 2;
-}
-
 enum DeviceWorkingMode {
   DEVICE_WORKING_MODE_UNSPECIFIED = 0;
   // 温度测定
@@ -140,9 +124,7 @@ message UpdateDeviceRequest {
   google.protobuf.FieldMask update_mask = 2;
 }
 
-service RemoteControl {
-  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {}
-
+service DeviceService {
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 
   rpc GetDevice (GetDeviceRequest) returns (Device) {}

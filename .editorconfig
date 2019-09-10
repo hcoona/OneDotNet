@@ -20,11 +20,14 @@ tab_width = 2
 indent_size = 4
 max_line_length = 100
 
+[**/*.fs]
+indent_size = 4
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
 
-[*.{cs,vb}]
+[**/*.{cs,vb}]
 # Organize usings
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
@@ -81,7 +84,7 @@ dotnet_naming_symbols.constant_fields.required_modifiers          = const
 # C# Code Style Rules         #
 ###############################
 
-[*.cs]
+[**/*.cs]
 # newline preferences
 csharp_new_line_before_open_brace = methods, properties, control_blocks, types
 csharp_new_line_before_else = true

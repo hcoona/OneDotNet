@@ -43,7 +43,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpf_lab", "codelab\Wpf_lab\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.Grpc", "GeothermalResearchInstitute\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj", "{80F30AB8-0C97-4955-9886-5898C50E027E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeothermalResearchInstitute.ServerConsole", "GeothermalResearchInstitute\GeothermalResearchInstitute.ServerConsole\GeothermalResearchInstitute.ServerConsole.csproj", "{01C5F6AD-B610-4223-8104-EC20335EF143}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.ServerConsole", "GeothermalResearchInstitute\GeothermalResearchInstitute.ServerConsole\GeothermalResearchInstitute.ServerConsole.csproj", "{01C5F6AD-B610-4223-8104-EC20335EF143}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwigDoc2Latex", "SwigDoc2Latex", "{32D71950-FE00-496C-B8F1-C62C58896605}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SwigDoc2Latex.ConsoleApp", "SwigDoc2Latex\SwigDoc2Latex.ConsoleApp\SwigDoc2Latex.ConsoleApp.fsproj", "{187551D6-5A51-4391-9698-8268B51B8E59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +99,10 @@ Global
 		{01C5F6AD-B610-4223-8104-EC20335EF143}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01C5F6AD-B610-4223-8104-EC20335EF143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01C5F6AD-B610-4223-8104-EC20335EF143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187551D6-5A51-4391-9698-8268B51B8E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187551D6-5A51-4391-9698-8268B51B8E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187551D6-5A51-4391-9698-8268B51B8E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187551D6-5A51-4391-9698-8268B51B8E59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +119,7 @@ Global
 		{DB334E66-4191-49A0-9FB6-4B96DB79C42A} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 		{80F30AB8-0C97-4955-9886-5898C50E027E} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{01C5F6AD-B610-4223-8104-EC20335EF143} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
+		{187551D6-5A51-4391-9698-8268B51B8E59} = {32D71950-FE00-496C-B8F1-C62C58896605}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

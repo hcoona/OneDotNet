@@ -1,0 +1,27 @@
+core.workflow(
+    name = "default",
+    origin = git.github_origin(
+      url = "https://github.com/oxyplot/oxyplot.git",
+      ref = "05b527e154e1d5d8deedef634c0bd19c7e742bdc",
+    ),
+    destination = git.destination(
+        url = "file:///tmp/foo.git",
+    ),
+
+    # Copy everything but don't remove a README_INTERNAL.txt file if it exists.
+    destination_files = glob(
+        [
+            "LICENSE",
+            "README.md",
+            "Sources/OxyPlot/**",
+            "Sources/OxyPlot.Wpf/**",
+        ], exclude = ["README_INTERNAL.txt"]),
+
+    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
+    transformations = [
+        core.move("LICENSE", "third_party/OxyPlot/LICENSE"),
+        core.move("README.md", "third_party/OxyPlot/README.md"),
+        core.move("Sources/OxyPlot", "third_party/OxyPlot/OxyPlot"),
+        core.move("Sources/OxyPlot.Wpf", "third_party/OxyPlot/OxyPlot.Wpf"),
+    ],
+)

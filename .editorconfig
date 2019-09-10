@@ -23,6 +23,9 @@ max_line_length = 100
 [**/*.fs]
 indent_size = 4
 
+[**/*.sky]
+indent_size = 4
+
 ###############################
 # .NET Coding Conventions     #
 ###############################

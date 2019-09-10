@@ -1,7 +1,10 @@
+// <copyright file="DateTimeWrapper.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -16,7 +19,7 @@ namespace GeothermalResearchInstitute.Wpf
                 DispatcherPriority.DataBind,
                 (_, __) =>
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentLocalDateTime)));
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.CurrentLocalDateTime)));
                 },
                 Application.Current.Dispatcher);
         }

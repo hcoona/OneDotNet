@@ -1,7 +1,9 @@
-using System;
-using System.Collections.Generic;
+// <copyright file="UserIdentity.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System.ComponentModel;
-using System.Text;
 using System.Windows;
 
 namespace GeothermalResearchInstitute.Wpf
@@ -33,7 +35,7 @@ namespace GeothermalResearchInstitute.Wpf
         {
             get
             {
-                return role_;
+                return this.role_;
             }
 
             set

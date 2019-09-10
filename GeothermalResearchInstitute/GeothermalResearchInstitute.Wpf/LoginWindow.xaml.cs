@@ -1,3 +1,8 @@
+// <copyright file="LoginWindow.xaml.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +18,7 @@ using System.Windows.Shapes;
 namespace GeothermalResearchInstitute.Wpf
 {
     /// <summary>
-    /// LoginWindow.xaml 的交互逻辑
+    /// LoginWindow.xaml 的交互逻辑.
     /// </summary>
     public partial class LoginWindow : Window
     {

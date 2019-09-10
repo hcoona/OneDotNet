@@ -39,16 +39,48 @@ namespace GeothermalResearchInstitute.Wpf
             get { return (UserIdentity)Application.Current.FindResource("User"); }
         }
 
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    this.logger.LogInformation("Hello World!");
-        //}
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Hello World!");
+        }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            User.Reset();
+            this.User.Reset();
         }
 
-        
+        private void BtnEnter_Click(object sender, RoutedEventArgs e)
+        {
+            var selectPeerWindow = new SelectPeerWindow
+            {
+                Owner = this,
+            };
+
+            if (selectPeerWindow.ShowDialog() == true)
+            {
+                var peer = (string)selectPeerWindow.lbPeer.SelectedItem;
+                var controlWindow = new ControlWindow { Owner = this };
+                controlWindow.ShowDialog();
+            }
+        }
+
+        private void BtnFeedback_Click(object sender, RoutedEventArgs e)
+        {
+            new RemoteModeWindow { Owner = this }.ShowDialog();
+        }
+
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow
+            {
+                Owner = this,
+            };
+
+            if (loginWindow.ShowDialog() == true)
+            {
+                this.User.Username = "刘冰";
+                this.User.Role = "管理员";
+            }
+        }
     }
 }

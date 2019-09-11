@@ -21,4 +21,8 @@
     <ProjectReference Include="..\OxyPlot\OxyPlot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="OxyPlot.snk" />
+  </ItemGroup>
+
 </Project>

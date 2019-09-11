@@ -1,5 +1,7 @@
 = Third-party libraries
 
+Maintaining with [copybara](https://github.com/google/copybara).
+
 == OxyPlot
 
 https://github.com/oxyplot/oxyplot/tree/05b527e154e1d5d8deedef634c0bd19c7e742bdc/Source/OxyPlot

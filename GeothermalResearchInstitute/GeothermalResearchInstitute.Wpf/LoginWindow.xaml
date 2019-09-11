@@ -20,7 +20,7 @@
         </Style>
       </StackPanel.Resources>
       <Button x:Name="btnCancel" Content="取消" Click="BtnCancel_Click"/>
-      <Button x:Name="btnConfirm" Content="确定" Click="BtnConfirm_Click"/>
+      <Button x:Name="btnConfirm" Content="确定" Click="BtnConfirm_ClickAsync"/>
     </StackPanel>
     <StackPanel>
       <StackPanel.Resources>
@@ -29,12 +29,15 @@
         </Style>
       </StackPanel.Resources>
       <Grid>
+        <Label Content="{Binding ErrorMsg}"/>
+      </Grid>
+      <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="用户名："/>
-        <TextBox Grid.Column="1" />
+        <TextBox Name="userName" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -42,7 +45,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="密码："/>
-        <PasswordBox Grid.Column="1" />
+        <PasswordBox Name="userPsd" Grid.Column="1" />
       </Grid>
     </StackPanel>
     

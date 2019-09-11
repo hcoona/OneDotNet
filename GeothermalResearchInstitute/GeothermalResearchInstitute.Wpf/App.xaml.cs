@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using static GeothermalResearchInstitute.v1.AuthenticationService;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -25,6 +26,8 @@ namespace GeothermalResearchInstitute.Wpf
             IServiceProvider serviceProvider = new ServiceCollection()
                 .AddLogging(b => b.AddDebug())
                 .AddSingleton<MainWindow>()
+                .AddSingleton<AuthenticationServiceClient>()
+                .AddSingleton<LoginWindow>()
                 .BuildServiceProvider();
 
             var mainWindow = serviceProvider.GetRequiredService<MainWindow>();

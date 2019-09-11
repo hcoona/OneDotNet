@@ -4,19 +4,8 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
@@ -27,10 +16,12 @@ namespace GeothermalResearchInstitute.Wpf
     public partial class MainWindow : Window
     {
         private readonly ILogger<MainWindow> logger;
+        private readonly IServiceProvider serviceProvider;
 
-        public MainWindow(ILogger<MainWindow> logger)
+        public MainWindow(ILogger<MainWindow> logger, IServiceProvider serviceProvider)
         {
             this.logger = logger;
+            this.serviceProvider = serviceProvider;
             this.InitializeComponent();
         }
 
@@ -71,16 +62,15 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWindow = new LoginWindow
-            {
-                Owner = this,
-            };
+            LoginWindow loginWindow = this.serviceProvider.GetService<LoginWindow>();
+            loginWindow.Owner = this;
+            loginWindow.ShowDialog();
 
-            if (loginWindow.ShowDialog() == true)
-            {
-                this.User.Username = "刘冰";
-                this.User.Role = "管理员";
-            }
+            //if (loginWindow.ShowDialog() == true)
+            //{
+            //    this.User.Username = "刘冰";
+            //    this.User.Role = "管理员";
+            //}
         }
     }
 }

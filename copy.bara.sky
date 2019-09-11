@@ -1,10 +1,12 @@
+DESTINATION = folder.destination()
+
 core.workflow(
-    name = "default",
+    name = "oxyplot",
     origin = git.github_origin(
         url = "https://github.com/oxyplot/oxyplot.git",
         ref = "05b527e154e1d5d8deedef634c0bd19c7e742bdc",
     ),
-    destination = folder.destination(),
+    destination = DESTINATION,
     origin_files = glob(
         [
             "LICENSE",
@@ -51,5 +53,36 @@ core.workflow(
         core.move("README.md", "third_party/OxyPlot/README.md"),
         core.move("Source/OxyPlot", "third_party/OxyPlot/OxyPlot"),
         core.move("Source/OxyPlot.Wpf", "third_party/OxyPlot/OxyPlot.Wpf"),
+    ],
+)
+
+core.workflow(
+    name = "fsharp_data",
+    origin = git.github_origin(
+        url = "https://github.com/fsharp/FSharp.Data.git",
+        ref = "e7ad67b48a13934868fd2dc2c2f43aad309a5549",
+    ),
+    destination = DESTINATION,
+    origin_files = glob(
+        [
+            "LICENSE.md",
+            "README.md",
+            "src/**",
+        ],
+        exclude = [
+        ],
+    ),
+    destination_files = glob(
+        [
+            "third_party/FSharp.Data/**",
+        ],
+        exclude = [
+        ],
+    ),
+    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
+    transformations = [
+        core.move("src", "third_party/FSharp.Data"),
+        core.move("LICENSE.md", "third_party/FSharp.Data/LICENSE.md"),
+        core.move("README.md", "third_party/FSharp.Data/README.md"),
     ],
 )

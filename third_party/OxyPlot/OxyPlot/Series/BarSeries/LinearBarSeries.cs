@@ -122,8 +122,8 @@ namespace OxyPlot.Series
             {
                 this.Title,
                 this.XAxis.Title ?? "X",
-                this.XAxis.GetValue(dataPoint.X), 
-                this.YAxis.Title ?? "Y", 
+                this.XAxis.GetValue(dataPoint.X),
+                this.YAxis.Title ?? "Y",
                 this.YAxis.GetValue(dataPoint.Y),
             };
 

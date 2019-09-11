@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
@@ -20,51 +21,85 @@ namespace SwigDoc2Latex.CsConsoleApp
 
         private static readonly Regex NumberingRegex = new Regex(@"\d+(\.\d+)* ", RegexOptions.Compiled);
 
+        private static readonly Regex LatexReservedCharRegex = new Regex(@"(?<!\\)([#$%^&_{}~\\])", RegexOptions.Compiled);
+
         static void Main(string[] args)
         {
             var doc = new HtmlDocument();
             doc.DetectEncodingAndLoad("SWIG.html");
+            using StreamWriter writer = new StreamWriter(File.Open("SWIG.tex", FileMode.Truncate | FileMode.OpenOrCreate, FileAccess.Write));
             foreach (string line in doc.DocumentNode.SelectSingleNode("//body").ChildNodes.SelectMany(Translate))
             {
+                writer.WriteLine(line);
                 Console.WriteLine(line);
             }
         }
 
         private static IEnumerable<string> Translate(HtmlNode node)
         {
-            switch (node)
+            return node switch
             {
-                case HtmlCommentNode _:
-                    return Enumerable.Empty<string>();
-                case HtmlTextNode n:
-                    if (!string.IsNullOrWhiteSpace(n.Text))
-                    {
-                        Console.Error.WriteLine("Drop HtmlTextNode: " + n.Text);
-                    }
+                HtmlCommentNode _ => Enumerable.Empty<string>(),
+                HtmlTextNode n => TranslateText(n.InnerText),
+                HtmlNode n when n.Name == "p" => TranslateParagraph(n),
+                HtmlNode n when n.Name == "br" => Enumerable.Empty<string>(),  // TODO(zhangshuai.ds): Convert to definition list.
+                HtmlNode n when n.Name == "div" && n.HasClass("sectiontoc") => Enumerable.Empty<string>(),
+                HtmlNode n when n.Name == "div" && n.Element("pre") != null => TranslateCode(n),
+                HtmlNode n when HeaderNames.Contains(n.Name) => TranslateHeader(n),
+                HtmlNode n when n.Name == "ul" || n.Name == "ol" => TranslateList(n),
+                HtmlNode n when n.Name == "li" => Enumerable.Concat(new[] { "\\item" }, n.ChildNodes.SelectMany(Translate)),
+                HtmlNode n when n.Name == "table" => TranslateTable(n),
+                HtmlNode n when n.Name == "center" => TranslateCentering(n),
+                HtmlNode n when n.Name == "tt" =>
+                    Enumerable.Repeat(@"\texttt{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
+                HtmlNode n when n.Name == "em" =>
+                    Enumerable.Repeat(@"\emph{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
+                HtmlNode n when n.Name == "b" =>
+                    Enumerable.Repeat(@"\textbf{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
+                HtmlNode n when n.Name == "a" =>
+                    Enumerable.Repeat(
+                        string.Format(
+                            @"\hyperref[{0}]{{{1}}}",
+                            StringUtils.SubstringAfter(n.Attributes.Single(attr => attr.Name == "href").Value, "#"),
+                            string.Join(" ", n.ChildNodes.SelectMany(Translate))),
+                        1),
+                _ => throw new NotImplementedException("Unsupported HtmlNode: " + node.Name),
+            };
+        }
 
-                    return Enumerable.Empty<string>();
-                case HtmlNode n when n.Name == "p":
-                    return TranslateParagraph(n);
-                case HtmlNode n when n.Name == "div" && n.HasClass("sectiontoc"):
-                    return Enumerable.Empty<string>();
-                case HtmlNode n when n.Name == "div" && n.Element("pre") != null:
-                    return TranslateCode(n);
-                case HtmlNode n when HeaderNames.Contains(n.Name):
-                    return TranslateHeader(n);
-                case HtmlNode n when n.Name == "ul":
-                    return Enumerable.Repeat("ul", 1);
-                case HtmlNode n when n.Name == "table":
-                    return Enumerable.Repeat("table", 1);
-                case HtmlNode n when n.Name == "center":
-                    return Enumerable.Repeat("center", 1);
-                default:
-                    throw new NotImplementedException("Unsupported HtmlNode: " + node.Name);
-            }
+        private static IEnumerable<string> TranslateTable(HtmlNode n)
+        {
+            // TODO(zhangshuai.ustc): Implement it.
+            return Enumerable.Empty<string>();
+        }
+
+        private static IEnumerable<string> TranslateCentering(HtmlNode n)
+        {
+            return Enumerable.Concat(
+                new string[] { @"\begin{center}" },
+                Enumerable.Concat(
+                    n.ChildNodes.SelectMany(Translate),
+                    new string[] { @"\end{center}" }));
+        }
+
+        private static IEnumerable<string> TranslateList(HtmlNode n)
+        {
+            string env = n.Name switch
+            {
+                "ul" => "itemize",
+                "ol" => "enumerate",
+                _ => throw new NotImplementedException("Unsupported list: " + n.Name),
+            };
+            return Enumerable.Concat(
+                new string[] { @"\begin{" + env + "}" },
+                Enumerable.Concat(
+                    n.ChildNodes.SelectMany(Translate),
+                    new string[] { @"\end{" + env + "}" }));
         }
 
         private static IEnumerable<string> TranslateParagraph(HtmlNode n)
         {
-            return n.ChildNodes.Select(TranslateText);
+            return n.ChildNodes.SelectMany(Translate).Select(s => s.Trim('\n'));
         }
 
         private static IEnumerable<string> TranslateCode(HtmlNode n)
@@ -100,7 +135,7 @@ namespace SwigDoc2Latex.CsConsoleApp
         {
             HtmlNode anchorNode = n.Element("a");
             string anchorLabel = anchorNode.Attributes.Single(attr => attr.Name == "name").Value;
-            string headerText = TranslateText(NumberingRegex.Replace(anchorNode.InnerText.Trim(), string.Empty, 1));
+            string headerText = string.Join(" ", TranslateText(NumberingRegex.Replace(anchorNode.InnerText.Trim(), string.Empty, 1)));
             var directive = n.Name switch
             {
                 "h1" => "chapter",
@@ -114,25 +149,14 @@ namespace SwigDoc2Latex.CsConsoleApp
                 1);
         }
 
-        private static string TranslateText(HtmlNode n)
+        private static IEnumerable<string> TranslateText(string text)
         {
-            switch (n)
-            {
-                case HtmlTextNode nnn:
-                    return TranslateText(nnn.InnerText);
-                case HtmlNode nnn when nnn.Name == "tt":
-                    return @"\texttt{" + string.Join(" ", nnn.ChildNodes.Select(TranslateText)) + "}";
-                case HtmlNode nnn when nnn.Name == "em":
-                    return @"\emph{" + string.Join(" ", nnn.ChildNodes.Select(TranslateText)) + "}";
-                default:
-                    throw new NotImplementedException("Unsupported HtmlNode: " + n.Name);
-            }
+            return Enumerable.Repeat(LatexEscape(HtmlEntity.DeEntitize(text)), 1);
         }
 
-        private static string TranslateText(string text)
+        private static string LatexEscape(string v)
         {
-            // TODO(zhangshuai.ustc): Escaping LaTeX special characters.
-            return HtmlEntity.DeEntitize(text);
+            return LatexReservedCharRegex.Replace(v, "\\$1");
         }
     }
 }

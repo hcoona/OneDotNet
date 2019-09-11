@@ -119,7 +119,7 @@ namespace OxyPlot.Series
                     ha = HorizontalAlignment.Left;
                     break;
                 default: // Outside
-                         // Puts label left for negative series, right for positive
+                    // Puts label left for negative series, right for positive
                     if (value < 0)
                     {
                         pt = new ScreenPoint(rect.Left - this.LabelMargin, (rect.Top + rect.Bottom) / 2);

@@ -90,7 +90,7 @@ namespace OxyPlot.Wpf
                 typeof(double),
                 typeof(TextualAnnotation),
                 new UIPropertyMetadata(double.NaN, AppearanceChanged));
-
+        
         /// <summary>
         /// Gets or sets the text.
         /// </summary>

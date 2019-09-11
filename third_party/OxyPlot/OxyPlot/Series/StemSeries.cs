@@ -88,7 +88,7 @@ namespace OxyPlot.Series
                         Index = i,
                         Text =
                             StringHelper.Format(
-                                this.ActualCulture,
+                                this.ActualCulture, 
                                 this.TrackerFormatString,
                                 item,
                                 this.Title,

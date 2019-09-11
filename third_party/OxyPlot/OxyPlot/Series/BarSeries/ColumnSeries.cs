@@ -119,7 +119,7 @@ namespace OxyPlot.Series
                     va = VerticalAlignment.Bottom;
                     break;
                 default: // outside
-                         // Puts label below for negative series, above for positive
+                    // Puts label below for negative series, above for positive
                     if (value < 0)
                     {
                         pt = new ScreenPoint((rect.Left + rect.Right) / 2, rect.Bottom + this.LabelMargin);

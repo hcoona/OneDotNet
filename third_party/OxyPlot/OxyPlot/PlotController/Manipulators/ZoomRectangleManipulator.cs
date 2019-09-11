@@ -49,7 +49,7 @@ namespace OxyPlot
 
             this.PlotView.SetCursorType(CursorType.Default);
             this.PlotView.HideZoomRectangle();
-
+            
             if (this.zoomRectangle.Width > 10 && this.zoomRectangle.Height > 10)
             {
                 var p0 = this.InverseTransform(this.zoomRectangle.Left, this.zoomRectangle.Top);

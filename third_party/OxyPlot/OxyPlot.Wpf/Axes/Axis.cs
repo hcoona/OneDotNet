@@ -351,7 +351,7 @@ namespace OxyPlot.Wpf
         /// </summary>
         public static readonly DependencyProperty TextColorProperty = DependencyProperty.Register(
             "TextColor", typeof(Color), typeof(Axis), new PropertyMetadata(MoreColors.Automatic, AppearanceChanged));
-
+        
         /// <summary>
         /// Identifies the <see cref="TickStyle"/> dependency property.
         /// </summary>

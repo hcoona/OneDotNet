@@ -91,7 +91,7 @@ namespace OxyPlot.Wpf
             {
                 this.SetValue(MappingProperty, value);
             }
-        }
+        }        
 
         /// <summary>
         /// Gets or sets ColorAxisKey property.

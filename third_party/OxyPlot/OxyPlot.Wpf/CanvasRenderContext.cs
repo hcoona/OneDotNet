@@ -985,7 +985,7 @@ namespace OxyPlot.Wpf
                         shape.StrokeLineJoin = PenLineJoin.Bevel;
                         break;
 
-                        // The default StrokeLineJoin is Miter
+                    // The default StrokeLineJoin is Miter
                 }
 
                 if (Math.Abs(thickness - 1) > double.Epsilon)

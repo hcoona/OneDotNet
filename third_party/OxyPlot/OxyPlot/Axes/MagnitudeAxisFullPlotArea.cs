@@ -21,12 +21,12 @@ namespace OxyPlot.Axes
         /// </summary>
         public double MidshiftH
         {
-            get { return this._midshiftH; }
+            get { return _midshiftH; }
             set
             {
-                this._midshiftH = value;
-                this._midshiftH = Math.Max(this._midshiftH, -0.5d);
-                this._midshiftH = Math.Min(this._midshiftH, 0.5d);
+                _midshiftH = value;
+                _midshiftH = Math.Max(_midshiftH, -0.5d);
+                _midshiftH = Math.Min(_midshiftH, 0.5d);
             }
         }
 
@@ -36,12 +36,12 @@ namespace OxyPlot.Axes
         /// </summary>
         public double MidshiftV
         {
-            get { return this._midshiftV; }
+            get { return _midshiftV; }
             set
             {
-                this._midshiftV = value;
-                this._midshiftV = Math.Max(this._midshiftV, -0.5d);
-                this._midshiftV = Math.Min(this._midshiftV, 0.5d);
+                _midshiftV = value;
+                _midshiftV = Math.Max(_midshiftV, -0.5d);
+                _midshiftV = Math.Min(_midshiftV, 0.5d);
             }
         }
 
@@ -130,7 +130,7 @@ namespace OxyPlot.Axes
             this.ScreenMax = new ScreenPoint(x1, y0);
 
             this.MidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height); //new ScreenPoint((x0 + x1) / 2, (y0 + y1) / 2);
-                                                                                                                                            //this.ShiftedMidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height);
+            //this.ShiftedMidPoint = new ScreenPoint((x0 + x1) / 2 + this.MidshiftH * bounds.Width, (y0 + y1) / 2 + this.MidshiftV * bounds.Height);
 
             // this.ActualMinimum = 0;
             double r = Math.Min(Math.Abs(x1 - x0), Math.Abs(y1 - y0));

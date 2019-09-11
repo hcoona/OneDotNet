@@ -461,7 +461,7 @@ namespace OxyPlot
         {
             return this.IsAutomatic() ? defaultColor : this;
         }
-
+ 
         /// <summary>
         /// Returns C# code that generates this instance.
         /// </summary>

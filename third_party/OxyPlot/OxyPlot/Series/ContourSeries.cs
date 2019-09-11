@@ -234,7 +234,7 @@ namespace OxyPlot.Series
                     {
                         result = r;
                         result.Text = StringHelper.Format(
-                            this.ActualCulture,
+                            this.ActualCulture, 
                             this.TrackerFormatString,
                             null,
                             this.Title,

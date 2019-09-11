@@ -15,6 +15,7 @@ core.workflow(
         exclude = [
             "**/*.*proj",
             "**/*.*nuspec",
+            "**/*.DotSettings",
             "Source/OxyPlot.Wpf/Properties/Resources.*",
             "Source/OxyPlot.Wpf/Properties/Settings.*",
         ],
@@ -24,11 +25,28 @@ core.workflow(
             "third_party/OxyPlot/**",
         ],
         exclude = [
-            "**/*.*proj",
-        ]
+            "third_party/OxyPlot/**/*.*proj",
+            "third_party/OxyPlot/*.props",
+        ],
     ),
     authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
     transformations = [
+        core.replace(
+            before = "[assembly: AssemblyTitle(\"${words}\")]",
+            after = "",
+            regex_groups = {
+                "words": "[A-Za-z0-9 ]+",
+            },
+            paths = glob(["**/AssemblyDescription.cs"]),
+        ),
+        core.replace(
+            before = "[assembly: AssemblyDescription(\"${words}\")]",
+            after = "",
+            regex_groups = {
+                "words": "[A-Za-z0-9 ]+",
+            },
+            paths = glob(["**/AssemblyDescription.cs"]),
+        ),
         core.move("LICENSE", "third_party/OxyPlot/LICENSE"),
         core.move("README.md", "third_party/OxyPlot/README.md"),
         core.move("Source/OxyPlot", "third_party/OxyPlot/OxyPlot"),

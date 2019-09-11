@@ -18,7 +18,7 @@ namespace OxyPlot
     /// </summary>
     /// <remarks>CanonicalSplineHelper.cs (c) 2009 by Charles Petzold (WPF and Silverlight)
     /// See also <a href="http://www.charlespetzold.com/blog/2009/01/Canonical-Splines-in-WPF-and-Silverlight.html">blog post</a>.</remarks>
-    public class CanonicalSpline : IInterpolationAlgorithm
+    public class CanonicalSpline : IInterpolationAlgorithm 
     {
         /// <summary>
         /// The tension.

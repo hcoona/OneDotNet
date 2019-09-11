@@ -84,7 +84,7 @@ namespace OxyPlot.Wpf
             TextHorizontalAlignmentProperty.OverrideMetadata(typeof(LineAnnotation), new FrameworkPropertyMetadata(HorizontalAlignment.Right, AppearanceChanged));
             TextVerticalAlignmentProperty.OverrideMetadata(typeof(LineAnnotation), new FrameworkPropertyMetadata(VerticalAlignment.Top, AppearanceChanged));
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref = "LineAnnotation" /> class.
         /// </summary>

@@ -29,12 +29,9 @@ namespace OxyPlot.Reporting
 
             this.HeaderStyles = new ParagraphStyle[5];
             this.HeaderStyles[0] = new ParagraphStyle
-            {
-                BasedOn = this.DefaultStyle,
-                FontFamily = titleFontFamily,
-                SpacingBefore = 12,
-                SpacingAfter = 3
-            };
+                {
+                   BasedOn = this.DefaultStyle, FontFamily = titleFontFamily, SpacingBefore = 12, SpacingAfter = 3
+                };
             for (int i = 1; i < this.HeaderStyles.Length; i++)
             {
                 this.HeaderStyles[i] = new ParagraphStyle { BasedOn = this.HeaderStyles[i - 1] };
@@ -58,21 +55,18 @@ namespace OxyPlot.Reporting
             this.FigureTextStyle = new ParagraphStyle { BasedOn = this.DefaultStyle, Italic = true };
 
             this.TableTextStyle = new ParagraphStyle
-            {
-                BasedOn = this.DefaultStyle,
-                FontFamily = tableTextFontFamily,
-                SpacingAfter = 0,
-                LeftIndentation = 3,
-                RightIndentation = 3
-            };
+                {
+                    BasedOn = this.DefaultStyle,
+                    FontFamily = tableTextFontFamily,
+                    SpacingAfter = 0,
+                    LeftIndentation = 3,
+                    RightIndentation = 3
+                };
             this.TableHeaderStyle = new ParagraphStyle { BasedOn = this.TableTextStyle, Bold = true };
             this.TableCaptionStyle = new ParagraphStyle
-            {
-                BasedOn = this.DefaultStyle,
-                Italic = true,
-                SpacingBefore = 10,
-                SpacingAfter = 3
-            };
+                {
+                   BasedOn = this.DefaultStyle, Italic = true, SpacingBefore = 10, SpacingAfter = 3
+                };
 
             this.Margins = new OxyThickness(25);
 

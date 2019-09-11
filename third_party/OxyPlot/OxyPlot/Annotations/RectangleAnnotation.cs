@@ -93,7 +93,7 @@ namespace OxyPlot.Annotations
                                 : this.YAxis.InverseTransform(this.PlotModel.PlotArea.Bottom)
                             : this.MinimumY;
             double y1 = double.IsNaN(this.MaximumY) || this.MaximumY.Equals(double.MaxValue)
-                            ? this.ClipByYAxis
+                            ? this.ClipByYAxis 
                                 ? this.YAxis.ActualMaximum
                                 : this.YAxis.InverseTransform(this.PlotModel.PlotArea.Top)
                             : this.MaximumY;

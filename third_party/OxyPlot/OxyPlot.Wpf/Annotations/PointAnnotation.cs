@@ -45,7 +45,7 @@ namespace OxyPlot.Wpf
         /// </summary>
         public static readonly DependencyProperty ShapeProperty = DependencyProperty.Register(
             "Shape", typeof(MarkerType), typeof(PointAnnotation), new PropertyMetadata(MarkerType.Circle, AppearanceChanged));
-
+        
         /// <summary>
         /// Initializes static members of the <see cref="PointAnnotation"/> class.
         /// </summary>

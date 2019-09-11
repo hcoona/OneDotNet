@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="{StaticResource SystemName}"
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource WindowBaseStyle}" >
+        Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded" >
   <DockPanel>
     <Border DockPanel.Dock="Top" Background="LightBlue" Padding="10,5">
       <StackPanel Orientation="Horizontal">

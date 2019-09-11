@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GeothermalResearchInstitute.Wpf": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

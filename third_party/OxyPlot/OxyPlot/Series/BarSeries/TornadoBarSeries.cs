@@ -202,7 +202,7 @@ namespace OxyPlot.Series
                         Index = i,
                         Text =
                             StringHelper.Format(
-                                this.ActualCulture, 
+                                this.ActualCulture,
                                 this.TrackerFormatString,
                                 item,
                                 this.Title,
@@ -281,7 +281,7 @@ namespace OxyPlot.Series
                 if (this.MinimumLabelFormatString != null)
                 {
                     var s = StringHelper.Format(
-                        this.ActualCulture, 
+                        this.ActualCulture,
                         this.MinimumLabelFormatString,
                         this.GetItem(this.ValidItemsIndexInversion[i]),
                         item.Minimum);
@@ -304,7 +304,7 @@ namespace OxyPlot.Series
                 if (this.MaximumLabelFormatString != null)
                 {
                     var s = StringHelper.Format(
-                        this.ActualCulture, 
+                        this.ActualCulture,
                         this.MaximumLabelFormatString,
                         this.GetItem(this.ValidItemsIndexInversion[i]),
                         item.Maximum);

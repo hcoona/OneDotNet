@@ -56,6 +56,10 @@ core.workflow(
     ],
 )
 
+# TODO(zhangshuai.ds): Patch it
+# 1. Patch FSharp.Data & FSharp.Data.DesignTime to remove AfterBuild.
+# 2. Patch FSharp.Data.DesignTime to use provided FSharp.TypeProviders.SDK.
+# 3. Patch FSharp.Data to reference FSharp.Data.DesignTime.
 core.workflow(
     name = "fsharp_data",
     origin = git.github_origin(
@@ -84,5 +88,38 @@ core.workflow(
         core.move("src", "third_party/FSharp.Data"),
         core.move("LICENSE.md", "third_party/FSharp.Data/LICENSE.md"),
         core.move("README.md", "third_party/FSharp.Data/README.md"),
+    ],
+)
+
+core.workflow(
+    name = "fsharp_typeproviders_sdk",
+    origin = git.github_origin(
+        url = "https://github.com/fsprojects/FSharp.TypeProviders.SDK.git",
+        ref = "master",
+    ),
+    destination = DESTINATION,
+    origin_files = glob(
+        [
+            "LICENSE.md",
+            "README.md",
+            "src/**",
+        ],
+        exclude = [
+            "**/*.*proj",
+            "**/*.*nuspec",
+        ],
+    ),
+    destination_files = glob(
+        [
+            "third_party/FSharp.TypeProviders.SDK/**",
+        ],
+        exclude = [
+        ],
+    ),
+    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
+    transformations = [
+        core.move("src", "third_party/FSharp.TypeProviders.SDK"),
+        core.move("LICENSE.md", "third_party/FSharp.TypeProviders.SDK/LICENSE.md"),
+        core.move("README.md", "third_party/FSharp.TypeProviders.SDK/README.md"),
     ],
 )

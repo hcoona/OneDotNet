@@ -28,9 +28,6 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private readonly ILogger<LoginWindow> logger;
-        private AuthenticationServiceClient authClient;
-
         public static readonly DependencyProperty ErrorMsgProperty =
             DependencyProperty.Register(nameof(ErrorMsg), typeof(string), typeof(Window));
 
@@ -39,6 +36,9 @@ namespace GeothermalResearchInstitute.Wpf
             get { return (string)this.GetValue(ErrorMsgProperty); }
             set { this.SetValue(ErrorMsgProperty, value); }
         }
+
+        private readonly ILogger<LoginWindow> logger;
+        private AuthenticationServiceClient authClient;
 
         public LoginWindow(ILogger<LoginWindow> logger, AuthenticationServiceClient client)
         {

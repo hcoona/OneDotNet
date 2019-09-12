@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -13,13 +13,13 @@ using System.Windows.Shapes;
 namespace GeothermalResearchInstitute.Wpf
 {
     /// <summary>
-    /// RunningControlWindow.xaml 的交互逻辑
+    /// RunningControlWindow.xaml 的交互逻辑.
     /// </summary>
     public partial class RunningControlWindow : Window
     {
         public RunningControlWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

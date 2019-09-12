@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="RunningControlWindow" Height="450" Width="800">
     <DockPanel>
-    <StackPanel>
+      <!--<StackPanel>
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
@@ -142,7 +142,7 @@
         <TextBox Name="HeatPumpFourWayReversingValue" Grid.Column="1" />
         <Button Content="开关" Click="HeatPumpFourWayReversingValue_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
-    </StackPanel>
+    </StackPanel>-->
             
     </DockPanel>
 </Window>

@@ -29,7 +29,7 @@
         </Style>
       </StackPanel.Resources>
       <Grid>
-        <Label Content="{Binding ErrorMsg}"/>
+        <Label Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ErrorMsg}"/>
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>

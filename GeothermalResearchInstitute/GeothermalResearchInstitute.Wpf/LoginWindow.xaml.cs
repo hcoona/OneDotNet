@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +31,14 @@ namespace GeothermalResearchInstitute.Wpf
         private readonly ILogger<LoginWindow> logger;
         private AuthenticationServiceClient authClient;
 
-        public string ErrorMsg { get; private set; }
+        public static readonly DependencyProperty ErrorMsgProperty =
+            DependencyProperty.Register(nameof(ErrorMsg), typeof(string), typeof(Window));
+
+        public string ErrorMsg
+        {
+            get { return (string)this.GetValue(ErrorMsgProperty); }
+            set { this.SetValue(ErrorMsgProperty, value); }
+        }
 
         public LoginWindow(ILogger<LoginWindow> logger, AuthenticationServiceClient client)
         {
@@ -44,12 +52,10 @@ namespace GeothermalResearchInstitute.Wpf
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Hello World!");
+            this.ErrorMsg = string.Empty;
         }
 
-        private UserIdentity User
-        {
-            get { return (UserIdentity)Application.Current.FindResource("User"); }
-        }
+        private UserIdentity User => (UserIdentity)Application.Current.FindResource("User");
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -67,8 +73,8 @@ namespace GeothermalResearchInstitute.Wpf
             try
             {
                 var response = await this.authClient.AuthenticateAsync(authRequest);
-                this.User.Username = response.Nickname;
                 this.User.Role = this.TransUserRole(response.Role);
+                this.User.Username = response.Nickname;
                 this.DialogResult = true;
             }
             catch (RpcException ex)
@@ -83,10 +89,10 @@ namespace GeothermalResearchInstitute.Wpf
             {
                 this.ErrorMsg = ex.Message;
             }
-
         }
 
-        private string TransUserRole(UserRole role) {
+        private string TransUserRole(UserRole role)
+        {
             switch (role)
             {
                 case UserRole.User:

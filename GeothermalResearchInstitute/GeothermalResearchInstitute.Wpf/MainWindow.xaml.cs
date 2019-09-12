@@ -78,11 +78,11 @@ namespace GeothermalResearchInstitute.Wpf
             loginWindow.Owner = this;
             loginWindow.ShowDialog();
 
-            //if (loginWindow.ShowDialog() == true)
-            //{
+            // if (loginWindow.ShowDialog() == true)
+            // {
             //    this.User.Username = "刘冰";
             //    this.User.Role = "管理员";
-            //}
+            // }
         }
     }
 }

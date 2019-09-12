@@ -26,8 +26,8 @@ namespace SwigDoc2Latex.CsConsoleApp
         static void Main(string[] args)
         {
             var doc = new HtmlDocument();
-            doc.DetectEncodingAndLoad("SWIG.html");
-            using StreamWriter writer = new StreamWriter(File.Open("SWIG.tex", FileMode.Truncate | FileMode.OpenOrCreate, FileAccess.Write));
+            doc.DetectEncodingAndLoad(args[0]);
+            using StreamWriter writer = new StreamWriter(File.Open(args[1], FileMode.Create, FileAccess.Write));
             foreach (string line in doc.DocumentNode.SelectSingleNode("//body").ChildNodes.SelectMany(Translate))
             {
                 writer.WriteLine(line);
@@ -45,6 +45,11 @@ namespace SwigDoc2Latex.CsConsoleApp
                 HtmlNode n when n.Name == "br" => Enumerable.Empty<string>(),  // TODO(zhangshuai.ds): Convert to definition list.
                 HtmlNode n when n.Name == "div" && n.HasClass("sectiontoc") => Enumerable.Empty<string>(),
                 HtmlNode n when n.Name == "div" && n.Element("pre") != null => TranslateCode(n),
+                HtmlNode n when n.Name == "div" && n.Element("i") != null => Enumerable.Concat(
+                    new string[] { @"\begin{quote}" },
+                    Enumerable.Concat(
+                        n.ChildNodes.SelectMany(Translate),
+                        new string[] { @"\end{quote}" })),
                 HtmlNode n when HeaderNames.Contains(n.Name) => TranslateHeader(n),
                 HtmlNode n when n.Name == "ul" || n.Name == "ol" => TranslateList(n),
                 HtmlNode n when n.Name == "li" => Enumerable.Concat(new[] { "\\item" }, n.ChildNodes.SelectMany(Translate)),
@@ -56,6 +61,9 @@ namespace SwigDoc2Latex.CsConsoleApp
                     Enumerable.Repeat(@"\emph{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
                 HtmlNode n when n.Name == "b" =>
                     Enumerable.Repeat(@"\textbf{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
+                HtmlNode n when n.Name == "i" =>
+                    Enumerable.Repeat(@"\textit{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
+                HtmlNode n when !n.HasChildNodes => Enumerable.Empty<string>(),
                 HtmlNode n when n.Name == "a" =>
                     Enumerable.Repeat(
                         string.Format(
@@ -63,6 +71,8 @@ namespace SwigDoc2Latex.CsConsoleApp
                             StringUtils.SubstringAfter(n.Attributes.Single(attr => attr.Name == "href").Value, "#"),
                             string.Join(" ", n.ChildNodes.SelectMany(Translate))),
                         1),
+                HtmlNode n when n.Name == "code" =>
+                    Enumerable.Repeat(@"\texttt{" + string.Join(" ", n.ChildNodes.SelectMany(Translate)) + "}", 1),
                 _ => throw new NotImplementedException("Unsupported HtmlNode: " + node.Name),
             };
         }

@@ -3,12 +3,7 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using GeothermalResearchInstitute.v1;
-using Grpc.Core;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {

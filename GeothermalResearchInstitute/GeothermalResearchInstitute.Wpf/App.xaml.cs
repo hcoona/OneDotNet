@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using GeothermalResearchInstitute.Wpf.FakeClients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,7 +37,7 @@ namespace GeothermalResearchInstitute.Wpf
                     if (context.HostingEnvironment.IsDevelopment())
                     {
                         // TODO(zhangshuai.ds): Add fake clients.
-                        builder.AddSingleton<AuthenticationServiceClient>();
+                        builder.AddSingleton<AuthenticationServiceClient, FakeAuthenticationServiceClient>();
                     }
                     else
                     {

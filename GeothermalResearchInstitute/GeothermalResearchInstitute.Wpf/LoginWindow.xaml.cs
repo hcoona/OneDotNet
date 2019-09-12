@@ -58,7 +58,8 @@ namespace GeothermalResearchInstitute.Wpf
 
         private async void BtnConfirm_ClickAsync(object sender, RoutedEventArgs e)
         {
-            AuthenticateRequest authRequest = new AuthenticateRequest {
+            var authRequest = new AuthenticateRequest()
+            {
                 Username = this.userName.Text,
                 Password = this.userPsd.Password,
             };
@@ -66,7 +67,7 @@ namespace GeothermalResearchInstitute.Wpf
             try
             {
                 var response = await this.authClient.AuthenticateAsync(authRequest);
-                this.User.Role = response.Nickname;
+                this.User.Username = response.Nickname;
                 this.User.Role = this.TransUserRole(response.Role);
                 this.DialogResult = true;
             }

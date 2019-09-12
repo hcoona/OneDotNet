@@ -25,6 +25,7 @@ namespace SwigDoc2Latex.CsConsoleApp
 
         static void Main(string[] args)
         {
+            // TODO(zhangshuai.ustc): Rewrite HTML document before translation.
             var doc = new HtmlDocument();
             doc.DetectEncodingAndLoad(args[0]);
             using StreamWriter writer = new StreamWriter(File.Open(args[1], FileMode.Create, FileAccess.Write));

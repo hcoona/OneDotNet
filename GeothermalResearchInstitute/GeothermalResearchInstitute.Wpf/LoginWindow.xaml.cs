@@ -78,6 +78,10 @@ namespace GeothermalResearchInstitute.Wpf
             {
                 this.ErrorMsg = "ERROR!";
             }
+            catch (Exception ex)
+            {
+                this.ErrorMsg = ex.Message;
+            }
 
         }
 

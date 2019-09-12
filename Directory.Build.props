@@ -2,6 +2,17 @@
 <Project>
   <PropertyGroup>
     <EnlistmentRoot>$(MSBuildThisFileDirectory)</EnlistmentRoot>
+
+    <NetfxLegacyTargetFramework>net45</NetfxLegacyTargetFramework>
+    <NetfxCurrentTargetFramework>net48</NetfxCurrentTargetFramework>
+    <NetcoreCurrentTargetFramework>netcoreapp3.0</NetcoreCurrentTargetFramework>
+    <NetstandardCurrentTargetFramework>netstandard2.0</NetstandardCurrentTargetFramework>
+
+    <DefaultExeTargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(NetcoreCurrentTargetFramework);$(NetfxCurrentTargetFramework)</DefaultExeTargetFrameworks>
+    <DefaultExeTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
+
+    <DefaultLibraryTargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
+    <DefaultLibraryTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/version.props" />

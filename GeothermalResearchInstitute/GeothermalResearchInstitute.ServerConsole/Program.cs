@@ -3,9 +3,12 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
@@ -15,21 +18,70 @@ namespace GeothermalResearchInstitute.ServerConsole
 
         private static void Main(string[] args)
         {
-            Server server = new Server
+            // TODO(zhangshuai.ustc): Hook grpc logger.
+            var host = new HostBuilder()
+                .ConfigureHostConfiguration(builder => builder
+                    .AddEnvironmentVariables()
+                    .AddJsonFile("appsettings.json", true)
+                    .AddCommandLine(args))
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    IHostingEnvironment env = context.HostingEnvironment;
+                    builder
+                        .AddEnvironmentVariables()
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddCommandLine(args);
+                })
+                .ConfigureServices((context, builder) =>
+                {
+                    if (context.HostingEnvironment.IsDevelopment())
+                    {
+                        // TODO(zhangshuai.ds): Add fake clients.
+                    }
+                    else
+                    {
+                        // TODO(zhangshuai.ds): Add real clients.
+                    }
+
+                    builder.AddSingleton<AuthenticationServiceImpl>();
+                    builder.AddSingleton<DeviceServiceImpl>();
+                    builder.AddSingleton(serviceProvider =>
+                    {
+                        return new Server
+                        {
+                            Services =
+                            {
+                                AuthenticationService.BindService(serviceProvider.GetRequiredService<AuthenticationServiceImpl>()),
+                                DeviceService.BindService(serviceProvider.GetRequiredService<DeviceServiceImpl>()),
+                            },
+                            Ports =
+                            {
+                                new ServerPort("0.0.0.0", Port, ServerCredentials.Insecure),
+                            },
+                        };
+                    });
+
+                    builder.AddHostedService<GrpcHostedService>();
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    IHostingEnvironment env = context.HostingEnvironment;
+                    if (env.IsDevelopment())
+                    {
+                        builder.AddDebug();
+                        builder.AddConsole();
+                    }
+
+                    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                })
+                .UseConsoleLifetime()
+                .Build();
+
+            using (host)
             {
-                Services = {
-                    AuthenticationService.BindService(new AuthenticationServiceImpl()),
-                    DeviceService.BindService(new DeviceServiceImpl()),
-                },
-                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) },
-            };
-            server.Start();
-
-            Console.WriteLine("DeviceService server listening on port " + Port);
-            Console.WriteLine("Press any key to stop the server...");
-            Console.ReadKey();
-
-            server.ShutdownAsync().Wait();
+                host.Run();
+            }
         }
     }
 }

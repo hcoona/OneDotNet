@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "GeothermalResearchInstitute.Wpf": {
+    "GeothermalResearchInstitute.ServerConsole": {
       "commandName": "Project",
       "commandLineArgs": "--Environment=Development"
     }

@@ -28,10 +28,23 @@ namespace GeothermalResearchInstitute.Wpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            // TODO(zhangshuai.ustc): Hook grpc logger.
+            // TODO(zhangshuai.ustc): Add wpf-base host lifetime.
+            // (https://github.com/aspnet/Hosting/blob/master/samples/GenericHostSample/ServiceBaseLifetime.cs)
             this.Host = new HostBuilder()
-                .ConfigureLogging(l => l.AddDebug())
-                .ConfigureHostConfiguration(c => c.AddCommandLine(e.Args).AddEnvironmentVariables().AddJsonFile("appsettings.json", true))
-                .ConfigureAppConfiguration(c => c.AddCommandLine(e.Args).AddEnvironmentVariables().AddJsonFile("appsettings.json", true))
+                .ConfigureHostConfiguration(builder => builder
+                    .AddEnvironmentVariables()
+                    .AddJsonFile("appsettings.json", optional: true)
+                    .AddCommandLine(e.Args))
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    IHostingEnvironment env = context.HostingEnvironment;
+                    builder
+                        .AddEnvironmentVariables()
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddCommandLine(e.Args);
+                })
                 .ConfigureServices((context, builder) =>
                 {
                     if (context.HostingEnvironment.IsDevelopment())
@@ -48,6 +61,12 @@ namespace GeothermalResearchInstitute.Wpf
                     builder
                         .AddTransient<MainWindow>()
                         .AddTransient<LoginWindow>();
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    builder
+                        .AddDebug()
+                        .AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .Build();
             this.Host.Start();

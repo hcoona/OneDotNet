@@ -13,6 +13,8 @@
 
     <DefaultLibraryTargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
     <DefaultLibraryTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
+
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/version.props" />

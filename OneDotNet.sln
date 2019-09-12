@@ -53,7 +53,17 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Data", "third_party\
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Data.DesignTime", "third_party\FSharp.Data\FSharp.Data.DesignTime\FSharp.Data.DesignTime.fsproj", "{0FDCD78B-10DF-4973-8ABA-040E818459AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwigDoc2Latex.CsConsoleApp", "SwigDoc2Latex\SwigDoc2Latex.CsConsoleApp\SwigDoc2Latex.CsConsoleApp.csproj", "{9AACFDD3-8069-4AAC-99D9-E03F232E0934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwigDoc2Latex.CsConsoleApp", "SwigDoc2Latex\SwigDoc2Latex.CsConsoleApp\SwigDoc2Latex.CsConsoleApp.csproj", "{9AACFDD3-8069-4AAC-99D9-E03F232E0934}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clocks.Net", "Clocks.Net", "{AA7032B3-CA02-410E-B1A2-268EF04D8A36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.Abstraction", "Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj", "{2B97E26A-E326-4816-B323-2807E6B85312}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.IntervalTreeClocks", "Clocks.Net\Clocks.IntervalTreeClocks\Clocks.IntervalTreeClocks.csproj", "{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.System", "Clocks.Net\Clocks.System\Clocks.System.csproj", "{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.LamportClock", "Clocks.Net\Clocks.LamportClock\Clocks.LamportClock.csproj", "{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +131,22 @@ Global
 		{9AACFDD3-8069-4AAC-99D9-E03F232E0934}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AACFDD3-8069-4AAC-99D9-E03F232E0934}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AACFDD3-8069-4AAC-99D9-E03F232E0934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B97E26A-E326-4816-B323-2807E6B85312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B97E26A-E326-4816-B323-2807E6B85312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B97E26A-E326-4816-B323-2807E6B85312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B97E26A-E326-4816-B323-2807E6B85312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +167,10 @@ Global
 		{128F3667-1D95-4CFE-BAEA-9CC666873B30} = {E307CA64-13F5-446A-BCA5-C611A235A2E4}
 		{0FDCD78B-10DF-4973-8ABA-040E818459AD} = {E307CA64-13F5-446A-BCA5-C611A235A2E4}
 		{9AACFDD3-8069-4AAC-99D9-E03F232E0934} = {32D71950-FE00-496C-B8F1-C62C58896605}
+		{2B97E26A-E326-4816-B323-2807E6B85312} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
+		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
+		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
+		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

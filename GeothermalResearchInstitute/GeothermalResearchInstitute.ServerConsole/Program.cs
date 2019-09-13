@@ -22,20 +22,23 @@ namespace GeothermalResearchInstitute.ServerConsole
             var host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
                     .AddEnvironmentVariables()
-                    .AddJsonFile("appsettings.json", true)
+                    .AddIniFile("appsettings.ini", true)
                     .AddCommandLine(args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     IHostingEnvironment env = context.HostingEnvironment;
                     builder
                         .AddEnvironmentVariables()
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
+                        .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
                         .AddCommandLine(args);
                 })
                 .ConfigureServices((context, builder) =>
                 {
-                    if (context.HostingEnvironment.IsDevelopment())
+                    IHostingEnvironment env = context.HostingEnvironment;
+                    IConfiguration config = context.Configuration;
+
+                    if (env.IsDevelopment())
                     {
                         // TODO(zhangshuai.ds): Add fake clients.
                     }
@@ -57,7 +60,10 @@ namespace GeothermalResearchInstitute.ServerConsole
                             },
                             Ports =
                             {
-                                new ServerPort("0.0.0.0", Port, ServerCredentials.Insecure),
+                                new ServerPort(
+                                    "0.0.0.0",
+                                    config.GetValue<int>("core.port"),
+                                    ServerCredentials.Insecure),
                             },
                         };
                     });

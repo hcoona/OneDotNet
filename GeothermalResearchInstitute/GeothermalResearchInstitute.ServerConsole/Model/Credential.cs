@@ -5,7 +5,7 @@
 
 using GeothermalResearchInstitute.v1;
 
-namespace GeothermalResearchInstitute.ServerConsole
+namespace GeothermalResearchInstitute.ServerConsole.Model
 {
     public class Credential
     {

@@ -3,6 +3,8 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using GeothermalResearchInstitute.ServerConsole.GrpcService;
+using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +56,8 @@ namespace GeothermalResearchInstitute.ServerConsole
                     {
                         // TODO(zhangshuai.ds): Add real clients.
                     }
+
+                    builder.Configure<AuthenticationOptions>(context.Configuration);
 
                     builder.AddSingleton(serviceProvider =>
                     {

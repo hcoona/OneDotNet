@@ -40,7 +40,6 @@ namespace Clocks
         /// </summary>
         void Start();
 
-
         /// <summary>
         /// Stops timing.
         /// </summary>

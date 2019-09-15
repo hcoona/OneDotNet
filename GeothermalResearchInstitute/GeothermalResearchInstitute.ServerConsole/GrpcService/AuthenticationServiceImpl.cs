@@ -4,13 +4,11 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -32,10 +30,13 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             this.logger = logger;
             this.serviceProvider = serviceProvider;
 
-            var authenticationOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<AuthenticationOptions>>();
-            foreach (var c in authenticationOptions.Value.Credentials)
+            if (this.logger.IsEnabled(LogLevel.Debug))
             {
-                this.logger.LogDebug(c.ToString());
+                var authenticationOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<AuthenticationOptions>>();
+                foreach (var c in authenticationOptions.Value.Credentials)
+                {
+                    this.logger.LogDebug(c.ToString());
+                }
             }
         }
 

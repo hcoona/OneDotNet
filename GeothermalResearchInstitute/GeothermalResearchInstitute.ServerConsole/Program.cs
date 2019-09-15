@@ -57,8 +57,14 @@ namespace GeothermalResearchInstitute.ServerConsole
                         // TODO(zhangshuai.ds): Add real clients.
                     }
 
+                    // Configuration options.
                     builder.Configure<AuthenticationOptions>(context.Configuration);
+                    builder.Configure<DeviceOptions>(context.Configuration);
 
+                    // Database.
+                    builder.AddDbContext<BjdireContext>();
+
+                    // Grpc services.
                     builder.AddSingleton(serviceProvider =>
                     {
                         return new GrpcLoggerAdapater.GrpcLoggerAdapter(

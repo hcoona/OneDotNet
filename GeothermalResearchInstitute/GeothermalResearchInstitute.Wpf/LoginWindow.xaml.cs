@@ -79,15 +79,16 @@ namespace GeothermalResearchInstitute.Wpf
             }
             catch (RpcException ex)
             {
-                this.ErrorMsg = "ERROR!";
+                this.ErrorMsg = "login error.Please try agarin latter.";
             }
             catch (NotImplementedException ex)
             {
-                this.ErrorMsg = "ERROR!";
+                this.ErrorMsg = "login error.";
             }
             catch (Exception ex)
             {
                 this.ErrorMsg = ex.Message;
+                this.logger.LogError("[LoginWindow]BtnConfirm_ClickAsync error={}", ex);
             }
         }
 

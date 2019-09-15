@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="选择设备"
         WindowStartupLocation="CenterOwner"
-        Style="{StaticResource WindowBaseStyle}">
+        Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
   <Window.Resources>
     <CollectionViewSource 
             x:Key="Peers"  
-            Source="{Binding Source={x:Static Application.Current}, Path=PeerNodes}" />
+            Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=PeerNodes}" />
   </Window.Resources>
   <DockPanel>
     <StackPanel DockPanel.Dock="Bottom"
@@ -26,6 +26,14 @@
       <Button x:Name="btnCancel" Content="取消" Click="BtnCancel_Click"/>
       <Button x:Name="btnConfirm" Content="确定" Click="BtnConfirm_Click"/>
     </StackPanel>
-    <ListBox x:Name="lbPeer" ItemsSource="{Binding Source={StaticResource Peers}}" />
+    <ListBox x:Name="lbPeer" ItemsSource="{Binding Source={StaticResource Peers}}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel>
+            <TextBlock Text="{Binding Path=Name}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
   </DockPanel>
 </Window>

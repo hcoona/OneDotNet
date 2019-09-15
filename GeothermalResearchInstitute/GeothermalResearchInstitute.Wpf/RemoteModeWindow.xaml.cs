@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GeothermalResearchInstitute.v1;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -51,6 +52,8 @@ namespace GeothermalResearchInstitute.Wpf
             get { return (int)this.GetValue(RemoteSelectedModeProperty); }
             set { this.SetValue(RemoteSelectedModeProperty, value); }
         }
+
+        public Device peer { get; internal set; }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {

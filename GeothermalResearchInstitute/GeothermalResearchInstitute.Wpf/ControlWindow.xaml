@@ -29,7 +29,7 @@
                        Text="功能选择"/>
       <Button x:Name="btnRemoteControl" Content="运行控制" Click="BtnRemoteControl_Click"/>
       <Button x:Name="btnRemoteMode" Content="模式选择" Click="BtnRemoteMode_Click"/>
-      <Button x:Name="btnRemoteOption" Content="参数设置"/>
+      <Button x:Name="btnRemoteOption" Content="参数设置" Click="BtnParameterSetting_Click"/>
       <Button x:Name="btnHistoryData" Content="常规历史数据"/>
       <Button x:Name="btnCurrentData" Content="常规实时数据"/>
       <Button x:Name="btnRemoteLog" Content="故障记录"/>

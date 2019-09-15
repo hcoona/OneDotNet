@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GeothermalResearchInstitute.v1;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -54,15 +55,14 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnEnter_Click(object sender, RoutedEventArgs e)
         {
-            var selectPeerWindow = new SelectPeerWindow
-            {
-                Owner = this,
-            };
+            var selectPeerWindow = this.serviceProvider.GetService<SelectPeerWindow>();
+            selectPeerWindow.Owner = this;
 
             if (selectPeerWindow.ShowDialog() == true)
             {
-                var peer = (string)selectPeerWindow.lbPeer.SelectedItem;
-                var controlWindow = new ControlWindow { Owner = this };
+                var peer = (Device)selectPeerWindow.lbPeer.SelectedItem;
+                var controlWindow = this.serviceProvider.GetService<ControlWindow>();
+                controlWindow.Peer = peer;
                 controlWindow.ShowDialog();
             }
         }

@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using static GeothermalResearchInstitute.v1.AuthenticationService;
+using static GeothermalResearchInstitute.v1.DeviceService;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -51,16 +52,24 @@ namespace GeothermalResearchInstitute.Wpf
                     {
                         // TODO(zhangshuai.ds): Add fake clients.
                         builder.AddSingleton<AuthenticationServiceClient, FakeAuthenticationServiceClient>();
+                        builder.AddSingleton<DeviceServiceClient, FakeDeviceServiceClient>();
                     }
                     else
                     {
                         // TODO(zhangshuai.ds): Add real clients.
                         builder.AddSingleton<AuthenticationServiceClient>();
+                        builder.AddSingleton<DeviceServiceClient>();
+
                     }
 
                     builder
                         .AddTransient<MainWindow>()
-                        .AddTransient<LoginWindow>();
+                        .AddTransient<LoginWindow>()
+                        .AddTransient<SelectPeerWindow>()
+                        .AddTransient<ControlWindow>()
+                        .AddTransient<RunningControlWindow>()
+                        .AddTransient<ParameterSettingWindow>()
+                        .AddTransient<RemoteModeWindow>();
                 })
                 .ConfigureLogging((context, builder) =>
                 {

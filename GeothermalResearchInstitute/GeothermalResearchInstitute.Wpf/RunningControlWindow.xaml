@@ -4,17 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf"
+        Title="运行控制"
         mc:Ignorable="d"
-        Title="RunningControlWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
     <DockPanel>
-      <!--<StackPanel>
+      <StackPanel>
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="出水温度Tout："/>
-        <TextBox Name="WaterOutTemperature" Grid.Column="1" />
+        <TextBox Name="WaterOutTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.WaterOutTemperature}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -22,7 +24,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="回水温度Tin："/>
-        <TextBox Name="WaterInTemperature" Grid.Column="1" />
+        <TextBox Name="WaterInTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.WaterInTemperature}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -30,7 +32,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="加热器出水温度Trin："/>
-        <TextBox Name="HeaterWaterOutTemperature" Grid.Column="1" />
+        <TextBox Name="HeaterWaterOutTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.HeaterWaterOutTemperature}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -38,7 +40,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="环境温度："/>
-        <TextBox Name="EnvironmentTemperature" Grid.Column="1" />
+        <TextBox Name="EnvironmentTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.EnvironmentTemperature}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -46,7 +48,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="出水压力："/>
-        <TextBox Name="WaterOutPressure" Grid.Column="1" />
+        <TextBox Name="WaterOutPressure" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.WaterOutPressure}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -54,7 +56,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="回水压力："/>
-        <TextBox Name="WaterInPressure" Grid.Column="1" />
+        <TextBox Name="WaterInPressure" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.WaterInPressure}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -62,7 +64,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="加热器加热功率Qe："/>
-        <TextBox Name="HeaterPower" Grid.Column="1" />
+        <TextBox Name="HeaterPower" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.HeaterPower}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -70,7 +72,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="流量Q："/>
-        <TextBox Name="FlowCapacity" Grid.Column="1" />
+        <TextBox Name="FlowCapacity" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Metrics.FlowCapacity}" Grid.Column="1" />
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -79,8 +81,8 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="设备运行状态："/>
-        <TextBox Name="DevicePower" Grid.Column="1" />
-        <Button  Content="开关" Click="DevicePower_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
+        <TextBox Name="DevicePower" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.DevicePower}" Grid.Column="1" />
+        <Button x:Name="devicePower" Content="开关" Click="DevicePower_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
         <Grid.ColumnDefinitions>
@@ -89,7 +91,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="排气运行状态："/>
-        <TextBox Name="ExhaustPower" Grid.Column="1" />
+        <TextBox Name="ExhaustPower" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.ExhaustPower}" Grid.Column="1" />
         <Button Content="开关" Click="ExhaustPower_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
@@ -99,7 +101,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵自动按键状态："/>
-        <TextBox Name="HeatPumpAuto" Grid.Column="1" />
+        <TextBox Name="HeatPumpAuto" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.HeatPumpAuto}" Grid.Column="1" />
         <Button Content="开关" Click="HeatPumpAuto_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
@@ -109,7 +111,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵电源按键状态："/>
-        <TextBox Name="HeatPumpPower" Grid.Column="1" />
+        <TextBox Name="HeatPumpPower" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.HeatPumpPower}" Grid.Column="1" />
         <Button  Content="开关" Click="HeatPumpPower_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
@@ -119,7 +121,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵风扇按键状态："/>
-        <TextBox Name="HeatPumpFanOn" Grid.Column="1" />
+        <TextBox Name="HeatPumpFanOn" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.HeatPumpFanOn}" Grid.Column="1" />
         <Button Content="开关" Click="HeatPumpFanOn_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
@@ -129,7 +131,7 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵压缩机状态："/>
-        <TextBox Name="HeatPumpCompressorOn" Grid.Column="1" />
+        <TextBox Name="HeatPumpCompressorOn" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.HeatPumpCompressorOn}" Grid.Column="1" />
         <Button Content="开关" Click="HeatPumpCompressorOn_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
       <Grid>
@@ -139,10 +141,10 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵四通换向阀状态："/>
-        <TextBox Name="HeatPumpFourWayReversingValue" Grid.Column="1" />
+        <TextBox Name="HeatPumpFourWayReversingValue" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=deviceView.Controls.HeatPumpFourWayReversingValue}" Grid.Column="1" />
         <Button Content="开关" Click="HeatPumpFourWayReversingValue_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
-    </StackPanel>-->
+    </StackPanel>
             
     </DockPanel>
 </Window>

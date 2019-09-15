@@ -1,0 +1,108 @@
+<Window x:Class="GeothermalResearchInstitute.Wpf.ParameterSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf"
+        mc:Ignorable="d"
+        Title="系统参数设置"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
+
+  <DockPanel>
+    <DockPanel DockPanel.Dock="Top">
+      <Image DockPanel.Dock="Left" Source="logo.png" Height="80"/>
+      <TextBlock DockPanel.Dock="Right" Margin="0,0,10,0"
+                       FontSize="18" VerticalAlignment="Center"
+                       Text="{Binding Source={StaticResource Clock}, Path=CurrentLocalDateTime}"/>
+      <TextBlock FontSize="24" TextAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Title}" />
+    </DockPanel>
+    <Border DockPanel.Dock="Top" Background="LightBlue" Height="40">
+      <Button x:Name="btnReturn"
+                    Width="100" HorizontalAlignment="Right"
+                    Content="返回" Click="BtnCancel_Click"/>
+    </Border>
+    <StackPanel HorizontalAlignment="Center">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="稳定工况夏季设定温度值："/>
+        <TextBox Name="summerTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.SummerTemperature}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="稳定工况冬季设定温度值："/>
+        <TextBox Name="winterTemperature" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WinterTemperature}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="稳定热流制热量值："/>
+        <TextBox Name="warmCapacity" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WarmCapacity}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="稳定热流制冷量值："/>
+        <TextBox Name="coldCapacity" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.ColdCapacity}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="定流量值："/>
+        <TextBox Name="flowCapacity" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.FlowCapacity}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="定频率值："/>
+        <TextBox Name="rateCapacity" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.FlowCapacity}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="工频/变频状态值："/>
+        <TextBox Name="motorMode" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.MotorMode}" Grid.Column="1" />
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="水泵运行模式值："/>
+        <TextBox Name="waterPumpMode" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WaterPumpMode}" Grid.Column="1" />
+      </Grid>
+
+      <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    FlowDirection="RightToLeft">
+        <StackPanel.Resources>
+          <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="Padding" Value="15,5"/>
+          </Style>
+        </StackPanel.Resources>
+        <Button x:Name="btnCancel" Content="取消" Click="BtnCancel_Click"/>
+        <Button x:Name="btnConfirm" Content="确定" Click="BtnConfirm_Click"/>
+      </StackPanel>
+
+    </StackPanel>
+
+  </DockPanel>
+</Window>

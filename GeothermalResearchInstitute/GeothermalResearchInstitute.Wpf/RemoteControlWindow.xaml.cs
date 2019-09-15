@@ -26,5 +26,7 @@ namespace GeothermalResearchInstitute.Wpf
         {
             this.InitializeComponent();
         }
+
+        public string peer { get; internal set; }
     }
 }

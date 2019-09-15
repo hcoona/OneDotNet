@@ -14,6 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GeothermalResearchInstitute.v1;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.Wpf
 {
@@ -22,9 +25,16 @@ namespace GeothermalResearchInstitute.Wpf
     /// </summary>
     public partial class ControlWindow : Window
     {
-        public ControlWindow()
+        private readonly ILogger<ControlWindow> logger;
+        private readonly IServiceProvider serviceProvider;
+
+        public Device Peer { get; internal set; }
+
+        public ControlWindow(ILogger<ControlWindow> logger, IServiceProvider serviceProvider)
         {
             this.InitializeComponent();
+            this.logger = logger;
+            this.serviceProvider = serviceProvider;
         }
 
         private void BtnReturn_Click(object sender, RoutedEventArgs e)
@@ -34,20 +44,23 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnRemoteControl_Click(object sender, RoutedEventArgs e)
         {
-            RemoteControlWindow remoteControlWindow = new RemoteControlWindow
-            {
-                Owner = this,
-            };
-            remoteControlWindow.ShowDialog();
+            RunningControlWindow runningControlWindow = this.serviceProvider.GetService<RunningControlWindow>();
+            runningControlWindow.peer = this.Peer;
+            runningControlWindow.ShowDialog();
         }
 
         private void BtnRemoteMode_Click(object sender, RoutedEventArgs e)
         {
-            RemoteModeWindow remoteModeWindow = new RemoteModeWindow
-            {
-                Owner = this,
-            };
+            RemoteModeWindow remoteModeWindow = this.serviceProvider.GetService<RemoteModeWindow>();
+            remoteModeWindow.peer = this.Peer;
             remoteModeWindow.ShowDialog();
+        }
+
+        private void BtnParameterSetting_Click(object sender, RoutedEventArgs e)
+        {
+            ParameterSettingWindow parameterSettingWindow = this.serviceProvider.GetService<ParameterSettingWindow>();
+            parameterSettingWindow.peer = this.Peer;
+            parameterSettingWindow.ShowDialog();
         }
     }
 }

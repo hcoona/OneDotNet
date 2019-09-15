@@ -5,6 +5,8 @@
 
 namespace GeothermalResearchInstitute.ServerConsole.Model
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
     public class DeviceActualStates : DeviceStates
     {
         public byte[] IPAddress { get; set; }

@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{2D9A3D47
 		copy.bara.sky = copy.bara.sky
 		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
+		OneDotNet.ruleset = OneDotNet.ruleset
 		README.adoc = README.adoc
 		stylecop.json = stylecop.json
 		stylecop.props = stylecop.props
@@ -69,6 +70,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.System", "Clocks.Net\Clocks.System\Clocks.System.csproj", "{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.LamportClock", "Clocks.Net\Clocks.LamportClock\Clocks.LamportClock.csproj", "{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrpcLoggerAdapater", "GrpcLoggerAdapater", "{070A6597-481E-4427-AED3-81D89C4845E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcLoggerAdapater", "GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj", "{71688F66-C766-45F4-8638-2A92E80057BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +157,10 @@ Global
 		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71688F66-C766-45F4-8638-2A92E80057BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71688F66-C766-45F4-8638-2A92E80057BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71688F66-C766-45F4-8638-2A92E80057BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71688F66-C766-45F4-8638-2A92E80057BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +185,7 @@ Global
 		{AAE01169-FB9D-4F43-81CD-19E5A34B6BA3} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
 		{85ABBC05-594F-4F2E-81CB-3A9B9B4D6774} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
 		{F2543DB5-9F1C-407E-B96D-7E3F69ABA249} = {AA7032B3-CA02-410E-B1A2-268EF04D8A36}
+		{71688F66-C766-45F4-8638-2A92E80057BB} = {070A6597-481E-4427-AED3-81D89C4845E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

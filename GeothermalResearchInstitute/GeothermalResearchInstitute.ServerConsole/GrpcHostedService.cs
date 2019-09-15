@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
     internal class GrpcHostedService : IHostedService
     {
         private readonly ILogger<GrpcHostedService> logger;

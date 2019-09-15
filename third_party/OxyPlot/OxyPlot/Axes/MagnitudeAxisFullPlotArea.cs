@@ -21,12 +21,12 @@ namespace OxyPlot.Axes
         /// </summary>
         public double MidshiftH
         {
-            get { return _midshiftH; }
+            get { return this._midshiftH; }
             set
             {
-                _midshiftH = value;
-                _midshiftH = Math.Max(_midshiftH, -0.5d);
-                _midshiftH = Math.Min(_midshiftH, 0.5d);
+                this._midshiftH = value;
+                this._midshiftH = Math.Max(this._midshiftH, -0.5d);
+                this._midshiftH = Math.Min(this._midshiftH, 0.5d);
             }
         }
 
@@ -36,12 +36,12 @@ namespace OxyPlot.Axes
         /// </summary>
         public double MidshiftV
         {
-            get { return _midshiftV; }
+            get { return this._midshiftV; }
             set
             {
-                _midshiftV = value;
-                _midshiftV = Math.Max(_midshiftV, -0.5d);
-                _midshiftV = Math.Min(_midshiftV, 0.5d);
+                this._midshiftV = value;
+                this._midshiftV = Math.Max(this._midshiftV, -0.5d);
+                this._midshiftV = Math.Min(this._midshiftV, 0.5d);
             }
         }
 

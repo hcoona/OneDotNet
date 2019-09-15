@@ -1,3 +1,8 @@
+// <copyright file="SystemStopwatch.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Diagnostics;
 
@@ -16,13 +21,13 @@ namespace Clocks
             this.stopwatch = stopwatch;
         }
 
-        public bool IsRunning => stopwatch.IsRunning;
+        public bool IsRunning => this.stopwatch.IsRunning;
 
-        public TimeSpan Elapsed => stopwatch.Elapsed;
+        public TimeSpan Elapsed => this.stopwatch.Elapsed;
 
         public void Reset()
         {
-            stopwatch.Reset();
+            this.stopwatch.Reset();
         }
 
         public void Restart()
@@ -31,18 +36,18 @@ namespace Clocks
             stopwatch.Stop();
             stopwatch.Start();
 #else
-            stopwatch.Restart();
+            this.stopwatch.Restart();
 #endif
         }
 
         public void Start()
         {
-            stopwatch.Start();
+            this.stopwatch.Start();
         }
 
         public void Stop()
         {
-            stopwatch.Stop();
+            this.stopwatch.Stop();
         }
     }
 }

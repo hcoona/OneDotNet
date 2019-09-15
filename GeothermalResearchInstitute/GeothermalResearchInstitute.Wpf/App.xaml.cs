@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.Wpf.FakeClients;
+using Grpc.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,25 +30,34 @@ namespace GeothermalResearchInstitute.Wpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            // TODO(zhangshuai.ustc): Hook grpc logger.
-            // TODO(zhangshuai.ustc): Add wpf-base host lifetime.
-            // (https://github.com/aspnet/Hosting/blob/master/samples/GenericHostSample/ServiceBaseLifetime.cs)
             this.Host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
                     .AddEnvironmentVariables()
-                    .AddJsonFile("appsettings.json", optional: true)
+                    .AddIniFile("appsettings.ini", optional: true)
                     .AddCommandLine(e.Args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     IHostingEnvironment env = context.HostingEnvironment;
                     builder
                         .AddEnvironmentVariables()
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true)
+                        .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
                         .AddCommandLine(e.Args);
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    builder
+                        .AddDebug()
+                        .AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .ConfigureServices((context, builder) =>
                 {
+                    builder.AddSingleton(serviceProvider =>
+                    {
+                        return new GrpcLoggerAdapater.GrpcLoggerAdapter(
+                            serviceProvider.GetRequiredService<ILoggerFactory>(),
+                            serviceProvider.GetRequiredService<ILogger<Grpc.Core.ClientBase>>());
+                    });
                     if (context.HostingEnvironment.IsDevelopment())
                     {
                         // TODO(zhangshuai.ds): Add fake clients.
@@ -71,13 +81,9 @@ namespace GeothermalResearchInstitute.Wpf
                         .AddTransient<ParameterSettingWindow>()
                         .AddTransient<RemoteModeWindow>();
                 })
-                .ConfigureLogging((context, builder) =>
-                {
-                    builder
-                        .AddDebug()
-                        .AddConfiguration(context.Configuration.GetSection("Logging"));
-                })
                 .Build();
+
+            GrpcEnvironment.SetLogger(this.Host.Services.GetRequiredService<GrpcLoggerAdapater.GrpcLoggerAdapter>());
             this.Host.Start();
 
             var logger = this.Host.Services.GetRequiredService<ILogger<App>>();

@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 option csharp_namespace = "GeothermalResearchInstitute.v1";
 
 enum DeviceWorkingMode {
+  // TODO(zhangshuai.ustc): Confirm the default value.
   DEVICE_WORKING_MODE_UNSPECIFIED = 0;
   // 温度测定
   DEVICE_WORKING_MODE_MEASURE_TEMPERATURE = 1;
@@ -21,6 +22,7 @@ enum DeviceWorkingMode {
 }
 
 enum MotorMode {
+  // TODO(zhangshuai.ustc): Confirm the default value.
   MOTOR_MODE_UNSPECIFIED = 0;
   // 变频
   MOTOR_MODE_VARIABLE_FREQUENCY = 1;
@@ -29,6 +31,7 @@ enum MotorMode {
 }
 
 enum WaterPumpMode {
+  // TODO(zhangshuai.ustc): Confirm the default value.
   WATER_PUMP_MODE_UNSPECIFIED = 0;
   // TODO(zhangshuai.ustc): Ask for name.
   WATER_PUMP_MODE_A = 1;

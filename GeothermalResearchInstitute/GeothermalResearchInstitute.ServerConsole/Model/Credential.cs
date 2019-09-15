@@ -1,11 +1,11 @@
-// <copyright file="Program.cs" company="Shuai Zhang">
+// <copyright file="Credential.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 using GeothermalResearchInstitute.v1;
 
-namespace GeothermalResearchInstitute.ServerConsole
+namespace GeothermalResearchInstitute.ServerConsole.Model
 {
     public class Credential
     {
@@ -19,7 +19,7 @@ namespace GeothermalResearchInstitute.ServerConsole
 
         public override string ToString()
         {
-            return Nickname + "(" + Username + ":" + Role + ")";
+            return this.Nickname + "(" + this.Username + ":" + this.Role + ")";
         }
     }
 }

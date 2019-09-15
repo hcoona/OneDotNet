@@ -21,4 +21,11 @@ Tested for user code throwing exception
 ]]></PackageReleaseNotes>
   </PropertyGroup>
 
+  <!-- TODO(zhangshuai.ustc): Fix it. -->
+  <ItemGroup>
+    <PackageReference Remove="Microsoft.CodeAnalysis.FxCopAnalyzers" />
+    <PackageReference Remove="Microsoft.CodeAnalysis.BannedApiAnalyzers" />
+    <PackageReference Remove="StyleCop.Analyzers" />
+  </ItemGroup>
+
 </Project>

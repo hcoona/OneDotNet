@@ -1,3 +1,8 @@
+// <copyright file="GrpcHostedService.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +12,8 @@ using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
     internal class GrpcHostedService : IHostedService
     {
         private readonly ILogger<GrpcHostedService> logger;

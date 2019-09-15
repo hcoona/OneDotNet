@@ -1,3 +1,4 @@
 # Required by VFSForGit.
 * -text
 *.sln binary
+GeothermalResearchInstitute/GeothermalResearchInstitute.ServerConsole/bjdire.sqlite filter=lfs diff=lfs merge=lfs -text

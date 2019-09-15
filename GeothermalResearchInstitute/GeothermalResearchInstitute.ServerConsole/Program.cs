@@ -3,6 +3,9 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Net.NetworkInformation;
+using GeothermalResearchInstitute.ServerConsole.GrpcService;
+using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +17,8 @@ namespace GeothermalResearchInstitute.ServerConsole
 {
     internal class Program
     {
-        private const int Port = 50051;
-
         private static void Main(string[] args)
         {
-            // TODO(zhangshuai.ustc): Hook grpc logger.
             var host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
                     .AddEnvironmentVariables()
@@ -32,6 +32,17 @@ namespace GeothermalResearchInstitute.ServerConsole
                         .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
                         .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
                         .AddCommandLine(args);
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    IHostingEnvironment env = context.HostingEnvironment;
+                    if (env.IsDevelopment())
+                    {
+                        builder.AddDebug();
+                        builder.AddConsole();
+                    }
+
+                    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .ConfigureServices((context, builder) =>
                 {
@@ -47,10 +58,25 @@ namespace GeothermalResearchInstitute.ServerConsole
                         // TODO(zhangshuai.ds): Add real clients.
                     }
 
+                    // Configuration options.
+                    builder.Configure<AuthenticationOptions>(context.Configuration);
+                    builder.Configure<DeviceOptions>(context.Configuration);
+
+                    // Database.
+                    builder.AddDbContext<BjdireContext>();
+
+                    // Grpc services.
+                    builder.AddSingleton(serviceProvider =>
+                    {
+                        return new GrpcLoggerAdapater.GrpcLoggerAdapter(
+                            serviceProvider.GetRequiredService<ILoggerFactory>(),
+                            serviceProvider.GetRequiredService<ILogger<Server>>());
+                    });
                     builder.AddSingleton<AuthenticationServiceImpl>();
                     builder.AddSingleton<DeviceServiceImpl>();
                     builder.AddSingleton(serviceProvider =>
                     {
+                        GrpcEnvironment.SetLogger(serviceProvider.GetRequiredService<GrpcLoggerAdapater.GrpcLoggerAdapter>());
                         return new Server
                         {
                             Services =
@@ -69,17 +95,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                     });
 
                     builder.AddHostedService<GrpcHostedService>();
-                })
-                .ConfigureLogging((context, builder) =>
-                {
-                    IHostingEnvironment env = context.HostingEnvironment;
-                    if (env.IsDevelopment())
-                    {
-                        builder.AddDebug();
-                        builder.AddConsole();
-                    }
-
-                    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .UseConsoleLifetime()
                 .Build();

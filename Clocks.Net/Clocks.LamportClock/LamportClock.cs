@@ -1,3 +1,8 @@
+// <copyright file="LamportClock.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Threading;
 
@@ -7,12 +12,15 @@ namespace Clocks
     /// The Lamport scalar logical clock. Check the paper "Time, Clocks, and the Ordering of Events in a Distributed System" for further details.
     /// <para>The type is thread-safe.</para>
     /// </summary>
-    /// <seealso cref="Clocks.ILogicalClock{System.Int64}" />
+    /// <seealso cref="Clocks.ILogicalClock{long}" />
     public class LamportClock : ILogicalClock<long>
     {
-        protected long counter;
+        private long counter;
 
-        public LamportClock() : this(0) { }
+        public LamportClock()
+            : this(0)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LamportClock"/> class with given value as its internal counter initial value.
@@ -20,10 +28,10 @@ namespace Clocks
         /// <param name="initial">The internal counter initial value.</param>
         public LamportClock(long initial)
         {
-            counter = initial;
+            this.counter = initial;
         }
 
-        public long Now => Interlocked.Read(ref counter);
+        public long Now => Interlocked.Read(ref this.counter);
 
         /// <summary>
         /// Increments the internal counter.
@@ -33,12 +41,12 @@ namespace Clocks
         [Obsolete("Use ILogicalClock<long>.IncrementAndGet instead")]
         public long Increment()
         {
-            return Interlocked.Increment(ref counter);
+            return Interlocked.Increment(ref this.counter);
         }
 
         public long IncrementAndGet()
         {
-            return Interlocked.Increment(ref counter);
+            return Interlocked.Increment(ref this.counter);
         }
 
         /// <summary>
@@ -54,7 +62,7 @@ namespace Clocks
         {
             while (true)
             {
-                var current = Interlocked.Read(ref counter);
+                var current = Interlocked.Read(ref this.counter);
                 if (timepoint < current)
                 {
                     return current;
@@ -62,7 +70,7 @@ namespace Clocks
                 else
                 {
                     var next = timepoint + 1;
-                    if (current == Interlocked.CompareExchange(ref counter, next, current))
+                    if (current == Interlocked.CompareExchange(ref this.counter, next, current))
                     {
                         return next;
                     }

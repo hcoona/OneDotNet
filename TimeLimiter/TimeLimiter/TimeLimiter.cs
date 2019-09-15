@@ -34,9 +34,7 @@ namespace TimeLimiter
         {
             var timeoutCancellationTokenSource = new CancellationTokenSource();
             var linkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken,
-                timeoutCancellationTokenSource.Token
-            );
+                cancellationToken, timeoutCancellationTokenSource.Token);
 
             var taskCompletionSource = new TaskCompletionSource<object>();
 

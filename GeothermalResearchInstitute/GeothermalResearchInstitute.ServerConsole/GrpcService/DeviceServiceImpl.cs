@@ -147,10 +147,26 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 switch (path)
                 {
                     case "working_mode":
+                        deviceStates.WorkingMode = request.Device.WorkingMode;
                         break;
                     case "device_option":
+                        deviceStates.SummerTemperature = request.Device.DeviceOption.SummerTemperature;
+                        deviceStates.WinterTemperature = request.Device.DeviceOption.WinterTemperature;
+                        deviceStates.WarmCapacity = request.Device.DeviceOption.WarmCapacity;
+                        deviceStates.ColdCapacity = request.Device.DeviceOption.ColdCapacity;
+                        deviceStates.FlowCapacity = request.Device.DeviceOption.FlowCapacity;
+                        deviceStates.RateCapacity = request.Device.DeviceOption.RateCapacity;
+                        deviceStates.MotorMode = request.Device.DeviceOption.MotorMode;
+                        deviceStates.WaterPumpMode = request.Device.DeviceOption.WaterPumpMode;
                         break;
                     case "controls":
+                        deviceStates.DevicePower = request.Device.Controls.DevicePower;
+                        deviceStates.ExhaustPower = request.Device.Controls.ExhaustPower;
+                        deviceStates.HeatPumpAuto = request.Device.Controls.HeatPumpAuto;
+                        deviceStates.HeatPumpPower = request.Device.Controls.HeatPumpPower;
+                        deviceStates.HeatPumpFanOn = request.Device.Controls.HeatPumpFanOn;
+                        deviceStates.HeatPumpCompressorOn = request.Device.Controls.HeatPumpCompressorOn;
+                        deviceStates.HeatPumpFourWayReversingValue = request.Device.Controls.HeatPumpFourWayReversingValue;
                         break;
                     default:
                         throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid update_mask."));

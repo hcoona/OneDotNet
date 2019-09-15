@@ -3,11 +3,12 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System.Net.NetworkInformation;
+using System;
 using GeothermalResearchInstitute.ServerConsole.GrpcService;
 using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +18,9 @@ namespace GeothermalResearchInstitute.ServerConsole
 {
     internal class Program
     {
+        internal static readonly Action<DbContextOptionsBuilder> DbContextOptionsBuilderAction =
+            builder => builder.UseSqlite("Data Source=bjdire.sqlite");
+
         private static void Main(string[] args)
         {
             var host = new HostBuilder()
@@ -51,19 +55,18 @@ namespace GeothermalResearchInstitute.ServerConsole
 
                     if (env.IsDevelopment())
                     {
-                        // TODO(zhangshuai.ds): Add fake clients.
+                        // TODO(zhangshuai.ds): Add fake data.
+                        builder.AddDbContext<BjdireContext>(options => options.UseInMemoryDatabase("bjdire"));
                     }
                     else
                     {
-                        // TODO(zhangshuai.ds): Add real clients.
+                        // Database.
+                        builder.AddDbContext<BjdireContext>(DbContextOptionsBuilderAction);
                     }
 
                     // Configuration options.
                     builder.Configure<AuthenticationOptions>(context.Configuration);
                     builder.Configure<DeviceOptions>(context.Configuration);
-
-                    // Database.
-                    builder.AddDbContext<BjdireContext>();
 
                     // Grpc services.
                     builder.AddSingleton(serviceProvider =>

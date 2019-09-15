@@ -9,13 +9,13 @@ namespace GeothermalResearchInstitute.ServerConsole.Model
 {
     public class BjdireContext : DbContext
     {
+        public BjdireContext(DbContextOptions<BjdireContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<DeviceActualStates> DevicesActualStates { get; set; }
 
         public DbSet<DeviceDesiredStates> DevicesDesiredStates { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=bjdire.sqlite");
-        }
     }
 }

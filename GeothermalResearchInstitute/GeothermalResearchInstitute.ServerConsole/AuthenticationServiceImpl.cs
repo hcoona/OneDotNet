@@ -1,4 +1,4 @@
-﻿// <copyright file="Program.cs" company="Shuai Zhang">
+// <copyright file="AuthenticationServiceImpl.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -35,10 +35,11 @@ namespace GeothermalResearchInstitute.ServerConsole
                 logger.LogInformation(c.ToString());
             }
         }
+
         public override Task<AuthenticateResponse> Authenticate(
             AuthenticateRequest request, ServerCallContext context)
         {
-            throw new RpcException(new Status(StatusCode.Unimplemented, ""));
+            throw new RpcException(new Status(StatusCode.Unimplemented, string.Empty));
         }
     }
 }

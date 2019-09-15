@@ -1,3 +1,8 @@
+// <copyright file="IStopwatch.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 
 namespace Clocks
@@ -35,9 +40,12 @@ namespace Clocks
         /// </summary>
         void Start();
 
+
         /// <summary>
         /// Stops timing.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Naming", "CA1716:标识符不应与关键字匹配", Justification = "TODO(zhangshuai.ds): Rename it.")]
         void Stop();
 
         /// <summary>

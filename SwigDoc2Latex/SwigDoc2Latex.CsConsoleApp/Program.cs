@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,7 +24,7 @@ namespace SwigDoc2Latex.CsConsoleApp
 
         private static readonly Regex LatexReservedCharRegex = new Regex(@"(?<!\\)([#$%^&_{}~\\])", RegexOptions.Compiled);
 
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             // TODO(zhangshuai.ustc): Rewrite HTML document before translation.
             var doc = new HtmlDocument();
@@ -68,6 +69,7 @@ namespace SwigDoc2Latex.CsConsoleApp
                 HtmlNode n when n.Name == "a" =>
                     Enumerable.Repeat(
                         string.Format(
+                            CultureInfo.InvariantCulture,
                             @"\hyperref[{0}]{{{1}}}",
                             StringUtils.SubstringAfter(n.Attributes.Single(attr => attr.Name == "href").Value, "#"),
                             string.Join(" ", n.ChildNodes.SelectMany(Translate))),
@@ -78,7 +80,9 @@ namespace SwigDoc2Latex.CsConsoleApp
             };
         }
 
+#pragma warning disable CA1801 // 删除未使用的参数
         private static IEnumerable<string> TranslateTable(HtmlNode n)
+#pragma warning restore CA1801 // 删除未使用的参数
         {
             // TODO(zhangshuai.ustc): Implement it.
             return Enumerable.Empty<string>();
@@ -156,7 +160,7 @@ namespace SwigDoc2Latex.CsConsoleApp
                 _ => throw new NotImplementedException("Unsupported header: " + n.Name),
             };
             return Enumerable.Repeat(
-                string.Format("\\{0}{{{1}\\label{{{2}}}}}", directive, headerText, anchorLabel),
+                string.Format(CultureInfo.InvariantCulture, "\\{0}{{{1}\\label{{{2}}}}}", directive, headerText, anchorLabel),
                 1);
         }
 

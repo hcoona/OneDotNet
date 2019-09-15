@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" developmentDependency="true" />
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4" DevelopmentDependency="true" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="2.9.4" DevelopmentDependency="true" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" DevelopmentDependency="true" PrivateAssets="All" />
   </ItemGroup>
   <PropertyGroup>
-    <CodeAnalysisRuleSetLocation>$(EnlistmentRoot)</CodeAnalysisRuleSetLocation>
+    <!-- According to https://docs.microsoft.com/zh-cn/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2019 -->
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>$(EnlistmentRoot)\OneDotNet.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <AdditionalFiles Include="$(EnlistmentRoot)/stylecop.json" Link="stylecop.json" />
+    <AdditionalFiles Include="$(EnlistmentRoot)\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>

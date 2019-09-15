@@ -15,6 +15,7 @@
     <DefaultLibraryTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
 
     <Deterministic>true</Deterministic>
+    <NoWarn>NU5048</NoWarn>
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/version.props" />

@@ -10,7 +10,9 @@ using System.Linq;
 
 namespace IO.Github.Hcoona.Collections
 {
+#pragma warning disable CA1710 // 标识符应具有正确的后缀
     public class CircularList<T> : IList<T>
+#pragma warning restore CA1710 // 标识符应具有正确的后缀
     {
         private readonly T[] objects;
         private int countValue;
@@ -20,7 +22,8 @@ namespace IO.Github.Hcoona.Collections
         {
             if (capacity < 0)
             {
-                throw new ArgumentOutOfRangeException("capacity must be a non-negative number.");
+                throw new ArgumentOutOfRangeException(
+                    nameof(capacity), capacity, "must be a non-negative number.");
             }
 
             this.objects = new T[capacity];

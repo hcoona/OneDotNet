@@ -1,3 +1,8 @@
+// <copyright file="SystemClock.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 
 namespace Clocks
@@ -8,23 +13,22 @@ namespace Clocks
     /// <seealso cref="Clocks.IPhysicalClock{System.DateTime}" />
     public class SystemClock : IPhysicalClock<DateTime>
     {
-        // The Ticks property expresses date and time values in units of one ten-millionth of a second
         /// <summary>
-        /// Whether the instance is high resolution. Always <c>false</c> because <seealso cref="DateTime"/> is not high resolution.
+        /// Gets a value indicating whether the instance is high resolution. Always <c>false</c> because <seealso cref="DateTime"/> is not high resolution.
         /// </summary>
         /// <value>
         /// Always <c>false</c>.
         /// </value>
+        // The Ticks property expresses date and time values in units of one ten-millionth of a second
         public bool IsHighResolution => false;
 
-        // Using repeated calls to the DateTime.Now property to measure elapsed time is dependent on the system clock.
         /// <summary>
-        /// Whether this instance is monotonic. Always <c>false</c> because <seealso cref="DateTime"/> is not monotonic.
+        /// Gets a value indicating whether this instance is monotonic. Always <c>false</c> because <seealso cref="DateTime"/> is not monotonic.
         /// </summary>
         /// <value>
         /// Always <c>false</c>.
         /// </value>
-        /// <exception cref="System.NotImplementedException"></exception>
+        // Using repeated calls to the DateTime.Now property to measure elapsed time is dependent on the system clock.
         public bool IsMonotonic => false;
 
         public DateTime Now => DateTime.Now;

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,6 +9,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
     <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot\OxyPlot.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Remove="Microsoft.CodeAnalysis.FxCopAnalyzers" />
+    <PackageReference Remove="Microsoft.CodeAnalysis.BannedApiAnalyzers" />
+    <PackageReference Remove="StyleCop.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>

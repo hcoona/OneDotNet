@@ -9,7 +9,9 @@ namespace GeothermalResearchInstitute.ServerConsole.Model
 {
     public class BjdireContext : DbContext
     {
-        public DbSet<Device> Devices { get; set; }
+        public DbSet<DeviceActualStates> DevicesActualStates { get; set; }
+
+        public DbSet<DeviceDesiredStates> DevicesDesiredStates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

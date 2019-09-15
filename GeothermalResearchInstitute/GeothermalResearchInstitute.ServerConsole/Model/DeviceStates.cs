@@ -5,19 +5,18 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Net.NetworkInformation;
 using GeothermalResearchInstitute.v1;
 
 namespace GeothermalResearchInstitute.ServerConsole.Model
 {
-    public class Device
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
+    public class DeviceStates
     {
         [Key]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
-            "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
         public byte[] Id { get; set; }
-
-        public string Name { get; set; }
 
         public DeviceWorkingMode WorkingMode { get; set; }
 

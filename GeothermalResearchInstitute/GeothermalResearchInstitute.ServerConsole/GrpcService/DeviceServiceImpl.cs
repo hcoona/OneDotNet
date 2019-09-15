@@ -14,7 +14,6 @@ using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using GrpcDevice = GeothermalResearchInstitute.v1.Device;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcService
 {
@@ -23,13 +22,16 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
     internal class DeviceServiceImpl : DeviceService.DeviceServiceBase
     {
         private readonly ILogger<DeviceServiceImpl> logger;
+        private readonly BjdireContext bjdireContext;
         private readonly IServiceProvider serviceProvider;
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
+            BjdireContext bjdireContext,
             IServiceProvider serviceProvider)
         {
             this.logger = logger;
+            this.bjdireContext = bjdireContext;
             this.serviceProvider = serviceProvider;
 
             if (this.logger.IsEnabled(LogLevel.Debug))
@@ -49,7 +51,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var response = new ListDevicesResponse();
-            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new GrpcDevice
+            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new Device
             {
                 Id = ByteString.CopyFrom(d.ComputeIdBinary()),
                 Name = d.Name,
@@ -57,7 +59,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             return Task.FromResult(response);
         }
 
-        public override Task<GrpcDevice> GetDevice(GetDeviceRequest request, ServerCallContext context)
+        public override Task<Device> GetDevice(GetDeviceRequest request, ServerCallContext context)
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Id));
@@ -66,17 +68,49 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
             }
 
-            var device = new GrpcDevice();
+            var deviceAdditionalInformation = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Id));
+            if (deviceAdditionalInformation == null)
+            {
+                deviceAdditionalInformation = new DeviceActualStates();
+            }
+
+            var device = new Device();
             switch (request.View)
             {
                 case DeviceView.NameOnly:
                     device.Name = deviceBasicInformation.Name;
                     break;
                 case DeviceView.WorkingModeOnly:
+                    device.WorkingMode = deviceAdditionalInformation.WorkingMode;
                     break;
                 case DeviceView.DeviceOptionOnly:
+                    device.DeviceOption = new DeviceOption
+                    {
+                        SummerTemperature = deviceAdditionalInformation.SummerTemperature,
+                        WinterTemperature = deviceAdditionalInformation.WinterTemperature,
+                        WarmCapacity = deviceAdditionalInformation.WarmCapacity,
+                        ColdCapacity = deviceAdditionalInformation.ColdCapacity,
+                        FlowCapacity = deviceAdditionalInformation.FlowCapacity,
+                        RateCapacity = deviceAdditionalInformation.RateCapacity,
+                        MotorMode = deviceAdditionalInformation.MotorMode,
+                        WaterPumpMode = deviceAdditionalInformation.WaterPumpMode,
+                    };
                     break;
                 case DeviceView.MetricsAndControl:
+                    // TODO(zhangshuai.ustc): Loading it.
+                    device.Metrics = new DeviceMetrics
+                    {
+                    };
+                    device.Controls = new DeviceControls
+                    {
+                        DevicePower = deviceAdditionalInformation.DevicePower,
+                        ExhaustPower = deviceAdditionalInformation.ExhaustPower,
+                        HeatPumpAuto = deviceAdditionalInformation.HeatPumpAuto,
+                        HeatPumpPower = deviceAdditionalInformation.HeatPumpPower,
+                        HeatPumpFanOn = deviceAdditionalInformation.HeatPumpFanOn,
+                        HeatPumpCompressorOn = deviceAdditionalInformation.HeatPumpCompressorOn,
+                        HeatPumpFourWayReversingValue = deviceAdditionalInformation.HeatPumpFourWayReversingValue,
+                    };
                     break;
                 default:
                     throw new RpcException(new Status(
@@ -87,8 +121,44 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             return Task.FromResult(device);
         }
 
-        public override Task<GrpcDevice> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
+        public override Task<Device> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
         {
+            var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+            var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Device.Id));
+            if (deviceBasicInformation == null)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
+            }
+
+            var deviceStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            if (deviceStates == null)
+            {
+                deviceStates = new DeviceDesiredStates();
+                this.bjdireContext.DevicesDesiredStates.Add(deviceStates);
+            }
+
+            if (request.UpdateMask.Paths.Count == 0)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid update_mask."));
+            }
+
+            foreach (var path in request.UpdateMask.Paths)
+            {
+                switch (path)
+                {
+                    case "working_mode":
+                        break;
+                    case "device_option":
+                        break;
+                    case "controls":
+                        break;
+                    default:
+                        throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid update_mask."));
+                }
+            }
+
+            this.bjdireContext.SaveChanges();
+
             return base.UpdateDevice(request, context);
         }
     }

@@ -3,6 +3,7 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Net.NetworkInformation;
 using GeothermalResearchInstitute.ServerConsole.GrpcService;
 using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;

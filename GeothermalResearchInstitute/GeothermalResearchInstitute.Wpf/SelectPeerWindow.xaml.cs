@@ -9,7 +9,6 @@ using System.Windows;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using static GeothermalResearchInstitute.v1.DeviceService;
 
 namespace GeothermalResearchInstitute.Wpf

@@ -73,7 +73,7 @@ namespace GeothermalResearchInstitute.Wpf
 
             try
             {
-                var deviceView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
+                 DeviceView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
 
             }
             catch (RpcException ex)

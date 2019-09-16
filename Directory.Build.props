@@ -8,14 +8,21 @@
     <NetcoreCurrentTargetFramework>netcoreapp3.0</NetcoreCurrentTargetFramework>
     <NetstandardCurrentTargetFramework>netstandard2.0</NetstandardCurrentTargetFramework>
 
-    <DefaultExeTargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(NetcoreCurrentTargetFramework);$(NetfxCurrentTargetFramework)</DefaultExeTargetFrameworks>
-    <DefaultExeTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
+    <DefaultExeTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetcoreCurrentTargetFramework);$(NetfxCurrentTargetFramework)</DefaultExeTargetFrameworks>
+    <DefaultExeTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
 
-    <DefaultLibraryTargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
-    <DefaultLibraryTargetFrameworks Condition="'$(OS)' != 'Windows_NT'">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
+    <DefaultLibraryTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
+    <DefaultLibraryTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
 
     <Deterministic>true</Deterministic>
     <NoWarn>NU5048</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'DebugNonWindows' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/version.props" />

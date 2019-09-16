@@ -74,26 +74,6 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                             serviceProvider.GetRequiredService<ILogger<Server>>());
                     });
                     builder.AddTransient<AuthenticationServiceImpl>();
-                    builder.AddSingleton(serviceProvider =>
-                    {
-                        GrpcEnvironment.SetLogger(serviceProvider.GetRequiredService<GrpcLoggerAdapater.GrpcLoggerAdapter>());
-                        return new Server
-                        {
-                            Services =
-                            {
-                                AuthenticationService.BindService(serviceProvider.GetRequiredService<AuthenticationServiceImpl>()),
-                            },
-                            Ports =
-                            {
-                                new ServerPort(
-                                    "0.0.0.0",
-                                    config.GetValue<int>("core.port"),
-                                    ServerCredentials.Insecure),
-                            },
-                        };
-                    });
-
-                    builder.AddHostedService<GrpcHostedService>();
                 })
                 .Build();
         }
@@ -115,7 +95,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
                 CancellationToken.None,
-                "127.0.0.1",
+                null,
                 null,
                 null,
                 (metadata) => Task.CompletedTask,
@@ -148,7 +128,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
                 CancellationToken.None,
-                "127.0.0.1",
+                null,
                 null,
                 null,
                 (metadata) => Task.CompletedTask,
@@ -181,7 +161,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
                 CancellationToken.None,
-                "127.0.0.1",
+                null,
                 null,
                 null,
                 (metadata) => Task.CompletedTask,
@@ -207,7 +187,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
                 CancellationToken.None,
-                "127.0.0.1",
+                null,
                 null,
                 null,
                 (metadata) => Task.CompletedTask,

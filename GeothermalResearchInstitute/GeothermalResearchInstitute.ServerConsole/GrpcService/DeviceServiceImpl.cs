@@ -104,9 +104,15 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                     break;
                 case DeviceView.MetricsAndControl:
                     // TODO(zhangshuai.ustc): Loading it.
-                    device.Metrics = new DeviceMetrics
+                    if (this.metricsMap.TryGetValue(request.Id, out var metrics))
                     {
-                    };
+                        device.Metrics = new DeviceMetrics(metrics);
+                    }
+                    else
+                    {
+                        device.Metrics = new DeviceMetrics();
+                    }
+
                     device.Controls = new DeviceControls
                     {
                         DevicePower = deviceAdditionalInformation.DevicePower,

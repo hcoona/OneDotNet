@@ -75,7 +75,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrpcLoggerAdapater", "GrpcL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcLoggerAdapater", "GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj", "{71688F66-C766-45F4-8638-2A92E80057BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeothermalResearchInstitute.ServerConsole.UnitTest", "GeothermalResearchInstitute\GeothermalResearchInstitute.ServerConsole.UnitTest\GeothermalResearchInstitute.ServerConsole.UnitTest.csproj", "{A6011EFD-9C23-49DC-A6CD-2279D69EA95E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.ServerConsole.UnitTest", "GeothermalResearchInstitute\GeothermalResearchInstitute.ServerConsole.UnitTest\GeothermalResearchInstitute.ServerConsole.UnitTest.csproj", "{A6011EFD-9C23-49DC-A6CD-2279D69EA95E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicrosoftExtensions", "MicrosoftExtensions", "{9340BF54-2A41-4645-B659-2A39B8A4D370}"
 EndProject
@@ -86,6 +86,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosoftExtensions.Logging.Xunit", "MicrosoftExtensions\Logging\Xunit\MicrosoftExtensions.Logging.Xunit\MicrosoftExtensions.Logging.Xunit.csproj", "{5B209F1C-91F5-4B06-A00C-6794F3686B16}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosoftExtensions.Logging.Xunit.Tests", "MicrosoftExtensions\Logging\Xunit\MicrosoftExtensions.Logging.Xunit.Tests\MicrosoftExtensions.Logging.Xunit.Tests.csproj", "{9072EED2-4C8D-4DD5-81E0-BE4D7F16FB38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSTest", "MSTest", "{0B029A63-E071-4014-9E46-48435B13DEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosoftExtensions.Logging.MSTest", "MicrosoftExtensions\Logging\MSTest\MicrosoftExtensions.Logging.MSTest\MicrosoftExtensions.Logging.MSTest.csproj", "{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -232,6 +236,12 @@ Global
 		{9072EED2-4C8D-4DD5-81E0-BE4D7F16FB38}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{9072EED2-4C8D-4DD5-81E0-BE4D7F16FB38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9072EED2-4C8D-4DD5-81E0-BE4D7F16FB38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +272,8 @@ Global
 		{31FD0E22-C92B-472B-A081-85542CD4ADDF} = {3AF05952-7DBF-4946-9E5C-0D56D418E796}
 		{5B209F1C-91F5-4B06-A00C-6794F3686B16} = {31FD0E22-C92B-472B-A081-85542CD4ADDF}
 		{9072EED2-4C8D-4DD5-81E0-BE4D7F16FB38} = {31FD0E22-C92B-472B-A081-85542CD4ADDF}
+		{0B029A63-E071-4014-9E46-48435B13DEAB} = {3AF05952-7DBF-4946-9E5C-0D56D418E796}
+		{5169CCB2-2EB2-48B3-A7F6-8E4956EB183C} = {0B029A63-E071-4014-9E46-48435B13DEAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

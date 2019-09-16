@@ -84,5 +84,10 @@ namespace GeothermalResearchInstitute.Wpf
 
         }
 
+        private void BtnReturn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
     }
 }

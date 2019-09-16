@@ -9,13 +9,7 @@
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}">
   <DockPanel>
-    <Border DockPanel.Dock="Top" Background="LightBlue" Padding="10,5">
-      <StackPanel Orientation="Horizontal">
-        <TextBlock Text="{Binding Source={StaticResource User}, Path=Role}" />
-        <TextBlock Text="：" />
-        <TextBlock Text="{Binding Source={StaticResource User}, Path=Username}" />
-      </StackPanel>
-    </Border>
+    <ContentPresenter DockPanel.Dock="Top" Content="{StaticResource UserBanner}"/>
     <UniformGrid Rows="3" Columns="3">
       <UniformGrid.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
@@ -29,11 +23,11 @@
                        Text="功能选择"/>
       <Button x:Name="btnRemoteControl" Content="运行控制" Click="BtnRemoteControl_Click"/>
       <Button x:Name="btnRemoteMode" Content="模式选择" Click="BtnRemoteMode_Click"/>
-      <Button x:Name="btnRemoteOption" Content="参数设置" Click="BtnParameterSetting_Click"/>
-      <Button x:Name="btnHistoryData" Content="常规历史数据"/>
-      <Button x:Name="btnCurrentData" Content="常规实时数据"/>
-      <Button x:Name="btnRemoteLog" Content="故障记录"/>
-      <Button x:Name="btnOptionHelp" Content="参数说明"/>
+      <Button x:Name="btnRemoteOption" Content="参数设置" Click="BtnRemoteOption_Click"/>
+      <Button x:Name="btnHistoryData" Content="常规历史数据" Click="BtnHistoryData_Click"/>
+      <Button x:Name="btnCurrentData" Content="常规实时数据" Click="BtnCurrentData_Click"/>
+      <Button x:Name="btnRemoteLog" Content="故障记录" Click="BtnRemoteLog_Click"/>
+      <Button x:Name="btnHistoryExport" Content="导出历史数据" IsEnabled="False"/>
     </UniformGrid>
   </DockPanel>
 </Window>

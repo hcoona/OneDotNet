@@ -1,0 +1,62 @@
+<Window x:Class="GeothermalResearchInstitute.Wpf.CurrentDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf"
+        mc:Ignorable="d"
+        Title="常规实时数据"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource WindowBaseStyle}">
+    <Window.Resources>
+        <XmlDataProvider x:Key="FakeMetricData" XPath="MetricList">
+            <x:XData>
+                <MetricList xmlns="">
+                    <Metric Name="出水温度Tout" Value="0" Unit="℃"/>
+                    <Metric Name="回水温度Tin" Value="0" Unit="℃"/>
+                    <Metric Name="加热器出水温度Trin" Value="0" Unit="℃"/>
+                    <Metric Name="环境温度" Value="0" Unit="℃"/>
+                    <Metric Name="出水压力Pout" Value="0" Unit="m"/>
+                    <Metric Name="回水压力Pin" Value="0"/>
+                    <Metric Name="加热器加热功率Qe" Value="0"/>
+                    <Metric Name="流量Q" Value="0"/>
+                </MetricList>
+            </x:XData>
+        </XmlDataProvider>
+        <Style x:Key="TextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <DataTemplate x:Key="MetricTemplate">
+            <StackPanel Margin="20">
+                <TextBlock Style="{StaticResource TextStyle}" Text="{Binding XPath=@Name}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource TextStyle}" Text="{Binding XPath=@Value}"/>
+                    <TextBlock Style="{StaticResource TextStyle}" Text="{Binding XPath=@Unit}"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Image DockPanel.Dock="Left" Source="logo.png" Height="80"/>
+            <TextBlock DockPanel.Dock="Right" Margin="0,0,10,0"
+                       FontSize="18" VerticalAlignment="Center"
+                       Text="{Binding Source={StaticResource Clock}, Path=CurrentLocalDateTime}"/>
+            <TextBlock FontSize="24" TextAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Title}" />
+        </DockPanel>
+        <Border DockPanel.Dock="Top" Background="LightBlue" Height="40">
+            <Button x:Name="btnReturn"
+                        Width="100" HorizontalAlignment="Right"
+                        Content="返回" Click="BtnReturn_Click"/>
+        </Border>
+        <ItemsControl ItemsSource="{Binding Source={StaticResource FakeMetricData}, XPath=Metric}"
+                      ItemTemplate="{StaticResource MetricTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" Rows="3"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </DockPanel>
+</Window>

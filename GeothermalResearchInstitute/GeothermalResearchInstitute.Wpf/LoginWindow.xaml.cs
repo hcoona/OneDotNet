@@ -79,11 +79,11 @@ namespace GeothermalResearchInstitute.Wpf
             }
             catch (RpcException ex)
             {
-                this.ErrorMsg = "login error.Please try agarin latter.";
+                this.ErrorMsg = "登录错误，请稍后重试。";
             }
             catch (NotImplementedException ex)
             {
-                this.ErrorMsg = "login error.";
+                this.ErrorMsg = "登录错误";
             }
             catch (Exception ex)
             {

@@ -62,6 +62,7 @@ namespace GeothermalResearchInstitute.Wpf
             {
                 var peer = (Device)selectPeerWindow.lbPeer.SelectedItem;
                 var controlWindow = this.serviceProvider.GetService<ControlWindow>();
+                controlWindow.Owner = this;
                 controlWindow.Peer = peer;
                 controlWindow.ShowDialog();
             }

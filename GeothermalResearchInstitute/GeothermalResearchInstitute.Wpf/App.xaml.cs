@@ -77,8 +77,8 @@ namespace GeothermalResearchInstitute.Wpf
                         .AddTransient<LoginWindow>()
                         .AddTransient<SelectPeerWindow>()
                         .AddTransient<ControlWindow>()
-                        .AddTransient<RunningControlWindow>()
-                        .AddTransient<ParameterSettingWindow>()
+                        .AddTransient<RemoteControlWindow>()
+                        .AddTransient<RemoteOptionWindow>()
                         .AddTransient<RemoteModeWindow>();
                 })
                 .Build();

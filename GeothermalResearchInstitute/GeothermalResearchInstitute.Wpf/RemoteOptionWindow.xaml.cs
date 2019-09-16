@@ -19,12 +19,12 @@ namespace GeothermalResearchInstitute.Wpf
     /// <summary>
     /// ParameterSettingWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ParameterSettingWindow : Window
+    public partial class RemoteOptionWindow : Window
     {
         public static readonly DependencyProperty ParameterViewProperty =
      DependencyProperty.Register(nameof(ParameterView), typeof(Device), typeof(Window));
 
-        private readonly ILogger<ParameterSettingWindow> logger;
+        private readonly ILogger<RemoteOptionWindow> logger;
         private readonly DeviceServiceClient deviceServiceClient;
 
         public Device ParameterView
@@ -33,7 +33,7 @@ namespace GeothermalResearchInstitute.Wpf
             set { this.SetValue(ParameterViewProperty, value); }
         }
 
-        public ParameterSettingWindow(ILogger<ParameterSettingWindow> logger, DeviceServiceClient deviceServiceClient)
+        public RemoteOptionWindow(ILogger<RemoteOptionWindow> logger, DeviceServiceClient deviceServiceClient)
         {
             this.InitializeComponent();
             this.logger = logger;

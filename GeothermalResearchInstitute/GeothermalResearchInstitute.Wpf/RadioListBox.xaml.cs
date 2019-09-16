@@ -3,20 +3,33 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace GeothermalResearchInstitute.Wpf
 {
     /// <summary>
-    /// RadioListBox.xaml 的交互逻辑.
+    /// RadioListBox.xaml 的交互逻辑
     /// </summary>
     public partial class RadioListBox : ListBox
     {
         public RadioListBox()
         {
             this.InitializeComponent();
+
             this.SelectionMode = SelectionMode.Single;
         }
 
@@ -61,27 +74,6 @@ namespace GeothermalResearchInstitute.Wpf
             }
         }
 
-        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-        {
-            base.OnSelectionChanged(e);
-
-            this.CheckRadioButtons(e.RemovedItems, false);
-            this.CheckRadioButtons(e.AddedItems, true);
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-
-            if (this.ItemContainerGenerator.ContainerFromIndex(this.SelectedIndex) is ListBoxItem lbi)
-            {
-                if (lbi.Template.FindName("radio", lbi) is RadioButton radio)
-                {
-                    radio.IsChecked = true;
-                }
-            }
-        }
-
         private void ItemRadioClick(object sender, RoutedEventArgs e)
         {
             if (e.Source is RadioButton rb)
@@ -90,6 +82,14 @@ namespace GeothermalResearchInstitute.Wpf
                 int newIndex = this.ItemContainerGenerator.IndexFromContainer(sel);
                 this.SelectedIndex = newIndex;
             }
+        }
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            base.OnSelectionChanged(e);
+
+            this.CheckRadioButtons(e.RemovedItems, false);
+            this.CheckRadioButtons(e.AddedItems, true);
         }
 
         private void CheckRadioButtons(System.Collections.IList radioButtons, bool isChecked)
@@ -102,9 +102,20 @@ namespace GeothermalResearchInstitute.Wpf
                 {
                     RadioButton radio = lbi.Template.FindName("radio", lbi) as RadioButton;
                     if (radio != null)
-                    {
                         radio.IsChecked = isChecked;
-                    }
+                }
+            }
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            if (this.ItemContainerGenerator.ContainerFromIndex(this.SelectedIndex) is ListBoxItem lbi)
+            {
+                if (lbi.Template.FindName("radio", lbi) is RadioButton radio)
+                {
+                    radio.IsChecked = true;
                 }
             }
         }

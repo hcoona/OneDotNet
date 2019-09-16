@@ -44,23 +44,41 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnRemoteControl_Click(object sender, RoutedEventArgs e)
         {
-            RunningControlWindow runningControlWindow = this.serviceProvider.GetService<RunningControlWindow>();
-            runningControlWindow.peer = this.Peer;
-            runningControlWindow.ShowDialog();
+            RemoteControlWindow remoteControlWindow = this.serviceProvider.GetService<RemoteControlWindow>();
+            remoteControlWindow.peer = this.Peer;
+            remoteControlWindow.Owner = this;
+            remoteControlWindow.ShowDialog();
         }
 
         private void BtnRemoteMode_Click(object sender, RoutedEventArgs e)
         {
             RemoteModeWindow remoteModeWindow = this.serviceProvider.GetService<RemoteModeWindow>();
             remoteModeWindow.peer = this.Peer;
+            remoteModeWindow.Owner = this;
             remoteModeWindow.ShowDialog();
         }
 
-        private void BtnParameterSetting_Click(object sender, RoutedEventArgs e)
+        private void BtnRemoteOption_Click(object sender, RoutedEventArgs e)
         {
-            ParameterSettingWindow parameterSettingWindow = this.serviceProvider.GetService<ParameterSettingWindow>();
-            parameterSettingWindow.peer = this.Peer;
-            parameterSettingWindow.ShowDialog();
+            RemoteOptionWindow remoteOptionWindow = this.serviceProvider.GetService<RemoteOptionWindow>();
+            remoteOptionWindow.peer = this.Peer;
+            remoteOptionWindow.Owner = this;
+            remoteOptionWindow.ShowDialog();
+        }
+
+        private void BtnHistoryData_Click(object sender, RoutedEventArgs e)
+        {
+            new HistoryDataWindow { Owner = this }.ShowDialog();
+        }
+
+        private void BtnCurrentData_Click(object sender, RoutedEventArgs e)
+        {
+            new CurrentDataWindow { Owner = this }.ShowDialog();
+        }
+
+        private void BtnRemoteLog_Click(object sender, RoutedEventArgs e)
+        {
+            new RemoteLogWindow { Owner = this }.ShowDialog();
         }
     }
 }

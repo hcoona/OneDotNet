@@ -1,4 +1,4 @@
-// <copyright file="XunitLogger.cs" company="Shuai Zhang">
+// <copyright file="MsTestLogger.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -6,11 +6,11 @@
 using System;
 using System.Text;
 using Microsoft.Extensions.Logging.Abstractions.Internal;
-using Xunit.Abstractions;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 
-namespace Microsoft.Extensions.Logging.Xunit
+namespace Microsoft.Extensions.Logging.MSTest
 {
-    public class XunitLogger : ILogger
+    public class MsTestLogger : ILogger
     {
         private const string LoglevelPadding = ": ";
 
@@ -23,12 +23,8 @@ namespace Microsoft.Extensions.Logging.Xunit
         [ThreadStatic]
         private static StringBuilder logBuilder;
 
-        private readonly ITestOutputHelper testOutputHelper;
-
-        public XunitLogger(ITestOutputHelper testOutputHelper, string name)
+        public MsTestLogger(string name)
         {
-            this.testOutputHelper = testOutputHelper;
-
             this.Name = name;
         }
 
@@ -58,8 +54,8 @@ namespace Microsoft.Extensions.Logging.Xunit
 
         public virtual void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception)
         {
-            var logBuilder = XunitLogger.logBuilder;
-            XunitLogger.logBuilder = null;
+            var logBuilder = MsTestLogger.logBuilder;
+            MsTestLogger.logBuilder = null;
 
             if (logBuilder == null)
             {
@@ -104,11 +100,11 @@ namespace Microsoft.Extensions.Logging.Xunit
                 // Queue log message
                 if (hasLevel)
                 {
-                    this.testOutputHelper.WriteLine(logLevelString + logBuilder.ToString().TrimEnd());
+                    Logger.LogMessage(logLevelString + logBuilder.ToString().TrimEnd());
                 }
                 else
                 {
-                    this.testOutputHelper.WriteLine(logBuilder.ToString().TrimEnd());
+                    Logger.LogMessage(logBuilder.ToString().TrimEnd());
                 }
             }
 
@@ -118,7 +114,7 @@ namespace Microsoft.Extensions.Logging.Xunit
                 logBuilder.Capacity = 1024;
             }
 
-            XunitLogger.logBuilder = logBuilder;
+            MsTestLogger.logBuilder = logBuilder;
         }
 
         private static string GetLogLevelString(LogLevel logLevel)

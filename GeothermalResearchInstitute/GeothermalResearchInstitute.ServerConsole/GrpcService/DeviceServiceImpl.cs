@@ -21,7 +21,9 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
-    internal class DeviceServiceImpl : DeviceService.DeviceServiceBase
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design", "CA1062:验证公共方法的参数", Justification = "由Grpc框架保证.")]
+    public class DeviceServiceImpl : DeviceService.DeviceServiceBase
     {
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly BjdireContext bjdireContext;
@@ -33,9 +35,9 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             BjdireContext bjdireContext,
             IServiceProvider serviceProvider)
         {
-            this.logger = logger;
-            this.bjdireContext = bjdireContext;
-            this.serviceProvider = serviceProvider;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
+            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.metricsMap = new ConcurrentDictionary<ByteString, DeviceMetrics>();
 
             if (this.logger.IsEnabled(LogLevel.Debug))

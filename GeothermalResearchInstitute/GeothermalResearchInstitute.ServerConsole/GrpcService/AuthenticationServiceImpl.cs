@@ -17,7 +17,9 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
-    internal class AuthenticationServiceImpl
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design", "CA1062:验证公共方法的参数", Justification = "由Grpc框架保证.")]
+    public class AuthenticationServiceImpl
         : AuthenticationService.AuthenticationServiceBase
     {
         private readonly ILogger<AuthenticationServiceImpl> logger;
@@ -27,8 +29,8 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             ILogger<AuthenticationServiceImpl> logger,
             IServiceProvider serviceProvider)
         {
-            this.logger = logger;
-            this.serviceProvider = serviceProvider;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -44,7 +46,9 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             AuthenticateRequest request, ServerCallContext context)
         {
             var authenticationOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<AuthenticationOptions>>();
-            var credential = authenticationOptions.Value.Credentials.SingleOrDefault(c => c.Username == request.Username && c.Password == request.Password);
+            var credential = authenticationOptions.Value.Credentials.SingleOrDefault(
+                c => string.Equals(c.Username, request.Username, StringComparison.Ordinal) &&
+                     string.Equals(c.Password, request.Password, StringComparison.Ordinal));
             if (credential == null)
             {
                 throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid username or password."));

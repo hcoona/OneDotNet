@@ -4,6 +4,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -25,6 +26,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly BjdireContext bjdireContext;
         private readonly IServiceProvider serviceProvider;
+        private readonly ConcurrentDictionary<ByteString, DeviceMetrics> metricsMap;
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
@@ -34,6 +36,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             this.logger = logger;
             this.bjdireContext = bjdireContext;
             this.serviceProvider = serviceProvider;
+            this.metricsMap = new ConcurrentDictionary<ByteString, DeviceMetrics>();
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -197,18 +200,52 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
             }
 
-            var deviceStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
-            if (deviceStates == null)
+            var actualStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            if (actualStates == null)
             {
-                deviceStates = new DeviceActualStates();
-                this.bjdireContext.DevicesActualStates.Add(deviceStates);
+                actualStates = new DeviceActualStates();
+                this.bjdireContext.DevicesActualStates.Add(actualStates);
             }
 
             // TODO(zhangshuai.ustc): Update actual states.
+            // TODO(zhangshuai.ustc): Record metrics.
+            this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
             this.bjdireContext.SaveChanges();
 
-            // TODO(zhangshuai.ustc): Return desired states.
-            throw new NotImplementedException();
+            var desiredStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            if (actualStates == null)
+            {
+                desiredStates = new DeviceDesiredStates();
+            }
+
+            return Task.FromResult(new HeartbeatResponse
+            {
+                Device = new Device
+                {
+                    WorkingMode = desiredStates.WorkingMode,
+                    DeviceOption = new DeviceOption
+                    {
+                        SummerTemperature = desiredStates.SummerTemperature,
+                        WinterTemperature = desiredStates.WinterTemperature,
+                        WarmCapacity = desiredStates.WarmCapacity,
+                        ColdCapacity = desiredStates.ColdCapacity,
+                        FlowCapacity = desiredStates.FlowCapacity,
+                        RateCapacity = desiredStates.RateCapacity,
+                        MotorMode = desiredStates.MotorMode,
+                        WaterPumpMode = desiredStates.WaterPumpMode,
+                    },
+                    Controls = new DeviceControls
+                    {
+                        DevicePower = desiredStates.DevicePower,
+                        ExhaustPower = desiredStates.ExhaustPower,
+                        HeatPumpAuto = desiredStates.HeatPumpAuto,
+                        HeatPumpPower = desiredStates.HeatPumpPower,
+                        HeatPumpFanOn = desiredStates.HeatPumpFanOn,
+                        HeatPumpCompressorOn = desiredStates.HeatPumpCompressorOn,
+                        HeatPumpFourWayReversingValue = desiredStates.HeatPumpFourWayReversingValue,
+                    },
+                },
+            });
         }
     }
 }

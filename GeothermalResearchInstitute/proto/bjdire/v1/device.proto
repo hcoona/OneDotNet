@@ -3,6 +3,7 @@ syntax = "proto3";
 package bjdire.v1;
 
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "GeothermalResearchInstitute.v1";
 
@@ -60,22 +61,23 @@ message DeviceOption {
 }
 
 message DeviceMetrics {
+  google.protobuf.Timestamp update_timestamp = 1;
   // 出水温度
-  float water_out_temperature = 1;
+  float water_out_temperature = 2;
   // 回水温度
-  float water_in_temperature = 2;
+  float water_in_temperature = 3;
   // 加热器出水温度
-  float heater_water_out_temperature = 3;
+  float heater_water_out_temperature = 4;
   // 环境温度
-  float environment_temperature = 4;
+  float environment_temperature = 5;
   // 出水压力
-  float water_out_pressure = 5;
+  float water_out_pressure = 6;
   // 回水压力
-  float water_in_pressure = 6;
+  float water_in_pressure = 7;
   // 加热器加热功率
-  float heater_power = 7;
+  float heater_power = 8;
   // 流量
-  float flow_capacity = 8;
+  float flow_capacity = 9;
 }
 
 message DeviceControls {

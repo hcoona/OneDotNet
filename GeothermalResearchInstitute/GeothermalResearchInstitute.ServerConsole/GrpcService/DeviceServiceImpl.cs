@@ -6,6 +6,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.Model;
 using GeothermalResearchInstitute.v1;
@@ -176,6 +177,38 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             this.bjdireContext.SaveChanges();
 
             return base.UpdateDevice(request, context);
+        }
+
+        public override Task<HeartbeatResponse> Heartbeat(HeartbeatRequest request, ServerCallContext context)
+        {
+            if (request.Device.Ipv4Address.IsEmpty)
+            {
+                request.Device.Ipv4Address = ByteString.CopyFrom(IPAddress.Parse(context.Peer).MapToIPv4().GetAddressBytes());
+            }
+
+            var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+            var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Device.Id));
+            if (deviceBasicInformation == null)
+            {
+                this.logger.LogWarning(
+                    "Received heartbeat from a not configured device: mac={0}, ipv4={1}",
+                    string.Join(string.Empty, request.Device.Id.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))),
+                    new IPAddress(request.Device.Ipv4Address.ToByteArray()).ToString());
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
+            }
+
+            var deviceStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            if (deviceStates == null)
+            {
+                deviceStates = new DeviceActualStates();
+                this.bjdireContext.DevicesActualStates.Add(deviceStates);
+            }
+
+            // TODO(zhangshuai.ustc): Update actual states.
+            this.bjdireContext.SaveChanges();
+
+            // TODO(zhangshuai.ustc): Return desired states.
+            throw new NotImplementedException();
         }
     }
 }

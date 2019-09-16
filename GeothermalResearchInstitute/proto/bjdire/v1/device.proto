@@ -98,10 +98,12 @@ message DeviceControls {
 message Device {
   bytes id = 1;
   string name = 2;
-  DeviceWorkingMode working_mode = 3;
-  DeviceOption device_option = 4;
-  DeviceMetrics metrics = 5;
-  DeviceControls controls = 6;
+  bytes ipv4_address = 3;
+  reserved "ipv6_address"; reserved 4;
+  DeviceWorkingMode working_mode = 5;
+  DeviceOption device_option = 6;
+  DeviceMetrics metrics = 7;
+  DeviceControls controls = 8;
 }
 
 enum DeviceView {
@@ -127,10 +129,20 @@ message UpdateDeviceRequest {
   google.protobuf.FieldMask update_mask = 2;
 }
 
+message HeartbeatRequest {
+  Device device = 1;
+}
+
+message HeartbeatResponse {
+  Device device = 1;
+}
+
 service DeviceService {
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 
   rpc GetDevice (GetDeviceRequest) returns (Device) {}
 
   rpc UpdateDevice (UpdateDeviceRequest) returns (Device) {}
+
+  rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
 }

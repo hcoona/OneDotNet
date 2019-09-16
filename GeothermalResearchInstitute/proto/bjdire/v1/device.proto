@@ -133,10 +133,12 @@ message UpdateDeviceRequest {
 
 message HeartbeatRequest {
   Device device = 1;
+  repeated DeviceMetrics history_metrics = 2;
 }
 
 message HeartbeatResponse {
   Device device = 1;
+  google.protobuf.Timestamp history_metrics_since = 2;
 }
 
 service DeviceService {

@@ -209,6 +209,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
 
             // TODO(zhangshuai.ustc): Update actual states.
             // TODO(zhangshuai.ustc): Record metrics.
+            // TODO(zhangshuai.ustc): Deal with history metrics.
             this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
             this.bjdireContext.SaveChanges();
 
@@ -218,6 +219,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 desiredStates = new DeviceDesiredStates();
             }
 
+            // TODO(zhangshuai.ustc): Deal with history metrics.
             return Task.FromResult(new HeartbeatResponse
             {
                 Device = new Device

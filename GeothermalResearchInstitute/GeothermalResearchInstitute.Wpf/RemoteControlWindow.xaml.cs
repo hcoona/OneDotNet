@@ -3,8 +3,11 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -89,5 +92,6 @@ namespace GeothermalResearchInstitute.Wpf
             this.DialogResult = true;
         }
 
+        
     }
 }

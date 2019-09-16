@@ -55,6 +55,15 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnEnter_Click(object sender, RoutedEventArgs e)
         {
+            if (this.User.Role != "管理员" && this.User.Role != "用户")
+            {
+                MessageBox.Show(
+                                "请先登录",
+                                "警告",
+                                MessageBoxButton.OK);
+                return;
+            }
+
             var selectPeerWindow = this.serviceProvider.GetService<SelectPeerWindow>();
             selectPeerWindow.Owner = this;
 
@@ -70,7 +79,8 @@ namespace GeothermalResearchInstitute.Wpf
 
         private void BtnFeedback_Click(object sender, RoutedEventArgs e)
         {
-            new RemoteModeWindow { Owner = this }.ShowDialog();
+            //TODO:
+            return;
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)

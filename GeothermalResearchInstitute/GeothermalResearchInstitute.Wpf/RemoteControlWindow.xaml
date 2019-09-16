@@ -8,7 +8,10 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
-    <DockPanel>
+  <Window.Resources>
+    <local:KGToBooleanConverter x:Key="KGToBooleanConverter" />
+  </Window.Resources>
+  <DockPanel>
       <DockPanel DockPanel.Dock="Top">
         <Image DockPanel.Dock="Left" Source="logo.png" Height="80"/>
         <TextBlock DockPanel.Dock="Right" Margin="0,0,10,0"
@@ -154,8 +157,8 @@
           <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Content="热泵四通换向阀状态："/>
-        <TextBox Name="HeatPumpFourWayReversingValue" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFourWayReversingValue}" Grid.Column="1" />
-        <Button Content="开关" Click="HeatPumpFourWayReversingValue_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
+        <TextBox Name="HeatPumpFourWayReversingValue" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFourWayReversingValue, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
+        <Button Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFourWayReversingValue, Converter={StaticResource KGToBooleanConverter}}" Click="HeatPumpFourWayReversingValue_Click" Grid.Column="2" Margin="19,-2,141,2.24"/>
       </Grid>
     </StackPanel>
             

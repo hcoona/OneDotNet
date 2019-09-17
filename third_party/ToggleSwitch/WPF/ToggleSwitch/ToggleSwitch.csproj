@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>$(NetfxLegacyTargetFramework);$(NetcoreCurrentTargetFramework)</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyTitle>Toggle Switch Control Library</AssemblyTitle>
+    <Product>Toggle Switch Control Library</Product>
+    <Copyright>Copyright © Eric Jensen 2015</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\Borders\ClippingBorder.cs">
+      <Link>Borders\ClippingBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Borders\InnerGlowBorder.cs">
+      <Link>Borders\InnerGlowBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Borders\OuterGlowBorder.cs">
+      <Link>Borders\OuterGlowBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\HorizontalToggleSwitch.cs">
+      <Link>HorizontalToggleSwitch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\ToggleSwitchBase.cs">
+      <Link>ToggleSwitchBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Utils\ActualSizePropertyProxy.cs">
+      <Link>Utils\ActualSizePropertyProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\Utils\HelperExtensions.cs">
+      <Link>Utils\HelperExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\Common\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Large.png" Link="Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Large.png" />
+    <EmbeddedResource Include="..\..\Common\Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Small.png" Link="Icons\ToggleSwitch.HorizontalToggleSwitch.Expression.Small.png" />
+    <EmbeddedResource Include="..\..\Common\Icons\ToggleSwitch.HorizontalToggleSwitch.VisualStudio.bmp" Link="Icons\ToggleSwitch.HorizontalToggleSwitch.VisualStudio.bmp" />
+  </ItemGroup>
+</Project>

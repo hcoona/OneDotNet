@@ -124,5 +124,37 @@ core.workflow(
     ],
 )
 
+core.workflow(
+    name = "com_github_ejensen_toggle_switch_control",
+    origin = git.github_origin(
+        url = "https://github.com/ejensen/toggle-switch-control.git",
+        ref = "master",
+    ),
+    destination = DESTINATION,
+    origin_files = glob(
+        [
+            "README.md",
+            "Common/**",
+            "WPF/**",
+        ],
+        exclude = [
+            "**/*.sln",
+        ],
+    ),
+    destination_files = glob(
+        [
+            "third_party/ToggleSwitch/**",
+        ],
+        exclude = [
+        ],
+    ),
+    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
+    transformations = [
+        core.move("Common", "third_party/ToggleSwitch/Common"),
+        core.move("WPF", "third_party/ToggleSwitch/WPF"),
+        core.move("README.md", "third_party/ToggleSwitch/README.md"),
+    ],
+)
+
 # TODO(zhangshuai.ustc): Add https://github.com/fallin/Itc4net/tree/master/src/Itc4net
 # and then fix Clocks.IntervalTreeClocks

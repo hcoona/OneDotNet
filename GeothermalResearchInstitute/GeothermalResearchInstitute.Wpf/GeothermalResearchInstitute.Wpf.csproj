@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
-    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
-    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot\OxyPlot.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
+    <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
+    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot\OxyPlot.csproj" />
+    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
+    <ProjectReference Include="..\..\third_party\ToggleSwitch\WPF\ToggleSwitch\ToggleSwitch.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +24,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
-    <PackageReference Include="ToggleSwitch" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>

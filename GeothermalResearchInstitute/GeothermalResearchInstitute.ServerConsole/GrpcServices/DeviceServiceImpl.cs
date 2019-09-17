@@ -206,7 +206,11 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 .AssignControlsFrom(actualStates);
 
             // TODO(zhangshuai.ustc): Record metrics.
-            // TODO(zhangshuai.ustc): Deal with history metrics.
+            if (request.HistoryMetrics.Any())
+            {
+                // TODO(zhangshuai.ustc): Deal with history metrics.
+            }
+
             this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
             this.bjdireContext.SaveChanges();
 

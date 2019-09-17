@@ -51,6 +51,9 @@ namespace GeothermalResearchInstitute.Wpf
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             this.User.Reset();
+            this.btnLogin.IsEnabled = true;
+            this.btnLogout.IsEnabled = false;
+            this.btnEnter.IsEnabled = false;
         }
 
         private void BtnEnter_Click(object sender, RoutedEventArgs e)
@@ -88,6 +91,13 @@ namespace GeothermalResearchInstitute.Wpf
             LoginWindow loginWindow = this.serviceProvider.GetService<LoginWindow>();
             loginWindow.Owner = this;
             loginWindow.ShowDialog();
+
+            if (this.User.Role == "用户" || this.User.Role == "管理员")
+            {
+                this.btnLogin.IsEnabled = false;
+                this.btnLogout.IsEnabled = true;
+                this.btnEnter.IsEnabled = true;
+            }
 
             // if (loginWindow.ShowDialog() == true)
             // {

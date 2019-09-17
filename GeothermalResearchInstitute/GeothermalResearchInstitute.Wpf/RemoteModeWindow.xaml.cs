@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +16,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using GeothermalResearchInstitute.v1;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using static GeothermalResearchInstitute.v1.DeviceService;
@@ -57,8 +61,37 @@ namespace GeothermalResearchInstitute.Wpf
 
         public Device peer { get; internal set; }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_LoadedAsync(object sender, RoutedEventArgs e)
         {
+            await this.load();
+
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += this.OnTimerEvent;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
+            dispatcherTimer.Start();
+        }
+
+        private async Task load()
+        {
+            try
+            {
+                var device = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
+                this.LocalSelectedMode = this.TransformMode(device.WorkingMode);
+                this.RemoteSelectedMode = this.TransformMode(device.WorkingMode);
+            }
+            catch (RpcException ex)
+            {
+                this.logger.LogError("[ParameterSettingWindow] Window_Loaded error={}", ex);
+            }
+            catch (NotImplementedException ex)
+            {
+                // TODO:
+            }
+        }
+
+        private async void OnTimerEvent(object sender, EventArgs e)
+        {
+            this.logger.LogInformation("[RemoteModeWindow] Load_Data was raised");
             var deviceRequest = new GetDeviceRequest()
             {
                 Id = this.peer.Id,
@@ -79,7 +112,7 @@ namespace GeothermalResearchInstitute.Wpf
             {
                 // TODO:
             }
-        } 
+        }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -88,8 +121,17 @@ namespace GeothermalResearchInstitute.Wpf
 
         private async void BtnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(600);
-            this.RemoteSelectedMode = this.LocalSelectedMode;
+            var updateDeviceRequest = new UpdateDeviceRequest()
+            {
+                Device = new Device()
+                {
+                    Id = this.peer.Id,
+                    WorkingMode = this.TransformBackMode(this.LocalSelectedMode),
+                },
+                UpdateMask = FieldMask.FromString("working_mode"),
+            };
+
+            var device = await this.deviceServiceClient.UpdateDeviceAsync(updateDeviceRequest);
         }
 
         private void BtnReturn_Click(object sender, RoutedEventArgs e)
@@ -111,6 +153,25 @@ namespace GeothermalResearchInstitute.Wpf
                     return 3;
                 case DeviceWorkingMode.WinterCondition:
                     return 4;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private DeviceWorkingMode TransformBackMode(int mode)
+        {
+            switch (mode)
+            {
+                case 0:
+                    return DeviceWorkingMode.MeasureTemperature;
+                case 1:
+                    return DeviceWorkingMode.KeepWarmCapacity;
+                case 2:
+                    return DeviceWorkingMode.KeepColdCapacity;
+                case 3:
+                    return DeviceWorkingMode.SummerCondition;
+                case 4:
+                    return DeviceWorkingMode.WinterCondition;
                 default:
                     throw new NotImplementedException();
             }

@@ -9,7 +9,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using GeothermalResearchInstitute.v1;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using static GeothermalResearchInstitute.v1.DeviceService;
@@ -27,6 +29,8 @@ namespace GeothermalResearchInstitute.Wpf
         private readonly ILogger<RemoteOptionWindow> logger;
         private readonly DeviceServiceClient deviceServiceClient;
 
+        public Device peer { get; internal set; }
+
         public Device ParameterView
         {
             get { return (Device)this.GetValue(ParameterViewProperty); }
@@ -40,10 +44,19 @@ namespace GeothermalResearchInstitute.Wpf
             this.deviceServiceClient = deviceServiceClient;
         }
 
-        public Device peer { get; internal set; }
-
-        public async void Window_Loaded(object sender, RoutedEventArgs e)
+        public void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += this.OnTimerEvent;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
+            dispatcherTimer.Start();
+
+        }
+
+        private async void OnTimerEvent(object sender, EventArgs e)
+        {
+            this.logger.LogInformation("[RemoteControlWindow] Load_Data was raised");
+
             var deviceRequest = new GetDeviceRequest()
             {
                 Id = this.peer.Id,
@@ -52,25 +65,35 @@ namespace GeothermalResearchInstitute.Wpf
 
             try
             {
-                ParameterView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
+                this.ParameterView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
 
             }
             catch (RpcException ex)
             {
-                this.logger.LogError("[ParameterSettingWindow] Window_Loaded error={}", ex);
+                this.logger.LogError("[RemoteOptionWindow] Window_Loaded error={}", ex);
 
             }
+
         }
 
-        private void BtnConfirm_Click(object sender, RoutedEventArgs e)
+        private async void BtnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // TODO:
+            var updateDeviceRequest = new UpdateDeviceRequest()
+            {
+                Device = new Device()
+                {
+                    Id = this.peer.Id,
+                    DeviceOption = this.ParameterView.DeviceOption,
+                },
+                UpdateMask = FieldMask.FromString("device_option"),
+            };
+
+            var device = await this.deviceServiceClient.UpdateDeviceAsync(updateDeviceRequest);
 
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            // TODO:
             this.DialogResult = true;
         }
 

@@ -25,10 +25,10 @@
           <Setter Property="Padding" Value="15,5"/>
         </Style>
       </UniformGrid.Resources>
-      <Button x:Name="btnLogin" Content="用户登录" Click="BtnLogin_Click"/>
-      <Button x:Name="btnLogout" Content="用户注销" Click="BtnLogout_Click"/>
-      <Button x:Name="btnEnter" Content="进入系统" Click="BtnEnter_Click"/>
-      <Button x:Name="btnFeedback" Content="联系我们" Click="BtnFeedback_Click"/>
+      <Button x:Name="btnLogin" Content="用户登录" Click="BtnLogin_Click" IsEnabled="True"/>
+      <Button x:Name="btnLogout" Content="用户注销" Click="BtnLogout_Click" IsEnabled="False"/>
+      <Button x:Name="btnEnter" Content="进入系统" Click="BtnEnter_Click" IsEnabled="False"/>
+      <Button x:Name="btnFeedback" Content="联系我们" Click="BtnFeedback_Click" IsEnabled="False"/>
     </UniformGrid>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
       <TextBlock FontSize="24" TextAlignment="Center" TextWrapping="Wrap"

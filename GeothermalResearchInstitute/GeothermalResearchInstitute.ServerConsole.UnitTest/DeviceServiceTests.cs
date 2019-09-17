@@ -308,5 +308,68 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                 },
                 bjdireContext.DevicesDesiredStates.SingleOrDefault());
         }
+
+        [TestMethod]
+        public async Task UpdateDeviceWorkingModeExisting()
+        {
+            var bjdireContext = this.Host.Services.GetRequiredService<BjdireContext>();
+            var desiredStates = new DeviceDesiredStates
+            {
+                Id = new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 },
+                WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
+                ColdCapacity = 5,
+            };
+            bjdireContext.DevicesDesiredStates.Add(desiredStates);
+            bjdireContext.SaveChanges();
+
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.UpdateDevice),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var response = await service
+                .UpdateDevice(
+                    new UpdateDeviceRequest
+                    {
+                        Device = new Device
+                        {
+                            Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                            WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                            DeviceOption = new DeviceOption
+                            {
+                                ColdCapacity = 20,
+                            },
+                        },
+                        UpdateMask = Google.Protobuf.WellKnownTypes.FieldMask.FromString("working_mode"),
+                    },
+                    fakeServerCallContext)
+                .ConfigureAwait(false);
+
+            Assert.AreEqual(
+                new Device
+                {
+                    Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                    WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                },
+                response);
+
+            Assert.AreEqual(
+                new DeviceDesiredStates
+                {
+                    Id = new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 },
+                    WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                    ColdCapacity = 5,
+                },
+                bjdireContext.DevicesDesiredStates.SingleOrDefault());
+        }
     }
 }

@@ -17,6 +17,7 @@ using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using static Google.Protobuf.WellKnownTypes.FieldMask;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 {
@@ -72,7 +73,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Id));
             if (deviceBasicInformation == null)
             {
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
+                throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
             var deviceAdditionalInformation = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Id));
@@ -123,7 +124,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Device.Id));
             if (deviceBasicInformation == null)
             {
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
+                throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
             var deviceStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
@@ -161,7 +162,13 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
             this.bjdireContext.SaveChanges();
 
-            return base.UpdateDevice(request, context);
+            var device = new Device
+            {
+                Id = request.Device.Id,
+            };
+            request.UpdateMask.Merge(request.Device, device, new MergeOptions());
+
+            return Task.FromResult(device);
         }
 
         public override Task<HeartbeatResponse> Heartbeat(HeartbeatRequest request, ServerCallContext context)
@@ -179,7 +186,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                     "Received heartbeat from a not configured device: mac={0}, ipv4={1}",
                     string.Join(string.Empty, request.Device.Id.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))),
                     new IPAddress(request.Device.Ipv4Address.ToByteArray()).ToString());
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid Id"));
+                throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
             var actualStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
@@ -121,7 +122,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
         {
             var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
             var fakeServerCallContext = TestServerCallContext.Create(
-                nameof(service.ListDevices),
+                nameof(service.GetDevice),
                 null,
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
@@ -142,7 +143,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                     },
                     fakeServerCallContext))
                 .ConfigureAwait(false);
-            Assert.AreEqual(StatusCode.InvalidArgument, rpcException.StatusCode);
+            Assert.AreEqual(StatusCode.NotFound, rpcException.StatusCode);
         }
 
         [TestMethod]
@@ -150,7 +151,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
         {
             var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
             var fakeServerCallContext = TestServerCallContext.Create(
-                nameof(service.ListDevices),
+                nameof(service.GetDevice),
                 null,
                 DateTime.UtcNow.AddHours(1),
                 new Metadata(),
@@ -178,6 +179,134 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                     Name = "测试设备0",
                 },
                 response);
+        }
+
+        [TestMethod]
+        public async Task GetDeviceWorkingModeOnlyNonExisting()
+        {
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.GetDevice),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var response = await service
+                .GetDevice(
+                    new GetDeviceRequest
+                    {
+                        Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                        View = DeviceView.WorkingModeOnly,
+                    },
+                    fakeServerCallContext)
+                .ConfigureAwait(false);
+            Assert.AreEqual(
+                new Device
+                {
+                    Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                    WorkingMode = DeviceWorkingMode.Unspecified,
+                },
+                response);
+        }
+
+        [TestMethod]
+        public async Task GetDeviceWorkingModeOnlyExisting()
+        {
+            var bjdireContext = this.Host.Services.GetRequiredService<BjdireContext>();
+            var actualStates = new DeviceActualStates
+            {
+                Id = new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 },
+                WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
+            };
+            bjdireContext.DevicesActualStates.Add(actualStates);
+            bjdireContext.SaveChanges();
+
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.GetDevice),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var response = await service
+                .GetDevice(
+                    new GetDeviceRequest
+                    {
+                        Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                        View = DeviceView.WorkingModeOnly,
+                    },
+                    fakeServerCallContext)
+                .ConfigureAwait(false);
+            Assert.AreEqual(
+                new Device
+                {
+                    Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                    WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
+                },
+                response);
+        }
+
+        [TestMethod]
+        public async Task UpdateDeviceWorkingModeNonExisting()
+        {
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.UpdateDevice),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var response = await service
+                .UpdateDevice(
+                    new UpdateDeviceRequest
+                    {
+                        Device = new Device
+                        {
+                            Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                            WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                        },
+                        UpdateMask = Google.Protobuf.WellKnownTypes.FieldMask.FromString("working_mode"),
+                    },
+                    fakeServerCallContext)
+                .ConfigureAwait(false);
+
+            Assert.AreEqual(
+                new Device
+                {
+                    Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                    WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                },
+                response);
+
+            var bjdireContext = this.Host.Services.GetRequiredService<BjdireContext>();
+            Assert.AreEqual(
+                new DeviceDesiredStates
+                {
+                    Id = new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 },
+                    WorkingMode = DeviceWorkingMode.MeasureTemperature,
+                },
+                bjdireContext.DevicesDesiredStates.SingleOrDefault());
         }
     }
 }

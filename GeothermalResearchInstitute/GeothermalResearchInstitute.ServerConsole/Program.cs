@@ -4,8 +4,8 @@
 // </copyright>
 
 using System;
-using GeothermalResearchInstitute.ServerConsole.GrpcService;
-using GeothermalResearchInstitute.ServerConsole.Model;
+using GeothermalResearchInstitute.ServerConsole.GrpcServices;
+using GeothermalResearchInstitute.ServerConsole.Models;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;

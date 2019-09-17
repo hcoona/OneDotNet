@@ -5,7 +5,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace GeothermalResearchInstitute.ServerConsole.Model
+namespace GeothermalResearchInstitute.ServerConsole.Models
 {
     public class BjdireContext : DbContext
     {

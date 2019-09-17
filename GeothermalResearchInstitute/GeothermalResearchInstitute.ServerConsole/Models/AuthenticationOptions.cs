@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace GeothermalResearchInstitute.ServerConsole.Model
+namespace GeothermalResearchInstitute.ServerConsole.Models
 {
     public class AuthenticationOptions
     {

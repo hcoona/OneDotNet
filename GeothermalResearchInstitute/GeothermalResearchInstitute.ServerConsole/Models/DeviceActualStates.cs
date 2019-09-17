@@ -3,7 +3,7 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace GeothermalResearchInstitute.ServerConsole.Model
+namespace GeothermalResearchInstitute.ServerConsole.Models
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]

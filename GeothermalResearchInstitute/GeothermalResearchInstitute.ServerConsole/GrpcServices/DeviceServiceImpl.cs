@@ -9,7 +9,8 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using GeothermalResearchInstitute.ServerConsole.Model;
+using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.ServerConsole.Utils;
 using GeothermalResearchInstitute.v1;
 using Google.Protobuf;
 using Grpc.Core;
@@ -17,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace GeothermalResearchInstitute.ServerConsole.GrpcService
+namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
@@ -84,26 +85,15 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
             switch (request.View)
             {
                 case DeviceView.NameOnly:
-                    device.Name = deviceBasicInformation.Name;
+                    device.AssignNameFrom(deviceBasicInformation);
                     break;
                 case DeviceView.WorkingModeOnly:
-                    device.WorkingMode = deviceAdditionalInformation.WorkingMode;
+                    device.AssignWorkingModeFrom(deviceAdditionalInformation);
                     break;
                 case DeviceView.DeviceOptionOnly:
-                    device.DeviceOption = new DeviceOption
-                    {
-                        SummerTemperature = deviceAdditionalInformation.SummerTemperature,
-                        WinterTemperature = deviceAdditionalInformation.WinterTemperature,
-                        WarmCapacity = deviceAdditionalInformation.WarmCapacity,
-                        ColdCapacity = deviceAdditionalInformation.ColdCapacity,
-                        FlowCapacity = deviceAdditionalInformation.FlowCapacity,
-                        RateCapacity = deviceAdditionalInformation.RateCapacity,
-                        MotorMode = deviceAdditionalInformation.MotorMode,
-                        WaterPumpMode = deviceAdditionalInformation.WaterPumpMode,
-                    };
+                    device.AssignOptionFrom(deviceAdditionalInformation);
                     break;
                 case DeviceView.MetricsAndControl:
-                    // TODO(zhangshuai.ustc): Loading it.
                     if (this.metricsMap.TryGetValue(request.Id, out var metrics))
                     {
                         device.Metrics = new DeviceMetrics(metrics);
@@ -113,16 +103,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                         device.Metrics = new DeviceMetrics();
                     }
 
-                    device.Controls = new DeviceControls
-                    {
-                        DevicePower = deviceAdditionalInformation.DevicePower,
-                        ExhaustPower = deviceAdditionalInformation.ExhaustPower,
-                        HeatPumpAuto = deviceAdditionalInformation.HeatPumpAuto,
-                        HeatPumpPower = deviceAdditionalInformation.HeatPumpPower,
-                        HeatPumpFanOn = deviceAdditionalInformation.HeatPumpFanOn,
-                        HeatPumpCompressorOn = deviceAdditionalInformation.HeatPumpCompressorOn,
-                        HeatPumpFourWayReversingValue = deviceAdditionalInformation.HeatPumpFourWayReversingValue,
-                    };
+                    device.AssignControlsFrom(deviceAdditionalInformation);
                     break;
                 default:
                     throw new RpcException(new Status(
@@ -159,26 +140,13 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 switch (path)
                 {
                     case "working_mode":
-                        deviceStates.WorkingMode = request.Device.WorkingMode;
+                        request.Device.AssignWorkingModeTo(deviceStates);
                         break;
                     case "device_option":
-                        deviceStates.SummerTemperature = request.Device.DeviceOption.SummerTemperature;
-                        deviceStates.WinterTemperature = request.Device.DeviceOption.WinterTemperature;
-                        deviceStates.WarmCapacity = request.Device.DeviceOption.WarmCapacity;
-                        deviceStates.ColdCapacity = request.Device.DeviceOption.ColdCapacity;
-                        deviceStates.FlowCapacity = request.Device.DeviceOption.FlowCapacity;
-                        deviceStates.RateCapacity = request.Device.DeviceOption.RateCapacity;
-                        deviceStates.MotorMode = request.Device.DeviceOption.MotorMode;
-                        deviceStates.WaterPumpMode = request.Device.DeviceOption.WaterPumpMode;
+                        request.Device.AssignOptionTo(deviceStates);
                         break;
                     case "controls":
-                        deviceStates.DevicePower = request.Device.Controls.DevicePower;
-                        deviceStates.ExhaustPower = request.Device.Controls.ExhaustPower;
-                        deviceStates.HeatPumpAuto = request.Device.Controls.HeatPumpAuto;
-                        deviceStates.HeatPumpPower = request.Device.Controls.HeatPumpPower;
-                        deviceStates.HeatPumpFanOn = request.Device.Controls.HeatPumpFanOn;
-                        deviceStates.HeatPumpCompressorOn = request.Device.Controls.HeatPumpCompressorOn;
-                        deviceStates.HeatPumpFourWayReversingValue = request.Device.Controls.HeatPumpFourWayReversingValue;
+                        request.Device.AssignControlsTo(deviceStates);
                         break;
                     default:
                         throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid update_mask."));
@@ -215,7 +183,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 this.bjdireContext.DevicesActualStates.Add(actualStates);
             }
 
-            // TODO(zhangshuai.ustc): Update actual states.
+            // TODO(zhangshuai.ustc): Update actual states, including ipv4 address.
             // TODO(zhangshuai.ustc): Record metrics.
             // TODO(zhangshuai.ustc): Deal with history metrics.
             this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
@@ -227,34 +195,18 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcService
                 desiredStates = new DeviceDesiredStates();
             }
 
+            var device = new Device
+            {
+                Id = request.Device.Id,
+            };
+            device.AssignWorkingModeFrom(desiredStates);
+            device.AssignOptionFrom(desiredStates);
+            device.AssignControlsFrom(desiredStates);
+
             // TODO(zhangshuai.ustc): Deal with history metrics.
             return Task.FromResult(new HeartbeatResponse
             {
-                Device = new Device
-                {
-                    WorkingMode = desiredStates.WorkingMode,
-                    DeviceOption = new DeviceOption
-                    {
-                        SummerTemperature = desiredStates.SummerTemperature,
-                        WinterTemperature = desiredStates.WinterTemperature,
-                        WarmCapacity = desiredStates.WarmCapacity,
-                        ColdCapacity = desiredStates.ColdCapacity,
-                        FlowCapacity = desiredStates.FlowCapacity,
-                        RateCapacity = desiredStates.RateCapacity,
-                        MotorMode = desiredStates.MotorMode,
-                        WaterPumpMode = desiredStates.WaterPumpMode,
-                    },
-                    Controls = new DeviceControls
-                    {
-                        DevicePower = desiredStates.DevicePower,
-                        ExhaustPower = desiredStates.ExhaustPower,
-                        HeatPumpAuto = desiredStates.HeatPumpAuto,
-                        HeatPumpPower = desiredStates.HeatPumpPower,
-                        HeatPumpFanOn = desiredStates.HeatPumpFanOn,
-                        HeatPumpCompressorOn = desiredStates.HeatPumpCompressorOn,
-                        HeatPumpFourWayReversingValue = desiredStates.HeatPumpFourWayReversingValue,
-                    },
-                },
+                Device = device,
             });
         }
     }

@@ -6,7 +6,7 @@
 using System.ComponentModel.DataAnnotations;
 using GeothermalResearchInstitute.v1;
 
-namespace GeothermalResearchInstitute.ServerConsole.Model
+namespace GeothermalResearchInstitute.ServerConsole.Models
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]

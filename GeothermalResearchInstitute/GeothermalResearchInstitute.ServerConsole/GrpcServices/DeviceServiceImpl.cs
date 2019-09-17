@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using static Google.Protobuf.WellKnownTypes.FieldMask;
+using GrpcDeviceMetrics = GeothermalResearchInstitute.v1.DeviceMetrics;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 {
@@ -30,7 +31,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly BjdireContext bjdireContext;
         private readonly IServiceProvider serviceProvider;
-        private readonly ConcurrentDictionary<ByteString, DeviceMetrics> metricsMap;
+        private readonly ConcurrentDictionary<ByteString, GrpcDeviceMetrics> metricsMap;
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
@@ -40,7 +41,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            this.metricsMap = new ConcurrentDictionary<ByteString, DeviceMetrics>();
+            this.metricsMap = new ConcurrentDictionary<ByteString, GrpcDeviceMetrics>();
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -100,11 +101,11 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 case DeviceView.MetricsAndControl:
                     if (this.metricsMap.TryGetValue(request.Id, out var metrics))
                     {
-                        device.Metrics = new DeviceMetrics(metrics);
+                        device.Metrics = new GrpcDeviceMetrics(metrics);
                     }
                     else
                     {
-                        device.Metrics = new DeviceMetrics();
+                        device.Metrics = new GrpcDeviceMetrics();
                     }
 
                     device.AssignControlsFrom(deviceAdditionalInformation);
@@ -230,7 +231,6 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 .AssignOptionFrom(desiredStates)
                 .AssignControlsFrom(desiredStates);
 
-            // TODO(zhangshuai.ustc): Deal with history metrics.
             return Task.FromResult(new HeartbeatResponse
             {
                 Device = device,

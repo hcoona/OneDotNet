@@ -138,7 +138,6 @@ message HeartbeatRequest {
 
 message HeartbeatResponse {
   Device device = 1;
-  google.protobuf.Timestamp history_metrics_since = 2;
 }
 
 service DeviceService {

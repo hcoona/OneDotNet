@@ -81,7 +81,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 deviceAdditionalInformation = new DeviceActualStates();
             }
 
-            var device = new Device();
+            var device = new Device
+            {
+                Id = request.Id,
+            };
             switch (request.View)
             {
                 case DeviceView.NameOnly:

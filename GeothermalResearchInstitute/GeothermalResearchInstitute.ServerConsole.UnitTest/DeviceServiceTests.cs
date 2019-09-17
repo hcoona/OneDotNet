@@ -82,7 +82,7 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
         }
 
         [TestMethod]
-        public async Task ListDevicesTest()
+        public async Task ListDevices()
         {
             var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
             var fakeServerCallContext = TestServerCallContext.Create(
@@ -114,6 +114,70 @@ namespace GeothermalResearchInstitute.ServerConsole.UnitTest
                     },
                 },
                 response.Devices);
+        }
+
+        [TestMethod]
+        public async Task GetDeviceInvalidId()
+        {
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.ListDevices),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var rpcException = await Assert
+                .ThrowsExceptionAsync<RpcException>(() => service.GetDevice(
+                    new GetDeviceRequest
+                    {
+                        Id = ByteString.CopyFromUtf8("NOT_EXIST"),
+                        View = DeviceView.NameOnly,
+                    },
+                    fakeServerCallContext))
+                .ConfigureAwait(false);
+            Assert.AreEqual(StatusCode.InvalidArgument, rpcException.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task GetDeviceNameOnly()
+        {
+            var service = this.Host.Services.GetRequiredService<DeviceServiceImpl>();
+            var fakeServerCallContext = TestServerCallContext.Create(
+                nameof(service.ListDevices),
+                null,
+                DateTime.UtcNow.AddHours(1),
+                new Metadata(),
+                CancellationToken.None,
+                null,
+                null,
+                null,
+                (metadata) => Task.CompletedTask,
+                () => new WriteOptions(),
+                (writeOptions) => { });
+
+            var response = await service
+                .GetDevice(
+                    new GetDeviceRequest
+                    {
+                        Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                        View = DeviceView.NameOnly,
+                    },
+                    fakeServerCallContext)
+                .ConfigureAwait(false);
+            Assert.AreEqual(
+                new Device
+                {
+                    Id = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 }),
+                    Name = "测试设备0",
+                },
+                response);
         }
     }
 }

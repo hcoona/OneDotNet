@@ -126,7 +126,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             var deviceStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
             if (deviceStates == null)
             {
-                deviceStates = new DeviceDesiredStates();
+                deviceStates = new DeviceDesiredStates
+                {
+                    Id = request.Device.Id.ToByteArray(),
+                };
                 this.bjdireContext.DevicesDesiredStates.Add(deviceStates);
             }
 
@@ -179,11 +182,19 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             var actualStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
             if (actualStates == null)
             {
-                actualStates = new DeviceActualStates();
+                actualStates = new DeviceActualStates
+                {
+                    Id = request.Device.Id.ToByteArray(),
+                };
                 this.bjdireContext.DevicesActualStates.Add(actualStates);
             }
 
-            // TODO(zhangshuai.ustc): Update actual states, including ipv4 address.
+            actualStates.IPAddress = request.Device.Ipv4Address.ToByteArray();
+            request.Device
+                .AssignWorkingModeTo(actualStates)
+                .AssignOptionFrom(actualStates)
+                .AssignControlsFrom(actualStates);
+
             // TODO(zhangshuai.ustc): Record metrics.
             // TODO(zhangshuai.ustc): Deal with history metrics.
             this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
@@ -199,9 +210,11 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             {
                 Id = request.Device.Id,
             };
-            device.AssignWorkingModeFrom(desiredStates);
-            device.AssignOptionFrom(desiredStates);
-            device.AssignControlsFrom(desiredStates);
+
+            device
+                .AssignWorkingModeFrom(desiredStates)
+                .AssignOptionFrom(desiredStates)
+                .AssignControlsFrom(desiredStates);
 
             // TODO(zhangshuai.ustc): Deal with history metrics.
             return Task.FromResult(new HeartbeatResponse

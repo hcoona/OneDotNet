@@ -189,7 +189,7 @@
                     <Label Grid.Column="0" Content="热泵风扇按键状态：" Margin="0,0,59,2.64" Grid.ColumnSpan="2"/>
           <Label Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFanOn, Converter={StaticResource KGToBooleanConverter}}" Margin="0,0,0,2.64" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-             Name="HeatPumpFanOn" 
+             Name="HeatPumpFanOn"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpFanOn, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"

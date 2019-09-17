@@ -9,8 +9,8 @@
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
   <Window.Resources>
-    <CollectionViewSource 
-            x:Key="Peers"  
+    <CollectionViewSource
+            x:Key="Peers"
             Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=PeerNodes}" />
   </Window.Resources>
   <DockPanel>

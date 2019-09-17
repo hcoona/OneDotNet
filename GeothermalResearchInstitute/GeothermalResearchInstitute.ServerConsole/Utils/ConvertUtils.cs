@@ -5,30 +5,33 @@
 
 using GeothermalResearchInstitute.ServerConsole.Models;
 using GeothermalResearchInstitute.v1;
+using GrpcDevice = GeothermalResearchInstitute.v1.Device;
+using GrpcDeviceMetrics = GeothermalResearchInstitute.v1.DeviceMetrics;
+using ModelDeviceMetrics = GeothermalResearchInstitute.ServerConsole.Models.DeviceMetrics;
 
 namespace GeothermalResearchInstitute.ServerConsole.Utils
 {
     internal static class ConvertUtils
     {
-        public static Device AssignNameFrom(this Device device, DeviceOptionsEntry entry)
+        public static GrpcDevice AssignNameFrom(this GrpcDevice device, DeviceOptionsEntry entry)
         {
             device.Name = entry.Name;
             return device;
         }
 
-        public static Device AssignWorkingModeFrom(this Device device, DeviceStates states)
+        public static GrpcDevice AssignWorkingModeFrom(this GrpcDevice device, DeviceStates states)
         {
             device.WorkingMode = states.WorkingMode;
             return device;
         }
 
-        public static Device AssignWorkingModeTo(this Device device, DeviceStates states)
+        public static GrpcDevice AssignWorkingModeTo(this GrpcDevice device, DeviceStates states)
         {
             states.WorkingMode = device.WorkingMode;
             return device;
         }
 
-        public static Device AssignOptionFrom(this Device device, DeviceStates states)
+        public static GrpcDevice AssignOptionFrom(this GrpcDevice device, DeviceStates states)
         {
             device.DeviceOption = new DeviceOption
             {
@@ -44,7 +47,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             return device;
         }
 
-        public static Device AssignOptionTo(this Device device, DeviceStates states)
+        public static GrpcDevice AssignOptionTo(this GrpcDevice device, DeviceStates states)
         {
             states.SummerTemperature = device.DeviceOption.SummerTemperature;
             states.WinterTemperature = device.DeviceOption.WinterTemperature;
@@ -57,7 +60,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             return device;
         }
 
-        public static Device AssignControlsFrom(this Device device, DeviceStates states)
+        public static GrpcDevice AssignControlsFrom(this GrpcDevice device, DeviceStates states)
         {
             device.Controls = new DeviceControls
             {
@@ -72,7 +75,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             return device;
         }
 
-        public static Device AssignControlsTo(this Device device, DeviceStates states)
+        public static GrpcDevice AssignControlsTo(this GrpcDevice device, DeviceStates states)
         {
             states.DevicePower = device.Controls.DevicePower;
             states.ExhaustPower = device.Controls.ExhaustPower;
@@ -82,6 +85,34 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             states.HeatPumpCompressorOn = device.Controls.HeatPumpCompressorOn;
             states.HeatPumpFourWayReversingValue = device.Controls.HeatPumpFourWayReversingValue;
             return device;
+        }
+
+        public static GrpcDeviceMetrics AssignTo(this GrpcDeviceMetrics grpcDeviceMetrics, ModelDeviceMetrics metrics)
+        {
+            metrics.Timestamp = grpcDeviceMetrics.UpdateTimestamp.ToDateTimeOffset();
+            metrics.WaterOutTemperature = grpcDeviceMetrics.WaterOutTemperature;
+            metrics.WaterInTemperature = grpcDeviceMetrics.WaterInTemperature;
+            metrics.HeaterWaterOutTemperature = grpcDeviceMetrics.HeaterWaterOutTemperature;
+            metrics.EnvironmentTemperature = grpcDeviceMetrics.EnvironmentTemperature;
+            metrics.WaterOutPressure = grpcDeviceMetrics.WaterOutPressure;
+            metrics.WaterInPressure = grpcDeviceMetrics.WaterInPressure;
+            metrics.HeaterPower = grpcDeviceMetrics.HeaterPower;
+            metrics.FlowCapacity = grpcDeviceMetrics.FlowCapacity;
+            return grpcDeviceMetrics;
+        }
+
+        public static GrpcDeviceMetrics AssignFrom(this GrpcDeviceMetrics grpcDeviceMetrics, ModelDeviceMetrics metrics)
+        {
+            grpcDeviceMetrics.UpdateTimestamp.Seconds = metrics.Timestamp.ToUniversalTime().ToUnixTimeSeconds();
+            grpcDeviceMetrics.WaterOutTemperature = metrics.WaterOutTemperature;
+            grpcDeviceMetrics.WaterInTemperature = metrics.WaterInTemperature;
+            grpcDeviceMetrics.HeaterWaterOutTemperature = metrics.HeaterWaterOutTemperature;
+            grpcDeviceMetrics.EnvironmentTemperature = metrics.EnvironmentTemperature;
+            grpcDeviceMetrics.WaterOutPressure = metrics.WaterOutPressure;
+            grpcDeviceMetrics.WaterInPressure = metrics.WaterInPressure;
+            grpcDeviceMetrics.HeaterPower = metrics.HeaterPower;
+            grpcDeviceMetrics.FlowCapacity = metrics.FlowCapacity;
+            return grpcDeviceMetrics;
         }
     }
 }

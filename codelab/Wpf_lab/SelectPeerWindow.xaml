@@ -9,8 +9,8 @@
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}">
     <Window.Resources>
-        <CollectionViewSource 
-            x:Key="Peers"  
+        <CollectionViewSource
+            x:Key="Peers"
             Source="{Binding Source={x:Static Application.Current}, Path=PeerNodes}" />
     </Window.Resources>
     <DockPanel>

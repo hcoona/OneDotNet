@@ -48,6 +48,6 @@
         <PasswordBox Name="userPsd" Grid.Column="1" />
       </Grid>
     </StackPanel>
-    
+   
   </DockPanel>
 </Window>

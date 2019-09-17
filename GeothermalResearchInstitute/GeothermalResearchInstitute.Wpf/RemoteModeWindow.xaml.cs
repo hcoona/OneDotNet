@@ -61,7 +61,7 @@ namespace GeothermalResearchInstitute.Wpf
 
         public Device peer { get; internal set; }
 
-        private async void Window_LoadedAsync(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             await this.load();
 
@@ -75,6 +75,11 @@ namespace GeothermalResearchInstitute.Wpf
         {
             try
             {
+                var deviceRequest = new GetDeviceRequest()
+                {
+                    Id = this.peer.Id,
+                    View = v1.DeviceView.MetricsAndControl,
+                };
                 var device = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
                 this.LocalSelectedMode = this.TransformMode(device.WorkingMode);
                 this.RemoteSelectedMode = this.TransformMode(device.WorkingMode);
@@ -101,7 +106,6 @@ namespace GeothermalResearchInstitute.Wpf
             try
             {
                 var device = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
-                this.LocalSelectedMode = this.TransformMode(device.WorkingMode);
                 this.RemoteSelectedMode = this.TransformMode(device.WorkingMode);
             }
             catch (RpcException ex)

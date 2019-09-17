@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using static Google.Protobuf.WellKnownTypes.FieldMask;
+using GrpcDevice = GeothermalResearchInstitute.v1.Device;
 using GrpcDeviceMetrics = GeothermalResearchInstitute.v1.DeviceMetrics;
 using ModelDeviceMetrics = GeothermalResearchInstitute.ServerConsole.Models.DeviceMetrics;
 
@@ -61,7 +62,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var response = new ListDevicesResponse();
-            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new Device
+            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new GrpcDevice
             {
                 Id = ByteString.CopyFrom(d.ComputeIdBinary()),
                 Name = d.Name,
@@ -69,7 +70,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             return Task.FromResult(response);
         }
 
-        public override Task<Device> GetDevice(GetDeviceRequest request, ServerCallContext context)
+        public override Task<GrpcDevice> GetDevice(GetDeviceRequest request, ServerCallContext context)
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Id));
@@ -87,7 +88,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 deviceAdditionalInformation = new DeviceActualStates();
             }
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Id,
             };
@@ -123,7 +124,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             return Task.FromResult(device);
         }
 
-        public override Task<Device> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
+        public override Task<GrpcDevice> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Device.Id));
@@ -170,7 +171,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
             this.bjdireContext.SaveChanges();
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Device.Id,
             };
@@ -247,7 +248,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 desiredStates = new DeviceDesiredStates();
             }
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Device.Id,
             };

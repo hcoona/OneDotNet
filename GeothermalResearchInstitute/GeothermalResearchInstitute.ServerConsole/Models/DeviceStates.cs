@@ -12,8 +12,7 @@ using GeothermalResearchInstitute.v1;
 
 namespace GeothermalResearchInstitute.ServerConsole.Models
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage(
-        "Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
+    [SuppressMessage("Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
     public class DeviceStates : IEquatable<DeviceStates>
     {
         [Key]
@@ -71,7 +70,11 @@ namespace GeothermalResearchInstitute.ServerConsole.Models
             return false;
         }
 
+#if NET48
+        public bool Equals(DeviceStates other)
+#else
         public bool Equals([AllowNull] DeviceStates other)
+#endif
         {
             if (other == null)
             {
@@ -98,7 +101,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Models
         {
             return "[Id=" +
                 string.Join("-", this.Id.Select(b => b.ToString("X2", CultureInfo.InvariantCulture))) + "," +
-                string.Join(',', typeof(DeviceStates)
+                string.Join(",", typeof(DeviceStates)
                     .GetProperties()
                     .Where(p => p.Name != "Id")
                     .Select(p => $"{p.Name}={p.GetValue(this)}")) + "]";

@@ -18,7 +18,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using static Google.Protobuf.WellKnownTypes.FieldMask;
+using GrpcDevice = GeothermalResearchInstitute.v1.Device;
 using GrpcDeviceMetrics = GeothermalResearchInstitute.v1.DeviceMetrics;
+using ModelDeviceMetrics = GeothermalResearchInstitute.ServerConsole.Models.DeviceMetrics;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 {
@@ -60,7 +62,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var response = new ListDevicesResponse();
-            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new Device
+            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new GrpcDevice
             {
                 Id = ByteString.CopyFrom(d.ComputeIdBinary()),
                 Name = d.Name,
@@ -68,7 +70,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             return Task.FromResult(response);
         }
 
-        public override Task<Device> GetDevice(GetDeviceRequest request, ServerCallContext context)
+        public override Task<GrpcDevice> GetDevice(GetDeviceRequest request, ServerCallContext context)
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Id));
@@ -77,13 +79,16 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
-            var deviceAdditionalInformation = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Id));
+            var deviceAdditionalInformation = this.bjdireContext.DevicesActualStates.Find(new object[]
+            {
+                request.Id.ToByteArray(),
+            });
             if (deviceAdditionalInformation == null)
             {
                 deviceAdditionalInformation = new DeviceActualStates();
             }
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Id,
             };
@@ -119,7 +124,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             return Task.FromResult(device);
         }
 
-        public override Task<Device> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
+        public override Task<GrpcDevice> UpdateDevice(UpdateDeviceRequest request, ServerCallContext context)
         {
             var deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
             var deviceBasicInformation = deviceOptions.Value.Devices.SingleOrDefault(d => d.ComputeIdBinary().SequenceEqual(request.Device.Id));
@@ -128,7 +133,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
-            var deviceStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            var deviceStates = this.bjdireContext.DevicesDesiredStates.Find(new object[]
+            {
+                request.Device.Id.ToByteArray(),
+            });
             if (deviceStates == null)
             {
                 deviceStates = new DeviceDesiredStates
@@ -163,7 +171,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
             this.bjdireContext.SaveChanges();
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Device.Id,
             };
@@ -190,7 +198,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 throw new RpcException(new Status(StatusCode.NotFound, "Device Id is not configured."));
             }
 
-            var actualStates = this.bjdireContext.DevicesActualStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            var actualStates = this.bjdireContext.DevicesActualStates.Find(new object[]
+            {
+                request.Device.Id.ToByteArray(),
+            });
             if (actualStates == null)
             {
                 actualStates = new DeviceActualStates
@@ -206,22 +217,38 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 .AssignOptionFrom(actualStates)
                 .AssignControlsFrom(actualStates);
 
-            // TODO(zhangshuai.ustc): Record metrics.
-            if (request.HistoryMetrics.Any())
+            this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
+            foreach (var m in request.HistoryMetrics.Concat(new[] { request.Device.Metrics }))
             {
-                // TODO(zhangshuai.ustc): Deal with history metrics.
+                var currentMetrics = this.bjdireContext.DevicesMetrics.Find(new
+                {
+                    Id = request.Device.Id.ToByteArray(),
+                    Timestamp = request.Device.Metrics.UpdateTimestamp.ToDateTimeOffset(),
+                });
+                if (currentMetrics == null)
+                {
+                    currentMetrics = new ModelDeviceMetrics
+                    {
+                        Id = request.Device.Id.ToByteArray(),
+                    };
+                    this.bjdireContext.DevicesMetrics.Add(currentMetrics);
+                }
+
+                request.Device.Metrics.AssignTo(currentMetrics);
             }
 
-            this.metricsMap.AddOrUpdate(request.Device.Id, _ => request.Device.Metrics, (_, __) => request.Device.Metrics);
             this.bjdireContext.SaveChanges();
 
-            var desiredStates = this.bjdireContext.DevicesDesiredStates.SingleOrDefault(d => d.Id.SequenceEqual(request.Device.Id));
+            var desiredStates = this.bjdireContext.DevicesDesiredStates.Find(new object[]
+            {
+                request.Device.Id.ToByteArray(),
+            });
             if (actualStates == null)
             {
                 desiredStates = new DeviceDesiredStates();
             }
 
-            var device = new Device
+            var device = new GrpcDevice
             {
                 Id = request.Device.Id,
             };

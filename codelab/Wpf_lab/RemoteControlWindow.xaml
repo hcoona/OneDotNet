@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_lab"
         mc:Ignorable="d"
-        Title="运行控制"
+        Title="违行控制"
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}">
     <Grid>
-        
+
     </Grid>
 </Window>

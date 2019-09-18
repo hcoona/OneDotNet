@@ -14,6 +14,18 @@ namespace GeothermalResearchInstitute.Wpf
     {
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is bool)
+            {
+                if ((bool)value == true)
+                {
+                    return "开";
+                }
+                else
+                {
+                    return "关";
+                }
+            }
+
             switch (value.ToString())
             {
                 case "开":
@@ -39,6 +51,16 @@ namespace GeothermalResearchInstitute.Wpf
                 {
                     return "关";
                 }
+            }
+
+            switch (value.ToString())
+            {
+                case "开":
+                    return true;
+                case "关":
+                    return false;
+                default:
+                    break;
             }
 
             throw new NotImplementedException();

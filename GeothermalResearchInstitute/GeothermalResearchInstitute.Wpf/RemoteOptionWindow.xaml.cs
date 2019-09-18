@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,6 +26,8 @@ namespace GeothermalResearchInstitute.Wpf
     {
         public static readonly DependencyProperty ParameterViewProperty =
      DependencyProperty.Register(nameof(ParameterView), typeof(Device), typeof(Window));
+        public static readonly DependencyProperty ParameterViewLocalProperty =
+     DependencyProperty.Register(nameof(ParameterViewLocal), typeof(Device), typeof(Window));
 
         private readonly ILogger<RemoteOptionWindow> logger;
         private readonly DeviceServiceClient deviceServiceClient;
@@ -37,6 +40,12 @@ namespace GeothermalResearchInstitute.Wpf
             set { this.SetValue(ParameterViewProperty, value); }
         }
 
+        public Device ParameterViewLocal
+        {
+            get { return (Device)this.GetValue(ParameterViewLocalProperty); }
+            set { this.SetValue(ParameterViewLocalProperty, value); }
+        }
+
         public RemoteOptionWindow(ILogger<RemoteOptionWindow> logger, DeviceServiceClient deviceServiceClient)
         {
             this.InitializeComponent();
@@ -44,13 +53,38 @@ namespace GeothermalResearchInstitute.Wpf
             this.deviceServiceClient = deviceServiceClient;
         }
 
-        public void Window_Loaded(object sender, RoutedEventArgs e)
+        public async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            await this.Load();
+
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += this.OnTimerEvent;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
             dispatcherTimer.Start();
 
+        }
+
+        private async Task Load()
+        {
+            this.logger.LogInformation("[RemoteControlWindow] Load_Data was raised");
+
+            var deviceRequest = new GetDeviceRequest()
+            {
+                Id = this.peer.Id,
+                View = v1.DeviceView.MetricsAndControl,
+            };
+
+            try
+            {
+                this.ParameterView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
+                this.ParameterViewLocal = this.ParameterView;
+
+            }
+            catch (RpcException ex)
+            {
+                this.logger.LogError("[RemoteOptionWindow] Window_Loaded error={}", ex);
+
+            }
         }
 
         private async void OnTimerEvent(object sender, EventArgs e)

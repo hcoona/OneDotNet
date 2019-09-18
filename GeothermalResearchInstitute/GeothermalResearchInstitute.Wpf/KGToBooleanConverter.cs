@@ -24,7 +24,7 @@ namespace GeothermalResearchInstitute.Wpf
                     break;
             }
 
-            return false;
+            throw new NotImplementedException();
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -41,7 +41,7 @@ namespace GeothermalResearchInstitute.Wpf
                 }
             }
 
-            return "关";
+            throw new NotImplementedException();
         }
     }
 }

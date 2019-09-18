@@ -58,48 +58,6 @@ namespace GeothermalResearchInstitute.Wpf
             this.deviceServiceClient = deviceServiceClient;
         }
 
-
-        private void HeatPumpFanOn_Click(object sender, RoutedEventArgs e)
-        {
-            var temp = this.DeviceViewLocal;
-            temp.Controls.HeatPumpFanOn = this.HeatPumpFanOn.IsChecked;
-            this.DeviceViewLocal= temp;
-        }
-
-        private void HeatPumpCompressorOn_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.HeatPumpCompressorOn = this.HeatPumpCompressorOn.IsChecked;
-        }
-
-        private void HeatPumpFourWayReversingValue_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.HeatPumpFourWayReversingValue = this.HeatPumpFourWayReversingValue.IsChecked;
-        }
-
-        private void HeatPumpPower_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.HeatPumpPower = this.HeatPumpPower.IsChecked;
-
-        }
-
-        private void DevicePower_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.DevicePower = this.DevicePower.IsChecked;
-
-        }
-
-        private void ExhaustPower_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.ExhaustPower = this.ExhaustPower.IsChecked;
-
-        }
-
-        private void HeatPumpAuto_Click(object sender, RoutedEventArgs e)
-        {
-            this.DeviceViewLocal.Controls.HeatPumpAuto = this.HeatPumpAuto.IsChecked;
-
-        }
-
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             await this.load();
@@ -122,10 +80,7 @@ namespace GeothermalResearchInstitute.Wpf
             try
             {
                 this.DeviceView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
-                if (this.DeviceViewLocal == null)
-                {
-                    this.DeviceViewLocal = this.DeviceView;
-                }
+                this.DeviceViewLocal = this.DeviceView;
             }
             catch (RpcException ex)
             {
@@ -146,10 +101,6 @@ namespace GeothermalResearchInstitute.Wpf
             try
             {
                 this.DeviceView = await this.deviceServiceClient.GetDeviceAsync(deviceRequest);
-                if (this.DeviceViewLocal == null )
-                {
-                    this.DeviceViewLocal = this.DeviceView;
-                }
             }
             catch (RpcException ex)
             {
@@ -175,7 +126,7 @@ namespace GeothermalResearchInstitute.Wpf
                 Device = new Device()
                 {
                     Id = this.peer.Id,
-                    Controls = this.DeviceView.Controls,
+                    Controls = this.DeviceViewLocal.Controls,
                 },
                 UpdateMask = FieldMask.FromString("controls"),
             };

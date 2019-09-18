@@ -8,7 +8,9 @@
         Title="系统参数设置"
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource WindowBaseStyle}" Loaded="Window_Loaded">
-
+  <Window.Resources>
+    <local:FrenquencyToChinese x:Key="FrenquencyToChinese" />
+  </Window.Resources>
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Image DockPanel.Dock="Left" Source="logo.png" Height="80"/>
@@ -48,28 +50,28 @@
         <Label HorizontalAlignment="Center" Content="新参数"/>
         <Label HorizontalAlignment="Center" Content="当前参数"/>
         <Label Content="稳定工况夏季设定温度值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.SummerTemperature}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.SummerTemperature}" />
         <Label Content="稳定工况冬季设定温度值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.WinterTemperature}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WinterTemperature}"/>
         <Label Content="稳定热流制冷量值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.WarmCapacity}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WarmCapacity}"/>
         <Label Content="稳定热流制热量值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.ColdCapacity}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.ColdCapacity}"/>
         <Label Content="定流量值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.FlowCapacity}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.FlowCapacity}"/>
         <Label Content="定频率值"/>
-        <TextBox/>
-        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.FlowCapacity}"/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.RateCapacity}"/>
+        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.RateCapacity}"/>
         <Label Content="工频/变频"/>
-        <TextBox/>
-        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.MotorMode}" />
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.MotorMode, Converter={StaticResource FrenquencyToChinese}}"/>
+        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.MotorMode, Converter={StaticResource FrenquencyToChinese}}" />
         <Label Content="水泵运行模式值"/>
-        <TextBox/>
+        <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterViewLocal.DeviceOption.WaterPumpMode}"/>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ParameterView.DeviceOption.WaterPumpMode}" />
       </UniformGrid>
     </StackPanel>

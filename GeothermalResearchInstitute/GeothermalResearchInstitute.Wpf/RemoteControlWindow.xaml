@@ -121,13 +121,12 @@
                     <Label Grid.Column="0" Content="设备运行状态："/>
           <Label  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.DevicePower, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-            Name="DevicePower"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.DevicePower, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="DevicePower_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -138,13 +137,13 @@
                     <Label Grid.Column="0" Content="排气运行状态："/>
           <Label  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.ExhaustPower, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-            Name="ExhaustPower"
+            
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.ExhaustPower, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="ExhaustPower_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -155,13 +154,12 @@
                     <Label Grid.Column="0" Content="热泵自动按键状态："/>
           <Label  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpAuto, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-            Name="HeatPumpAuto"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpAuto, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="HeatPumpAuto_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -172,13 +170,12 @@
                     <Label Grid.Column="0" Content="热泵电源按键状态："/>
           <Label  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpPower, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-            Name="HeatPumpPower"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpPower, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="HeatPumpPower_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -189,13 +186,12 @@
                     <Label Grid.Column="0" Content="热泵风扇按键状态：" Margin="0,0,59,2.64" Grid.ColumnSpan="2"/>
           <Label Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFanOn, Converter={StaticResource KGToBooleanConverter}}" Margin="0,0,0,2.64" Grid.Column="1" />
           <ToggleSwitch:HorizontalToggleSwitch
-             Name="HeatPumpFanOn" 
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpFanOn, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="HeatPumpFanOn_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -206,13 +202,12 @@
                     <Label Grid.Column="0" Content="热泵压缩机状态："/>
                     <Label  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpCompressorOn, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
                     <ToggleSwitch:HorizontalToggleSwitch
-                      Name="HeatPumpCompressorOn"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpCompressorOn, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="HeatPumpCompressorOn_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
         </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -223,13 +218,13 @@
                     <Label Grid.Column="0" Content="热泵四通换向阀状态："/>
                     <Label Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceView.Controls.HeatPumpFourWayReversingValue, Converter={StaticResource KGToBooleanConverter}}" Grid.Column="1" />
                     <ToggleSwitch:HorizontalToggleSwitch
-                      Name="HeatPumpFourWayReversingValue"
                       Grid.Column="2"
                       IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DeviceViewLocal.Controls.HeatPumpFourWayReversingValue, Converter={StaticResource KGToBooleanConverter}}"
                       VerticalAlignment="Center"
                       Margin="0,0,0,10"
                       HorizontalAlignment="Center"
-                      Checked="HeatPumpFourWayReversingValue_Click" Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+                      Width="60" Height="20" CheckedContent="开" UncheckedContent="关"/>
+          
                 </Grid>
 
             </StackPanel>

@@ -37,7 +37,7 @@ namespace GeothermalResearchInstitute.Wpf
                     .AddCommandLine(e.Args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    IHostingEnvironment env = context.HostingEnvironment;
+                    IHostEnvironment env = context.HostingEnvironment;
                     builder
                         .AddEnvironmentVariables()
                         .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true)
@@ -89,7 +89,7 @@ namespace GeothermalResearchInstitute.Wpf
             var logger = this.Host.Services.GetRequiredService<ILogger<App>>();
             logger.LogWarning(
                 "Current HostEnvironment is {0}",
-                this.Host.Services.GetRequiredService<IHostingEnvironment>().EnvironmentName);
+                this.Host.Services.GetRequiredService<IHostEnvironment>().EnvironmentName);
             var mainWindow = this.Host.Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }

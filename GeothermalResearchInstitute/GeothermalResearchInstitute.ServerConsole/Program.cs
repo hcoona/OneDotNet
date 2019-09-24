@@ -30,7 +30,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                     .AddCommandLine(args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    IHostingEnvironment env = context.HostingEnvironment;
+                    IHostEnvironment env = context.HostingEnvironment;
                     builder
                         .AddEnvironmentVariables()
                         .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
@@ -39,7 +39,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 })
                 .ConfigureLogging((context, builder) =>
                 {
-                    IHostingEnvironment env = context.HostingEnvironment;
+                    IHostEnvironment env = context.HostingEnvironment;
                     if (env.IsDevelopment())
                     {
                         builder.AddDebug();
@@ -50,7 +50,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 })
                 .ConfigureServices((context, builder) =>
                 {
-                    IHostingEnvironment env = context.HostingEnvironment;
+                    IHostEnvironment env = context.HostingEnvironment;
                     IConfiguration config = context.Configuration;
 
                     if (env.IsDevelopment())

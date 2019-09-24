@@ -8,8 +8,7 @@
     <NetcoreCurrentTargetFramework>netcoreapp3.0</NetcoreCurrentTargetFramework>
     <NetstandardCurrentTargetFramework>netstandard2.0</NetstandardCurrentTargetFramework>
 
-    <DefaultExeTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetcoreCurrentTargetFramework);$(NetfxCurrentTargetFramework)</DefaultExeTargetFrameworks>
-    <DefaultExeTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
+    <DefaultExeTargetFrameworks>$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
 
     <DefaultLibraryTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
     <DefaultLibraryTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>

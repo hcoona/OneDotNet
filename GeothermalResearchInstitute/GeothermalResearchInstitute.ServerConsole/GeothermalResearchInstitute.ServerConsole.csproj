@@ -11,19 +11,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" DevelopmentDependency="true" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0" DevelopmentDependency="true" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

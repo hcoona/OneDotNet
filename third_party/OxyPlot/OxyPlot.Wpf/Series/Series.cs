@@ -32,7 +32,7 @@ namespace OxyPlot.Wpf
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             "Title", typeof(string), typeof(Series), new PropertyMetadata(null, AppearanceChanged));
 
-         /// <summary>
+        /// <summary>
         /// Identifies the <see cref="RenderInLegend"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RenderInLegendProperty = DependencyProperty.Register(
@@ -116,7 +116,7 @@ namespace OxyPlot.Wpf
         /// <summary>
         /// Gets or sets a value indicating whether the series should be rendered in the legend.
         /// </summary>
-        public bool RenderInLegend 
+        public bool RenderInLegend
         {
             get
             {

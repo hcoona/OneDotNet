@@ -512,10 +512,10 @@ namespace OxyPlot.Wpf
             var contentSize = this.contentContainer.DesiredSize;
 
             this.contentContainer.RenderTransform = new TranslateTransform
-                {
-                    X = dx * contentSize.Width,
-                    Y = dy * contentSize.Height
-                };
+            {
+                X = dx * contentSize.Width,
+                Y = dy * contentSize.Height
+            };
 
             var pos = this.Position;
 

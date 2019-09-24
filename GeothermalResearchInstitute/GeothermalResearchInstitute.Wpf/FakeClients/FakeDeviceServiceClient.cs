@@ -18,36 +18,36 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             Name = "Test1",
             WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
             DeviceOption = new DeviceOption()
-                        {
-                            SummerTemperature = 1.1F,
-                            WinterTemperature = 1.2F,
-                            WarmCapacity = 1.3F,
-                            ColdCapacity = 1.4F,
-                            FlowCapacity = 1.5F,
-                            RateCapacity = 1.6F,
-                            MotorMode = MotorMode.VariableFrequency,
-                            WaterPumpMode = WaterPumpMode.B,
-                        },
+            {
+                SummerTemperature = 1.1F,
+                WinterTemperature = 1.2F,
+                WarmCapacity = 1.3F,
+                ColdCapacity = 1.4F,
+                FlowCapacity = 1.5F,
+                RateCapacity = 1.6F,
+                MotorMode = MotorMode.VariableFrequency,
+                WaterPumpMode = WaterPumpMode.B,
+            },
             Metrics = new DeviceMetrics()
-                        {
-                            WaterOutTemperature = 1.1F,
-                            WaterInTemperature = 1.2F,
-                            HeaterWaterOutTemperature = 1.3F,
-                            EnvironmentTemperature = 1.4F,
-                            WaterOutPressure = 1.5F,
-                            WaterInPressure = 1.6F,
-                            HeaterPower = 1.7F,
-                            FlowCapacity = 1.8F,
-                        },
+            {
+                WaterOutTemperature = 1.1F,
+                WaterInTemperature = 1.2F,
+                HeaterWaterOutTemperature = 1.3F,
+                EnvironmentTemperature = 1.4F,
+                WaterOutPressure = 1.5F,
+                WaterInPressure = 1.6F,
+                HeaterPower = 1.7F,
+                FlowCapacity = 1.8F,
+            },
             Controls = new DeviceControls()
             {
-                            DevicePower = true,
-                            ExhaustPower = true,
-                            HeatPumpAuto = true,
-                            HeatPumpPower = true,
-                            HeatPumpFanOn = true,
-                            HeatPumpCompressorOn = true,
-                            HeatPumpFourWayReversingValue = true,
+                DevicePower = true,
+                ExhaustPower = true,
+                HeatPumpAuto = true,
+                HeatPumpPower = true,
+                HeatPumpFanOn = true,
+                HeatPumpCompressorOn = true,
+                HeatPumpFourWayReversingValue = true,
             },
         };
 
@@ -168,7 +168,8 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                     () => new Metadata(),
                     () => { });
             }
-            else {
+            else
+            {
                 return TestCalls.AsyncUnaryCall(
                     Task.FromResult(new Device()),
                     Task.FromResult(new Metadata()),

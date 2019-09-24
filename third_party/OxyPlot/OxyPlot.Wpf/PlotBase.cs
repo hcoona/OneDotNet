@@ -290,7 +290,7 @@ namespace OxyPlot.Wpf
             // it must be added last so it covers all other controls
             var mouseGrid = new Grid();
             mouseGrid.Background = Brushes.Transparent; // background must be set for hit test to work
-            this.grid.Children.Add(mouseGrid); 
+            this.grid.Children.Add(mouseGrid);
         }
 
         /// <summary>

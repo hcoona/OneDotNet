@@ -15,7 +15,7 @@
       ]
     },
     "dotnet-ef": {
-      "version": "3.0.0-preview9.19423.6",
+      "version": "3.0.0",
       "commands": [
         "dotnet-ef"
       ]

@@ -46,7 +46,8 @@ namespace GeothermalResearchInstitute.Wpf
             {
                 var response = await this.DeviceServiceClient.ListDevicesAsync(listDevicesRequest);
                 this.PeerNodes = response.Devices.ToList();
-            } catch (RpcException ex)
+            }
+            catch (RpcException ex)
             {
                 this.Logger.LogError("[SelectPeerWindow]Window_LoadedAsync error={}", ex);
             }

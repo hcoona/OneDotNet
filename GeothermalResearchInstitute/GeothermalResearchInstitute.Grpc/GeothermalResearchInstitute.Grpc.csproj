@@ -13,6 +13,7 @@
   <ItemGroup>
     <Protobuf Include="../proto/bjdire/v1/authentication.proto" Link="authentication_v1.proto" />
     <Protobuf Include="../proto/bjdire/v1/device.proto" Link="device_v1.proto" />
+    <Protobuf Include="../proto/bjdire/v2/service.proto" Link="service_v2.proto" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,23 @@ package bjdire.v2;
 
 import "google/protobuf/field_mask.proto";
 
+option csharp_namespace = "GeothermalResearchInstitute.v2";
+
+enum DeviceStatus {
+  DEVICE_STATUS_INVALID = 0;
+  DEVICE_STATUS_HEALTHY = 1;
+  DEVICE_STATUS_UNHEALTHY = 2;
+  DEVICE_STATUS_UNKNOWN = 3;
+}
+
+message Device {
+  bytes id = 1;
+  string name = 2;
+  bytes ipv4_address = 3;
+  reserved "ipv6_address"; reserved 4;
+  DeviceStatus status = 5;
+}
+
 message Metric {
   // 出水温度（摄氏度）
   float output_water_celsius_degree = 1;
@@ -97,30 +114,49 @@ message WorkingMode {
   WaterPumpWorkingMode water_pump_working_mode = 3;
 }
 
-message GetMetricRequest {}
+message ListDevicesRequest {}
 
-message GetSwitchRequest {}
+message ListDevicesResponse {
+  repeated Device devices = 1;
+}
+
+message GetMetricRequest {
+  bytes device_id = 1;
+}
+
+message GetSwitchRequest {
+  bytes device_id = 1;
+}
 
 message UpdateSwitchRequest {
-  Switch switch = 1;
-  google.protobuf.FieldMask update_mask = 2;
+  bytes device_id = 1;
+  Switch switch = 2;
+  google.protobuf.FieldMask update_mask = 3;
 }
 
-message GetRunningParameterRequest {}
+message GetRunningParameterRequest {
+  bytes device_id = 1;
+}
 
 message UpdateRunningParameterRequest {
-  RunningParameter running_parameter = 1;
-  google.protobuf.FieldMask update_mask = 2;
+  bytes device_id = 1;
+  RunningParameter running_parameter = 2;
+  google.protobuf.FieldMask update_mask = 3;
 }
 
-message GetWorkingModeRequest {}
+message GetWorkingModeRequest {
+  bytes device_id = 1;
+}
 
 message UpdateWorkingModeRequest {
-  WorkingMode working_mode = 1;
-  google.protobuf.FieldMask update_mask = 2;
+  bytes device_id = 1;
+  WorkingMode working_mode = 2;
+  google.protobuf.FieldMask update_mask = 3;
 }
 
 service DeviceService {
+  rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
+
   rpc GetMetric (GetMetricRequest) returns (Metric) {}
 
   rpc GetSwitch (GetSwitchRequest) returns (Switch) {}

@@ -1,0 +1,34 @@
+<UserControl
+    x:Class="GeothermalResearchInstitute.Wpf.Views.NavigationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="360"
+    d:DesignWidth="600"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="NavigationView_Loaded"
+    mc:Ignorable="d">
+    <Border Margin="40">
+        <UniformGrid Columns="3" Rows="3">
+            <Button
+                Command="{Binding NavigateToDeviceControlView}"
+                Content="运行控制"
+                Style="{StaticResource NavigationButtonStyle}" />
+            <Button
+                Command="{Binding NavigateToDeviceWorkingModeView}"
+                Content="模式选择"
+                Style="{StaticResource NavigationButtonStyle}" />
+            <Button
+                Command="{Binding NavigateToDeviceRunningParameterView}"
+                Content="参数设置"
+                Style="{StaticResource NavigationButtonStyle}" />
+            <Button Content="常规历史数据" Style="{StaticResource NavigationButtonStyle}" />
+            <Button Content="常规实时数据" Style="{StaticResource NavigationButtonStyle}" />
+            <Button Content="故障记录" Style="{StaticResource NavigationButtonStyle}" />
+            <Button Content="导出历史数据" Style="{StaticResource NavigationButtonStyle}" />
+        </UniformGrid>
+    </Border>
+</UserControl>

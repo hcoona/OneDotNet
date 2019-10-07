@@ -1,0 +1,45 @@
+<UserControl
+    x:Class="GeothermalResearchInstitute.Wpf.Views.BannerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="120"
+    d:DesignWidth="600"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Column="0"
+                Height="80"
+                HorizontalAlignment="Left"
+                Source="/Resources/logo.png" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource BannerDateTimeStyle}"
+                Text="{Binding Title}" />
+            <TextBlock
+                Grid.Column="2"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Style="{StaticResource BannerDateTimeStyle}"
+                Text="{Binding CurrentLocalDateTimeString}" />
+        </Grid>
+        <Border Height="40" Background="LightBlue">
+            <Button
+                Width="100"
+                HorizontalAlignment="Right"
+                Command="{Binding NavigateBackCommand}"
+                Content="返回" />
+        </Border>
+    </StackPanel>
+</UserControl>

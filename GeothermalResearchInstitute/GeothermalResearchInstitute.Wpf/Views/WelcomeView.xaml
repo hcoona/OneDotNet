@@ -1,0 +1,45 @@
+<UserControl
+    x:Class="GeothermalResearchInstitute.Wpf.Views.WelcomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="460"
+    d:DesignWidth="600"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="WelcomeView_Loaded"
+    mc:Ignorable="d">
+    <DockPanel>
+        <UniformGrid Columns="4" DockPanel.Dock="Bottom">
+            <Button
+                Command="{Binding NavigateToLoginViewCommand}"
+                Content="{StaticResource NavigateToLoginView}"
+                Style="{StaticResource ButtonBaseStyle}"
+                TabIndex="0" />
+            <Button
+                Command="{Binding LogoutCommand}"
+                Content="{StaticResource Logout}"
+                Style="{StaticResource ButtonBaseStyle}"
+                TabIndex="1" />
+            <Button
+                Command="{Binding NavigateToNavigationViewCommand}"
+                Content="{StaticResource NavigateToNavigationView}"
+                Style="{StaticResource ButtonBaseStyle}"
+                TabIndex="2" />
+            <Button
+                Command="{Binding NavigateToContactViewCommand}"
+                Content="{StaticResource NavigateToContactView}"
+                Style="{StaticResource ButtonBaseStyle}"
+                TabIndex="3" />
+        </UniformGrid>
+        <Border Padding="50">
+            <Viewbox Stretch="Uniform">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource TitleBaseStyle}" Text="{StaticResource SystemName}" />
+                    <Image Source="/Resources/logo.png" />
+                </StackPanel>
+            </Viewbox>
+        </Border>
+    </DockPanel>
+</UserControl>

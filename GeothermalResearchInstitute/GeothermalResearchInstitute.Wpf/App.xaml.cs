@@ -3,47 +3,49 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.FakeClients;
+using GeothermalResearchInstitute.Wpf.Modules;
+using GeothermalResearchInstitute.Wpf.ViewModels;
+using GeothermalResearchInstitute.Wpf.Views;
 using Grpc.Core;
+using GrpcLoggerAdapater;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using static GeothermalResearchInstitute.v1.AuthenticationService;
-using static GeothermalResearchInstitute.v1.DeviceService;
+using Prism.Ioc;
+using Prism.Modularity;
+using Prism.Unity;
+using Prism.Unity.Ioc;
+using Unity;
+using Unity.Microsoft.DependencyInjection;
 
 namespace GeothermalResearchInstitute.Wpf
 {
-    /// <summary>
-    /// Interaction logic for App.xaml.
-    /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        public IHost Host { get; private set; }
+        private IUnityContainer UnityContainer { get; set; }
+
+        private IHost Host { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            this.UnityContainer = new UnityContainer();
+
             this.Host = new HostBuilder()
+                .UseServiceProviderFactory<IServiceCollection>(new ServiceProviderFactory(this.UnityContainer))
                 .ConfigureHostConfiguration(builder => builder
-                    .AddEnvironmentVariables()
-                    .AddIniFile("appsettings.ini", optional: true)
                     .AddCommandLine(e.Args))
                 .ConfigureAppConfiguration((context, builder) =>
-                {
-                    IHostEnvironment env = context.HostingEnvironment;
-                    builder
-                        .AddEnvironmentVariables()
-                        .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true)
-                        .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
-                        .AddCommandLine(e.Args);
-                })
+                    {
+                        IHostEnvironment env = context.HostingEnvironment;
+                        builder
+                            .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true)
+                            .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
+                            .AddCommandLine(e.Args);
+                    })
                 .ConfigureLogging((context, builder) =>
                 {
                     builder
@@ -54,51 +56,67 @@ namespace GeothermalResearchInstitute.Wpf
                 {
                     builder.AddSingleton(serviceProvider =>
                     {
-                        return new GrpcLoggerAdapater.GrpcLoggerAdapter(
+                        return new GrpcLoggerAdapter(
                             serviceProvider.GetRequiredService<ILoggerFactory>(),
-                            serviceProvider.GetRequiredService<ILogger<Grpc.Core.ClientBase>>());
+                            serviceProvider.GetRequiredService<ILogger<ClientBase>>());
                     });
                     if (context.HostingEnvironment.IsDevelopment())
                     {
-                        // TODO(zhangshuai.ds): Add fake clients.
-                        builder.AddSingleton<AuthenticationServiceClient, FakeAuthenticationServiceClient>();
-                        builder.AddSingleton<DeviceServiceClient, FakeDeviceServiceClient>();
+                        builder.AddSingleton<DeviceService.DeviceServiceClient, FakeDeviceServiceClient>();
                     }
                     else
                     {
-                        // TODO(zhangshuai.ds): Add real clients.
-                        builder.AddSingleton<AuthenticationServiceClient>();
-                        builder.AddSingleton<DeviceServiceClient>();
+                        var hostname = context.Configuration.GetValue<string>("core:server.hostname");
+                        var port = context.Configuration.GetValue<int>("core:server.port");
 
+                        var channel = new Channel(hostname, port, ChannelCredentials.Insecure);
+                        var deviceServiceClient = new DeviceService.DeviceServiceClient(channel);
+
+                        builder.AddSingleton(channel);
+                        builder.AddSingleton(deviceServiceClient);
                     }
-
-                    builder
-                        .AddTransient<MainWindow>()
-                        .AddTransient<LoginWindow>()
-                        .AddTransient<SelectPeerWindow>()
-                        .AddTransient<ControlWindow>()
-                        .AddTransient<RemoteControlWindow>()
-                        .AddTransient<RemoteOptionWindow>()
-                        .AddTransient<RemoteModeWindow>();
                 })
                 .Build();
 
-            GrpcEnvironment.SetLogger(this.Host.Services.GetRequiredService<GrpcLoggerAdapater.GrpcLoggerAdapter>());
-            this.Host.Start();
+            base.OnStartup(e);
+        }
 
-            var logger = this.Host.Services.GetRequiredService<ILogger<App>>();
-            logger.LogWarning(
-                "Current HostEnvironment is {0}",
-                this.Host.Services.GetRequiredService<IHostEnvironment>().EnvironmentName);
-            var mainWindow = this.Host.Services.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+        protected override Window CreateShell()
+        {
+            return this.Container.Resolve<MainWindow>();
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new UnityContainerExtension(this.Host.Services.GetRequiredService<IUnityContainer>());
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterInstance(new ViewModelContext
+            {
+                Principal = null,
+                UserBarVisibility = Visibility.Visible,
+                BannerVisibility = Visibility.Collapsed,
+                NavigateBackTarget = null,
+            });
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog
+                .AddModule<BannerModule>()
+                .AddModule<UserBarModule>()
+                .AddModule<WelcomeModule>()
+                .AddModule<LoginModule>()
+                .AddModule<DeviceListModule>()
+                .AddModule<NavigationModule>();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            this.Host.StopAsync().GetAwaiter().GetResult();
             this.Host.Dispose();
-            this.Host = null;
 
             base.OnExit(e);
         }

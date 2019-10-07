@@ -3,14 +3,31 @@ syntax = "proto3";
 package bjdire.v2;
 
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "GeothermalResearchInstitute.v2";
+
+message AuthenticateRequest {
+  string username = 1;
+  string password = 2;
+}
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_USER = 1;
+  USER_ROLE_ADMINISTRATOR = 2;
+}
+
+message AuthenticateResponse {
+  string nickname = 1;
+  UserRole role = 2;
+}
 
 enum DeviceStatus {
   DEVICE_STATUS_INVALID = 0;
   DEVICE_STATUS_HEALTHY = 1;
   DEVICE_STATUS_UNHEALTHY = 2;
-  DEVICE_STATUS_UNKNOWN = 3;
+  DEVICE_STATUS_DISCONNECTED = 3;
 }
 
 message Device {
@@ -22,22 +39,24 @@ message Device {
 }
 
 message Metric {
+  // 采集时间
+  google.protobuf.Timestamp create_time = 1;
   // 出水温度（摄氏度）
-  float output_water_celsius_degree = 1;
+  float output_water_celsius_degree = 2;
   // 回水温度（摄氏度）
-  float input_water_celsius_degree = 2;
+  float input_water_celsius_degree = 3;
   // 加热器出水温度（摄氏度）
-  float heater_output_water_celsius_degree = 3;
+  float heater_output_water_celsius_degree = 4;
   // 环境温度（摄氏度）
-  float environment_celsius_degree = 4;
+  float environment_celsius_degree = 5;
   // 出水压力（米）
-  float output_water_pressure_meter = 5;
+  float output_water_pressure_meter = 6;
   // 回水压力（米）
-  float input_water_pressure_meter = 6;
+  float input_water_pressure_meter = 7;
   // 加热器功率（千瓦）
-  float heater_power_kilowatt = 7;
+  float heater_power_kilowatt = 8;
   // 水泵流量（立方米/小时）
-  float water_pump_flow_rate_cubic_meter_per_hour = 8;
+  float water_pump_flow_rate_cubic_meter_per_hour = 9;
 }
 
 message Switch {
@@ -120,6 +139,17 @@ message ListDevicesResponse {
   repeated Device devices = 1;
 }
 
+message ListMetricRequest {
+  bytes device_id = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message ListMetricResponse {
+  repeated Metric metrics = 1;
+  string next_page_token = 2;
+}
+
 message GetMetricRequest {
   bytes device_id = 1;
 }
@@ -155,7 +185,11 @@ message UpdateWorkingModeRequest {
 }
 
 service DeviceService {
+  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {}
+
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
+
+  rpc ListMetric (ListMetricRequest) returns (ListMetricResponse) {}
 
   rpc GetMetric (GetMetricRequest) returns (Metric) {}
 

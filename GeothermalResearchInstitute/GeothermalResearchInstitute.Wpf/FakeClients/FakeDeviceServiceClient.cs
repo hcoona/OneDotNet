@@ -1,184 +1,224 @@
+// <copyright file="FakeDeviceServiceClient.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GeothermalResearchInstitute.v1;
+using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Core.Testing;
 
 namespace GeothermalResearchInstitute.Wpf.FakeClients
 {
-    internal class FakeDeviceServiceClient : DeviceService.DeviceServiceClient
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design", "CA1062:验证公共方法的参数", Justification = "Guaranteed by framework.")]
+    public class FakeDeviceServiceClient : DeviceService.DeviceServiceClient
     {
-        static Device device1 = new Device()
+        public static readonly ByteString Id1 = ByteString.CopyFrom(new byte[] { 0x10, 0xBF, 0x48, 0x79, 0xB2, 0xA4 });
+        public static readonly ByteString Id2 = ByteString.CopyFrom(new byte[] { 0xBC, 0x96, 0x80, 0xE6, 0x70, 0x16 });
+        public static readonly ByteString Id3 = ByteString.CopyFrom(new byte[] { 0xBC, 0x96, 0x80, 0xE6, 0x70, 0x17 });
+
+        public static readonly Dictionary<ByteString, Device> Devices = new Dictionary<ByteString, Device>
         {
-            Id = ByteString.CopyFromUtf8("111"),
-            Name = "Test1",
-            WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
-            DeviceOption = new DeviceOption()
             {
-                SummerTemperature = 1.1F,
-                WinterTemperature = 1.2F,
-                WarmCapacity = 1.3F,
-                ColdCapacity = 1.4F,
-                FlowCapacity = 1.5F,
-                RateCapacity = 1.6F,
-                MotorMode = MotorMode.VariableFrequency,
-                WaterPumpMode = WaterPumpMode.B,
+                Id1,
+                new Device
+                {
+                    Id = Id1,
+                    Ipv4Address = ByteString.CopyFromUtf8("10.0.0.1"),
+                    Name = "测试设备1",
+                    Status = DeviceStatus.Healthy,
+                }
             },
-            Metrics = new DeviceMetrics()
             {
-                WaterOutTemperature = 1.1F,
-                WaterInTemperature = 1.2F,
-                HeaterWaterOutTemperature = 1.3F,
-                EnvironmentTemperature = 1.4F,
-                WaterOutPressure = 1.5F,
-                WaterInPressure = 1.6F,
-                HeaterPower = 1.7F,
-                FlowCapacity = 1.8F,
+                Id2,
+                new Device
+                {
+                    Id = Id2,
+                    Ipv4Address = ByteString.CopyFromUtf8("10.0.0.2"),
+                    Name = "测试设备2",
+                    Status = DeviceStatus.Unhealthy,
+                }
             },
-            Controls = new DeviceControls()
             {
-                DevicePower = true,
-                ExhaustPower = true,
-                HeatPumpAuto = true,
-                HeatPumpPower = true,
-                HeatPumpFanOn = true,
-                HeatPumpCompressorOn = true,
-                HeatPumpFourWayReversingValue = true,
+                Id3,
+                new Device
+                {
+                    Id = Id3,
+                    Ipv4Address = ByteString.CopyFromUtf8("10.0.0.3"),
+                    Name = "测试设备3",
+                    Status = DeviceStatus.Disconnected,
+                }
             },
         };
 
-        static Device device2 = new Device()
+        private static readonly Dictionary<ByteString, WorkingMode> WorkingModes = new Dictionary<ByteString, WorkingMode>
         {
-            Id = ByteString.CopyFromUtf8("222"),
-            Name = "Test2",
-            WorkingMode = DeviceWorkingMode.KeepWarmCapacity,
-            DeviceOption = new DeviceOption()
             {
-                SummerTemperature = 2.1F,
-                WinterTemperature = 2.2F,
-                WarmCapacity = 2.3F,
-                ColdCapacity = 2.4F,
-                FlowCapacity = 2.5F,
-                RateCapacity = 2.6F,
-                MotorMode = MotorMode.VariableFrequency,
-                WaterPumpMode = WaterPumpMode.B,
+                Id1,
+                new WorkingMode
+                {
+                    DeviceWorkingMode = DeviceWorkingMode.SummerSituation,
+                    DeviceFlowRateControlMode = DeviceFlowRateControlMode.VariableFrequency,
+                    WaterPumpWorkingMode = WaterPumpWorkingMode.FixedFrequency,
+                }
             },
-            Metrics = new DeviceMetrics()
             {
-                WaterOutTemperature = 2.1F,
-                WaterInTemperature = 2.2F,
-                HeaterWaterOutTemperature = 2.3F,
-                EnvironmentTemperature = 2.4F,
-                WaterOutPressure = 2.5F,
-                WaterInPressure = 2.6F,
-                HeaterPower = 2.7F,
-                FlowCapacity = 2.8F,
+                Id2,
+                new WorkingMode
+                {
+                    DeviceWorkingMode = DeviceWorkingMode.WinterSituation,
+                    DeviceFlowRateControlMode = DeviceFlowRateControlMode.VariableFrequency,
+                    WaterPumpWorkingMode = WaterPumpWorkingMode.FixedFrequency,
+                }
             },
-            Controls = new DeviceControls()
             {
-                DevicePower = true,
-                ExhaustPower = true,
-                HeatPumpAuto = true,
-                HeatPumpPower = true,
-                HeatPumpFanOn = true,
-                HeatPumpCompressorOn = true,
-                HeatPumpFourWayReversingValue = true,
+                Id3,
+                new WorkingMode
+                {
+                    DeviceWorkingMode = DeviceWorkingMode.TemperatureDetermination,
+                    DeviceFlowRateControlMode = DeviceFlowRateControlMode.VariableFrequency,
+                    WaterPumpWorkingMode = WaterPumpWorkingMode.FixedFrequency,
+                }
             },
         };
 
-        public override AsyncUnaryCall<ListDevicesResponse> ListDevicesAsync(
-            ListDevicesRequest request,
+        private static readonly Dictionary<ByteString, RunningParameter> RunningParameters = new Dictionary<ByteString, RunningParameter>
+        {
+            {
+                Id1,
+                new RunningParameter
+                {
+                    SummerHeaterCelsiusDegree = 13.7F,
+                    WinterHeaterCelsiusDegree = 8.4F,
+                    ColdPowerKilowatt = 4F,
+                    WarmPowerKilowatt = 8F,
+                    WaterPumpFlowRateCubicMeterPerHour = 28.4F,
+                    WaterPumpFrequencyHertz = 20.8F,
+                }
+            },
+        };
+
+        public override AsyncUnaryCall<AuthenticateResponse> AuthenticateAsync(
+            AuthenticateRequest request,
             Metadata headers = null,
             DateTime? deadline = null,
             CancellationToken cancellationToken = default)
         {
+            if (request.Username == "user" && request.Password == "user")
+            {
+                return TestCalls.AsyncUnaryCall(
+                    Task.FromResult(
+                        new AuthenticateResponse()
+                        {
+                            Nickname = "用户1",
+                            Role = UserRole.User,
+                        }),
+                    Task.FromResult(new Metadata()),
+                    () => Status.DefaultSuccess,
+                    () => new Metadata(),
+                    () => { });
+            }
+            else if (request.Username == "admin" && request.Password == "admin")
+            {
+                return TestCalls.AsyncUnaryCall(
+                    Task.FromResult(
+                        new AuthenticateResponse()
+                        {
+                            Nickname = "管理员1",
+                            Role = UserRole.Administrator,
+                        }),
+                    Task.FromResult(new Metadata()),
+                    () => Status.DefaultSuccess,
+                    () => new Metadata(),
+                    () => { });
+            }
+            else
+            {
+                var status = new Status(StatusCode.Unauthenticated, "Invalid username or password.");
+                return TestCalls.AsyncUnaryCall(
+                    Task.FromException<AuthenticateResponse>(new RpcException(status)),
+                    Task.FromResult(new Metadata()),
+                    () => status,
+                    () => new Metadata(),
+                    () => { });
+            }
+        }
+
+        public override AsyncUnaryCall<ListDevicesResponse> ListDevicesAsync(ListDevicesRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
             var response = new ListDevicesResponse();
-            response.Devices.Add(new Device()
-            {
-                Id = device1.Id,
-                Name = device1.Name,
-            });
-            response.Devices.Add(new Device()
-            {
-                Id = device2.Id,
-                Name = device2.Name,
-            });
-
-            return TestCalls.AsyncUnaryCall(Task.FromResult(response), Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
+            response.Devices.Add(Devices.Values);
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(response),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
         }
 
-        public override AsyncUnaryCall<Device> GetDeviceAsync(GetDeviceRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        public override AsyncUnaryCall<WorkingMode> GetWorkingModeAsync(GetWorkingModeRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            if (request.Id.Equals(ByteString.CopyFromUtf8("111")))
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(WorkingModes[request.DeviceId]),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
+        public override AsyncUnaryCall<WorkingMode> UpdateWorkingModeAsync(UpdateWorkingModeRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            var workingMode = WorkingModes[request.DeviceId];
+            if (request.UpdateMask == null)
             {
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(device1),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
-            }
-            else if (request.Id.Equals(ByteString.CopyFromUtf8("222")))
-            {
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(device2),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
+                workingMode.MergeFrom(request.WorkingMode);
             }
             else
             {
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(new Device()),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
+                request.UpdateMask.Merge(request.WorkingMode, workingMode);
             }
+
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(workingMode),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
         }
 
-        public override AsyncUnaryCall<Device> UpdateDeviceAsync(UpdateDeviceRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        public override AsyncUnaryCall<RunningParameter> GetRunningParameterAsync(GetRunningParameterRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            if (request.Device.Id.Equals(device1.Id))
-            {
-                // TODO: FieldMask
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(device1),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
-            }
-            else if (request.Device.Id.Equals(device2.Id))
-            {
-                // TODO: FieldMask
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(RunningParameters[request.DeviceId]),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
 
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(device2),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
+        public override AsyncUnaryCall<RunningParameter> UpdateRunningParameterAsync(UpdateRunningParameterRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            var runningParameter = RunningParameters[request.DeviceId];
+            if (request.UpdateMask == null)
+            {
+                runningParameter.MergeFrom(request.RunningParameter);
             }
             else
             {
-                return TestCalls.AsyncUnaryCall(
-                    Task.FromResult(new Device()),
-                    Task.FromResult(new Metadata()),
-                    () => Status.DefaultSuccess,
-                    () => new Metadata(),
-                    () => { });
+                request.UpdateMask.Merge(request.RunningParameter, runningParameter);
             }
+
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(runningParameter),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
         }
     }
-
-
 }

@@ -25,7 +25,10 @@
                 Command="{Binding NavigateToDeviceRunningParameterView}"
                 Content="参数设置"
                 Style="{StaticResource NavigationButtonStyle}" />
-            <Button Content="常规历史数据" Style="{StaticResource NavigationButtonStyle}" />
+            <Button
+                Command="{Binding NavigateToDeviceMetricHistoryView}"
+                Content="常规历史数据"
+                Style="{StaticResource NavigationButtonStyle}" />
             <Button Content="常规实时数据" Style="{StaticResource NavigationButtonStyle}" />
             <Button Content="故障记录" Style="{StaticResource NavigationButtonStyle}" />
             <Button Content="导出历史数据" Style="{StaticResource NavigationButtonStyle}" />

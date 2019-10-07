@@ -5,10 +5,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Core.Testing;
 
@@ -215,6 +217,44 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
             return TestCalls.AsyncUnaryCall(
                 Task.FromResult(runningParameter),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
+        public override AsyncUnaryCall<ListMetricsResponse> ListMetricsAsync(ListMetricsRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            DateTime datetime;
+            if (string.IsNullOrEmpty(request.PageToken))
+            {
+                datetime = DateTime.Now;
+            }
+            else
+            {
+                datetime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+            }
+
+            datetime = datetime.ToUniversalTime();
+
+            var metrics = new List<Metric>(request.PageSize);
+            for (var i = 0; i < request.PageSize; i++)
+            {
+                datetime = datetime.Subtract(TimeSpan.FromSeconds(5));
+                metrics.Add(new Metric
+                {
+                    CreateTime = Timestamp.FromDateTime(datetime),
+                });
+            }
+
+            var response = new ListMetricsResponse
+            {
+                NextPageToken = datetime.ToString(CultureInfo.InvariantCulture),
+            };
+            response.Metrics.AddRange(metrics);
+
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(response),
                 Task.FromResult(new Metadata()),
                 () => Status.DefaultSuccess,
                 () => new Metadata(),

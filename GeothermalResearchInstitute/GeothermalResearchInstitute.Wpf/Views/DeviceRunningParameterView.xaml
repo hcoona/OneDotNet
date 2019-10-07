@@ -6,13 +6,11 @@
     xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:proto="clr-namespace:GeothermalResearchInstitute.v2;assembly=GeothermalResearchInstitute.Grpc"
     d:DesignHeight="360"
     d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Loaded="DeviceRunningParameterView_Loaded"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

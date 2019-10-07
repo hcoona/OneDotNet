@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Common;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -244,6 +245,12 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 metrics.Add(new Metric
                 {
                     CreateTime = Timestamp.FromDateTime(datetime),
+                    InputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    OutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    HeaterOutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    EnvironmentCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    HeaterPowerKilowatt = RandomUtils.NextFloat(0, 12),
+                    WaterPumpFlowRateCubicMeterPerHour = RandomUtils.NextFloat(1, 3),
                 });
             }
 
@@ -255,6 +262,24 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
             return TestCalls.AsyncUnaryCall(
                 Task.FromResult(response),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
+        public override AsyncUnaryCall<Metric> GetMetricAsync(GetMetricRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(new Metric
+                {
+                    InputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    OutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    HeaterOutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    EnvironmentCelsiusDegree = RandomUtils.NextFloat(10, 20),
+                    HeaterPowerKilowatt = RandomUtils.NextFloat(0, 12),
+                    WaterPumpFlowRateCubicMeterPerHour = RandomUtils.NextFloat(1, 3),
+                }),
                 Task.FromResult(new Metadata()),
                 () => Status.DefaultSuccess,
                 () => new Metadata(),

@@ -28,6 +28,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 new DelegateCommand(this.ExecuteNavigateToDeviceRunningParameterView, this.CanNavigateToDeviceRunningParameterView);
             this.NavigateToDeviceMetricHistoryView = this.NavigateToDeviceMetricHistoryView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryView);
+            this.NavigateToDeviceMetricBoardView =
+                new DelegateCommand(this.ExecuteNavigateToDeviceMetricBoardView, this.CanNavigateToDeviceMetricBoardView);
         }
 
         public ViewModelContext ViewModelContext
@@ -55,6 +57,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public DelegateCommand NavigateToDeviceMetricHistoryView { get; }
 
+        public DelegateCommand NavigateToDeviceMetricBoardView { get; }
+
         private bool IsDeviceConnected =>
             this.ViewModelContext?.SelectedDevice?.Status == v2.DeviceStatus.Healthy
             || this.ViewModelContext?.SelectedDevice?.Status == v2.DeviceStatus.Unhealthy;
@@ -64,6 +68,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             this.NavigateToDeviceControlView.RaiseCanExecuteChanged();
             this.NavigateToDeviceWorkingModeView.RaiseCanExecuteChanged();
             this.NavigateToDeviceRunningParameterView.RaiseCanExecuteChanged();
+            this.NavigateToDeviceMetricBoardView.RaiseCanExecuteChanged();
         }
 
         private bool CanNavigateToDeviceControlView() => this.IsDeviceConnected;
@@ -93,6 +98,14 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private void ExecuteNavigateToDeviceMetricHistoryView()
         {
             this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryView));
+            this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
+        }
+
+        private bool CanNavigateToDeviceMetricBoardView() => this.IsDeviceConnected;
+
+        private void ExecuteNavigateToDeviceMetricBoardView()
+        {
+            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricBoardView));
             this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
         }
     }

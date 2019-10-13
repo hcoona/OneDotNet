@@ -75,7 +75,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private void ExecuteNavigateToContactView()
         {
             this.ViewModelContext.SelectedDevice = FakeClients.FakeDeviceServiceClient.Devices.Values.First();
-            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricBoardView));
+            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
             this.ViewModelContext.NavigateBackTarget = nameof(WelcomeView);
         }
 

@@ -30,6 +30,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryView);
             this.NavigateToDeviceMetricBoardView =
                 new DelegateCommand(this.ExecuteNavigateToDeviceMetricBoardView, this.CanNavigateToDeviceMetricBoardView);
+            this.NavigateToDeviceMetricHistoryExportView = this.NavigateToDeviceMetricHistoryExportView =
+                 new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryExportView);
         }
 
         public ViewModelContext ViewModelContext
@@ -58,6 +60,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         public DelegateCommand NavigateToDeviceMetricHistoryView { get; }
 
         public DelegateCommand NavigateToDeviceMetricBoardView { get; }
+
+        public DelegateCommand NavigateToDeviceMetricHistoryExportView { get; }
 
         private bool IsDeviceConnected =>
             this.ViewModelContext?.SelectedDevice?.Status == v2.DeviceStatus.Healthy
@@ -106,6 +110,12 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private void ExecuteNavigateToDeviceMetricBoardView()
         {
             this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricBoardView));
+            this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
+        }
+
+        private void ExecuteNavigateToDeviceMetricHistoryExportView()
+        {
+            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
             this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
         }
     }

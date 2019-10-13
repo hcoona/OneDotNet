@@ -226,25 +226,31 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<ListMetricsResponse> ListMetricsAsync(ListMetricsRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            DateTime datetime;
+            DateTime? startDateTime = request.StartTime?.ToDateTime();
+            DateTime endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
-                datetime = DateTime.Now;
+                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.Now;
             }
             else
             {
-                datetime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
             }
 
-            datetime = datetime.ToUniversalTime();
+            endDateTime = endDateTime.ToUniversalTime();
 
             var metrics = new List<Metric>(request.PageSize);
             for (var i = 0; i < request.PageSize; i++)
             {
-                datetime = datetime.Subtract(TimeSpan.FromSeconds(5));
+                endDateTime = endDateTime.Subtract(TimeSpan.FromSeconds(5));
+                if (startDateTime.HasValue && startDateTime > endDateTime)
+                {
+                    break;
+                }
+
                 metrics.Add(new Metric
                 {
-                    CreateTime = Timestamp.FromDateTime(datetime),
+                    CreateTime = Timestamp.FromDateTime(endDateTime),
                     InputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
                     OutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
                     HeaterOutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
@@ -256,7 +262,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
             var response = new ListMetricsResponse
             {
-                NextPageToken = datetime.ToString(CultureInfo.InvariantCulture),
+                NextPageToken = endDateTime.ToString(CultureInfo.InvariantCulture),
             };
             response.Metrics.AddRange(metrics);
 

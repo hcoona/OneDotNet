@@ -141,8 +141,10 @@ message ListDevicesResponse {
 
 message ListMetricsRequest {
   bytes device_id = 1;
-  int32 page_size = 2;
-  string page_token = 3;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 page_size = 4;
+  string page_token = 5;
 }
 
 message ListMetricsResponse {
@@ -189,6 +191,7 @@ service DeviceService {
 
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 
+  // List metrics, newest first.
   rpc ListMetrics (ListMetricsRequest) returns (ListMetricsResponse) {}
 
   rpc GetMetric (GetMetricRequest) returns (Metric) {}

@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
+using Google.Protobuf.WellKnownTypes;
 using Prism.Mvvm;
 
 namespace GeothermalResearchInstitute.Wpf.ViewModels

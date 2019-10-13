@@ -23,6 +23,7 @@ namespace GeothermalResearchInstitute.Wpf.Modules
             containerRegistry.RegisterForNavigation<DeviceRunningParameterView>();
             containerRegistry.RegisterForNavigation<DeviceMetricHistoryView>();
             containerRegistry.RegisterForNavigation<DeviceMetricBoardView>();
+            containerRegistry.RegisterForNavigation<DeviceMetricHistoryExportView>();
         }
     }
 }

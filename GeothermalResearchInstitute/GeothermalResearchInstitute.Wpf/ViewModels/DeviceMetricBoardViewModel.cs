@@ -68,7 +68,9 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public float WaterPumpFlowRateCubicMeterPerHour => this.Metric?.WaterPumpFlowRateCubicMeterPerHour ?? 0;
 
-        public float GroundHeatExchangeKilowatt => MathF.Abs(this.InputWaterCelsiusDegree - this.OutputWaterCelsiusDegree);
+        public float GroundHeatExchangeKilowatt =>
+            1.167F * this.WaterPumpFlowRateCubicMeterPerHour * MathF.Abs(
+                this.InputWaterCelsiusDegree - this.OutputWaterCelsiusDegree);
 
         public float InputWaterPressureMeter => this.Metric?.InputWaterPressureMeter ?? 0;
 
@@ -76,7 +78,9 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public float EnvironmentCelsiusDegree => this.Metric?.EnvironmentCelsiusDegree ?? 0;
 
-        public float CompressorHeatExchangeKilowatt => MathF.Abs(this.EnvironmentCelsiusDegree - this.HeaterOutputWaterCelsiusDegree);
+        public float CompressorHeatExchangeKilowatt =>
+            1.167F * this.WaterPumpFlowRateCubicMeterPerHour * MathF.Abs(
+                this.OutputWaterCelsiusDegree - this.HeaterOutputWaterCelsiusDegree);
 
         public float DeltaWaterPressureMeter => MathF.Abs(this.InputWaterPressureMeter - this.OutputWaterPressureMeter);
 

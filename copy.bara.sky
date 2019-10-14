@@ -95,7 +95,7 @@ core.workflow(
     name = "fsharp_typeproviders_sdk",
     origin = git.github_origin(
         url = "https://github.com/fsprojects/FSharp.TypeProviders.SDK.git",
-        ref = "master",
+        ref = "b8727a47dd83d3e88aed8f2100f6712478c64632",
     ),
     destination = DESTINATION,
     origin_files = glob(
@@ -128,7 +128,7 @@ core.workflow(
     name = "com_github_ejensen_toggle_switch_control",
     origin = git.github_origin(
         url = "https://github.com/ejensen/toggle-switch-control.git",
-        ref = "master",
+        ref = "a870f7981c890c62dd8fa3468fa683817a7635e3",
     ),
     destination = DESTINATION,
     origin_files = glob(
@@ -158,3 +158,5 @@ core.workflow(
 
 # TODO(zhangshuai.ustc): Add https://github.com/fallin/Itc4net/tree/master/src/Itc4net
 # and then fix Clocks.IntervalTreeClocks
+
+# TODO(zhangshuai.ustc): Add https://github.com/xceedsoftware/wpftoolkit

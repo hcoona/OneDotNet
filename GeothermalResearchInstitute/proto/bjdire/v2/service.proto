@@ -23,6 +23,16 @@ message AuthenticateResponse {
   UserRole role = 2;
 }
 
+message ConnectRequest {}
+
+message ConnectResponse {
+  bytes id = 1;
+}
+
+message HeartbeatRequest {}
+
+message HeartbeatResponse {}
+
 enum DeviceStatus {
   DEVICE_STATUS_INVALID = 0;
   DEVICE_STATUS_HEALTHY = 1;
@@ -39,7 +49,7 @@ message Device {
 }
 
 message Metric {
-  // 采集时间
+  // 采集时间, PLC can ignore this field.
   google.protobuf.Timestamp create_time = 1;
   // 出水温度（摄氏度）
   float output_water_celsius_degree = 2;
@@ -187,24 +197,39 @@ message UpdateWorkingModeRequest {
 }
 
 service DeviceService {
+  // Authenticate user. PLC don't need this.
   rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {}
 
+  // Establish connect between Sever & PLC. PLC specific method.
+  rpc Connect (ConnectRequest) returns (ConnectResponse) {}
+
+  // Heartbeat between Server & PLC. PLC specific method.
+  rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
+
+  // List known PLCs. PLC don't need this.
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
 
-  // List metrics, newest first.
+  // List metrics, newest first. PLC don't need this.
   rpc ListMetrics (ListMetricsRequest) returns (ListMetricsResponse) {}
 
+  // Get current metric for specified PLC.
   rpc GetMetric (GetMetricRequest) returns (Metric) {}
 
+  // Get current switch status for specified PLC.
   rpc GetSwitch (GetSwitchRequest) returns (Switch) {}
 
+  // Update switch status for specified PLC.
   rpc UpdateSwitch (UpdateSwitchRequest) returns (Switch) {}
 
+  // Get running parameter for specified PLC.
   rpc GetRunningParameter (GetRunningParameterRequest) returns (RunningParameter) {}
 
+  // Update running parameter for specified PLC.
   rpc UpdateRunningParameter (UpdateRunningParameterRequest) returns (RunningParameter) {}
 
+  // Get working mode for specified PLC.
   rpc GetWorkingMode (GetWorkingModeRequest) returns (WorkingMode) {}
 
+  // Update working mode for specified PLC.
   rpc UpdateWorkingMode (UpdateWorkingModeRequest) returns (WorkingMode) {}
 }

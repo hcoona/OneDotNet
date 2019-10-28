@@ -5,7 +5,7 @@
     <Style x:Key="WindowBaseStyle" TargetType="Window">
         <Setter Property="MinHeight" Value="320" />
         <Setter Property="MinWidth" Value="480" />
-        <Setter Property="Height" Value="480" />
+        <Setter Property="Height" Value="520" />
         <Setter Property="Width" Value="600" />
     </Style>
 

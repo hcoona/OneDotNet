@@ -1,13 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>$(DefaultExeTargetFrameworks)</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <AssemblyName>GeothermalResearchInstitute.Wpf</AssemblyName>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Resources\logo.png" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />
     <PackageReference Include="Grpc.Core.Testing" Version="2.24.0" />
@@ -23,6 +20,11 @@
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\device.png" />
+    <Resource Include="Resources\device.png" />
+    <None Remove="Resources\fan-new.png" />
+    <Resource Include="Resources\fan-new.png" />
+    <None Remove="Resources\logo.png" />
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -35,8 +37,5 @@
     <None Update="appsettings.Production.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\" />
   </ItemGroup>
 </Project>

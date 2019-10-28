@@ -11,5 +11,189 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Loaded="DeviceControlView_Loaded"
     mc:Ignorable="d">
-    <Canvas />
+    <Viewbox>
+        <Canvas Width="600" Height="360">
+            <Canvas.Background>
+                <ImageBrush ImageSource="/Resources/device.png" />
+            </Canvas.Background>
+            <Grid Canvas.Left="10" Canvas.Top="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="出水温度" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="出水压力" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="流量" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="环境温度" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+            </Grid>
+            <Grid Canvas.Left="10" Canvas.Bottom="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="回水温度" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="回水压力" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="加热器功率" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="加热器出水温度" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="0" />
+            </Grid>
+            <Line
+                StrokeEndLineCap="Triangle"
+                X1="0"
+                X2="10"
+                Y1="0"
+                Y2="10" />
+            <Ellipse
+                Canvas.Left="170"
+                Canvas.Top="293"
+                Width="10"
+                Height="10"
+                Fill="#FF2E2EE4" />
+            <Image
+                Canvas.Left="360"
+                Canvas.Top="180"
+                Width="20"
+                Height="20"
+                Source="/Resources/fan-new.png">
+                <Image.RenderTransform>
+                    <RotateTransform CenterX="10" CenterY="10" />
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    RepeatBehavior="Forever"
+                                    Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                                    To="360"
+                                    Duration="0:0:1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+            <StackPanel
+                Canvas.Left="330"
+                Canvas.Top="135"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="开" />
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="关" />
+            </StackPanel>
+            <StackPanel
+                Canvas.Left="330"
+                Canvas.Top="210"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="开" />
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="关" />
+            </StackPanel>
+            <StackPanel
+                Canvas.Left="420"
+                Canvas.Top="210"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="开" />
+                <Button
+                    Margin="5"
+                    Padding="5"
+                    Content="关" />
+            </StackPanel>
+        </Canvas>
+    </Viewbox>
 </UserControl>

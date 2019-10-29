@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\GeothermalResearchInstitute\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../GeothermalResearchInstitute/proto/bjdire/v2/service.proto" Link="service_v2.proto">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Crc32C.NET" Version="1.0.5" />
+  </ItemGroup>
+
+</Project>

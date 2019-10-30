@@ -12,6 +12,7 @@ using System.Text;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using System.Buffers.Binary;
 
 namespace TcpServerLab
 {
@@ -27,7 +28,7 @@ namespace TcpServerLab
             using var memoryStream = new MemoryStream();
             using var writer = new BinaryWriter(memoryStream, Encoding.ASCII, true);
             var header = new Header { Path = "/bjdire.v2.DeviceService/Connect" };
-            WriteHeader(writer, streamId: 1, header: header);
+            WriteHeaderFrame(writer, streamId: 1, header: header);
             Console.WriteLine("Sending header frame, content size = {0}, frame size = {1}", header.CalculateSize(), memoryStream.Position);
             Console.WriteLine(HexUtils.Dump(memoryStream.GetBuffer().AsMemory(0, (int)memoryStream.Position)));
             Console.WriteLine();
@@ -40,7 +41,7 @@ namespace TcpServerLab
                 C = "Hello World!",
                 D = Timestamp.FromDateTimeOffset(DateTimeOffset.Parse("2019-10-29T21:42:13.00000+8:00", CultureInfo.InvariantCulture)),
             };
-            WriteData(writer, streamId: 1, contents: request.ToByteString().Span);
+            WriteDataFrame(writer, streamId: 1, contents: request.ToByteString().Span);
             Console.WriteLine("Sending data frame, content size = {0}, frame size = {1}", request.CalculateSize(), memoryStream.Position - dataStartingPosition);
             Console.WriteLine(HexUtils.Dump(memoryStream.GetBuffer()
                 .AsMemory(dataStartingPosition, (int)(memoryStream.Position - dataStartingPosition))));
@@ -51,18 +52,41 @@ namespace TcpServerLab
             memoryStream.Seek(0, SeekOrigin.Begin);
             memoryStream.CopyTo(networkStream);
 
-            using var reader = new BinaryReader(networkStream, Encoding.ASCII, true);
-            var headerFrameHeaderBytes = reader.ReadBytes(20);
-            var headerFrameHeader = FrameHeader.Parse(headerFrameHeaderBytes);
-            var headerFrameContentBytes = reader.ReadBytes(headerFrameHeader.ContentLength);
+            var buffer = new byte[8192];
+            var headerFrameHeaderByteSpan = buffer.AsSpan(0, 20);
+            ReadBytes(networkStream, headerFrameHeaderByteSpan);
+            var headerFrameHeader = FrameHeader.Parse(headerFrameHeaderByteSpan);
+            var headerFrameContentByteSpan = buffer.AsSpan(20, headerFrameHeader.ContentLength);
+            ReadBytes(networkStream, headerFrameContentByteSpan);
+            var headerFrameByteSpan = buffer.AsSpan(0, headerFrameHeaderByteSpan.Length + headerFrameContentByteSpan.Length);
         }
 
-        private static void WriteHeader(BinaryWriter writer, int streamId, Header header)
+        private static void ReadHeaderFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Header header) {
+            ReadFrame(stream, buffer, out var frameHeaderSpan, out var frameContentSpan, out frameSpan, out frameHeader);
+        }
+
+        private static void ReadFrame(Stream stream, Span<byte> buffer, out Span<byte> frameHeaderSpan, out Span<byte> frameContentSpan, out Span<byte> frameSpan, out FrameHeader frameHeader) {
+            frameHeaderSpan = buffer.Slice(0, 20);
+            ReadBytes(stream, frameHeaderSpan);
+            frameHeader = FrameHeader.Parse(frameHeaderSpan);
+            frameContentSpan = buffer.Slice(20, frameHeader.ContentLength);
+            ReadBytes(stream, frameContentSpan);
+            frameSpan = buffer.Slice(0, frameHeaderSpan.Length + frameContentSpan.Length);
+        }
+
+        private static void ReadBytes(Stream stream, Span<byte> buffer) {
+            while (buffer.Length != 0) {
+                int count = stream.Read(buffer);
+                buffer = buffer.Slice(count);
+            }
+        }
+
+        private static void WriteHeaderFrame(BinaryWriter writer, int streamId, Header header)
         {
             WriteFrame(writer, 1, 0, streamId, header.ToByteString().Span);
         }
 
-        private static void WriteData(BinaryWriter writer, int streamId, ReadOnlySpan<byte> contents)
+        private static void WriteDataFrame(BinaryWriter writer, int streamId, ReadOnlySpan<byte> contents)
         {
             const int trunkSize = 8192;
             int quot = Math.DivRem(contents.Length, trunkSize, out int rem);
@@ -79,7 +103,10 @@ namespace TcpServerLab
 
         private static void WriteFrame(BinaryWriter writer, byte type, byte seqNum, int streamId, ReadOnlySpan<byte> contents)
         {
-            uint contentChecksum = Crc32C.Crc32CAlgorithm.Compute(contents.ToArray());
+            uint contentChecksum = 0;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows) {
+                contentChecksum = Crc32C.Crc32CAlgorithm.Compute(contents.ToArray());
+            }
 
             var frameHeaderBytes = new byte[20];
             var frameHeader = new FrameHeader(1, type, seqNum, (uint)streamId, 20, (ushort)contents.Length, contentChecksum);

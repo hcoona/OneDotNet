@@ -6,13 +6,11 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-using System.Buffers.Binary;
 
 namespace TcpServerLab
 {
@@ -47,25 +45,36 @@ namespace TcpServerLab
                 .AsMemory(dataStartingPosition, (int)(memoryStream.Position - dataStartingPosition))));
             Console.WriteLine();
 
-            using var client = listener.AcceptTcpClient();
-            using var networkStream = client.GetStream();
+            // using var client = listener.AcceptTcpClient();
+            // using var networkStream = client.GetStream();
+            // memoryStream.Seek(0, SeekOrigin.Begin);
+            // memoryStream.CopyTo(networkStream);
+
             memoryStream.Seek(0, SeekOrigin.Begin);
-            memoryStream.CopyTo(networkStream);
+            var networkStream = memoryStream;
 
-            var buffer = new byte[8192];
-            var headerFrameHeaderByteSpan = buffer.AsSpan(0, 20);
-            ReadBytes(networkStream, headerFrameHeaderByteSpan);
-            var headerFrameHeader = FrameHeader.Parse(headerFrameHeaderByteSpan);
-            var headerFrameContentByteSpan = buffer.AsSpan(20, headerFrameHeader.ContentLength);
-            ReadBytes(networkStream, headerFrameContentByteSpan);
-            var headerFrameByteSpan = buffer.AsSpan(0, headerFrameHeaderByteSpan.Length + headerFrameContentByteSpan.Length);
+            var bufferMemory = new Memory<byte>(new byte[8192]);
+            ReadHeaderFrame(networkStream, bufferMemory.Span, out var headerFrameSpan, out var headerFrameHeader, out var headerFrameContent);
+            Console.WriteLine("Receiving header frame, content size = {0}, frame size = {1}", headerFrameHeader.ContentLength, headerFrameSpan.Length);
+            Console.WriteLine(HexUtils.Dump(bufferMemory.Slice(0, headerFrameSpan.Length)));
+            Console.WriteLine();
+
+            Console.WriteLine(headerFrameContent.ToString());
         }
 
-        private static void ReadHeaderFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Header header) {
+        private static void ReadHeaderFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Header header)
+        {
             ReadFrame(stream, buffer, out var frameHeaderSpan, out var frameContentSpan, out frameSpan, out frameHeader);
+            header = Header.Parser.ParseFrom(frameContentSpan.ToArray());
         }
 
-        private static void ReadFrame(Stream stream, Span<byte> buffer, out Span<byte> frameHeaderSpan, out Span<byte> frameContentSpan, out Span<byte> frameSpan, out FrameHeader frameHeader) {
+        private static void ReadDataFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Span<byte> contentSpan)
+        {
+            ReadFrame(stream, buffer, out var frameHeaderSpan, out contentSpan, out frameSpan, out frameHeader);
+        }
+
+        private static void ReadFrame(Stream stream, Span<byte> buffer, out Span<byte> frameHeaderSpan, out Span<byte> frameContentSpan, out Span<byte> frameSpan, out FrameHeader frameHeader)
+        {
             frameHeaderSpan = buffer.Slice(0, 20);
             ReadBytes(stream, frameHeaderSpan);
             frameHeader = FrameHeader.Parse(frameHeaderSpan);
@@ -74,8 +83,10 @@ namespace TcpServerLab
             frameSpan = buffer.Slice(0, frameHeaderSpan.Length + frameContentSpan.Length);
         }
 
-        private static void ReadBytes(Stream stream, Span<byte> buffer) {
-            while (buffer.Length != 0) {
+        private static void ReadBytes(Stream stream, Span<byte> buffer)
+        {
+            while (buffer.Length != 0)
+            {
                 int count = stream.Read(buffer);
                 buffer = buffer.Slice(count);
             }
@@ -104,7 +115,8 @@ namespace TcpServerLab
         private static void WriteFrame(BinaryWriter writer, byte type, byte seqNum, int streamId, ReadOnlySpan<byte> contents)
         {
             uint contentChecksum = 0;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows) {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+            {
                 contentChecksum = Crc32C.Crc32CAlgorithm.Compute(contents.ToArray());
             }
 

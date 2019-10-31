@@ -71,5 +71,10 @@ namespace TcpServerLab
             // Write content checksum.
             BinaryPrimitives.WriteUInt32BigEndian(buffer.Slice(16, 4), this.ContentChecksum);
         }
+
+        public String ToString()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

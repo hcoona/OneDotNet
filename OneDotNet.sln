@@ -95,7 +95,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrismLab", "codelab\PrismLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.Wpf", "GeothermalResearchInstitute\GeothermalResearchInstitute.Wpf\GeothermalResearchInstitute.Wpf.csproj", "{116DBDC0-8FFB-4FD2-90EA-E8B4F1E02720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpServerLab", "codelab\TcpServerLab\TcpServerLab.csproj", "{9F55F74F-37F3-4CB5-A48E-DEA3025EA760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcpServerLab", "codelab\TcpServerLab\TcpServerLab.csproj", "{9F55F74F-37F3-4CB5-A48E-DEA3025EA760}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crc32C.NET", "third_party\CRC32C.NET\Crc32C.NET\Crc32C.NET.csproj", "{C07C6AF2-0254-44EE-ABCB-18F7917605C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -262,6 +264,12 @@ Global
 		{9F55F74F-37F3-4CB5-A48E-DEA3025EA760}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{9F55F74F-37F3-4CB5-A48E-DEA3025EA760}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F55F74F-37F3-4CB5-A48E-DEA3025EA760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -297,6 +305,7 @@ Global
 		{F9569926-C12A-4333-859B-FA2D20557C6F} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 		{116DBDC0-8FFB-4FD2-90EA-E8B4F1E02720} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{9F55F74F-37F3-4CB5-A48E-DEA3025EA760} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
+		{C07C6AF2-0254-44EE-ABCB-18F7917605C0} = {E307CA64-13F5-446A-BCA5-C611A235A2E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(DefaultLibraryTargetFrameworks)</TargetFrameworks>
+    <RootNamespace>Crc32C</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="crc32c32.dll" />
+    <EmbeddedResource Include="crc32c32.dll" />
+    <None Remove="crc32c64.dll" />
+    <EmbeddedResource Include="crc32c64.dll" />
+  </ItemGroup>
+
+</Project>

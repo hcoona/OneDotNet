@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Crc32C.NET" Version="1.0.5" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
   </ItemGroup>
 
 </Project>

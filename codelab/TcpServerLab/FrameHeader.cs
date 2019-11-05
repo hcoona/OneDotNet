@@ -5,6 +5,7 @@
 
 using System;
 using System.Buffers.Binary;
+using System.Text.Json;
 
 namespace TcpServerLab
 {
@@ -72,9 +73,9 @@ namespace TcpServerLab
             BinaryPrimitives.WriteUInt32BigEndian(buffer.Slice(16, 4), this.ContentChecksum);
         }
 
-        public String ToString()
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return JsonSerializer.Serialize(this);
         }
     }
 }

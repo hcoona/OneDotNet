@@ -45,21 +45,40 @@ namespace TcpServerLab
                 .AsMemory(dataStartingPosition, (int)(memoryStream.Position - dataStartingPosition))));
             Console.WriteLine();
 
-            // using var client = listener.AcceptTcpClient();
-            // using var networkStream = client.GetStream();
-            // memoryStream.Seek(0, SeekOrigin.Begin);
-            // memoryStream.CopyTo(networkStream);
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            var networkStream = memoryStream;
+            Stream inputStream;
+            if (true)
+            {
+                TcpClient client = listener.AcceptTcpClient();
+                NetworkStream networkStream = client.GetStream();
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                memoryStream.CopyTo(networkStream);
+                inputStream = networkStream;
+            }
+            else
+            {
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                inputStream = memoryStream;
+            }
 
             var bufferMemory = new Memory<byte>(new byte[8192]);
-            ReadHeaderFrame(networkStream, bufferMemory.Span, out var headerFrameSpan, out var headerFrameHeader, out var headerFrameContent);
+            ReadHeaderFrame(inputStream, bufferMemory.Span, out var headerFrameSpan, out var headerFrameHeader, out var headerFrameContent);
             Console.WriteLine("Receiving header frame, content size = {0}, frame size = {1}", headerFrameHeader.ContentLength, headerFrameSpan.Length);
             Console.WriteLine(HexUtils.Dump(bufferMemory.Slice(0, headerFrameSpan.Length)));
             Console.WriteLine();
 
+            Console.WriteLine(headerFrameHeader.ToString());
             Console.WriteLine(headerFrameContent.ToString());
+            Console.WriteLine();
+
+            ReadDataFrame(inputStream, bufferMemory.Span, out var dataFrameSpan, out var dataFrameHeader, out var dataFrameContentSpan);
+            Console.WriteLine("Receiving data frame, content size = {0}, frame size = {1}", dataFrameHeader.ContentLength, dataFrameSpan.Length);
+            Console.WriteLine(HexUtils.Dump(bufferMemory.Slice(0, dataFrameSpan.Length)));
+            Console.WriteLine();
+
+            var response = TestResponse.Parser.ParseFrom(dataFrameContentSpan.ToArray());
+            Console.WriteLine(dataFrameHeader.ToString());
+            Console.WriteLine(response.ToString());
+            Console.WriteLine();
         }
 
         private static void ReadHeaderFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Header header)

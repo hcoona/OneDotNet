@@ -49,6 +49,8 @@ namespace TcpServerLab
             if (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
+                Console.WriteLine("TCP client connected: {0}", client.Client.RemoteEndPoint);
+
                 NetworkStream networkStream = client.GetStream();
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 memoryStream.CopyTo(networkStream);

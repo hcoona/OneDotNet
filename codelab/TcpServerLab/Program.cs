@@ -25,7 +25,7 @@ namespace TcpServerLab
 
             using var memoryStream = new MemoryStream();
             using var writer = new BinaryWriter(memoryStream, Encoding.ASCII, true);
-            var header = new Header { Path = "/bjdire.v2.DeviceService/Connect" };
+            var header = new Header { Path = "/bjdire.v2.DeviceService/Test" };
             WriteHeaderFrame(writer, streamId: 1, header: header);
             Console.WriteLine("Sending header frame, content size = {0}, frame size = {1}", header.CalculateSize(), memoryStream.Position);
             Console.WriteLine(HexUtils.Dump(memoryStream.GetBuffer().AsMemory(0, (int)memoryStream.Position)));
@@ -46,21 +46,18 @@ namespace TcpServerLab
             Console.WriteLine();
 
             Stream inputStream;
-            if (true)
-            {
-                TcpClient client = listener.AcceptTcpClient();
-                Console.WriteLine("TCP client connected: {0}", client.Client.RemoteEndPoint);
+#if DEBUG
+            TcpClient client = listener.AcceptTcpClient();
+            Console.WriteLine("TCP client connected: {0}", client.Client.RemoteEndPoint);
 
-                NetworkStream networkStream = client.GetStream();
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                memoryStream.CopyTo(networkStream);
-                inputStream = networkStream;
-            }
-            else
-            {
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                inputStream = memoryStream;
-            }
+            NetworkStream networkStream = client.GetStream();
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            memoryStream.CopyTo(networkStream);
+            inputStream = networkStream;
+#else
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            inputStream = memoryStream;
+#endif
 
             var bufferMemory = new Memory<byte>(new byte[8192]);
             ReadHeaderFrame(inputStream, bufferMemory.Span, out var headerFrameSpan, out var headerFrameHeader, out var headerFrameContent);

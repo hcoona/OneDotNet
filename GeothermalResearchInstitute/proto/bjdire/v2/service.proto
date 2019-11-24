@@ -13,6 +13,11 @@ message Header {
   string path = 3;
 }
 
+message UnifiedFrameContent {
+  Header header = 1;
+  bytes payload = 2;
+}
+
 message TestRequest {
   int32 a = 1;
   float b = 2;

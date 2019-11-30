@@ -126,6 +126,40 @@
                 X2="10"
                 Y1="0"
                 Y2="10" />
+            <Image
+                  Canvas.Left="85"
+                  Canvas.Top="209"
+                  Width="30"
+                  Height="30"
+                  Source="/Resources/right-arrow.png">
+        <Image.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" From="1" To="0"
+                                                 Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+      </Image>
+            <Image
+                    Canvas.Left="85"
+                    Canvas.Top="143"
+                    Width="30"
+                    Height="30"
+                    Source="/Resources/left-arrow.png">
+        <Image.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" From="1" To="0"
+                                                 Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+      </Image>
             <Ellipse
                 Canvas.Left="170"
                 Canvas.Top="293"
@@ -157,7 +191,7 @@
             </Style>
           </Ellipse.Style>
         </Ellipse>
-        <Ellipse
+            <Ellipse
                 Canvas.Left="153"
                 Canvas.Top="72"
                 Width="10"

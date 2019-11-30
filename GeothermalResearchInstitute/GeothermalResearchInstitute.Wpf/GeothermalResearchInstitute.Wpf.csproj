@@ -21,11 +21,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\device.png" />
+    <None Remove="Resources\left-arrow.png" />
+    <None Remove="Resources\right-arrow.png" />
     <Resource Include="Resources\device.png" />
     <None Remove="Resources\fan-new.png" />
     <Resource Include="Resources\fan-new.png" />
     <None Remove="Resources\logo.png" />
+    <Resource Include="Resources\left-arrow.png" />
     <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\right-arrow.png" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.Development.ini">

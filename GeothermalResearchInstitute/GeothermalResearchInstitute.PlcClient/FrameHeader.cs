@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Overby.Extensions.AsyncBinaryReaderWriter;
 
-namespace TcpServerLab
+namespace GeothermalResearchInstitute.Plc
 {
     internal class FrameHeader
     {

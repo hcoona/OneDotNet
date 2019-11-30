@@ -106,7 +106,7 @@ namespace Crc32C
         {
             if (length > 0)
             {
-                  return BaseProxy.Instance.Append(initial, input, offset, length);
+                return BaseProxy.Instance.Append(initial, input, offset, length);
             }
             else
                 return initial;

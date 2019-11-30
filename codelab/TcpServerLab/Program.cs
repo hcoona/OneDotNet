@@ -5,145 +5,104 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using GeothermalResearchInstitute.Plc;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
+using Microsoft.Extensions.Logging;
+using Overby.Extensions.AsyncBinaryReaderWriter;
 
 namespace TcpServerLab
 {
     internal class Program
     {
-        private static void Main()
+        private static async Task Main()
         {
+            ILoggerFactory loggerFactory = LoggerFactory.Create(b => b
+                .AddConsole(opt =>
+                {
+                    opt.LogToStandardErrorThreshold = LogLevel.Debug;
+                    opt.IncludeScopes = true;
+                })
+                .SetMinimumLevel(LogLevel.Debug));
+            ILogger<Program> logger = loggerFactory.CreateLogger<Program>();
+
             var listener = TcpListener.Create(8888);
             listener.Start(20);
-            Console.WriteLine("TCP Server is listening on port 8888");
-            Console.WriteLine();
+            logger.LogInformation("TCP Server is listening on port 8888");
 
-            using var memoryStream = new MemoryStream();
-            using var writer = new BinaryWriter(memoryStream, Encoding.ASCII, true);
-            var header = new Header { Path = "/bjdire.v2.DeviceService/Test" };
-            WriteHeaderFrame(writer, streamId: 1, header: header);
-            Console.WriteLine("Sending header frame, content size = {0}, frame size = {1}", header.CalculateSize(), memoryStream.Position);
-            Console.WriteLine(HexUtils.Dump(memoryStream.GetBuffer().AsMemory(0, (int)memoryStream.Position)));
-            Console.WriteLine();
-
-            var dataStartingPosition = (int)memoryStream.Position;
-            var request = new TestRequest()
-            {
-                A = 42,
-                B = 3.1415926F,
-                C = "Hello World!",
-                D = Timestamp.FromDateTimeOffset(DateTimeOffset.Parse("2019-10-29T21:42:13.00000+8:00", CultureInfo.InvariantCulture)),
-            };
-            WriteDataFrame(writer, streamId: 1, contents: request.ToByteString().Span);
-            Console.WriteLine("Sending data frame, content size = {0}, frame size = {1}", request.CalculateSize(), memoryStream.Position - dataStartingPosition);
-            Console.WriteLine(HexUtils.Dump(memoryStream.GetBuffer()
-                .AsMemory(dataStartingPosition, (int)(memoryStream.Position - dataStartingPosition))));
-            Console.WriteLine();
-
-            Stream inputStream;
 #if DEBUG
-            TcpClient client = listener.AcceptTcpClient();
-            Console.WriteLine("TCP client connected: {0}", client.Client.RemoteEndPoint);
-
-            NetworkStream networkStream = client.GetStream();
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            memoryStream.CopyTo(networkStream);
-            inputStream = networkStream;
-#else
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            inputStream = memoryStream;
+            var t1 = new Thread(async () => await StartPlcAsync("127.0.0.1", 8888).ConfigureAwait(false));
+            t1.Start();
+            var t2 = new Thread(async () => await StartPlcAsync("127.0.0.1", 8888).ConfigureAwait(false));
+            t2.Start();
 #endif
 
-            var bufferMemory = new Memory<byte>(new byte[8192]);
-            ReadHeaderFrame(inputStream, bufferMemory.Span, out var headerFrameSpan, out var headerFrameHeader, out var headerFrameContent);
-            Console.WriteLine("Receiving header frame, content size = {0}, frame size = {1}", headerFrameHeader.ContentLength, headerFrameSpan.Length);
-            Console.WriteLine(HexUtils.Dump(bufferMemory.Slice(0, headerFrameSpan.Length)));
-            Console.WriteLine();
-
-            Console.WriteLine(headerFrameHeader.ToString());
-            Console.WriteLine(headerFrameContent.ToString());
-            Console.WriteLine();
-
-            ReadDataFrame(inputStream, bufferMemory.Span, out var dataFrameSpan, out var dataFrameHeader, out var dataFrameContentSpan);
-            Console.WriteLine("Receiving data frame, content size = {0}, frame size = {1}", dataFrameHeader.ContentLength, dataFrameSpan.Length);
-            Console.WriteLine(HexUtils.Dump(bufferMemory.Slice(0, dataFrameSpan.Length)));
-            Console.WriteLine();
-
-            var response = TestResponse.Parser.ParseFrom(dataFrameContentSpan.ToArray());
-            Console.WriteLine(dataFrameHeader.ToString());
-            Console.WriteLine(response.ToString());
-            Console.WriteLine();
-        }
-
-        private static void ReadHeaderFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Header header)
-        {
-            ReadFrame(stream, buffer, out var frameHeaderSpan, out var frameContentSpan, out frameSpan, out frameHeader);
-            header = Header.Parser.ParseFrom(frameContentSpan.ToArray());
-        }
-
-        private static void ReadDataFrame(Stream stream, Span<byte> buffer, out Span<byte> frameSpan, out FrameHeader frameHeader, out Span<byte> contentSpan)
-        {
-            ReadFrame(stream, buffer, out var frameHeaderSpan, out contentSpan, out frameSpan, out frameHeader);
-        }
-
-        private static void ReadFrame(Stream stream, Span<byte> buffer, out Span<byte> frameHeaderSpan, out Span<byte> frameContentSpan, out Span<byte> frameSpan, out FrameHeader frameHeader)
-        {
-            frameHeaderSpan = buffer.Slice(0, 20);
-            ReadBytes(stream, frameHeaderSpan);
-            frameHeader = FrameHeader.Parse(frameHeaderSpan);
-            frameContentSpan = buffer.Slice(20, frameHeader.ContentLength);
-            ReadBytes(stream, frameContentSpan);
-            frameSpan = buffer.Slice(0, frameHeaderSpan.Length + frameContentSpan.Length);
-        }
-
-        private static void ReadBytes(Stream stream, Span<byte> buffer)
-        {
-            while (buffer.Length != 0)
+            while (true)
             {
-                int count = stream.Read(buffer);
-                buffer = buffer.Slice(count);
+                TcpClient client = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
+                logger.LogInformation("TCP client connected: {0}", client.Client.RemoteEndPoint);
+
+                using var plcClient = new PlcClient(loggerFactory.CreateLogger<PlcClient>(), client);
+                await plcClient.StartAsync().ConfigureAwait(false);
+
+                var request = new TestRequest()
+                {
+                    A = 42,
+                    B = 3.1415926F,
+                    C = "Hello World!",
+                    D = Timestamp.FromDateTimeOffset(DateTimeOffset.Parse("2019-10-29T21:42:13.00000+8:00", CultureInfo.InvariantCulture)),
+                };
+                logger.LogInformation("Request sending: {0}", request);
+
+                try
+                {
+                    TestResponse response = await plcClient.TestAsync(request, deadline: DateTime.Now.AddMilliseconds(3000)).ConfigureAwait(false);
+                    logger.LogInformation("Response received: {0}", response);
+                }
+                catch (RpcException e)
+                {
+                    logger.LogError(e, "Failed to send/receive test");
+                }
             }
         }
 
-        private static void WriteHeaderFrame(BinaryWriter writer, int streamId, Header header)
+        private static async Task<TcpClient> StartPlcAsync(string hostname, int port)
         {
-            WriteFrame(writer, 1, 0, streamId, header.ToByteString().Span);
-        }
+            var fakePlc = new TcpClient(hostname, port);
+            NetworkStream networkStream = fakePlc.GetStream();
+            using var reader = new AsyncBinaryReader(networkStream, Encoding.ASCII, true);
+            using var writer = new AsyncBinaryWriter(networkStream, Encoding.ASCII, true);
 
-        private static void WriteDataFrame(BinaryWriter writer, int streamId, ReadOnlySpan<byte> contents)
-        {
-            const int trunkSize = 8192;
-            int quot = Math.DivRem(contents.Length, trunkSize, out int rem);
-            int trunksNum = rem == 0 ? quot : quot + 1;
-
-            for (int i = 0; i < trunksNum; i++)
+            byte[] receivedBytes = await reader.ReadBytesAsync(0x53).ConfigureAwait(false);
+            byte[] sendingPayload = new UnifiedFrameContent
             {
-                var offset = i * trunkSize;
-                var length = Math.Min(contents.Length - offset, trunkSize);
-                var trunk = contents.Slice(offset, length);
-                WriteFrame(writer, 0, (byte)(i + 1), streamId, trunk);
-            }
-        }
+                Header = new Header { Status = 0 },
+                Payload = new TestResponse
+                {
+                    A = 42,
+                    B = 3.1415926F,
+                    C = "Hello World!",
+                    D = Timestamp.FromDateTimeOffset(DateTimeOffset.Parse("2019-10-29T21:42:13.00000+8:00", CultureInfo.InvariantCulture)),
+                }.ToByteString(),
+            }.ToByteArray();
+            var sendingHeader = new FrameHeader(
+                version: 1,
+                type: 2,
+                sequenceNumber: 0,
+                streamId: 1,
+                contentOffset: 20,
+                contentLength: (ushort)sendingPayload.Length,
+                contentChecksum: Crc32C.Crc32CAlgorithm.Compute(sendingPayload));
+            await sendingHeader.WriteTo(writer).ConfigureAwait(false);
+            await writer.WriteAsync(sendingPayload).ConfigureAwait(false);
 
-        private static void WriteFrame(BinaryWriter writer, byte type, byte seqNum, int streamId, ReadOnlySpan<byte> contents)
-        {
-            uint contentChecksum = 0;
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT || Environment.OSVersion.Platform == PlatformID.Win32Windows)
-            {
-                contentChecksum = Crc32C.Crc32CAlgorithm.Compute(contents.ToArray());
-            }
-
-            var frameHeaderBytes = new byte[20];
-            var frameHeader = new FrameHeader(1, type, seqNum, (uint)streamId, 20, (ushort)contents.Length, contentChecksum);
-            frameHeader.WriteTo(frameHeaderBytes);
-
-            writer.Write(frameHeaderBytes);
-            writer.Write(contents);
+            return fakePlc;
         }
     }
 }

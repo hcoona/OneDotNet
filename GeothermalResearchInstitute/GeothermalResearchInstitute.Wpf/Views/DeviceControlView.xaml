@@ -131,7 +131,63 @@
                 Canvas.Top="293"
                 Width="10"
                 Height="10"
-                Fill="#FF2E2EE4" />
+                Fill="#FF2E2EE4" >
+          <Ellipse.Style>
+            <Style>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Switch.HeaterPowerOn}" Value="true">
+                  <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <ColorAnimation Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                        To="#CD0000" From="#FF2E2EE4" Duration="0:0:0.5" AutoReverse="True" RepeatBehavior="Forever" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </DataTrigger.EnterActions>
+                  <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <ColorAnimation Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                        To="#FF2E2EE4"  Duration="0:0:0" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </DataTrigger.ExitActions>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Ellipse.Style>
+        </Ellipse>
+        <Ellipse
+                Canvas.Left="153"
+                Canvas.Top="72"
+                Width="10"
+                Height="10"
+                Fill="#FF2E2EE4" >
+        <Ellipse.Style>
+          <Style>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Switch.HeaterCompressorOn}" Value="true">
+                <DataTrigger.EnterActions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <ColorAnimation Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                        To="#CD0000" From="#FF2E2EE4" Duration="0:0:0.5" AutoReverse="True" RepeatBehavior="Forever" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <ColorAnimation Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                        To="#FF2E2EE4"  Duration="0:0:0" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </DataTrigger.ExitActions>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Ellipse.Style>
+      </Ellipse>
             <Image
                 Canvas.Left="360"
                 Canvas.Top="180"
@@ -141,19 +197,36 @@
                 <Image.RenderTransform>
                     <RotateTransform CenterX="10" CenterY="10" />
                 </Image.RenderTransform>
-                <Image.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation
-                                    RepeatBehavior="Forever"
-                                    Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
-                                    To="360"
-                                    Duration="0:0:1" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Image.Triggers>
+                <Image.Style>
+            <Style TargetType="Image">
+              <Style.Triggers>
+              <DataTrigger Binding="{Binding Switch.HeaterFanOn}" Value="true">
+                  <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation
+                        RepeatBehavior="Forever"
+                        Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                        To="360"
+                        Duration="0:0:1" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                  <BeginStoryboard>
+                    <Storyboard>
+                      <DoubleAnimation
+                        Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                        Duration="0:0:0" />
+                    </Storyboard>
+                  </BeginStoryboard>
+                </DataTrigger.ExitActions>
+                </DataTrigger>
+              </Style.Triggers>
+            
+          </Style>
+                    
+                </Image.Style>
             </Image>
             <StackPanel
                 Canvas.Left="330"
@@ -162,11 +235,13 @@
                 <Button
                     Margin="5"
                     Padding="5"
-                    Content="开" />
+                    Content="开"
+                    Click="On_Click"/>
                 <Button
                     Margin="5"
                     Padding="5"
-                    Content="关" />
+                    Content="关"
+                    Click="Off_Click"/>
             </StackPanel>
             <StackPanel
                 Canvas.Left="330"

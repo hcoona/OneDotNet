@@ -5,6 +5,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.ViewModels;
 using Prism.Common;
 using Prism.Regions;
@@ -34,6 +35,40 @@ namespace GeothermalResearchInstitute.Wpf.Views
             viewModelContext.UserBarVisibility = Visibility.Visible;
             viewModelContext.BannerVisibility = Visibility.Visible;
             viewModelContext.Title = "运行控制";  // TODO: From resource.
+
+            Switch switchObj = new Switch()
+            {
+                HeaterFanOn = false,
+                HeaterPowerOn = true,
+                HeaterCompressorOn = true,
+            };
+            this.ViewModel.Switch = switchObj;
+            Switch switchInfo = this.ViewModel.Switch;
+        }
+
+        //for test
+        private void On_Click(object sender, RoutedEventArgs e)
+        {
+            Switch switchObj = new Switch()
+            {
+                HeaterFanOn = true,
+                HeaterPowerOn = true,
+                HeaterCompressorOn = true,
+            };
+            this.ViewModel.Switch = switchObj;
+            Switch switchInfo = this.ViewModel.Switch;
+        }
+
+        private void Off_Click(object sender, RoutedEventArgs e)
+        {
+            Switch switchObj = new Switch()
+            {
+                HeaterFanOn = false,
+                HeaterPowerOn = false,
+                HeaterCompressorOn = false,
+            };
+            this.ViewModel.Switch = switchObj;
+            Switch switchInfo = this.ViewModel.Switch;
         }
     }
 }

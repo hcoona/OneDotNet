@@ -41,7 +41,15 @@ namespace GeothermalResearchInstitute.Plc
         {
             this.logger = logger;
             this.client = client;
+            this.ConnectionClosed += async (_, __) =>
+            {
+                await this.StopAsync().ConfigureAwait(false);
+            };
         }
+
+        public event EventHandler ConnectionClosed;
+
+        public EndPoint RemoteEndPoint => this.remoteEndPoint;
 
         public Task StartAsync()
         {

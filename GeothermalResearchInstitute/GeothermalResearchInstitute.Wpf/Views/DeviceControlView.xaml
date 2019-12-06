@@ -9,7 +9,7 @@
     d:DesignHeight="360"
     d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Loaded="DeviceControlView_Loaded"
+    Loaded="DeviceControlView_LoadedAsync"
     mc:Ignorable="d">
     <Viewbox>
         <Canvas Width="600" Height="360">
@@ -224,7 +224,7 @@
       </Ellipse>
             <Image
                 Canvas.Left="360"
-                Canvas.Top="180"
+                Canvas.Top="200"
                 Width="20"
                 Height="20"
                 Source="/Resources/fan-new.png">
@@ -263,45 +263,133 @@
                 </Image.Style>
             </Image>
             <StackPanel
-                Canvas.Left="330"
-                Canvas.Top="135"
+                  Canvas.Left="135"
+                  Canvas.Top="30"
+                  Orientation="Horizontal">
+          <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_fan_on"/>
+          <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_fan_on"/>
+        </StackPanel>
+            <StackPanel
+                  Canvas.Left="142"
+                  Canvas.Top="252"
+                  Orientation="Horizontal">
+          <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_power_on"/>
+          <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_power_on"/>
+        </StackPanel>
+            <StackPanel
+                  Canvas.Left="335"
+                  Canvas.Top="105"
+                  Orientation="Horizontal">
+        <Label Content="电源状态："
+               VerticalAlignment="Center"/>
+        <TextBlock Text="开"
+               VerticalAlignment="Center"
+                   Padding="0,0,10,0"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="device_power_on"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="device_power_on"/>
+      </StackPanel>
+            <StackPanel
+                  Canvas.Left="417"
+                  Canvas.Top="165"
+                  Orientation="Horizontal">
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="自动"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="手动"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+      </StackPanel>
+            <StackPanel Canvas.Left="450"
+                        Canvas.Top="200"
+                        Orientation="Horizontal">
+                <TextBlock Width="30" Text="手动"/>
+            </StackPanel>
+            <StackPanel
+                  Canvas.Left="335"
+                  Canvas.Top="165"
+                  Orientation="Horizontal">
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_fan_on"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_fan_on"/>
+      </StackPanel>
+            <StackPanel
+                Canvas.Left="335"
+                Canvas.Top="232"
                 Orientation="Horizontal">
                 <Button
                     Margin="5"
                     Padding="5"
                     Content="开"
-                    Click="On_Click"/>
+                  Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_compressor_on"/>
                 <Button
                     Margin="5"
                     Padding="5"
                     Content="关"
-                    Click="Off_Click"/>
+                  Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_compressor_on"/>
             </StackPanel>
             <StackPanel
-                Canvas.Left="330"
-                Canvas.Top="210"
+                Canvas.Left="428"
+                Canvas.Top="232"
                 Orientation="Horizontal">
                 <Button
                     Margin="5"
                     Padding="5"
-                    Content="开" />
+                    Content="开"
+                  Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_four_way_reversing_on"/>
                 <Button
                     Margin="5"
                     Padding="5"
-                    Content="关" />
-            </StackPanel>
-            <StackPanel
-                Canvas.Left="420"
-                Canvas.Top="210"
-                Orientation="Horizontal">
-                <Button
-                    Margin="5"
-                    Padding="5"
-                    Content="开" />
-                <Button
-                    Margin="5"
-                    Padding="5"
-                    Content="关" />
+                    Content="关"
+                  Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_four_way_reversing_on"/>
             </StackPanel>
         </Canvas>
     </Viewbox>

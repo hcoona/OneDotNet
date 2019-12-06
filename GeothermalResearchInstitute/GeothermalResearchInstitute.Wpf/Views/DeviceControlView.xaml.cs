@@ -3,10 +3,12 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.ViewModels;
+using Google.Protobuf.WellKnownTypes;
 using Prism.Common;
 using Prism.Regions;
 
@@ -20,6 +22,8 @@ namespace GeothermalResearchInstitute.Wpf.Views
             RegionContext.GetObservableContext(this).PropertyChanged += this.RegionContext_PropertyChanged;
         }
 
+        public object UpdateMask { get; private set; }
+
         private DeviceControlViewModel ViewModel => this.DataContext as DeviceControlViewModel;
 
         private void RegionContext_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -29,46 +33,16 @@ namespace GeothermalResearchInstitute.Wpf.Views
             this.ViewModel.ViewModelContext = viewModelContext;
         }
 
-        private void DeviceControlView_Loaded(object sender, RoutedEventArgs e)
+        private async void DeviceControlView_LoadedAsync(object sender, RoutedEventArgs e)
         {
             ViewModelContext viewModelContext = this.ViewModel.ViewModelContext;
             viewModelContext.UserBarVisibility = Visibility.Visible;
             viewModelContext.BannerVisibility = Visibility.Visible;
             viewModelContext.Title = "运行控制";  // TODO: From resource.
 
-            Switch switchObj = new Switch()
-            {
-                HeaterFanOn = false,
-                HeaterPowerOn = true,
-                HeaterCompressorOn = true,
-            };
-            this.ViewModel.Switch = switchObj;
-            Switch switchInfo = this.ViewModel.Switch;
+            await this.ViewModel.LoadMetricAsync().ConfigureAwait(true);
+            await this.ViewModel.LoadSwitchAsync().ConfigureAwait(true);
         }
 
-        //for test
-        private void On_Click(object sender, RoutedEventArgs e)
-        {
-            Switch switchObj = new Switch()
-            {
-                HeaterFanOn = true,
-                HeaterPowerOn = true,
-                HeaterCompressorOn = true,
-            };
-            this.ViewModel.Switch = switchObj;
-            Switch switchInfo = this.ViewModel.Switch;
-        }
-
-        private void Off_Click(object sender, RoutedEventArgs e)
-        {
-            Switch switchObj = new Switch()
-            {
-                HeaterFanOn = false,
-                HeaterPowerOn = false,
-                HeaterCompressorOn = false,
-            };
-            this.ViewModel.Switch = switchObj;
-            Switch switchInfo = this.ViewModel.Switch;
-        }
     }
 }

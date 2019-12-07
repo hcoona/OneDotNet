@@ -106,6 +106,36 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             },
         };
 
+        private static readonly Dictionary<ByteString, Switch> Switches = new Dictionary<ByteString, Switch>
+        {
+            {
+                Id1,
+                new Switch
+                {
+                    DevicePowerOn = true,
+                    ExhausterPowerOn = true,
+                    HeaterPowerOn = true,
+                    HeaterFourWayReversingOn = true,
+                    HeaterFanOn = true,
+                    HeaterCompressorOn = true,
+                    HeaterAutoOn = true,
+                }
+            },
+            {
+                Id2,
+                new Switch
+                {
+                    DevicePowerOn = true,
+                    ExhausterPowerOn = true,
+                    HeaterPowerOn = true,
+                    HeaterFourWayReversingOn = true,
+                    HeaterFanOn = false,
+                    HeaterCompressorOn = true,
+                    HeaterAutoOn = true,
+                }
+            },
+        };
+
         public override AsyncUnaryCall<AuthenticateResponse> AuthenticateAsync(
             AuthenticateRequest request,
             Metadata headers = null,
@@ -291,5 +321,45 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 () => new Metadata(),
                 () => { });
         }
+
+        public override AsyncUnaryCall<Switch> GetSwitchAsync(GetSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(new Switch
+                {
+                    DevicePowerOn = RandomUtils.Equals(true, false),
+                    ExhausterPowerOn = RandomUtils.Equals(true, false),
+                    HeaterAutoOn = RandomUtils.Equals(true, false),
+                    HeaterCompressorOn = RandomUtils.Equals(true, false),
+                    HeaterFanOn = RandomUtils.Equals(true, false),
+                    HeaterFourWayReversingOn = RandomUtils.Equals(true, false),
+                    HeaterPowerOn = RandomUtils.Equals(true, false),
+                }),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
+        public override AsyncUnaryCall<Switch> UpdateSwitchAsync(UpdateSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            var switchInfo = Switches[request.DeviceId];
+            if (request.UpdateMask == null)
+            {
+                switchInfo.MergeFrom(request.Switch);
+            }
+            else
+            {
+                request.UpdateMask.Merge(request.Switch, switchInfo);
+            }
+
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(switchInfo),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
     }
 }

@@ -19,9 +19,16 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private Metric metric;
         private DeviceService.DeviceServiceClient client;
 
-        public DelegateCommand<string> SwitchOnClickCommand { get; }
+        public DeviceControlViewModel(DeviceService.DeviceServiceClient client)
+        {
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+            this.SwitchOnClickCommand = new DelegateCommand<object>(this.ExecuteSwitchOnClickCommand);
+            this.SwitchOffClickCommand = new DelegateCommand<object>(this.ExecuteSwitchOffClickCommand);
+        }
 
-        public DelegateCommand<string> SwitchOffClickCommand { get; }
+        public DelegateCommand<object> SwitchOnClickCommand { get; }
+
+        public DelegateCommand<object> SwitchOffClickCommand { get; }
 
         public ViewModelContext ViewModelContext
         {
@@ -76,17 +83,17 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             this.switchInfo = response;
         }
 
-        private async void ExecuteSwitchOnClickCommand(string type)
+        private async void ExecuteSwitchOnClickCommand(object type)
         {
-            FieldMask updateMask = FieldMask.FromString(type);
-            Switch obj = this.UpdateSwitchInfo(type, true);
+            FieldMask updateMask = FieldMask.FromString((string)type);
+            Switch obj = this.UpdateSwitchInfo((string)type, true);
             await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
         }
 
-        private async void ExecuteSwitchOffClickCommand(string type)
+        private async void ExecuteSwitchOffClickCommand(object type)
         {
-            FieldMask updateMask = FieldMask.FromString(type);
-            Switch obj = this.UpdateSwitchInfo(type, false);
+            FieldMask updateMask = FieldMask.FromString((string)type);
+            Switch obj = this.UpdateSwitchInfo((string)type, false);
             await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
         }
 

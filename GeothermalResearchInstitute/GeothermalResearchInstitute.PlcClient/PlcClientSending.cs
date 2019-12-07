@@ -63,6 +63,7 @@ namespace GeothermalResearchInstitute.Plc
             {
                 this.logger.LogError(e, "Error when receiving data from {0}", this.client.Client.RemoteEndPoint);
                 this.client.Close();
+                this.ConnectionClosed?.Invoke(this, new EventArgs());
             }
         }
 

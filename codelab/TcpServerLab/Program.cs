@@ -23,7 +23,7 @@ namespace TcpServerLab
     {
         private static async Task Main()
         {
-            ILoggerFactory loggerFactory = LoggerFactory.Create(b => b
+            using ILoggerFactory loggerFactory = LoggerFactory.Create(b => b
                 .AddConsole(opt =>
                 {
                     opt.LogToStandardErrorThreshold = LogLevel.Debug;
@@ -37,9 +37,9 @@ namespace TcpServerLab
             logger.LogInformation("TCP Server is listening on port 8888");
 
 #if DEBUG
-            var t1 = new Thread(async () => await StartPlcAsync("127.0.0.1", 8888).ConfigureAwait(false));
+            var t1 = new Thread(async () => await StartPlcAsync(logger, "127.0.0.1", 8888).ConfigureAwait(false));
             t1.Start();
-            var t2 = new Thread(async () => await StartPlcAsync("127.0.0.1", 8888).ConfigureAwait(false));
+            var t2 = new Thread(async () => await StartPlcAsync(logger, "127.0.0.1", 8888).ConfigureAwait(false));
             t2.Start();
 #endif
 
@@ -72,14 +72,19 @@ namespace TcpServerLab
             }
         }
 
-        private static async Task<TcpClient> StartPlcAsync(string hostname, int port)
+        private static async Task<TcpClient> StartPlcAsync(ILogger logger, string hostname, int port)
         {
             var fakePlc = new TcpClient(hostname, port);
+            logger.LogInformation("Fake PLC connected.");
+
             NetworkStream networkStream = fakePlc.GetStream();
             using var reader = new AsyncBinaryReader(networkStream, Encoding.ASCII, true);
             using var writer = new AsyncBinaryWriter(networkStream, Encoding.ASCII, true);
 
+            logger.LogDebug("Receiving TestRequest frame...");
             byte[] receivedBytes = await reader.ReadBytesAsync(0x53).ConfigureAwait(false);
+            logger.LogInformation("Received {0} bytes.", 0x53);
+
             byte[] sendingPayload = new UnifiedFrameContent
             {
                 Header = new Header { Status = 0 },
@@ -99,8 +104,12 @@ namespace TcpServerLab
                 contentOffset: 20,
                 contentLength: (ushort)sendingPayload.Length,
                 contentChecksum: Crc32C.Crc32CAlgorithm.Compute(sendingPayload));
+
+            logger.LogDebug("Sending TestResponse frame header...");
             await sendingHeader.WriteTo(writer).ConfigureAwait(false);
+            logger.LogDebug("Sending TestResponse frame body...");
             await writer.WriteAsync(sendingPayload).ConfigureAwait(false);
+            logger.LogInformation("Sent TestResponse.");
 
             return fakePlc;
         }

@@ -56,7 +56,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
                 deadline: DateTime.Now.AddMilliseconds(500));
-            this.metric = response;
+            this.Metric = response;
         }
 
         public async Task LoadSwitchAsync()
@@ -67,34 +67,36 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
                 deadline: DateTime.Now.AddMilliseconds(500));
-            this.switchInfo = response;
+            this.Switch = response;
         }
 
         public async Task UpdateSwitchAsync(Switch switchInfo, FieldMask mask)
         {
+            //this.Switch = switchInfo.Clone();
+
             Switch response = await this.client.UpdateSwitchAsync(
                 new UpdateSwitchRequest()
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    Switch = switchInfo,
+                    Switch = this.Switch,
                     UpdateMask = mask,
                 },
                 deadline: DateTime.Now.AddMilliseconds(500));
-            this.switchInfo = response;
+            this.Switch = response;
         }
 
         private async void ExecuteSwitchOnClickCommand(object type)
         {
             FieldMask updateMask = FieldMask.FromString((string)type);
             Switch obj = this.UpdateSwitchInfo((string)type, true);
-            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
+            await UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
         }
 
         private async void ExecuteSwitchOffClickCommand(object type)
         {
             FieldMask updateMask = FieldMask.FromString((string)type);
             Switch obj = this.UpdateSwitchInfo((string)type, false);
-            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
+            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(false);
         }
 
         private Switch UpdateSwitchInfo(string type, bool status)

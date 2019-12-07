@@ -324,17 +324,10 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<Switch> GetSwitchAsync(GetSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
+            var switchInfo = Switches[request.DeviceId];
+
             return TestCalls.AsyncUnaryCall(
-                Task.FromResult(new Switch
-                {
-                    DevicePowerOn = RandomUtils.Equals(true, false),
-                    ExhausterPowerOn = RandomUtils.Equals(true, false),
-                    HeaterAutoOn = RandomUtils.Equals(true, false),
-                    HeaterCompressorOn = RandomUtils.Equals(true, false),
-                    HeaterFanOn = RandomUtils.Equals(true, false),
-                    HeaterFourWayReversingOn = RandomUtils.Equals(true, false),
-                    HeaterPowerOn = RandomUtils.Equals(true, false),
-                }),
+                Task.FromResult(switchInfo),
                 Task.FromResult(new Metadata()),
                 () => Status.DefaultSuccess,
                 () => new Metadata(),
@@ -352,6 +345,13 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             {
                 request.UpdateMask.Merge(request.Switch, switchInfo);
             }
+
+            if (Switches.ContainsKey(request.DeviceId))
+            {
+                Switches.Remove(request.DeviceId);
+            }
+
+            Switches.Add(request.DeviceId, switchInfo);
 
             return TestCalls.AsyncUnaryCall(
                 Task.FromResult(switchInfo),

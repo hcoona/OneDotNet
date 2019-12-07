@@ -36,7 +36,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.OutputWaterCelsiusDegree}" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
@@ -46,7 +46,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.OutputWaterPressureMeter}" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
@@ -56,7 +56,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.WaterPumpFlowRateCubicMeterPerHour}" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
@@ -66,7 +66,7 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.EnvironmentCelsiusDegree}" />
             </Grid>
             <Grid Canvas.Left="10" Canvas.Bottom="10">
                 <Grid.RowDefinitions>
@@ -88,7 +88,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.InputWaterCelsiusDegree}" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
@@ -98,7 +98,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.InputWaterPressureMeter}" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
@@ -108,7 +108,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.HeaterPowerKilowatt}" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
@@ -118,7 +118,7 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="0" />
+                    Text="{Binding Metric.HeaterOutputWaterCelsiusDegree}" />
             </Grid>
             <Line
                 StrokeEndLineCap="Triangle"
@@ -263,46 +263,12 @@
                 </Image.Style>
             </Image>
             <StackPanel
-                  Canvas.Left="135"
-                  Canvas.Top="30"
-                  Orientation="Horizontal">
-          <Button
-                      Margin="5"
-                      Padding="5"
-                      Content="开"
-                      Command="{Binding SwitchOnClickCommand}"
-                      CommandParameter="heater_fan_on"/>
-          <Button
-                      Margin="5"
-                      Padding="5"
-                      Content="关"
-                      Command="{Binding SwitchOffClickCommand}"
-                      CommandParameter="heater_fan_on"/>
-        </StackPanel>
-            <StackPanel
-                  Canvas.Left="142"
-                  Canvas.Top="252"
-                  Orientation="Horizontal">
-          <Button
-                      Margin="5"
-                      Padding="5"
-                      Content="开"
-                      Command="{Binding SwitchOnClickCommand}"
-                      CommandParameter="heater_power_on"/>
-          <Button
-                      Margin="5"
-                      Padding="5"
-                      Content="关"
-                      Command="{Binding SwitchOffClickCommand}"
-                      CommandParameter="heater_power_on"/>
-        </StackPanel>
-            <StackPanel
                   Canvas.Left="335"
                   Canvas.Top="105"
                   Orientation="Horizontal">
         <Label Content="电源状态："
                VerticalAlignment="Center"/>
-        <TextBlock Text="开"
+        <TextBlock Text="{Binding Switch.DevicePowerOn}"
                VerticalAlignment="Center"
                    Padding="0,0,10,0"/>
         <Button

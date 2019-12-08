@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    d:DesignHeight="360"
+  xmlns:c="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  d:DesignHeight="360"
     d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Loaded="DeviceControlView_LoadedAsync"
@@ -169,7 +170,7 @@
           <Ellipse.Style>
             <Style>
               <Style.Triggers>
-                <DataTrigger Binding="{Binding Switch.HeaterPowerOn}" Value="true">
+              <DataTrigger Binding="{Binding HeaterWaterTemperature}" Value="true">
                   <DataTrigger.EnterActions>
                     <BeginStoryboard>
                       <Storyboard>
@@ -200,7 +201,7 @@
         <Ellipse.Style>
           <Style>
             <Style.Triggers>
-              <DataTrigger Binding="{Binding Switch.HeaterCompressorOn}" Value="true">
+              <DataTrigger Binding="{Binding WaterPump}" Value="true"> 
                 <DataTrigger.EnterActions>
                   <BeginStoryboard>
                     <Storyboard>
@@ -263,12 +264,56 @@
                 </Image.Style>
             </Image>
             <StackPanel
+                  Canvas.Left="150"
+                  Canvas.Top="120"
+                  Orientation="Horizontal">
+        <Label Content="设备状态："
+               VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding Switch.DevicePowerOn, Converter={local:SwitchStatusConverter}}"
+               VerticalAlignment="Center"
+                   Padding="0,0,10,0"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+      </StackPanel>
+            <StackPanel
+                  Canvas.Left="150"
+                  Canvas.Top="150"
+                  Orientation="Horizontal">
+        <Label Content="排气状态："
+               VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding Switch.ExhausterPowerOn , Converter={local:SwitchStatusConverter}}"
+               VerticalAlignment="Center"
+                   Padding="0,0,10,0"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="开"
+                      Command="{Binding SwitchOnClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+        <Button
+                      Margin="5"
+                      Padding="5"
+                      Content="关"
+                      Command="{Binding SwitchOffClickCommand}"
+                      CommandParameter="heater_auto_on"/>
+      </StackPanel>
+            <StackPanel
                   Canvas.Left="335"
                   Canvas.Top="105"
                   Orientation="Horizontal">
-        <Label Content="电源状态："
+        <Label Content="热泵电源："
                VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding Switch.DevicePowerOn}"
+        <TextBlock Text="{Binding Switch.HeaterPowerOn, Converter={local:SwitchStatusConverter}}"
                VerticalAlignment="Center"
                    Padding="0,0,10,0"/>
         <Button
@@ -304,7 +349,7 @@
             <StackPanel Canvas.Left="450"
                         Canvas.Top="200"
                         Orientation="Horizontal">
-                <TextBlock Width="30" Text="手动"/>
+        <TextBlock Width="30" Text="{Binding Switch.HeaterAutoOn, Converter={local:SwitchAutoManuConverter}}"/>
             </StackPanel>
             <StackPanel
                   Canvas.Left="335"

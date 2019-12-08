@@ -44,8 +44,23 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public Metric Metric
         {
-            get => this.metric;
-            set => this.SetProperty(ref this.metric, value);
+            get => this.metric ?? new Metric();
+            set
+            {
+                this.SetProperty(ref this.metric, value);
+                this.RaisePropertyChanged("WaterPump");
+                this.RaisePropertyChanged("HeaterWaterTemperature");
+            }
+        }
+
+        public bool HeaterWaterTemperature
+        {
+            get => this.Metric.HeaterOutputWaterCelsiusDegree - this.Metric.InputWaterCelsiusDegree > 0 ? true : false;
+        }
+
+        public bool WaterPump
+        {
+            get => this.Metric.WaterPumpFlowRateCubicMeterPerHour > 0 ? true : false;
         }
 
         public async Task LoadMetricAsync()
@@ -78,7 +93,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 new UpdateSwitchRequest()
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    Switch = this.Switch,
+                    Switch = switchInfo,
                     UpdateMask = mask,
                 },
                 deadline: DateTime.Now.AddMilliseconds(500));

@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GeothermalResearchInstitute\GeothermalResearchInstitute.PlcClient\GeothermalResearchInstitute.Plc.csproj" />
+    <ProjectReference Include="..\..\GeothermalResearchInstitute\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
+    <ProjectReference Include="..\..\third_party\ToggleSwitch\WPF\ToggleSwitch\ToggleSwitch.csproj" />
   </ItemGroup>
 
 </Project>

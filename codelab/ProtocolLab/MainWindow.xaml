@@ -2,6 +2,7 @@
     x:Class="ProtocolLab.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ProtocolLab"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,7 +17,11 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.RowSpan="2" Grid.Column="0">
             <StackPanel
                 VerticalAlignment="Stretch"
                 DockPanel.Dock="Top"
@@ -39,6 +44,19 @@
                     Click="UpdateSwitch_Click"
                     Content="发送 UpdateSwitch 命令"
                     ToolTip="按下任何开关时会发送 UpdateSwitch 命令，此处发送内容以开启热泵风扇为例" />
+                <ToggleSwitch:HorizontalToggleSwitch
+                    x:Name="LocalDebugToggle"
+                    Checked="LocalDebugToggle_Checked"
+                    CheckedContent="PLC 调试"
+                    Unchecked="LocalDebugToggle_Unchecked"
+                    UncheckedContent="本地调试" />
+                <StackPanel x:Name="LocalDebugGroup" Visibility="Collapsed">
+                    <Button Click="FakePlcUp_Click" Content="伪装 PLC 上线" />
+                    <Button Click="FakePlcDown_Click" Content="伪装 PLC 下线" />
+                    <Button Click="FakePlcReplyConnect_Click" Content="伪装 PLC 回复 Connect" />
+                    <Button Click="FakePlcReplyGetMetric_Click" Content="伪装 PLC 回复 GetMetric" />
+                    <Button Click="FakePlcReplyUpdateSwitch_Click" Content="伪装 PLC 回复 UpdateSwitch" />
+                </StackPanel>
             </StackPanel>
             <FlowDocumentScrollViewer Margin="5">
                 <FlowDocument
@@ -47,5 +65,23 @@
                     FontSize="9pt" />
             </FlowDocumentScrollViewer>
         </DockPanel>
+        <FlowDocumentScrollViewer
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5">
+            <FlowDocument
+                x:Name="SendingDocument"
+                FontFamily="Consolas"
+                FontSize="9pt" />
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5">
+            <FlowDocument
+                x:Name="ReceivingDocument"
+                FontFamily="Consolas"
+                FontSize="9pt" />
+        </FlowDocumentScrollViewer>
     </Grid>
 </Window>

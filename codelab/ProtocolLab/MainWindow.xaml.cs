@@ -4,18 +4,24 @@
 // </copyright>
 
 using System;
+using System.Buffers.Binary;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
-using GeothermalResearchInstitute.Plc;
+using GeothermalResearchInstitute.PlcV2;
 using GeothermalResearchInstitute.v2;
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using PlcClientList = System.Collections.Generic.List<GeothermalResearchInstitute.Plc.PlcClient>;
+using PlcClientList = System.Collections.Generic.List<GeothermalResearchInstitute.PlcV2.PlcClient>;
 
 namespace ProtocolLab
 {
@@ -23,13 +29,26 @@ namespace ProtocolLab
     {
         private const int PORT = 8888;
 
+        private readonly ILoggerFactory loggerFactory =
+            LoggerFactory.Create(b =>
+            {
+                b.AddDebug();
+                b.AddConsole(o => o.IncludeScopes = true);
+                b.SetMinimumLevel(LogLevel.Debug);
+            });
+
         private readonly object lockObject = new object();
         private readonly PlcClientList clients = new PlcClientList();
-        private readonly ILoggerFactory loggerFactory = LoggerFactory.Create(b => { });
+
         private bool disposedValue;
-        private TcpListener listener;
+        private PlcServer plcServer;
         private CancellationTokenSource cancellationTokenSource;
         private Task backgroundTask;
+
+        private int fakePlcSequenceNumber;
+        private TcpClient fakePlc;
+        private CancellationTokenSource fakePlcCancellationTokenSource;
+        private Task fakePlcBackgroundTask;
 
         public MainWindow()
         {
@@ -42,7 +61,7 @@ namespace ProtocolLab
             {
                 lock (this.lockObject)
                 {
-                    return this.clients.First();
+                    return this.clients.FirstOrDefault();
                 }
             }
         }
@@ -66,6 +85,11 @@ namespace ProtocolLab
                 this.cancellationTokenSource.Dispose();
                 this.backgroundTask.Dispose();
 
+                if (this.fakePlc != null)
+                {
+                    this.FakePlcDown_Click(this, null);
+                }
+
                 lock (this.lockObject)
                 {
                     foreach (PlcClient c in this.clients)
@@ -82,8 +106,8 @@ namespace ProtocolLab
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.listener = TcpListener.Create(PORT);
-            this.listener.Start(20);
+            this.plcServer = new PlcServer(this.loggerFactory, IPAddress.Any, PORT);
+            this.plcServer.Start();
             this.LogMessage(string.Format(
                 CultureInfo.CurrentCulture,
                 "正在监听 {0} 端口，等待 PLC 连接，PLC 连接上来后会在这里收到通知。",
@@ -95,7 +119,7 @@ namespace ProtocolLab
 
         private async void Window_Unloaded(object sender, RoutedEventArgs e)
         {
-            this.listener.Stop();
+            this.plcServer.Stop();
             this.cancellationTokenSource.Cancel();
             await this.backgroundTask.ConfigureAwait(true);
         }
@@ -103,39 +127,224 @@ namespace ProtocolLab
         private async void Connect_Click(object sender, RoutedEventArgs e)
         {
             PlcClient c = this.FirstPlcClient;
+            if (c == null)
+            {
+                this.LogMessage("目前没有 PLC 连接。");
+                return;
+            }
 
             this.LogMessage("Sending ConnectRequest");
-            TestResponse response = await c.TestAsync(
-                new TestRequest
+            this.SendingDocument.Blocks.Clear();
+            this.ReceivingDocument.Blocks.Clear();
+            try
+            {
+                ConnectResponse response = await c.ConnectAsync(
+                    new ConnectRequest(),
+                    deadline: DateTime.Now.AddSeconds(30))
+                .ConfigureAwait(true);
+                this.LogMessage("Received ConnectResponse " + response.ToString());
+            }
+            catch (RpcException ex)
+            {
+                this.LogMessage("Failed to receive ConnectResponse " + ex.ToString());
+            }
+        }
+
+        private async void GetMetric_Click(object sender, RoutedEventArgs e)
+        {
+            PlcClient c = this.FirstPlcClient;
+            if (c == null)
+            {
+                this.LogMessage("目前没有 PLC 连接。");
+                return;
+            }
+
+            this.LogMessage("Sending GetMetricRequest");
+            this.SendingDocument.Blocks.Clear();
+            this.ReceivingDocument.Blocks.Clear();
+            try
+            {
+                Metric response = await c.GetMetricAsync(
+                    new GetMetricRequest(),
+                    deadline: DateTime.Now.AddSeconds(30))
+                .ConfigureAwait(true);
+                this.LogMessage("Received GetMetricResponse " + response.ToString());
+            }
+            catch (RpcException ex)
+            {
+                this.LogMessage("Failed to receive GetMetricResponse " + ex.ToString());
+            }
+        }
+
+        private async void UpdateSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            PlcClient c = this.FirstPlcClient;
+            if (c == null)
+            {
+                this.LogMessage("目前没有 PLC 连接。");
+                return;
+            }
+
+            this.LogMessage("Sending UpdateSwitchRequest");
+            this.SendingDocument.Blocks.Clear();
+            this.ReceivingDocument.Blocks.Clear();
+            try
+            {
+                Switch response = await c.UpdateSwitchAsync(
+                    new UpdateSwitchRequest
+                    {
+                        Switch = new Switch
+                        {
+                            HeaterAutoOn = true,
+                        },
+                        UpdateMask = FieldMask.FromString<Switch>("heater_auto_on"),
+                    },
+                    deadline: DateTime.Now.AddSeconds(30))
+                .ConfigureAwait(true);
+                this.LogMessage("Received UpdateSwitchResponse " + response.ToString());
+            }
+            catch (RpcException ex)
+            {
+                this.LogMessage("Failed to receive UpdateSwitchResponse " + ex.ToString());
+            }
+        }
+
+        private void FakePlcUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.fakePlc != null)
+            {
+                this.LogMessage("伪装 PLC 已经上线");
+                return;
+            }
+
+            this.fakePlc = new TcpClient("127.0.0.1", PORT);
+            this.fakePlcSequenceNumber = 0;
+            this.fakePlcCancellationTokenSource = new CancellationTokenSource();
+            this.fakePlcBackgroundTask = Task.Run(async () =>
+            {
+                CancellationToken token = this.fakePlcCancellationTokenSource.Token;
+                while (!token.IsCancellationRequested)
                 {
-                    A = 42,
-                    B = 3.1415926F,
-                    C = "Hello World!",
-                    D = Timestamp.FromDateTimeOffset(DateTimeOffset.Parse("2019-10-29T21:42:13.00000+8:00", CultureInfo.InvariantCulture)),
-                },
-                deadline: DateTime.Now.AddSeconds(30))
-            .ConfigureAwait(true);
-            this.LogMessage("Received ConnectResponse");
+                    using var stream = new MemoryStream();
+                    await this.fakePlc.GetStream().CopyToAsync(stream, token).ConfigureAwait(false);
+                    stream.Seek(0, SeekOrigin.Begin);
+                }
+            });
         }
 
-        private void GetMetric_Click(object sender, RoutedEventArgs e)
+        private void FakePlcDown_Click(object sender, RoutedEventArgs e)
         {
-            this.LogMessage("GetMetric");
+            if (this.fakePlc == null)
+            {
+                this.LogMessage("伪装 PLC 未上线");
+                return;
+            }
+
+            this.fakePlcCancellationTokenSource.Cancel();
+            try
+            {
+                this.fakePlcBackgroundTask.ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+
+            this.fakePlc.Close();
+            this.fakePlc.Dispose();
+
+            this.fakePlcCancellationTokenSource.Dispose();
+            this.fakePlcBackgroundTask.Dispose();
+
+            this.fakePlc = null;
+            this.LogMessage("伪装 PLC 已下线");
         }
 
-        private void UpdateSwitch_Click(object sender, RoutedEventArgs e)
+        private void FakePlcReplyConnect_Click(object sender, RoutedEventArgs e)
         {
-            this.LogMessage("UpdateSwitch");
+            if (this.fakePlc == null)
+            {
+                this.LogMessage("伪装 PLC 未上线");
+                return;
+            }
+
+            var frame = PlcFrame.Create(
+                PlcMessageType.ConnectResponse,
+                ByteString.CopyFrom(this.GetPhysicalAddress().GetAddressBytes()));
+            frame.FrameHeader.SequenceNumber = (uint)Interlocked.Increment(ref this.fakePlcSequenceNumber);
+            frame.WriteTo(this.fakePlc.GetStream());
+        }
+
+        private void FakePlcReplyGetMetric_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.fakePlc == null)
+            {
+                this.LogMessage("伪装 PLC 未上线");
+                return;
+            }
+
+            byte[] bytes = new byte[0x20];
+            using var writer = new BinaryWriter(new MemoryStream(bytes));
+            writer.Write(60F);
+            writer.Write(23F);
+            writer.Write(79.9F);
+            writer.Write(20F);
+            writer.Write(10F);
+            writer.Write(4F);
+            writer.Write(42F);
+            writer.Write(17F);
+            var frame = PlcFrame.Create(
+                PlcMessageType.GetMetricResponse,
+                ByteString.CopyFrom(bytes));
+            frame.FrameHeader.SequenceNumber = (uint)Interlocked.Increment(ref this.fakePlcSequenceNumber);
+            frame.WriteTo(this.fakePlc.GetStream());
+        }
+
+        private PhysicalAddress GetPhysicalAddress()
+        {
+            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (adapter.NetworkInterfaceType == NetworkInterfaceType.Loopback)
+                {
+                    continue;
+                }
+
+                return adapter.GetPhysicalAddress();
+            }
+
+            return PhysicalAddress.None;
+        }
+
+        private void FakePlcReplyUpdateSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.fakePlc == null)
+            {
+                this.LogMessage("伪装 PLC 未上线");
+                return;
+            }
+
+            byte[] bytes = new byte[0x07];
+            using var writer = new BinaryWriter(new MemoryStream(bytes));
+            writer.Write((byte)1);
+            writer.Write((byte)0);
+            writer.Write((byte)1);
+            writer.Write((byte)0);
+            writer.Write((byte)1);
+            writer.Write((byte)0);
+            writer.Write((byte)1);
+
+            var frame = PlcFrame.Create(
+                PlcMessageType.GetSwitchResponse,
+                ByteString.CopyFrom(bytes));
+            frame.FrameHeader.SequenceNumber = (uint)Interlocked.Increment(ref this.fakePlcSequenceNumber);
+            frame.WriteTo(this.fakePlc.GetStream());
         }
 
         private async void BackgroundTaskEntryPoint()
         {
             while (!this.cancellationTokenSource.IsCancellationRequested)
             {
-                TcpClient client = await this.listener.AcceptTcpClientAsync().ConfigureAwait(false);
-                var plcClient = new PlcClient(this.loggerFactory.CreateLogger<PlcClient>(), client);
-                await plcClient.StartAsync().ConfigureAwait(false);
-                plcClient.ConnectionClosed += (sender, _) =>
+                PlcClient client = await this.plcServer.AcceptAsync().ConfigureAwait(false);
+                client.OnClosed += (sender, _) =>
                 {
                     var c = (PlcClient)sender;
                     lock (this.lockObject)
@@ -154,7 +363,35 @@ namespace ProtocolLab
 
                 lock (this.lockObject)
                 {
-                    this.clients.Add(plcClient);
+                    if (this.clients.Count == 0)
+                    {
+                        client.OnDebugSending += (sender, bytes) =>
+                        {
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                this.SendingDocument.Blocks.Clear();
+                                this.SendingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(bytes))));
+                            });
+                        };
+                        client.OnDebugReceiving += (sender, bytes) =>
+                        {
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                this.ReceivingDocument.Blocks.Clear();
+                                this.ReceivingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(bytes))));
+                            });
+                        };
+
+                        this.clients.Add(client);
+                    }
+                    else
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            this.LogMessage("测试程序只允许一台 PLC 连接。");
+                        });
+                        client.Close();
+                    }
                 }
 
                 this.Dispatcher.Invoke(() =>
@@ -162,7 +399,7 @@ namespace ProtocolLab
                     this.LogMessage(string.Format(
                         CultureInfo.CurrentCulture,
                         "PLC {0} 已连接，点击按钮向 PLC 发送消息，鼠标悬停在按钮上有相关说明。",
-                        client.Client.RemoteEndPoint));
+                        client.RemoteEndPoint));
                 });
             }
         }
@@ -179,6 +416,16 @@ namespace ProtocolLab
                     this.LogDocument.Blocks.FirstBlock,
                     new Paragraph(new Run(message)));
             }
+        }
+
+        private void LocalDebugToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            this.LocalDebugGroup.Visibility = Visibility.Visible;
+        }
+
+        private void LocalDebugToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.LocalDebugGroup.Visibility = Visibility.Collapsed;
         }
     }
 }

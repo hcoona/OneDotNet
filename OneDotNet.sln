@@ -103,7 +103,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TplLab", "codelab\TplLab\Tp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.Plc", "GeothermalResearchInstitute\GeothermalResearchInstitute.PlcClient\GeothermalResearchInstitute.Plc.csproj", "{9CC5AFAE-5A31-4E97-B0CE-780532B5150E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolLab", "codelab\ProtocolLab\ProtocolLab.csproj", "{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolLab", "codelab\ProtocolLab\ProtocolLab.csproj", "{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeothermalResearchInstitute.PlcV2", "GeothermalResearchInstitute\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj", "{2A9CCE89-7269-45C2-A087-36F91630A6AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -294,6 +296,12 @@ Global
 		{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -333,6 +341,7 @@ Global
 		{B098D0FE-5AB8-4545-8155-4053876F3C3A} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 		{9CC5AFAE-5A31-4E97-B0CE-780532B5150E} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
+		{2A9CCE89-7269-45C2-A087-36F91630A6AE} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

@@ -370,7 +370,8 @@ namespace ProtocolLab
                             this.Dispatcher.Invoke(() =>
                             {
                                 this.SendingDocument.Blocks.Clear();
-                                this.SendingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(bytes))));
+                                this.SendingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(
+                                    bytes, bytesPerLine: 4, showHeader: false))));
                             });
                         };
                         client.OnDebugReceiving += (sender, bytes) =>
@@ -378,7 +379,8 @@ namespace ProtocolLab
                             this.Dispatcher.Invoke(() =>
                             {
                                 this.ReceivingDocument.Blocks.Clear();
-                                this.ReceivingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(bytes))));
+                                this.ReceivingDocument.Blocks.Add(new Paragraph(new Run(HexUtils.Dump(
+                                    bytes, bytesPerLine: 4, showHeader: false))));
                             });
                         };
 

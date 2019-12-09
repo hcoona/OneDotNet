@@ -83,17 +83,32 @@ namespace GeothermalResearchInstitute.PlcV2
             }
 
             byte[] bytes = new byte[0x07];
-            bytes[0] = request.UpdateMask.Paths.Single() switch
+            switch (request.UpdateMask.Paths.Single())
             {
-                "device_power_on" => (byte)(0x10 | (request.Switch.DevicePowerOn ? 1 : 0)),
-                "exhauster_power_on" => (byte)(0x10 | (request.Switch.ExhausterPowerOn ? 1 : 0)),
-                "heater_auto_on" => (byte)(0x10 | (request.Switch.HeaterAutoOn ? 1 : 0)),
-                "heater_power_on" => (byte)(0x10 | (request.Switch.HeaterPowerOn ? 1 : 0)),
-                "heater_fan_on" => (byte)(0x10 | (request.Switch.HeaterFanOn ? 1 : 0)),
-                "heater_compressor_on" => (byte)(0x10 | (request.Switch.HeaterCompressorOn ? 1 : 0)),
-                "heater_four_way_reversing_on" => (byte)(0x10 | (request.Switch.HeaterFourWayReversingOn ? 1 : 0)),
-                _ => throw new InvalidDataException("Unrecognized update mask " + request.UpdateMask.Paths.Single()),
-            };
+                case "device_power_on":
+                    bytes[0] = (byte)(0x10 | (request.Switch.DevicePowerOn ? 1 : 0));
+                    break;
+                case "exhauster_power_on":
+                    bytes[1] = (byte)(0x10 | (request.Switch.ExhausterPowerOn ? 1 : 0));
+                    break;
+                case "heater_auto_on":
+                    bytes[2] = (byte)(0x10 | (request.Switch.HeaterAutoOn ? 1 : 0));
+                    break;
+                case "heater_power_on":
+                    bytes[3] = (byte)(0x10 | (request.Switch.HeaterPowerOn ? 1 : 0));
+                    break;
+                case "heater_fan_on":
+                    bytes[4] = (byte)(0x10 | (request.Switch.HeaterFanOn ? 1 : 0));
+                    break;
+                case "heater_compressor_on":
+                    bytes[5] = (byte)(0x10 | (request.Switch.HeaterCompressorOn ? 1 : 0));
+                    break;
+                case "heater_four_way_reversing_on":
+                    bytes[6] = (byte)(0x10 | (request.Switch.HeaterFourWayReversingOn ? 1 : 0));
+                    break;
+                default:
+                    throw new InvalidDataException("Unrecognized update mask " + request.UpdateMask.Paths.Single());
+            }
 
             PlcFrame response = await this.InvokeAsync(
                 PlcFrame.Create(PlcMessageType.UpdateSwitchRequest, ByteString.CopyFrom(bytes)),

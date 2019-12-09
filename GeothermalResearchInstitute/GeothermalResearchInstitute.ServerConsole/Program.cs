@@ -6,7 +6,7 @@
 using System;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
 using GeothermalResearchInstitute.ServerConsole.Models;
-using GeothermalResearchInstitute.v1;
+using GeothermalResearchInstitute.v2;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +23,8 @@ namespace GeothermalResearchInstitute.ServerConsole
 
         private static void Main(string[] args)
         {
-            var host = new HostBuilder()
+            IHost host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
-                    .AddEnvironmentVariables()
                     .AddIniFile("appsettings.ini", true)
                     .AddCommandLine(args))
                 .ConfigureAppConfiguration((context, builder) =>
@@ -75,7 +74,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                             serviceProvider.GetRequiredService<ILoggerFactory>(),
                             serviceProvider.GetRequiredService<ILogger<Server>>());
                     });
-                    builder.AddSingleton<AuthenticationServiceImpl>();
                     builder.AddSingleton<DeviceServiceImpl>();
                     builder.AddSingleton(serviceProvider =>
                     {
@@ -84,14 +82,13 @@ namespace GeothermalResearchInstitute.ServerConsole
                         {
                             Services =
                             {
-                                AuthenticationService.BindService(serviceProvider.GetRequiredService<AuthenticationServiceImpl>()),
                                 DeviceService.BindService(serviceProvider.GetRequiredService<DeviceServiceImpl>()),
                             },
                             Ports =
                             {
                                 new ServerPort(
                                     "0.0.0.0",
-                                    config.GetValue<int>("core.port"),
+                                    config.GetValue<int>("core:grpc_port"),
                                     ServerCredentials.Insecure),
                             },
                         };

@@ -87,7 +87,7 @@ namespace GeothermalResearchInstitute.Wpf.Views
         {
             if (e.DataObject.GetDataPresent(DataFormats.Text))
             {
-                var text = Convert.ToString(e.DataObject.GetData(DataFormats.Text), CultureInfo.InvariantCulture).Trim();
+                string text = Convert.ToString(e.DataObject.GetData(DataFormats.Text), CultureInfo.InvariantCulture).Trim();
                 if (!text.Any(c => char.IsDigit(c) || c == '.'))
                 {
                     e.CancelCommand();

@@ -66,8 +66,8 @@ namespace GeothermalResearchInstitute.Wpf
                     }
                     else
                     {
-                        var hostname = context.Configuration.GetValue<string>("core:server.hostname");
-                        var port = context.Configuration.GetValue<int>("core:server.port");
+                        string hostname = context.Configuration.GetValue<string>("core:server.hostname");
+                        int port = context.Configuration.GetValue<int>("core:server.port");
 
                         var channel = new Channel(hostname, port, ChannelCredentials.Insecure);
                         var deviceServiceClient = new DeviceService.DeviceServiceClient(channel);

@@ -42,7 +42,7 @@ namespace GeothermalResearchInstitute.Wpf.Views
         {
             if (e.OriginalSource is ScrollViewer scrollViewer)
             {
-                var verticalOffsetPercentage = e.VerticalOffset / scrollViewer.ScrollableHeight;
+                double verticalOffsetPercentage = e.VerticalOffset / scrollViewer.ScrollableHeight;
                 if (verticalOffsetPercentage > 0.75)
                 {
                     await this.ViewModel.LoadAsync().ConfigureAwait(true);

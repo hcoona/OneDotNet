@@ -122,7 +122,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     Encoding.UTF8);
 
                 // TODO: Write it.
-                foreach (var m in metrics)
+                foreach (Metric m in metrics)
                 {
                     await sw.WriteLineAsync(m.ToString()).ConfigureAwait(true);
                 }

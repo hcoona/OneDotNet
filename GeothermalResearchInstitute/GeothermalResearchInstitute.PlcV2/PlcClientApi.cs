@@ -70,6 +70,36 @@ namespace GeothermalResearchInstitute.PlcV2
             };
         }
 
+        public async Task<Switch> GetSwitchAsync(GetSwitchRequest request, DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.GetSwitchRequest, ByteString.Empty),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetSwitchResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new Switch
+            {
+                DevicePowerOn = reader.ReadByte() != 0,
+                ExhausterPowerOn = reader.ReadByte() != 0,
+                HeaterAutoOn = reader.ReadByte() != 0,
+                HeaterPowerOn = reader.ReadByte() != 0,
+                HeaterFanOn = reader.ReadByte() != 0,
+                HeaterCompressorOn = reader.ReadByte() != 0,
+                HeaterFourWayReversingOn = reader.ReadByte() != 0,
+            };
+        }
+
         public async Task<Switch> UpdateSwitchAsync(UpdateSwitchRequest request, DateTime? deadline)
         {
             if (request is null)

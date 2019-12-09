@@ -4,6 +4,8 @@
 // </copyright>
 
 using System;
+using System.Net;
+using GeothermalResearchInstitute.PlcV2;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
 using GeothermalResearchInstitute.ServerConsole.Models;
 using GeothermalResearchInstitute.v2;
@@ -52,6 +54,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                     IHostEnvironment env = context.HostingEnvironment;
                     IConfiguration config = context.Configuration;
 
+                    // Database.
                     if (env.IsDevelopment())
                     {
                         // TODO(zhangshuai.ds): Add fake data.
@@ -59,7 +62,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                     }
                     else
                     {
-                        // Database.
                         builder.AddDbContext<BjdireContext>(DbContextOptionsBuilderAction);
                     }
 
@@ -67,7 +69,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                     builder.Configure<AuthenticationOptions>(context.Configuration);
                     builder.Configure<DeviceOptions>(context.Configuration);
 
-                    // Grpc services.
+                    // gRPC services.
                     builder.AddSingleton(serviceProvider =>
                     {
                         return new GrpcLoggerAdapater.GrpcLoggerAdapter(
@@ -94,7 +96,14 @@ namespace GeothermalResearchInstitute.ServerConsole
                         };
                     });
 
+                    // PLC server.
+                    builder.AddSingleton(provider => new PlcServer(
+                        provider.GetRequiredService<ILoggerFactory>(),
+                        IPAddress.Any,
+                        config.GetValue<int>("core:plc_port")));
+
                     builder.AddHostedService<GrpcHostedService>();
+                    builder.AddHostedService<PlcHostedService>();
                 })
                 .UseConsoleLifetime()
                 .Build();

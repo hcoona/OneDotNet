@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
+    <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\device.png" />

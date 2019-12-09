@@ -22,6 +22,8 @@ namespace GeothermalResearchInstitute.PlcV2
             this.tcpListener = new TcpListener(ipAddress, port);
         }
 
+        public EndPoint LocalEndPoint => this.tcpListener.LocalEndpoint;
+
         public void Start()
         {
             this.tcpListener.Start(20);

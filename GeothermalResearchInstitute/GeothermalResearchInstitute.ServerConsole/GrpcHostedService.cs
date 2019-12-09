@@ -12,8 +12,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage(
-        "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
     public class GrpcHostedService : IHostedService
     {
         private readonly ILogger<GrpcHostedService> logger;
@@ -36,7 +34,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             if (this.logger.IsEnabled(LogLevel.Information))
             {
                 this.logger.LogInformation(
-                    "Grpc services are listening on {}",
+                    "gRPC services are listening on {}",
                     string.Join(",", this.server.Ports.Select(p => $"{p.Host}:{p.BoundPort}")));
             }
 
@@ -45,7 +43,7 @@ namespace GeothermalResearchInstitute.ServerConsole
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Killing grpc server...");
+            this.logger.LogInformation("Killing gRPC server...");
             return this.server.KillAsync();
         }
     }

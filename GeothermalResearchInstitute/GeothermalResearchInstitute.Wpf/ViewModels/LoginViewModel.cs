@@ -73,7 +73,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         Username = this.Username,
                         Password = this.Password,
                     },
-                    deadline: DateTime.Now.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(500));
                 this.ViewModelContext.Principal = new GenericPrincipal(
                     new GenericIdentity(response.Nickname, "Remote"),
                     new[] { ProtoUtils.ConvertToString(response.Role) });

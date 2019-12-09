@@ -206,7 +206,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<WorkingMode> UpdateWorkingModeAsync(UpdateWorkingModeRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var workingMode = WorkingModes[request.DeviceId];
+            WorkingMode workingMode = WorkingModes[request.DeviceId];
             if (request.UpdateMask == null)
             {
                 workingMode.MergeFrom(request.WorkingMode);
@@ -236,7 +236,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<RunningParameter> UpdateRunningParameterAsync(UpdateRunningParameterRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var runningParameter = RunningParameters[request.DeviceId];
+            RunningParameter runningParameter = RunningParameters[request.DeviceId];
             if (request.UpdateMask == null)
             {
                 runningParameter.MergeFrom(request.RunningParameter);
@@ -270,7 +270,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             endDateTime = endDateTime.ToUniversalTime();
 
             var metrics = new List<Metric>(request.PageSize);
-            for (var i = 0; i < request.PageSize; i++)
+            for (int i = 0; i < request.PageSize; i++)
             {
                 endDateTime = endDateTime.Subtract(TimeSpan.FromSeconds(5));
                 if (startDateTime.HasValue && startDateTime > endDateTime)
@@ -324,7 +324,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<Switch> GetSwitchAsync(GetSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var switchInfo = Switches[request.DeviceId];
+            Switch switchInfo = Switches[request.DeviceId];
 
             return TestCalls.AsyncUnaryCall(
                 Task.FromResult(switchInfo),
@@ -336,7 +336,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<Switch> UpdateSwitchAsync(UpdateSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var switchInfo = Switches[request.DeviceId];
+            Switch switchInfo = Switches[request.DeviceId];
             if (request.UpdateMask == null)
             {
                 switchInfo.MergeFrom(request.Switch);

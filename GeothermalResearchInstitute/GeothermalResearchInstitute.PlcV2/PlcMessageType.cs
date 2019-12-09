@@ -14,8 +14,14 @@ namespace GeothermalResearchInstitute.PlcV2
         ConnectResponse = 0x0101,
         GetMetricRequest = 0x0200,
         GetMetricResponse = 0x0201,
+        GetSwitchRequest = 0x0300,
         GetSwitchResponse = 0x0301,
+        UpdateSwitchRequest = 0x0400,
+        GetRunningParameterRequest = 0x0500,
         GetRunningParameterResponse = 0x0501,
-        GetWorkingModeResponse = 0x0701,
+        UpdateRunningParameterRequest = 0x0600,
+        GetWorkingModeRequest = 0x0700,
+        GetWorkingModeResponse = 0x0700,
+        UpdateWorkingModeRequest = 0x0800,
     }
 }

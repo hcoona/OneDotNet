@@ -27,6 +27,12 @@ namespace GeothermalResearchInstitute.PlcV2
                 PlcFrame.Create(PlcMessageType.ConnectRequest, ByteString.Empty),
                 deadline)
                 .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.ConnectResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
             return new ConnectResponse
             {
                 Id = response.FrameBody,
@@ -41,9 +47,15 @@ namespace GeothermalResearchInstitute.PlcV2
             }
 
             PlcFrame response = await this.InvokeAsync(
-                PlcFrame.Create(PlcMessageType.ConnectRequest, ByteString.Empty),
+                PlcFrame.Create(PlcMessageType.GetMetricRequest, ByteString.Empty),
                 deadline)
                 .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetMetricResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
             using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
             return new Metric
             {
@@ -84,9 +96,15 @@ namespace GeothermalResearchInstitute.PlcV2
             };
 
             PlcFrame response = await this.InvokeAsync(
-                PlcFrame.Create(PlcMessageType.ConnectRequest, ByteString.CopyFrom(bytes)),
+                PlcFrame.Create(PlcMessageType.UpdateSwitchRequest, ByteString.CopyFrom(bytes)),
                 deadline)
                 .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetSwitchResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
             using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
             return new Switch
             {

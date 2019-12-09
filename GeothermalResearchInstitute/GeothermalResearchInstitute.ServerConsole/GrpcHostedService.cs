@@ -37,7 +37,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             {
                 this.logger.LogInformation(
                     "Grpc services are listening on {}",
-                    string.Join(",", this.server.Ports.Select(p => $"{p.Host}:{p.Port}")));
+                    string.Join(",", this.server.Ports.Select(p => $"{p.Host}:{p.BoundPort}")));
             }
 
             return Task.CompletedTask;

@@ -72,7 +72,7 @@ namespace GeothermalResearchInstitute.ServerConsole
         [SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "Required for callback delegate.")]
         private void HearbeatEntryPoint(object state)
         {
-            foreach (var entry in this.devices)
+            foreach (DeviceOptionsEntry entry in this.devices)
             {
                 // TODO(zhangshuai.ustc): Implement it.
                 // 1. Get corresponding grpc client.

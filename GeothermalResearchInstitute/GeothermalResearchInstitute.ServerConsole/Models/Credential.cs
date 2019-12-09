@@ -3,7 +3,7 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using GeothermalResearchInstitute.v1;
+using GeothermalResearchInstitute.v2;
 
 namespace GeothermalResearchInstitute.ServerConsole.Models
 {

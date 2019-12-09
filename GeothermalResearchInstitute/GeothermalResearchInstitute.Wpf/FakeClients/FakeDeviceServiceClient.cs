@@ -336,7 +336,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<Switch> UpdateSwitchAsync(UpdateSwitchRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var switchInfo = Switches[request.DeviceId];
+            Switch switchInfo = Switches[request.DeviceId] ?? new Switch();
             if (request.UpdateMask == null)
             {
                 switchInfo.MergeFrom(request.Switch);
@@ -346,12 +346,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 request.UpdateMask.Merge(request.Switch, switchInfo);
             }
 
-            if (Switches.ContainsKey(request.DeviceId))
-            {
-                Switches.Remove(request.DeviceId);
-            }
-
-            Switches.Add(request.DeviceId, switchInfo);
+            Switches[request.DeviceId] = switchInfo;
 
             return TestCalls.AsyncUnaryCall(
                 Task.FromResult(switchInfo),

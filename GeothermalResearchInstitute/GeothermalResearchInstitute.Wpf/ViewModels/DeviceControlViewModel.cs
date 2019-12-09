@@ -85,18 +85,25 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             this.Switch = response;
         }
 
-        public async Task UpdateSwitchAsync(Switch switchInfo, FieldMask mask)
+        private async Task UpdateSwitchAsync(Switch s, FieldMask mask)
         {
-            //this.Switch = switchInfo.Clone();
+            Switch response;
+            if (false)
+            {
+                response = s.Clone();
+            }
+            else
+            {
+                response = (await this.client.UpdateSwitchAsync(
+                    new UpdateSwitchRequest()
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                        Switch = s.Clone(),
+                        UpdateMask = mask,
+                    },
+                    deadline: DateTime.Now.AddMilliseconds(500))).Clone();
+            }
 
-            Switch response = await this.client.UpdateSwitchAsync(
-                new UpdateSwitchRequest()
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    Switch = switchInfo,
-                    UpdateMask = mask,
-                },
-                deadline: DateTime.Now.AddMilliseconds(500));
             this.Switch = response;
         }
 
@@ -104,7 +111,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         {
             FieldMask updateMask = FieldMask.FromString((string)type);
             Switch obj = this.UpdateSwitchInfo((string)type, true);
-            await UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
+            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
         }
 
         private async void ExecuteSwitchOffClickCommand(object type)

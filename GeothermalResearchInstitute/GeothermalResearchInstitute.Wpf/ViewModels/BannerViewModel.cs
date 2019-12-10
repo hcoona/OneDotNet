@@ -42,7 +42,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public string Title => this.ViewModelContext?.Title;
 
-        public string CurrentLocalDateTimeString => DateTime.Now.ToString(CultureInfo.CurrentCulture);
+        public string CurrentLocalDateTimeString => DateTime.UtcNow.ToString(CultureInfo.CurrentCulture);
 
         public DelegateCommand NavigateBackCommand { get; }
 

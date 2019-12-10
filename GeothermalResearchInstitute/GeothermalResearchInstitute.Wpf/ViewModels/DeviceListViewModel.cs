@@ -57,7 +57,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         {
             ListDevicesResponse response = await this.client.ListDevicesAsync(
                 new ListDevicesRequest(),
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
             this.Devices.Clear();
             this.Devices.AddRange(response.Devices);
             this.SelectedDevice = this.Devices.FirstOrDefault();

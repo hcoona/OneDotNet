@@ -238,7 +238,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
             this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
 
             this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
@@ -246,7 +246,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
-                deadline: DateTime.Now.AddSeconds(5));
+                deadline: DateTime.UtcNow.AddSeconds(5));
             this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
         }
 
@@ -258,7 +258,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     RunningParameter = this.UpdatingRunningParameter,
                 },
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
             this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
 
             this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
@@ -272,7 +272,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         "water_pump_working_mode",
                     }),
                 },
-                deadline: DateTime.Now.AddSeconds(5));
+                deadline: DateTime.UtcNow.AddSeconds(5));
             this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
         }
     }

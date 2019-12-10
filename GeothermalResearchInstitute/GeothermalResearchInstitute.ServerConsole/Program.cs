@@ -101,6 +101,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                         provider.GetRequiredService<ILoggerFactory>(),
                         IPAddress.Any,
                         config.GetValue<int>("core:plc_port")));
+                    builder.AddSingleton<PlcHostedService>();
 
                     builder.AddHostedService<GrpcHostedService>();
                     builder.AddHostedService<PlcHostedService>();

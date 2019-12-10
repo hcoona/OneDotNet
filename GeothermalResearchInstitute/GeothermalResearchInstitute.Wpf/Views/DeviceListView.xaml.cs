@@ -6,6 +6,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using GeothermalResearchInstitute.Wpf.ViewModels;
+using Grpc.Core;
 using Prism.Common;
 using Prism.Regions;
 
@@ -35,7 +36,14 @@ namespace GeothermalResearchInstitute.Wpf.Views
             viewModelContext.BannerVisibility = Visibility.Visible;
             viewModelContext.Title = "设备选择";  // TODO: From resource.
 
-            await this.ViewModel.LoadDevicesAsync().ConfigureAwait(true);
+            try
+            {
+                await this.ViewModel.LoadDevicesAsync().ConfigureAwait(true);
+            }
+            catch (RpcException ex)
+            {
+                MessageBox.Show("Failed to load devices: " + ex.Message);
+            }
         }
     }
 }

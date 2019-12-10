@@ -260,7 +260,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             DateTime endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
-                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.Now;
+                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.UtcNow;
             }
             else
             {

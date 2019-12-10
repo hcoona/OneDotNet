@@ -46,7 +46,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
             ListMetricsResponse response = await this.client.ListMetricsAsync(
                 request,
-                deadline: DateTime.Now.AddSeconds(5));
+                deadline: DateTime.UtcNow.AddSeconds(5));
             this.Metrics.AddRange(response.Metrics);
             this.nextPageToken = response.NextPageToken;
         }

@@ -25,10 +25,6 @@ namespace GeothermalResearchInstitute.ServerConsole
     {
         private readonly ILogger<PlcHostedService> logger;
         private readonly PlcServer plcServer;
-
-        private readonly ConcurrentDictionary<ByteString, PlcClient> plcDictionary =
-            new ConcurrentDictionary<ByteString, PlcClient>();
-
         private CancellationTokenSource cancellationTokenSource;
         private Task backgroundTask;
 
@@ -37,6 +33,9 @@ namespace GeothermalResearchInstitute.ServerConsole
             this.logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
             this.plcServer = plcServer ?? throw new System.ArgumentNullException(nameof(plcServer));
         }
+
+        public ConcurrentDictionary<ByteString, PlcClient> PlcDictionary { get; } =
+            new ConcurrentDictionary<ByteString, PlcClient>();
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -48,7 +47,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             this.plcServer.Start();
             this.logger.LogInformation("PLC server is listening on {0}", this.plcServer.LocalEndPoint);
 
-            this.plcDictionary.Clear();
+            this.PlcDictionary.Clear();
             this.cancellationTokenSource = new CancellationTokenSource();
             this.backgroundTask = Task.Factory.StartNew(
                 this.BackgroundTaskEntryPoint,
@@ -64,9 +63,9 @@ namespace GeothermalResearchInstitute.ServerConsole
             this.cancellationTokenSource.Cancel();
             await this.backgroundTask.ConfigureAwait(false);
 
-            foreach (ByteString id in this.plcDictionary.Keys)
+            foreach (ByteString id in this.PlcDictionary.Keys)
             {
-                if (this.plcDictionary.TryRemove(id, out PlcClient client))
+                if (this.PlcDictionary.TryRemove(id, out PlcClient client))
                 {
                     client.Close();
                     client.Dispose();
@@ -103,7 +102,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                     continue;
                 }
 
-                if (this.plcDictionary.TryAdd(response.Id, client))
+                if (this.PlcDictionary.TryAdd(response.Id, client))
                 {
                     this.logger.LogInformation(
                         "Client(MAC={0}, EndPoint={1}) connected.",
@@ -115,7 +114,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                             "Client(MAC={0}, EndPoint={1}) disconnected.",
                             BitConverter.ToString(response.Id.ToByteArray()),
                             client.RemoteEndPoint);
-                        this.plcDictionary.TryRemove(response.Id, out PlcClient _);
+                        this.PlcDictionary.TryRemove(response.Id, out PlcClient _);
                     };
                 }
                 else

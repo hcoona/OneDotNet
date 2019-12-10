@@ -84,7 +84,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
         }
 
         private bool CanUpdateDeviceWorkingModeCommand() => this.selectedWorkingMode != DeviceWorkingMode.Unspecified;
@@ -101,7 +101,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     },
                     UpdateMask = FieldMask.FromString("device_working_mode"),
                 },
-                deadline: DateTime.Now.AddSeconds(5));
+                deadline: DateTime.UtcNow.AddSeconds(5));
             this.SelectedDeviceWorkingMode = DeviceWorkingMode.Unspecified;
         }
     }

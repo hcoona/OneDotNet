@@ -107,7 +107,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.Now.AddSeconds(1));
+                    deadline: DateTime.UtcNow.AddSeconds(1));
             }
             catch (RpcException ex)
             {

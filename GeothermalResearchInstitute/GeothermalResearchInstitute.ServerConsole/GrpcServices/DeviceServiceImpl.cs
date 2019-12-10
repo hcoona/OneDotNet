@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.Models;
 using GeothermalResearchInstitute.v2;
@@ -27,19 +28,22 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
     public class DeviceServiceImpl : DeviceService.DeviceServiceBase
     {
         private readonly ILogger<DeviceServiceImpl> logger;
-        private readonly BjdireContext bjdireContext;
         private readonly IServiceProvider serviceProvider;
-        private readonly ConcurrentDictionary<ByteString, GrpcDeviceMetrics> metricsMap;
+        private readonly BjdireContext bjdireContext;
+        private readonly PlcHostedService plcHostedService;
+        private readonly ConcurrentDictionary<ByteString, GrpcDeviceMetrics> metricsMap =
+            new ConcurrentDictionary<ByteString, GrpcDeviceMetrics>();
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
+            IServiceProvider serviceProvider,
             BjdireContext bjdireContext,
-            IServiceProvider serviceProvider)
+            PlcHostedService plcHostedService)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            this.metricsMap = new ConcurrentDictionary<ByteString, GrpcDeviceMetrics>();
+            this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
+            this.plcHostedService = plcHostedService ?? throw new ArgumentNullException(nameof(plcHostedService));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -83,13 +87,28 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
         public override Task<ListDevicesResponse> ListDevices(ListDevicesRequest request, ServerCallContext context)
         {
-            IOptionsSnapshot<DeviceOptions> deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+            IOptionsSnapshot<DeviceOptions> deviceOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+
             var response = new ListDevicesResponse();
-            response.Devices.Add(deviceOptions.Value.Devices.Select(d => new GrpcDevice
-            {
-                Id = ByteString.CopyFrom(d.ComputeIdBinary()),
-                Name = d.Name,
-            }));
+            response.Devices.Add(
+                from d in deviceOptions.Value.Devices
+                let id = ByteString.CopyFrom(d.ComputeIdBinary())
+                join e in this.plcHostedService.PlcDictionary.AsEnumerable()
+                on id equals e.Key into g
+                from e in g.DefaultIfEmpty()
+                select new GrpcDevice
+                {
+                    Id = id,
+                    Name = d.Name,
+                    Ipv4Address = e.Value == null
+                        ? ByteString.Empty
+                        : ByteString.CopyFrom(((IPEndPoint)e.Value.RemoteEndPoint).Address.GetAddressBytes()),
+                    Status = e.Value == null
+                        ? DeviceStatus.Disconnected
+                        : DeviceStatus.Healthy,
+                });
+
             return Task.FromResult(response);
         }
     }

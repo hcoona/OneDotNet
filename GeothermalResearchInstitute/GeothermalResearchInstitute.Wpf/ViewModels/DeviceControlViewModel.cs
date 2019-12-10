@@ -70,7 +70,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
             this.Metric = response;
         }
 
@@ -81,7 +81,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 },
-                deadline: DateTime.Now.AddMilliseconds(500));
+                deadline: DateTime.UtcNow.AddMilliseconds(500));
             this.Switch = response;
         }
 
@@ -101,7 +101,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         Switch = s.Clone(),
                         UpdateMask = mask,
                     },
-                    deadline: DateTime.Now.AddMilliseconds(500))).Clone();
+                    deadline: DateTime.UtcNow.AddMilliseconds(500))).Clone();
             }
 
             this.Switch = response;

@@ -29,8 +29,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
-        private DateTime startDateTime = DateTime.Now;
-        private DateTime endDateTime = DateTime.Now;
+        private DateTime startDateTime = DateTime.UtcNow;
+        private DateTime endDateTime = DateTime.UtcNow;
         private TimeSpan selectedTimeSpan = CandidateExportTimeSpans[0];
 
         public DeviceMetricHistoryExportViewModel(DeviceService.DeviceServiceClient client)
@@ -89,7 +89,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
                 ListMetricsResponse response = await this.client.ListMetricsAsync(
                     request,
-                    deadline: DateTime.Now.AddSeconds(5));
+                    deadline: DateTime.UtcNow.AddSeconds(5));
                 nextPageToken = response.NextPageToken;
 
                 if (response.Metrics.Count == 0)

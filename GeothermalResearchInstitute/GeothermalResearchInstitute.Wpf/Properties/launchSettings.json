@@ -2,7 +2,7 @@
   "profiles": {
     "GeothermalResearchInstitute.Wpf": {
       "commandName": "Project",
-      "commandLineArgs": "--Environment=Development"
+      "commandLineArgs": "--Environment=Staging"
     }
   }
 }

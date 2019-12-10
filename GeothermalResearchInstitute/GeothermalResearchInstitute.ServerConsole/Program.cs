@@ -69,6 +69,13 @@ namespace GeothermalResearchInstitute.ServerConsole
                     builder.Configure<AuthenticationOptions>(context.Configuration);
                     builder.Configure<DeviceOptions>(context.Configuration);
 
+                    // PLC server.
+                    builder.AddSingleton(provider => new PlcServer(
+                        provider.GetRequiredService<ILoggerFactory>(),
+                        IPAddress.Any,
+                        config.GetValue<int>("core:plc_port")));
+                    builder.AddSingleton<PlcManager>();
+
                     // gRPC services.
                     builder.AddSingleton(serviceProvider =>
                     {
@@ -95,13 +102,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                             },
                         };
                     });
-
-                    // PLC server.
-                    builder.AddSingleton(provider => new PlcServer(
-                        provider.GetRequiredService<ILoggerFactory>(),
-                        IPAddress.Any,
-                        config.GetValue<int>("core:plc_port")));
-                    builder.AddSingleton<PlcHostedService>();
 
                     builder.AddHostedService<GrpcHostedService>();
                     builder.AddHostedService<PlcHostedService>();

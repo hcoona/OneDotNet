@@ -30,7 +30,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly IServiceProvider serviceProvider;
         private readonly BjdireContext bjdireContext;
-        private readonly PlcHostedService plcHostedService;
+        private readonly PlcManager plcManager;
         private readonly ConcurrentDictionary<ByteString, GrpcDeviceMetrics> metricsMap =
             new ConcurrentDictionary<ByteString, GrpcDeviceMetrics>();
 
@@ -38,12 +38,12 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             ILogger<DeviceServiceImpl> logger,
             IServiceProvider serviceProvider,
             BjdireContext bjdireContext,
-            PlcHostedService plcHostedService)
+            PlcManager plcManager)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
-            this.plcHostedService = plcHostedService ?? throw new ArgumentNullException(nameof(plcHostedService));
+            this.plcManager = plcManager ?? throw new ArgumentNullException(nameof(plcManager));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -94,7 +94,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             response.Devices.Add(
                 from d in deviceOptions.Value.Devices
                 let id = ByteString.CopyFrom(d.ComputeIdBinary())
-                join e in this.plcHostedService.PlcDictionary.AsEnumerable()
+                join e in this.plcManager.PlcDictionary.AsEnumerable()
                 on id equals e.Key into g
                 from e in g.DefaultIfEmpty()
                 select new GrpcDevice

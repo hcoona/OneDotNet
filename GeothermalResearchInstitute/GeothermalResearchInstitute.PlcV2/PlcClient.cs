@@ -37,7 +37,6 @@ namespace GeothermalResearchInstitute.PlcV2
             new ConcurrentDictionary<int, PlcRequestContext>();
 
         private int sequenceNumberGenerator = 0;
-        private bool closed = false;
         private bool disposedValue = false;
 
         public PlcClient(ILogger<PlcClient> logger, TcpClient tcpClient)
@@ -82,7 +81,7 @@ namespace GeothermalResearchInstitute.PlcV2
             GC.SuppressFinalize(this);
         }
 
-        public void Close()
+        public async void Close()
         {
             if (!this.closingCancellationTokenSource.IsCancellationRequested)
             {
@@ -90,6 +89,10 @@ namespace GeothermalResearchInstitute.PlcV2
                 this.requestContextSendingBufferBlock.Complete();
                 this.tcpClient.Close();
                 this.OnClosed?.Invoke(this, EventArgs.Empty);
+
+                await this.sendingBackgroundTask.ConfigureAwait(false);
+                await this.receivingBackgroundTask.ConfigureAwait(false);
+                await this.deadlineBackgroundTask.ConfigureAwait(false);
             }
         }
 

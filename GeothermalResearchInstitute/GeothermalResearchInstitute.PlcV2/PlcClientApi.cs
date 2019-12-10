@@ -165,7 +165,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
         private Task<PlcFrame> InvokeAsync(PlcFrame request, DateTime? deadline)
         {
-            if (this.closed)
+            if (this.closingCancellationTokenSource.IsCancellationRequested)
             {
                 return Task.FromException<PlcFrame>(new RpcException(Status.DefaultCancelled));
             }

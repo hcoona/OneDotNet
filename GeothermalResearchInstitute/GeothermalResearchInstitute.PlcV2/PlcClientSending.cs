@@ -22,10 +22,10 @@ namespace GeothermalResearchInstitute.PlcV2
                     .OutputAvailableAsync()
                     .ConfigureAwait(false))
                 {
-                    DateTime now = DateTime.Now;
+                    DateTime utcNow = DateTime.UtcNow;
                     while (this.requestContextSendingBufferBlock.TryReceive(out PlcRequestContext requestContext))
                     {
-                        this.ProcessRequest(now, requestContext);
+                        this.ProcessRequest(utcNow, requestContext);
                     }
                 }
             }
@@ -36,9 +36,9 @@ namespace GeothermalResearchInstitute.PlcV2
             }
         }
 
-        private void ProcessRequest(DateTime now, PlcRequestContext requestContext)
+        private void ProcessRequest(DateTime utcNow, PlcRequestContext requestContext)
         {
-            if (requestContext.Deadline < now)
+            if (requestContext.Deadline?.ToUniversalTime() < utcNow)
             {
                 requestContext.TaskCompletionSource.SetException(new RpcException(
                     new Status(StatusCode.DeadlineExceeded, string.Empty)));

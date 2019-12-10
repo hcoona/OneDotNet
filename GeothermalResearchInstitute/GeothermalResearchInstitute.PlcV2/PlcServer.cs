@@ -36,7 +36,9 @@ namespace GeothermalResearchInstitute.PlcV2
 
         public async Task<PlcClient> AcceptAsync()
         {
-            TcpClient tcpClient = await this.tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+            TcpClient tcpClient = await this.tcpListener
+                .AcceptTcpClientAsync()
+                .ConfigureAwait(false);
             return new PlcClient(this.loggerFactory.CreateLogger<PlcClient>(), tcpClient);
         }
     }

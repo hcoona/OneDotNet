@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using GeothermalResearchInstitute.PlcV2;
 using GeothermalResearchInstitute.ServerConsole.Models;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
@@ -110,6 +111,23 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 });
 
             return Task.FromResult(response);
+        }
+
+        public override Task<GrpcDeviceMetrics> GetMetric(GetMetricRequest request, ServerCallContext context)
+        {
+            if (request.DeviceId.IsEmpty)
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Must specify device_id."));
+            }
+
+            if (this.plcManager.PlcDictionary.TryGetValue(request.DeviceId, out PlcClient client))
+            {
+                return client.GetMetricAsync(request, context.Deadline);
+            }
+            else
+            {
+                throw new RpcException(new Status(StatusCode.NotFound, "Device is currently offline."));
+            }
         }
     }
 }

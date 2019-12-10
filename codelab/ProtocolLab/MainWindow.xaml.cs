@@ -391,7 +391,7 @@ namespace ProtocolLab
                         {
                             this.LogMessage("测试程序只允许一台 PLC 连接。");
                         });
-                        client.Close();
+                        await client.Close().ConfigureAwait(false);
                     }
                 }
 

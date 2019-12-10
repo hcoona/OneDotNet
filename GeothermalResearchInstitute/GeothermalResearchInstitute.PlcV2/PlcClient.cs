@@ -81,13 +81,14 @@ namespace GeothermalResearchInstitute.PlcV2
             GC.SuppressFinalize(this);
         }
 
-        public async void Close()
+        public async Task Close()
         {
             if (!this.closingCancellationTokenSource.IsCancellationRequested)
             {
                 this.closingCancellationTokenSource.Cancel();
                 this.requestContextSendingBufferBlock.Complete();
                 this.tcpClient.Close();
+
                 this.OnClosed?.Invoke(this, EventArgs.Empty);
 
                 await this.sendingBackgroundTask.ConfigureAwait(false);
@@ -102,10 +103,12 @@ namespace GeothermalResearchInstitute.PlcV2
             {
                 if (disposing)
                 {
-                    this.Close();
+                    this.Close().ConfigureAwait(false).GetAwaiter().GetResult();
+
                     this.sendingBackgroundTask.Dispose();
                     this.receivingBackgroundTask.Dispose();
                     this.deadlineBackgroundTask.Dispose();
+
                     this.tcpClient.Dispose();
                     this.closingCancellationTokenSource.Dispose();
                 }

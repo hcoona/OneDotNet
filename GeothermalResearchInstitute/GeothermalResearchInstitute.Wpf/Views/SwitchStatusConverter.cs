@@ -19,7 +19,6 @@ namespace GeothermalResearchInstitute.Wpf.Views
                 true => "开",
                 false => "关",
             };
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

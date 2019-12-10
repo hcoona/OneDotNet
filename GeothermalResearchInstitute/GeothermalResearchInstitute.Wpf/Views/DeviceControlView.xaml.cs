@@ -3,12 +3,9 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.ViewModels;
-using Google.Protobuf.WellKnownTypes;
 using Prism.Common;
 using Prism.Regions;
 

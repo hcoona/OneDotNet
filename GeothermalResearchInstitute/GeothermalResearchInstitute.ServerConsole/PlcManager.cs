@@ -57,7 +57,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync()
         {
             this.cancellationTokenSource.Cancel();
             await this.backgroundTask.ConfigureAwait(false);
@@ -66,7 +66,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             {
                 if (this.PlcDictionary.TryRemove(id, out PlcClient client))
                 {
-                    client.Close();
+                    await client.Close().ConfigureAwait(false);
                     client.Dispose();
                 }
             }
@@ -122,7 +122,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                         "Failed to add the client(MAC={0}, EndPoint={1}) into dictionary.",
                         BitConverter.ToString(response.Id.ToByteArray()),
                         client.RemoteEndPoint);
-                    client.Close();
+                    await client.Close().ConfigureAwait(false);
                     client.Dispose();
                 }
             }

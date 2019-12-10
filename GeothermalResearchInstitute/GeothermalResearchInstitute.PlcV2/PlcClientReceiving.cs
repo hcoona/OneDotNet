@@ -72,12 +72,12 @@ namespace GeothermalResearchInstitute.PlcV2
             catch (IOException e)
             {
                 this.logger.LogError(e, "Failed to receiving from {0}", this.RemoteEndPoint);
-                this.Close();
+                this.Close().ConfigureAwait(false).GetAwaiter().GetResult();
             }
             catch (InvalidDataException e)
             {
                 this.logger.LogError(e, "Received invalid data from {0}", this.RemoteEndPoint);
-                this.Close();
+                this.Close().ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
     }

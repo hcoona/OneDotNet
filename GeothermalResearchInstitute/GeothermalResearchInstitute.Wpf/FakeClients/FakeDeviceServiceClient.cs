@@ -356,6 +356,5 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 () => new Metadata(),
                 () => { });
         }
-
     }
 }

@@ -88,12 +88,35 @@ namespace GeothermalResearchInstitute.FakePlcV2
                 byte[] content = contentLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(contentLength);
 
                 var messageType = (PlcMessageType)BinaryPrimitives.ReadUInt16BigEndian(header.AsSpan(0x06, 2));
-                PlcFrame responseFrame = null;
-                if (messageType == PlcMessageType.ConnectRequest)
+                PlcFrame responseFrame;
+                switch (messageType)
                 {
-                    responseFrame = PlcFrame.Create(
-                        PlcMessageType.ConnectResponse,
-                        ByteString.CopyFrom(PhysicalAddress.Parse("10BF4879B2A4").GetAddressBytes()));
+                    case PlcMessageType.ConnectRequest:
+                        responseFrame = PlcFrame.Create(
+                            PlcMessageType.ConnectResponse,
+                            ByteString.CopyFrom(PhysicalAddress.Parse("10BF4879B2A4").GetAddressBytes()));
+                        break;
+                    case PlcMessageType.GetMetricRequest:
+                        byte[] responseContent = new byte[0x20];
+                        using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
+                        {
+                            writer.Write(11F);
+                            writer.Write(13F);
+                            writer.Write(17F);
+                            writer.Write(19F);
+                            writer.Write(23F);
+                            writer.Write(29F);
+                            writer.Write(31F);
+                            writer.Write(37F);
+                        }
+
+                        responseFrame = PlcFrame.Create(
+                            PlcMessageType.GetMetricResponse,
+                            ByteString.CopyFrom(responseContent));
+                        break;
+                    default:
+                        responseFrame = null;
+                        break;
                 }
 
                 if (responseFrame == null)

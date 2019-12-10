@@ -32,7 +32,7 @@ namespace GeothermalResearchInstitute.PlcV2
             catch (IOException e)
             {
                 this.logger.LogError(e, "Failed to send message to {0}", this.RemoteEndPoint);
-                this.Close();
+                this.Close().ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
 

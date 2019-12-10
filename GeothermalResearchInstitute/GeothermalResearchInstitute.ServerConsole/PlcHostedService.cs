@@ -26,7 +26,7 @@ namespace GeothermalResearchInstitute.ServerConsole
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            return this.plcManager.StopAsync(cancellationToken);
+            return this.plcManager.StopAsync();
         }
     }
 }

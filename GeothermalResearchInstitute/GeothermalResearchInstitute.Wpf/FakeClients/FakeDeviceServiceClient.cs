@@ -256,7 +256,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<ListMetricsResponse> ListMetricsAsync(ListMetricsRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            DateTime? startDateTime = request.StartTime?.ToDateTime();
+            var startDateTime = request.StartTime?.ToDateTime();
             DateTime endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
@@ -327,7 +327,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             Switch switchInfo = Switches[request.DeviceId];
 
             return TestCalls.AsyncUnaryCall(
-                Task.FromResult(switchInfo),
+                Task.FromResult(switchInfo.Clone()),
                 Task.FromResult(new Metadata()),
                 () => Status.DefaultSuccess,
                 () => new Metadata(),
@@ -350,7 +350,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             Switches[request.DeviceId] = switchInfo;
 
             return TestCalls.AsyncUnaryCall(
-                Task.FromResult(switchInfo),
+                Task.FromResult(switchInfo.Clone()),
                 Task.FromResult(new Metadata()),
                 () => Status.DefaultSuccess,
                 () => new Metadata(),

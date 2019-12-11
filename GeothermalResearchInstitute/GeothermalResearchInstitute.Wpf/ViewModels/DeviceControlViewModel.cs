@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Common;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private readonly ILogger<DeviceControlViewModel> logger;
         private readonly DispatcherTimer timer;
         private ViewModelContext viewModelContext;
-        private Switch switchInfo;
+        private Switch deviceSwitch;
         private Metric metric;
 
         public DeviceControlViewModel(
@@ -53,8 +54,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public Switch Switch
         {
-            get => this.switchInfo;
-            set => this.SetProperty(ref this.switchInfo, value);
+            get => this.deviceSwitch;
+            set => this.SetProperty(ref this.deviceSwitch, value);
         }
 
         public Metric Metric
@@ -96,13 +97,12 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         {
             try
             {
-                Metric response = await this.client.GetMetricAsync(
-                new GetMetricRequest()
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                },
-                deadline: DateTime.UtcNow.AddMilliseconds(500));
-                this.Metric = response;
+                this.Metric = await this.client.GetMetricAsync(
+                    new GetMetricRequest()
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                    },
+                    deadline: DateTime.UtcNow.AddMilliseconds(500));
             }
             catch (RpcException e)
             {
@@ -134,76 +134,53 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             }
         }
 
-        private static Switch UpdateSwitchInfo(string type, bool status)
-        {
-            var obj = new Switch();
-            switch (type)
-            {
-                case "device_power_on":
-                    obj.DevicePowerOn = status;
-                    break;
-                case "exhauster_power_on":
-                    obj.ExhausterPowerOn = status;
-                    break;
-                case "heater_power_on":
-                    obj.HeaterPowerOn = status;
-                    break;
-                case "heater_auto_on":
-                    obj.HeaterAutoOn = status;
-                    break;
-                case "heater_compressor_on":
-                    obj.HeaterCompressorOn = status;
-                    break;
-                case "heater_fan_on":
-                    obj.HeaterFanOn = status;
-                    break;
-                case "heater_four_way_reversing_on":
-                    obj.HeaterFourWayReversingOn = status;
-                    break;
-            }
-
-            return obj;
-        }
-
         private async void Timer_Tick(object sender, EventArgs e)
         {
             await this.LoadMetricAsync().ConfigureAwait(true);
         }
 
-        private async Task UpdateSwitchAsync(Switch s, FieldMask mask)
+        private async void ExecuteSwitchOnClickCommand(string fieldMask)
         {
-            Switch response;
-            if (false)
+            var updatingMask = FieldMask.FromString<Switch>(fieldMask);
+            var updatingSwitch = new Switch();
+            Switch.Descriptor.FindFieldByName(fieldMask).Accessor.SetValue(updatingSwitch, true);
+            try
             {
-                response = s.Clone();
+                this.Switch = await this.client.UpdateSwitchAsync(
+                        new UpdateSwitchRequest()
+                        {
+                            DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                            Switch = updatingSwitch,
+                            UpdateMask = updatingMask,
+                        },
+                        deadline: DateTime.UtcNow.AddMilliseconds(500));
             }
-            else
+            catch (RpcException e)
             {
-                response = (await this.client.UpdateSwitchAsync(
+                e.ShowMessageBox();
+            }
+        }
+
+        private async void ExecuteSwitchOffClickCommand(string fieldMask)
+        {
+            var updatingMask = FieldMask.FromString<Switch>(fieldMask);
+            var updatingSwitch = new Switch();
+            Switch.Descriptor.FindFieldByName(fieldMask).Accessor.SetValue(updatingSwitch, false);
+            try
+            {
+                this.Switch = await this.client.UpdateSwitchAsync(
                     new UpdateSwitchRequest()
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                        Switch = s.Clone(),
-                        UpdateMask = mask,
+                        Switch = updatingSwitch,
+                        UpdateMask = updatingMask,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500))).Clone();
+                    deadline: DateTime.UtcNow.AddMilliseconds(500));
             }
-
-            this.Switch = response;
-        }
-
-        private async void ExecuteSwitchOnClickCommand(string type)
-        {
-            var updateMask = FieldMask.FromString(type);
-            Switch obj = UpdateSwitchInfo(type, true);
-            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(true);
-        }
-
-        private async void ExecuteSwitchOffClickCommand(string type)
-        {
-            var updateMask = FieldMask.FromString(type);
-            Switch obj = UpdateSwitchInfo(type, false);
-            await this.UpdateSwitchAsync(obj, updateMask).ConfigureAwait(false);
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
     }
 }

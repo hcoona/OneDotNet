@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.PlcV2;
+using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 
 namespace GeothermalResearchInstitute.FakePlcV2
@@ -28,6 +29,29 @@ namespace GeothermalResearchInstitute.FakePlcV2
         {
             this.Dispose(false);
         }
+
+        public Metric Metric { get; } = new Metric
+        {
+            OutputWaterCelsiusDegree = 11F,
+            InputWaterCelsiusDegree = 13F,
+            HeaterOutputWaterCelsiusDegree = 17F,
+            EnvironmentCelsiusDegree = 19F,
+            OutputWaterPressureMeter = 23F,
+            InputWaterPressureMeter = 29F,
+            HeaterPowerKilowatt = 31F,
+            WaterPumpFlowRateCubicMeterPerHour = 37F,
+        };
+
+        public Switch Switch { get; } = new Switch
+        {
+            DevicePowerOn = true,
+            ExhausterPowerOn = true,
+            HeaterAutoOn = true,
+            HeaterPowerOn = true,
+            HeaterFanOn = true,
+            HeaterCompressorOn = true,
+            HeaterFourWayReversingOn = true,
+        };
 
         public void Dispose()
         {
@@ -97,22 +121,14 @@ namespace GeothermalResearchInstitute.FakePlcV2
                             ByteString.CopyFrom(PhysicalAddress.Parse("10BF4879B2A4").GetAddressBytes()));
                         break;
                     case PlcMessageType.GetMetricRequest:
-                        byte[] responseContent = new byte[0x20];
-                        using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
-                        {
-                            writer.Write(11F);
-                            writer.Write(13F);
-                            writer.Write(17F);
-                            writer.Write(19F);
-                            writer.Write(23F);
-                            writer.Write(29F);
-                            writer.Write(31F);
-                            writer.Write(37F);
-                        }
-
-                        responseFrame = PlcFrame.Create(
-                            PlcMessageType.GetMetricResponse,
-                            ByteString.CopyFrom(responseContent));
+                        responseFrame = this.CreateGetMetricResponse();
+                        break;
+                    case PlcMessageType.GetSwitchRequest:
+                        responseFrame = this.CreateGetSwitchResponseFrame();
+                        break;
+                    case PlcMessageType.UpdateSwitchRequest:
+                        this.UpdateSwitch(content);
+                        responseFrame = this.CreateGetSwitchResponseFrame();
                         break;
                     default:
                         responseFrame = null;
@@ -128,6 +144,80 @@ namespace GeothermalResearchInstitute.FakePlcV2
                     BinaryPrimitives.ReadUInt32BigEndian(header.AsSpan(0x08, 4));
                 responseFrame.WriteTo(this.client.GetStream());
             }
+        }
+
+        private PlcFrame CreateGetMetricResponse()
+        {
+            byte[] responseContent = new byte[0x20];
+            using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
+            {
+                writer.Write(this.Metric.OutputWaterCelsiusDegree);
+                writer.Write(this.Metric.InputWaterCelsiusDegree);
+                writer.Write(this.Metric.HeaterOutputWaterCelsiusDegree);
+                writer.Write(this.Metric.EnvironmentCelsiusDegree);
+                writer.Write(this.Metric.OutputWaterPressureMeter);
+                writer.Write(this.Metric.InputWaterPressureMeter);
+                writer.Write(this.Metric.HeaterPowerKilowatt);
+                writer.Write(this.Metric.WaterPumpFlowRateCubicMeterPerHour);
+            }
+
+            return PlcFrame.Create(
+                PlcMessageType.GetMetricResponse,
+                ByteString.CopyFrom(responseContent));
+        }
+
+        private void UpdateSwitch(ReadOnlySpan<byte> content)
+        {
+            if ((content[0] & 0x10) != 0)
+            {
+                this.Switch.DevicePowerOn = (content[0] & 0x01) == 1;
+            }
+
+            if ((content[1] & 0x10) != 0)
+            {
+                this.Switch.ExhausterPowerOn = (content[1] & 0x01) == 1;
+            }
+
+            if ((content[2] & 0x10) != 0)
+            {
+                this.Switch.HeaterAutoOn = (content[2] & 0x01) == 1;
+            }
+
+            if ((content[3] & 0x10) != 0)
+            {
+                this.Switch.HeaterPowerOn = (content[3] & 0x01) == 1;
+            }
+
+            if ((content[4] & 0x10) != 0)
+            {
+                this.Switch.HeaterFanOn = (content[4] & 0x01) == 1;
+            }
+
+            if ((content[5] & 0x10) != 0)
+            {
+                this.Switch.HeaterCompressorOn = (content[5] & 0x01) == 1;
+            }
+
+            if ((content[6] & 0x10) != 0)
+            {
+                this.Switch.HeaterFourWayReversingOn = (content[6] & 0x01) == 1;
+            }
+        }
+
+        private PlcFrame CreateGetSwitchResponseFrame()
+        {
+            byte[] responseContent = new byte[0x07];
+            responseContent[0] = (byte)(this.Switch.DevicePowerOn ? 0x01 : 0x00);
+            responseContent[1] = (byte)(this.Switch.ExhausterPowerOn ? 0x01 : 0x00);
+            responseContent[2] = (byte)(this.Switch.HeaterAutoOn ? 0x01 : 0x00);
+            responseContent[3] = (byte)(this.Switch.HeaterPowerOn ? 0x01 : 0x00);
+            responseContent[4] = (byte)(this.Switch.HeaterFanOn ? 0x01 : 0x00);
+            responseContent[5] = (byte)(this.Switch.HeaterCompressorOn ? 0x01 : 0x00);
+            responseContent[6] = (byte)(this.Switch.HeaterFourWayReversingOn ? 0x01 : 0x00);
+
+            return PlcFrame.Create(
+                PlcMessageType.GetSwitchResponse,
+                ByteString.CopyFrom(responseContent));
         }
     }
 }

@@ -6,7 +6,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
-using System.Windows;
 using System.Windows.Controls;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
@@ -81,18 +80,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             }
             catch (RpcException e)
             {
-                if (e.StatusCode == StatusCode.DeadlineExceeded)
-                {
-                    MessageBox.Show("网络连接错误，请检查到服务器的连接是否正常");
-                }
-                else if (e.StatusCode == StatusCode.Unauthenticated)
-                {
-                    MessageBox.Show("用户名或密码错误");
-                }
-                else
-                {
-                    MessageBox.Show("其他未知错误：" + e.ToString());
-                }
+                e.ShowMessageBox();
             }
         }
 

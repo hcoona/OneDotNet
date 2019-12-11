@@ -40,6 +40,5 @@ namespace GeothermalResearchInstitute.Wpf.Views
             await this.ViewModel.LoadMetricAsync().ConfigureAwait(true);
             await this.ViewModel.LoadSwitchAsync().ConfigureAwait(true);
         }
-
     }
 }

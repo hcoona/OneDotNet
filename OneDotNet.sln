@@ -107,7 +107,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolLab", "codelab\Prot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.PlcV2", "GeothermalResearchInstitute\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj", "{2A9CCE89-7269-45C2-A087-36F91630A6AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeothermalResearchInstitute.FakePlcV2", "GeothermalResearchInstitute\GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj", "{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute.FakePlcV2", "GeothermalResearchInstitute\GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj", "{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9578F6A5-5C44-46F3-9965-DEF4D39FC5D5}"
+	ProjectSection(SolutionItems) = preProject
+		GeothermalResearchInstitute\docs\上位机设计要求.docx = GeothermalResearchInstitute\docs\上位机设计要求.docx
+		GeothermalResearchInstitute\docs\上位机设计要求.pdf = GeothermalResearchInstitute\docs\上位机设计要求.pdf
+		GeothermalResearchInstitute\docs\地热院项目下位机通信文档.docx = GeothermalResearchInstitute\docs\地热院项目下位机通信文档.docx
+		GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf = GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -351,6 +359,7 @@ Global
 		{27B72F6F-1DC2-47FC-BA6D-B133BE75C3CF} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 		{2A9CCE89-7269-45C2-A087-36F91630A6AE} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
+		{9578F6A5-5C44-46F3-9965-DEF4D39FC5D5} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

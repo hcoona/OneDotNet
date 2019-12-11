@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.PlcV2;
@@ -83,7 +84,16 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             while (!this.cancellationTokenSource.IsCancellationRequested)
             {
-                PlcClient client = await this.plcServer.AcceptAsync().ConfigureAwait(false);
+                PlcClient client;
+                try
+                {
+                    client = await this.plcServer.AcceptAsync().ConfigureAwait(false);
+                }
+                catch (SocketException e)
+                {
+                    this.logger.LogError(e, "Failed to accept PLC.");
+                    continue;
+                }
 
                 ConnectResponse response;
                 try

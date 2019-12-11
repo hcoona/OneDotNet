@@ -115,14 +115,45 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
         public override Task<GrpcDeviceMetrics> GetMetric(GetMetricRequest request, ServerCallContext context)
         {
-            if (request.DeviceId.IsEmpty)
+            return this.Invoke(
+                (client, request, deadline) => client.GetMetricAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        public override Task<Switch> GetSwitch(GetSwitchRequest request, ServerCallContext context)
+        {
+            return this.Invoke(
+                (client, request, deadline) => client.GetSwitchAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        public override Task<Switch> UpdateSwitch(UpdateSwitchRequest request, ServerCallContext context)
+        {
+            return this.Invoke(
+                (client, request, deadline) => client.UpdateSwitchAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        private Task<TResponse> Invoke<TRequest, TResponse>(
+            Func<PlcClient, TRequest, DateTime, Task<TResponse>> stub,
+            ByteString deviceId,
+            TRequest request,
+            ServerCallContext context)
+        {
+            if (deviceId.IsEmpty)
             {
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Must specify device_id."));
             }
 
-            if (this.plcManager.PlcDictionary.TryGetValue(request.DeviceId, out PlcClient client))
+            if (this.plcManager.PlcDictionary.TryGetValue(deviceId, out PlcClient client))
             {
-                return client.GetMetricAsync(request, context.Deadline);
+                return stub.Invoke(client, request, context.Deadline);
             }
             else
             {

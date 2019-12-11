@@ -129,16 +129,16 @@ namespace GeothermalResearchInstitute.Wpf
         private void SetupExceptionHandling()
         {
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                this.MessageBoxShowException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+                MessageBoxShowException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
 
             this.Dispatcher.UnhandledException += (s, e) =>
-                this.MessageBoxShowException(e.Exception, "Application.Current.DispatcherUnhandledException");
+                MessageBoxShowException(e.Exception, "Application.Current.DispatcherUnhandledException");
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
-                this.MessageBoxShowException(e.Exception, "TaskScheduler.UnobservedTaskException");
+                MessageBoxShowException(e.Exception, "TaskScheduler.UnobservedTaskException");
         }
 
-        private void MessageBoxShowException(Exception e, string caption)
+        private static void MessageBoxShowException(Exception e, string caption)
         {
             MessageBox.Show(e.ToString(), caption, MessageBoxButton.OK, MessageBoxImage.Error);
         }

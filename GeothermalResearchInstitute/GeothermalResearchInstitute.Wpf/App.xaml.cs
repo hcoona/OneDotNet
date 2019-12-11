@@ -3,6 +3,8 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.FakeClients;
@@ -32,6 +34,8 @@ namespace GeothermalResearchInstitute.Wpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            this.SetupExceptionHandling();
+
             this.UnityContainer = new UnityContainer();
 
             this.Host = new HostBuilder()
@@ -42,7 +46,8 @@ namespace GeothermalResearchInstitute.Wpf
                     {
                         IHostEnvironment env = context.HostingEnvironment;
                         builder
-                            .AddIniFile("appsettings.ini", optional: true, reloadOnChange: true)
+                            .SetBasePath(Environment.CurrentDirectory)
+                            .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
                             .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
                             .AddCommandLine(e.Args);
                     })
@@ -119,6 +124,23 @@ namespace GeothermalResearchInstitute.Wpf
             this.Host.Dispose();
 
             base.OnExit(e);
+        }
+
+        private void SetupExceptionHandling()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                this.MessageBoxShowException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+
+            this.Dispatcher.UnhandledException += (s, e) =>
+                this.MessageBoxShowException(e.Exception, "Application.Current.DispatcherUnhandledException");
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+                this.MessageBoxShowException(e.Exception, "TaskScheduler.UnobservedTaskException");
+        }
+
+        private void MessageBoxShowException(Exception e, string caption)
+        {
+            MessageBox.Show(e.ToString(), caption, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -30,15 +30,19 @@
   <ItemGroup>
     <None Update="appsettings.Production.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="appsettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="appsettings.Development.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="bjdire.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
   </ItemGroup>
 

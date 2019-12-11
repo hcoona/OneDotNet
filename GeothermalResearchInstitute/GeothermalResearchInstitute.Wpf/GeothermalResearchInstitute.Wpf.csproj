@@ -3,7 +3,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>$(DefaultExeTargetFrameworks)</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <AssemblyName>GeothermalResearchInstitute.Wpf</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />
@@ -22,25 +21,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\device.png" />
-    <None Remove="Resources\left-arrow.png" />
-    <None Remove="Resources\right-arrow.png" />
-    <None Remove="Resources\fan-new.png" />
     <Resource Include="Resources\device.png" />
+    <None Remove="Resources\fan-new.png" />
     <Resource Include="Resources\fan-new.png" />
-    <None Remove="Resources\logo.png" />
+    <None Remove="Resources\left-arrow.png" />
     <Resource Include="Resources\left-arrow.png" />
-    <Resource Include="Resources\logo.png" />
+    <None Remove="Resources\right-arrow.png" />
     <Resource Include="Resources\right-arrow.png" />
+    <None Remove="Resources\logo.png" />
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.Development.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="appsettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="appsettings.Production.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
   </ItemGroup>
 </Project>

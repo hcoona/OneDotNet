@@ -298,13 +298,13 @@
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOnClickCommand}"
-                    CommandParameter="heater_auto_on"
+                    CommandParameter="device_power_on"
                     Content="开" />
                 <c:Button
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOffClickCommand}"
-                    CommandParameter="heater_auto_on"
+                    CommandParameter="device_power_on"
                     Content="关" />
             </c:StackPanel>
             <c:StackPanel
@@ -320,13 +320,13 @@
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOnClickCommand}"
-                    CommandParameter="heater_auto_on"
+                    CommandParameter="exhauster_power_on"
                     Content="开" />
                 <c:Button
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOffClickCommand}"
-                    CommandParameter="heater_auto_on"
+                    CommandParameter="exhauster_power_on"
                     Content="关" />
             </c:StackPanel>
             <c:StackPanel
@@ -342,13 +342,13 @@
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOnClickCommand}"
-                    CommandParameter="device_power_on"
+                    CommandParameter="heater_power_on"
                     Content="开" />
                 <c:Button
                     Margin="5"
                     Padding="5"
                     Command="{Binding SwitchOffClickCommand}"
-                    CommandParameter="device_power_on"
+                    CommandParameter="heater_power_on"
                     Content="关" />
             </c:StackPanel>
             <c:StackPanel
@@ -408,6 +408,14 @@
                     CommandParameter="heater_compressor_on"
                     Content="关" />
             </c:StackPanel>
+      <StackPanel Canvas.Left="365"
+                Canvas.Top="270"
+                Orientation="Horizontal">
+        <c:TextBlock
+                    Padding="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Switch.HeaterCompressorOn, Converter={local:SwitchStatusConverter}}" />
+      </StackPanel>
             <c:StackPanel
                 Canvas.Left="452"
                 Canvas.Top="232"
@@ -425,6 +433,14 @@
                     CommandParameter="heater_four_way_reversing_on"
                     Content="关" />
             </c:StackPanel>
-        </c:Canvas>
+      <StackPanel Canvas.Left="510"
+                Canvas.Top="272"
+                Orientation="Horizontal">
+        <c:TextBlock
+                    Padding="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Switch.HeaterFourWayReversingOn, Converter={local:SwitchStatusConverter}}" />
+      </StackPanel>
+    </c:Canvas>
     </c:Viewbox>
 </c:UserControl>

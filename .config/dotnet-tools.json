@@ -9,13 +9,13 @@
       ]
     },
     "fantomas-tool": {
-      "version": "2.9.2",
+      "version": "3.1.0",
       "commands": [
         "fantomas"
       ]
     },
     "dotnet-ef": {
-      "version": "3.0.0",
+      "version": "3.1.0",
       "commands": [
         "dotnet-ef"
       ]

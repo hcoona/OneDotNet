@@ -25,10 +25,17 @@ namespace GeothermalResearchInstitute.FakePlcV2
         private Task backgroundTask;
         private bool disposedValue = false;
 
+        public FakePlc(byte[] id)
+        {
+            this.Mac = new PhysicalAddress(id);
+        }
+
         ~FakePlc()
         {
             this.Dispose(false);
         }
+
+        public PhysicalAddress Mac { get; }
 
         public Metric Metric { get; } = new Metric
         {
@@ -75,7 +82,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
         public async Task StopAsync()
         {
             this.cancellationTokenSource.Cancel();
-            await this.backgroundTask.ConfigureAwait(false);
+            await this.backgroundTask.ConfigureAwait(true);
             this.client.Close();
 
             this.backgroundTask.Dispose();
@@ -94,7 +101,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
                 {
                     if (this.backgroundTask != null)
                     {
-                        this.StopAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+                        this.StopAsync().ConfigureAwait(true).GetAwaiter().GetResult();
                     }
                 }
 
@@ -118,7 +125,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
                     case PlcMessageType.ConnectRequest:
                         responseFrame = PlcFrame.Create(
                             PlcMessageType.ConnectResponse,
-                            ByteString.CopyFrom(PhysicalAddress.Parse("10BF4879B2A4").GetAddressBytes()));
+                            ByteString.CopyFrom(this.Mac.GetAddressBytes()));
                         break;
                     case PlcMessageType.GetMetricRequest:
                         responseFrame = this.CreateGetMetricResponse();

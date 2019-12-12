@@ -1,4 +1,4 @@
-// <copyright file="20190917142851_AddDeviceMetrics.cs" company="Shuai Zhang">
+// <copyright file="20191212150337_InitialCreate.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GeothermalResearchInstitute.ServerConsole.Migrations
 {
-    public partial class AddDeviceMetrics : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,23 +18,23 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
             }
 
             migrationBuilder.CreateTable(
-                name: "DevicesMetrics",
+                name: "Metrics",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTimeOffset>(nullable: false),
-                    WaterOutTemperature = table.Column<float>(nullable: false),
-                    WaterInTemperature = table.Column<float>(nullable: false),
-                    HeaterWaterOutTemperature = table.Column<float>(nullable: false),
-                    EnvironmentTemperature = table.Column<float>(nullable: false),
-                    WaterOutPressure = table.Column<float>(nullable: false),
-                    WaterInPressure = table.Column<float>(nullable: false),
-                    HeaterPower = table.Column<float>(nullable: false),
-                    FlowCapacity = table.Column<float>(nullable: false),
+                    OutputWaterCelsiusDegree = table.Column<float>(nullable: false),
+                    InputWaterCelsiusDegree = table.Column<float>(nullable: false),
+                    HeaterOutputWaterCelsiusDegree = table.Column<float>(nullable: false),
+                    EnvironmentCelsiusDegree = table.Column<float>(nullable: false),
+                    OutputWaterPressureMeter = table.Column<float>(nullable: false),
+                    InputWaterPressureMeter = table.Column<float>(nullable: false),
+                    HeaterPowerKilowatt = table.Column<float>(nullable: false),
+                    WaterPumpFlowRateCubicMeterPerHour = table.Column<float>(nullable: false),
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DevicesMetrics", x => new { x.Id, x.Timestamp });
+                    table.PrimaryKey("PK_Metrics", x => new { x.Id, x.Timestamp });
                 });
         }
 
@@ -46,7 +46,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
             }
 
             migrationBuilder.DropTable(
-                name: "DevicesMetrics");
+                name: "Metrics");
         }
     }
 }

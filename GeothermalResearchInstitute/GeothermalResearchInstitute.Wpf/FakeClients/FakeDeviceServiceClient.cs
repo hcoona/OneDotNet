@@ -256,7 +256,6 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<ListMetricsResponse> ListMetricsAsync(ListMetricsRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            var startDateTime = request.StartTime?.ToDateTime();
             DateTime endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
@@ -268,6 +267,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
             }
 
             endDateTime = endDateTime.ToUniversalTime();
+            var startDateTime = request.StartTime?.ToDateTime();
 
             var metrics = new List<Metric>(request.PageSize);
             for (int i = 0; i < request.PageSize; i++)

@@ -61,13 +61,13 @@ namespace GeothermalResearchInstitute.ServerConsole
         public async Task StopAsync()
         {
             this.cancellationTokenSource.Cancel();
-            await this.backgroundTask.ConfigureAwait(false);
+            await this.backgroundTask.ConfigureAwait(true);
 
             foreach (ByteString id in this.PlcDictionary.Keys)
             {
                 if (this.PlcDictionary.TryRemove(id, out PlcClient client))
                 {
-                    await client.Close().ConfigureAwait(false);
+                    await client.Close().ConfigureAwait(true);
                     client.Dispose();
                 }
             }
@@ -87,7 +87,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 PlcClient client;
                 try
                 {
-                    client = await this.plcServer.AcceptAsync().ConfigureAwait(false);
+                    client = await this.plcServer.AcceptAsync().ConfigureAwait(true);
                 }
                 catch (SocketException e)
                 {
@@ -100,7 +100,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 {
                     response = await client
                         .ConnectAsync(new ConnectRequest(), DateTime.UtcNow.AddSeconds(10))
-                        .ConfigureAwait(false);
+                        .ConfigureAwait(true);
                 }
                 catch (RpcException e)
                 {
@@ -132,7 +132,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                         "Failed to add the client(MAC={0}, EndPoint={1}) into dictionary.",
                         BitConverter.ToString(response.Id.ToByteArray()),
                         client.RemoteEndPoint);
-                    await client.Close().ConfigureAwait(false);
+                    await client.Close().ConfigureAwait(true);
                     client.Dispose();
                 }
             }

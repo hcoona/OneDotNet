@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Common;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -29,8 +31,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
-        private DateTime startDateTime = DateTime.UtcNow;
-        private DateTime endDateTime = DateTime.UtcNow;
+        private DateTime startDateTime = DateTime.Now;
+        private DateTime endDateTime = DateTime.Now;
         private TimeSpan selectedTimeSpan = CandidateExportTimeSpans[0];
 
         public DeviceMetricHistoryExportViewModel(DeviceService.DeviceServiceClient client)
@@ -71,61 +73,75 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private async void ExecuteExport()
         {
-            var metrics = new List<Metric>();
-            string nextPageToken = null;
-            while (true)
+            try
             {
-                var request = new ListMetricsRequest
+                var metrics = new List<Metric>();
+                string nextPageToken = null;
+                while (true)
                 {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    StartTime = this.StartDateTime.ToUniversalTime().ToTimestamp(),
-                    EndTime = this.EndDateTime.ToUniversalTime().ToTimestamp(),
-                    PageSize = 200,
+                    var request = new ListMetricsRequest
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                        StartTime = Timestamp.FromDateTime(this.StartDateTime.ToUniversalTime()),
+                        EndTime = Timestamp.FromDateTime(this.EndDateTime.ToUniversalTime()),
+                        PageSize = 200,
+                    };
+
+                    if (nextPageToken != null)
+                    {
+                        request.PageToken = nextPageToken;
+                    }
+
+                    ListMetricsResponse response = await this.client.ListMetricsAsync(
+                        request,
+                        deadline: DateTime.UtcNow.AddSeconds(5));
+
+                    nextPageToken = response.NextPageToken;
+
+                    if (response.Metrics.Count == 0)
+                    {
+                        break;
+                    }
+
+                    if (response.Metrics.Any(m => m.CreateTime.ToDateTimeOffset() < this.StartDateTime))
+                    {
+                        metrics.AddRange(response.Metrics.Where(
+                            m => m.CreateTime.ToDateTimeOffset() >= this.StartDateTime));
+                        break;
+                    }
+                    else
+                    {
+                        metrics.AddRange(response.Metrics);
+                    }
+
+                    if (string.IsNullOrEmpty(nextPageToken))
+                    {
+                        break;
+                    }
+                }
+
+                using var saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "逗号分隔文件(*.csv)|*.csv",
+                    AddExtension = true,
                 };
-                if (nextPageToken != null)
-                {
-                    request.PageToken = nextPageToken;
-                }
 
-                ListMetricsResponse response = await this.client.ListMetricsAsync(
-                    request,
-                    deadline: DateTime.UtcNow.AddSeconds(5));
-                nextPageToken = response.NextPageToken;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using var sw = new StreamWriter(
+                        File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),
+                        Encoding.UTF8);
 
-                if (response.Metrics.Count == 0)
-                {
-                    break;
-                }
-
-                if (response.Metrics.Any(m => m.CreateTime.ToDateTimeOffset() < this.StartDateTime))
-                {
-                    metrics.AddRange(response.Metrics.Where(
-                        m => m.CreateTime.ToDateTimeOffset() >= this.StartDateTime));
-                    break;
-                }
-                else
-                {
-                    metrics.AddRange(response.Metrics);
+                    // TODO: Write it.
+                    foreach (Metric m in metrics)
+                    {
+                        await sw.WriteLineAsync(m.ToString()).ConfigureAwait(true);
+                    }
                 }
             }
-
-            using var saveFileDialog = new SaveFileDialog
+            catch (RpcException e)
             {
-                Filter = "逗号分隔文件(*.csv)|*.csv",
-                AddExtension = true,
-            };
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                using var sw = new StreamWriter(
-                    File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),
-                    Encoding.UTF8);
-
-                // TODO: Write it.
-                foreach (Metric m in metrics)
-                {
-                    await sw.WriteLineAsync(m.ToString()).ConfigureAwait(true);
-                }
+                e.ShowMessageBox();
             }
         }
     }

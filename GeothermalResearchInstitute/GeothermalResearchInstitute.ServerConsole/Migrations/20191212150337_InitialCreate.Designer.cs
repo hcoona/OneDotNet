@@ -3,14 +3,16 @@ using System;
 using GeothermalResearchInstitute.ServerConsole.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GeothermalResearchInstitute.ServerConsole.Migrations
 {
     [DbContext(typeof(BjdireContext))]
-    partial class BjdireContextModelSnapshot : ModelSnapshot
+    [Migration("20191212150337_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

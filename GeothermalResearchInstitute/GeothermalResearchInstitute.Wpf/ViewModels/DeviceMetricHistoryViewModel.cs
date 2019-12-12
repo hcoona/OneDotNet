@@ -7,7 +7,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
-using Google.Protobuf.WellKnownTypes;
+using GeothermalResearchInstitute.Wpf.Common;
+using Grpc.Core;
 using Prism.Mvvm;
 
 namespace GeothermalResearchInstitute.Wpf.ViewModels
@@ -17,6 +18,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private string nextPageToken = null;
+        private bool noMore = false;
 
         public DeviceMetricHistoryViewModel(DeviceService.DeviceServiceClient client)
         {
@@ -33,22 +35,39 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public async Task LoadAsync()
         {
+            if (noMore)
+            {
+                return;
+            }
+
             var request = new ListMetricsRequest
             {
                 DeviceId = this.ViewModelContext.SelectedDevice.Id,
                 PageSize = 50,
             };
 
-            if (this.nextPageToken != null)
+            if (!string.IsNullOrEmpty(this.nextPageToken))
             {
                 request.PageToken = this.nextPageToken;
             }
 
-            ListMetricsResponse response = await this.client.ListMetricsAsync(
-                request,
-                deadline: DateTime.UtcNow.AddSeconds(5));
-            this.Metrics.AddRange(response.Metrics);
-            this.nextPageToken = response.NextPageToken;
+            try
+            {
+                ListMetricsResponse response = await this.client.ListMetricsAsync(
+                    request,
+                    deadline: DateTime.UtcNow.AddSeconds(5));
+                this.Metrics.AddRange(response.Metrics);
+                this.nextPageToken = response.NextPageToken;
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
+
+            if (string.IsNullOrEmpty(this.nextPageToken))
+            {
+                noMore = true;
+            }
         }
     }
 }

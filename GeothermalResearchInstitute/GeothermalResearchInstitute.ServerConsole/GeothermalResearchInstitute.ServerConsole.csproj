@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
+    <ProjectReference Include="..\GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>
@@ -40,10 +41,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
-    <None Update="bjdire.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -126,6 +126,11 @@ namespace GeothermalResearchInstitute.Wpf
             base.OnExit(e);
         }
 
+        private static void MessageBoxShowException(Exception e, string caption)
+        {
+            MessageBox.Show(e.ToString(), caption, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         private void SetupExceptionHandling()
         {
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
@@ -136,11 +141,6 @@ namespace GeothermalResearchInstitute.Wpf
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
                 MessageBoxShowException(e.Exception, "TaskScheduler.UnobservedTaskException");
-        }
-
-        private static void MessageBoxShowException(Exception e, string caption)
-        {
-            MessageBox.Show(e.ToString(), caption, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

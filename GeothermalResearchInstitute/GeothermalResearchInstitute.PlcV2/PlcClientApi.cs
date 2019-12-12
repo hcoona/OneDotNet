@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 
 namespace GeothermalResearchInstitute.PlcV2
@@ -59,6 +60,7 @@ namespace GeothermalResearchInstitute.PlcV2
             using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
             return new Metric
             {
+                CreateTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow),
                 OutputWaterCelsiusDegree = reader.ReadSingle(),
                 InputWaterCelsiusDegree = reader.ReadSingle(),
                 HeaterOutputWaterCelsiusDegree = reader.ReadSingle(),

@@ -6,7 +6,7 @@
 using System;
 using System.Net.NetworkInformation;
 
-namespace GeothermalResearchInstitute.ServerConsole.Models
+namespace GeothermalResearchInstitute.ServerConsole.Options
 {
     public class DeviceOptionsEntry
     {

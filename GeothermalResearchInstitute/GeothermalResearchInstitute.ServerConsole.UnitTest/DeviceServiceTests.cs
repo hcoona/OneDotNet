@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
-using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.ServerConsole.Options;
 using GeothermalResearchInstitute.v1;
 using Google.Protobuf;
 using Grpc.Core;

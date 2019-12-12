@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
-using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.ServerConsole.Options;
 using GeothermalResearchInstitute.v1;
 using Grpc.Core;
 using Grpc.Core.Testing;

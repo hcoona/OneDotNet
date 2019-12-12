@@ -4,47 +4,46 @@
 // </copyright>
 
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.PlcV2;
 using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.ServerConsole.Options;
+using GeothermalResearchInstitute.ServerConsole.Utils;
 using GeothermalResearchInstitute.v2;
 using Google.Protobuf;
 using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using GrpcDevice = GeothermalResearchInstitute.v2.Device;
-using GrpcDeviceMetrics = GeothermalResearchInstitute.v2.Metric;
+using GrpcMetric = GeothermalResearchInstitute.v2.Metric;
+using ModelMetric = GeothermalResearchInstitute.ServerConsole.Models.Metric;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
-        "Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Design", "CA1062:验证公共方法的参数", Justification = "由Grpc框架保证.")]
-    public class DeviceServiceImpl : DeviceService.DeviceServiceBase
+    public class DeviceServiceImpl : DeviceService.DeviceServiceBase, IDisposable
     {
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly IServiceProvider serviceProvider;
-        private readonly BjdireContext bjdireContext;
         private readonly PlcManager plcManager;
-        private readonly ConcurrentDictionary<ByteString, GrpcDeviceMetrics> metricsMap =
-            new ConcurrentDictionary<ByteString, GrpcDeviceMetrics>();
+        private readonly Timer timer;
+        private bool disposedValue = false;
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
             IServiceProvider serviceProvider,
-            BjdireContext bjdireContext,
             PlcManager plcManager)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            this.bjdireContext = bjdireContext ?? throw new ArgumentNullException(nameof(bjdireContext));
             this.plcManager = plcManager ?? throw new ArgumentNullException(nameof(plcManager));
+            this.timer = new Timer(this.AskPersistDeviceMetricAlarm, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -63,6 +62,17 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                     this.logger.LogDebug(c.ToString());
                 }
             }
+        }
+
+        ~DeviceServiceImpl()
+        {
+            this.Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public override Task<AuthenticateResponse> Authenticate(
@@ -98,7 +108,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 join e in this.plcManager.PlcDictionary.AsEnumerable()
                 on id equals e.Key into g
                 from e in g.DefaultIfEmpty()
-                select new GrpcDevice
+                select new Device
                 {
                     Id = id,
                     Name = d.Name,
@@ -113,7 +123,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             return Task.FromResult(response);
         }
 
-        public override Task<GrpcDeviceMetrics> GetMetric(GetMetricRequest request, ServerCallContext context)
+        public override Task<GrpcMetric> GetMetric(GetMetricRequest request, ServerCallContext context)
         {
             return this.Invoke(
                 (client, request, deadline) => client.GetMetricAsync(request, deadline),
@@ -140,6 +150,65 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 context);
         }
 
+        public override Task<ListMetricsResponse> ListMetrics(ListMetricsRequest request, ServerCallContext context)
+        {
+            string id = BitConverter.ToString(request.DeviceId.ToByteArray());
+
+            DateTimeOffset endDateTime;
+            if (string.IsNullOrEmpty(request.PageToken))
+            {
+                endDateTime = request.EndTime?.ToDateTimeOffset() ?? DateTimeOffset.UtcNow;
+            }
+            else
+            {
+                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+            }
+
+            endDateTime = endDateTime.ToUniversalTime();
+            DateTimeOffset? startDateTime = request.StartTime?.ToDateTimeOffset().ToUniversalTime();
+
+            var response = new ListMetricsResponse();
+            using (BjdireContext db = this.serviceProvider.GetRequiredService<BjdireContext>())
+            {
+                var metrics = (from m in db.Metrics
+                               where m.Id == id
+                                   && (startDateTime == null || startDateTime <= m.Timestamp)
+                                   && m.Timestamp <= endDateTime
+                               orderby m.Timestamp descending
+                               select m)
+                    .Take(request.PageSize)
+                    .ToList();
+                response.Metrics.AddRange(metrics.Select(metric =>
+                {
+                    var m = new GrpcMetric();
+                    m.AssignFrom(metric);
+                    return m;
+                }));
+
+                if (metrics.Count == request.PageSize && metrics.Last().Timestamp > startDateTime)
+                {
+                    response.NextPageToken = metrics.Last().Timestamp
+                            .ToUniversalTime()
+                            .ToString(CultureInfo.InvariantCulture);
+                }
+            }
+
+            return Task.FromResult(response);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.timer.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
         private Task<TResponse> Invoke<TRequest, TResponse>(
             Func<PlcClient, TRequest, DateTime, Task<TResponse>> stub,
             ByteString deviceId,
@@ -159,6 +228,53 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             {
                 throw new RpcException(new Status(StatusCode.NotFound, "Device is currently offline."));
             }
+        }
+
+        private async void AskPersistDeviceMetricAlarm(object state)
+        {
+            IOptionsSnapshot<DeviceOptions> deviceOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+
+            using BjdireContext db = this.serviceProvider.GetRequiredService<BjdireContext>();
+
+            foreach (DeviceOptionsEntry d in deviceOptions.Value.Devices)
+            {
+                try
+                {
+                    byte[] id = d.ComputeIdBinary();
+                    if (this.plcManager.PlcDictionary.TryGetValue(ByteString.CopyFrom(id), out PlcClient client))
+                    {
+                        this.logger.LogInformation("Ask metric & alarm for {0}({1})", d.Id, d.Name);
+
+                        GrpcMetric metric = await client
+                            .GetMetricAsync(new GetMetricRequest(), DateTime.UtcNow.AddSeconds(5))
+                            .ConfigureAwait(true);
+
+                        var m = new ModelMetric
+                        {
+                            Id = BitConverter.ToString(id),
+                        };
+                        metric.AssignTo(m);
+
+                        db.Metrics.Add(m);
+
+                        // TODO(zhangshuai.ustc): Persist alarm.
+                    }
+                    else
+                    {
+                        this.logger.LogWarning(
+                            "Failed to ask metric & alarm for {0}({1}), currently offline.",
+                            d.Id,
+                            d.Name);
+                    }
+                }
+                catch (RpcException e)
+                {
+                    this.logger.LogWarning(e, "Failed to ask metric & alarm for {0}({1})", d.Id, d.Name);
+                }
+            }
+
+            db.SaveChanges();
         }
     }
 }

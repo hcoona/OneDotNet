@@ -4,11 +4,14 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.FakePlcV2;
+using GeothermalResearchInstitute.ServerConsole.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -17,34 +20,36 @@ namespace GeothermalResearchInstitute.ServerConsole
     [SuppressMessage("Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
     internal class FakeDevicesHostedService : IHostedService, IDisposable
     {
-        private readonly ICollection<DeviceOptionsEntry> devices;
-        private readonly IServiceProvider serviceProvider;
-        private Timer timer = null;
+        private readonly IConfiguration rootConfig;
+        private readonly FakePlc[] fakePlcList;
         private bool disposedValue = false;
 
         public FakeDevicesHostedService(
-            IOptions<DeviceOptions> deviceOptions,
-            IServiceProvider serviceProvider)
+            IConfiguration rootConfig,
+            IOptions<DeviceOptions> deviceOptions)
         {
-            this.devices = deviceOptions.Value.Devices;
-            this.serviceProvider = serviceProvider;
+            this.rootConfig = rootConfig;
+            this.fakePlcList = deviceOptions.Value.Devices
+                .Select(d => new FakePlc(d.ComputeIdBinary()))
+                .Take(rootConfig.GetValue<int>("core:fake_device_num"))
+                .ToArray();
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            this.timer = new Timer(
-                this.HearbeatEntryPoint,
-                null,
-                0,
-                (long)TimeSpan.FromSeconds(1).TotalMilliseconds);
-            return Task.CompletedTask;
+            int port = this.rootConfig.GetValue<int>("core:plc_port");
+            foreach (FakePlc plc in this.fakePlcList)
+            {
+                await plc.StartAsync(IPAddress.Loopback, port).ConfigureAwait(false);
+            }
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            this.timer.Dispose();
-            this.timer = null;
-            return Task.CompletedTask;
+            foreach (FakePlc plc in this.fakePlcList)
+            {
+                await plc.StopAsync().ConfigureAwait(true);
+            }
         }
 
         public void Dispose()
@@ -58,29 +63,15 @@ namespace GeothermalResearchInstitute.ServerConsole
             {
                 if (disposing)
                 {
-                    if (this.timer != null)
+                    foreach (FakePlc plc in this.fakePlcList)
                     {
-                        this.timer.Dispose();
-                        this.timer = null;
+                        plc.StopAsync().ConfigureAwait(true).GetAwaiter().GetResult();
+                        plc.Dispose();
                     }
                 }
 
                 this.disposedValue = true;
             }
-        }
-
-        [SuppressMessage("样式", "IDE0060:删除未使用的参数", Justification = "Required for callback delegate.")]
-        private void HearbeatEntryPoint(object state)
-        {
-            foreach (DeviceOptionsEntry entry in this.devices)
-            {
-                // TODO(zhangshuai.ustc): Implement it.
-                // 1. Get corresponding grpc client.
-                // 2. Send heartbeat request according to corresponding states.
-                // 3. Take action according to heatbeat response & record into states.
-            }
-
-            throw new NotImplementedException();
         }
     }
 }

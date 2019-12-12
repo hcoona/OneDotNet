@@ -16,15 +16,11 @@ namespace GeothermalResearchInstitute.ServerConsole.Models
         {
         }
 
-        public DbSet<DeviceActualStates> DevicesActualStates { get; set; }
-
-        public DbSet<DeviceDesiredStates> DevicesDesiredStates { get; set; }
-
-        public DbSet<DeviceMetrics> DevicesMetrics { get; set; }
+        public DbSet<Metric> Metrics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DeviceMetrics>()
+            modelBuilder.Entity<Metric>()
                 .HasKey(m => new { m.Id, m.Timestamp });
         }
     }

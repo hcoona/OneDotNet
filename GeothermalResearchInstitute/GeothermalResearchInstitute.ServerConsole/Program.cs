@@ -8,6 +8,7 @@ using System.Net;
 using GeothermalResearchInstitute.PlcV2;
 using GeothermalResearchInstitute.ServerConsole.GrpcServices;
 using GeothermalResearchInstitute.ServerConsole.Models;
+using GeothermalResearchInstitute.ServerConsole.Options;
 using GeothermalResearchInstitute.v2;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace GeothermalResearchInstitute.ServerConsole
     internal class Program
     {
         internal static readonly Action<DbContextOptionsBuilder> DbContextOptionsBuilderAction =
-            builder => builder.UseSqlite("Data Source=bjdire.sqlite");
+            builder => builder.UseSqlite("Data Source=bjdire.sqlite;Version=3;Pooling=True;FailIfMissing=False;");
 
         private static void Main(string[] args)
         {
@@ -58,11 +59,17 @@ namespace GeothermalResearchInstitute.ServerConsole
                     if (env.IsDevelopment())
                     {
                         // TODO(zhangshuai.ds): Add fake data.
-                        builder.AddDbContext<BjdireContext>(options => options.UseInMemoryDatabase("bjdire"));
+                        builder.AddDbContext<BjdireContext>(
+                            options => options.UseInMemoryDatabase("bjdire"),
+                            ServiceLifetime.Transient,
+                            ServiceLifetime.Transient);
                     }
                     else
                     {
-                        builder.AddDbContext<BjdireContext>(DbContextOptionsBuilderAction);
+                        builder.AddDbContext<BjdireContext>(
+                            DbContextOptionsBuilderAction,
+                            ServiceLifetime.Transient,
+                            ServiceLifetime.Transient);
                     }
 
                     // Configuration options.
@@ -105,6 +112,11 @@ namespace GeothermalResearchInstitute.ServerConsole
 
                     builder.AddHostedService<GrpcHostedService>();
                     builder.AddHostedService<PlcHostedService>();
+
+                    if (env.IsDevelopment())
+                    {
+                        builder.AddHostedService<FakeDevicesHostedService>();
+                    }
                 })
                 .UseConsoleLifetime()
                 .Build();

@@ -54,10 +54,6 @@ message ConnectResponse {
   bytes id = 1;
 }
 
-message HeartbeatRequest {}
-
-message HeartbeatResponse {}
-
 enum DeviceStatus {
   DEVICE_STATUS_INVALID = 0;
   DEVICE_STATUS_HEALTHY = 1;
@@ -174,6 +170,10 @@ message ListDevicesResponse {
   repeated Device devices = 1;
 }
 
+// List metric for device_id within time range [start_time, end_time].
+// The result is sorted from latest to earliest.
+// The result count is as most page_size.
+// The page_token is null means no more results.
 message ListMetricsRequest {
   bytes device_id = 1;
   google.protobuf.Timestamp start_time = 2;
@@ -230,9 +230,6 @@ service DeviceService {
 
   // Establish connect between Sever & PLC. PLC specific method.
   rpc Connect (ConnectRequest) returns (ConnectResponse) {}
-
-  // Heartbeat between Server & PLC. PLC specific method.
-  rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
 
   // List known PLCs. PLC don't need this.
   rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}

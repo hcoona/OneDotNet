@@ -35,7 +35,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public async Task LoadAsync()
         {
-            if (noMore)
+            if (this.noMore)
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
             if (string.IsNullOrEmpty(this.nextPageToken))
             {
-                noMore = true;
+                this.noMore = true;
             }
         }
     }

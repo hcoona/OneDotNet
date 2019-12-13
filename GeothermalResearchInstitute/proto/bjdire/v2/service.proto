@@ -164,13 +164,28 @@ message WorkingMode {
   WaterPumpWorkingMode water_pump_working_mode = 3;
 }
 
+message Alarm {
+  // 流量低
+  bool low_flow_rate = 1;
+  // 热泵压力高
+  bool high_heater_pressure = 2;
+  // 热泵压力低
+  bool low_heater_pressure = 3;
+  // 电源断相或相序错
+  bool no_power = 4;
+  // 热泵过载故障（热继电器）
+  bool heater_overloaded_broken = 5;
+  // 电加热器故障
+  bool electrical_heater_borken = 6;
+}
+
 message ListDevicesRequest {}
 
 message ListDevicesResponse {
   repeated Device devices = 1;
 }
 
-// List metric for device_id within time range [start_time, end_time].
+// List metrics for device_id within time range [start_time, end_time].
 // The result is sorted from latest to earliest.
 // The result count is as most page_size.
 // The page_token is null means no more results.
@@ -221,6 +236,27 @@ message UpdateWorkingModeRequest {
   google.protobuf.FieldMask update_mask = 3;
 }
 
+message GetAlarmRequest {
+  bytes device_id = 1;
+}
+
+// List alarms for device_id within time range [start_time, end_time].
+// The result is sorted from latest to earliest.
+// The result count is as most page_size.
+// The page_token is null means no more results.
+message ListAlarmsRequest {
+  bytes device_id = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+
+message ListAlarmsResponse {
+  repeated Alarm alarms = 1;
+  string next_page_token = 2;
+}
+
 service DeviceService {
   // Only for testing between Server & PLC. PLC specific method.
   rpc Test (TestRequest) returns (TestResponse) {}
@@ -257,4 +293,10 @@ service DeviceService {
 
   // Update working mode for specified PLC.
   rpc UpdateWorkingMode (UpdateWorkingModeRequest) returns (WorkingMode) {}
+
+  // Get alarm for specific PLC.
+  rpc GetAlarm (GetAlarmRequest) returns (Alarm) {}
+
+  // List alarms, newest first. PLC don't need this.
+  rpc ListAlarms (ListAlarmsRequest) returns (ListAlarmsResponse) {}
 }

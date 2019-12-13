@@ -60,6 +60,13 @@ namespace GeothermalResearchInstitute.FakePlcV2
             HeaterFourWayReversingOn = true,
         };
 
+        public WorkingMode WorkingMode { get; } = new WorkingMode
+        {
+            DeviceWorkingMode = DeviceWorkingMode.TemperatureDetermination,
+            DeviceFlowRateControlMode = DeviceFlowRateControlMode.VariableFrequency,
+            WaterPumpWorkingMode = WaterPumpWorkingMode.FixedFlowRate,
+        };
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -137,6 +144,13 @@ namespace GeothermalResearchInstitute.FakePlcV2
                         this.UpdateSwitch(content);
                         responseFrame = this.CreateGetSwitchResponseFrame();
                         break;
+                    case PlcMessageType.GetWorkingModeRequest:
+                        responseFrame = this.CreateGetWorkingModeResponseFrame();
+                        break;
+                    case PlcMessageType.UpdateWorkingModeRequest:
+                        this.UpdateWorkingMode(content);
+                        responseFrame = this.CreateGetWorkingModeResponseFrame();
+                        break;
                     default:
                         responseFrame = null;
                         break;
@@ -151,26 +165,6 @@ namespace GeothermalResearchInstitute.FakePlcV2
                     BinaryPrimitives.ReadUInt32BigEndian(header.AsSpan(0x08, 4));
                 responseFrame.WriteTo(this.client.GetStream());
             }
-        }
-
-        private PlcFrame CreateGetMetricResponse()
-        {
-            byte[] responseContent = new byte[0x20];
-            using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
-            {
-                writer.Write(this.Metric.OutputWaterCelsiusDegree);
-                writer.Write(this.Metric.InputWaterCelsiusDegree);
-                writer.Write(this.Metric.HeaterOutputWaterCelsiusDegree);
-                writer.Write(this.Metric.EnvironmentCelsiusDegree);
-                writer.Write(this.Metric.OutputWaterPressureMeter);
-                writer.Write(this.Metric.InputWaterPressureMeter);
-                writer.Write(this.Metric.HeaterPowerKilowatt);
-                writer.Write(this.Metric.WaterPumpFlowRateCubicMeterPerHour);
-            }
-
-            return PlcFrame.Create(
-                PlcMessageType.GetMetricResponse,
-                ByteString.CopyFrom(responseContent));
         }
 
         private void UpdateSwitch(ReadOnlySpan<byte> content)
@@ -211,6 +205,44 @@ namespace GeothermalResearchInstitute.FakePlcV2
             }
         }
 
+        private void UpdateWorkingMode(byte[] content)
+        {
+            if (content[0] != 0)
+            {
+                this.WorkingMode.DeviceWorkingMode = (DeviceWorkingMode)content[0];
+            }
+
+            if (content[1] != 0)
+            {
+                this.WorkingMode.DeviceFlowRateControlMode = (DeviceFlowRateControlMode)content[1];
+            }
+
+            if (content[2] != 0)
+            {
+                this.WorkingMode.WaterPumpWorkingMode = (WaterPumpWorkingMode)content[2];
+            }
+        }
+
+        private PlcFrame CreateGetMetricResponse()
+        {
+            byte[] responseContent = new byte[0x20];
+            using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
+            {
+                writer.Write(this.Metric.OutputWaterCelsiusDegree);
+                writer.Write(this.Metric.InputWaterCelsiusDegree);
+                writer.Write(this.Metric.HeaterOutputWaterCelsiusDegree);
+                writer.Write(this.Metric.EnvironmentCelsiusDegree);
+                writer.Write(this.Metric.OutputWaterPressureMeter);
+                writer.Write(this.Metric.InputWaterPressureMeter);
+                writer.Write(this.Metric.HeaterPowerKilowatt);
+                writer.Write(this.Metric.WaterPumpFlowRateCubicMeterPerHour);
+            }
+
+            return PlcFrame.Create(
+                PlcMessageType.GetMetricResponse,
+                ByteString.CopyFrom(responseContent));
+        }
+
         private PlcFrame CreateGetSwitchResponseFrame()
         {
             byte[] responseContent = new byte[0x07];
@@ -224,6 +256,18 @@ namespace GeothermalResearchInstitute.FakePlcV2
 
             return PlcFrame.Create(
                 PlcMessageType.GetSwitchResponse,
+                ByteString.CopyFrom(responseContent));
+        }
+
+        private PlcFrame CreateGetWorkingModeResponseFrame()
+        {
+            byte[] responseContent = new byte[0x03];
+            responseContent[0] = (byte)this.WorkingMode.DeviceWorkingMode;
+            responseContent[1] = (byte)this.WorkingMode.DeviceFlowRateControlMode;
+            responseContent[2] = (byte)this.WorkingMode.WaterPumpWorkingMode;
+
+            return PlcFrame.Create(
+                PlcMessageType.GetWorkingModeResponse,
                 ByteString.CopyFrom(responseContent));
         }
     }

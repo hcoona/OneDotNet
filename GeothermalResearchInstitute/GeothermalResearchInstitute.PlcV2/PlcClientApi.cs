@@ -165,6 +165,77 @@ namespace GeothermalResearchInstitute.PlcV2
             };
         }
 
+        public async Task<WorkingMode> GetWorkingModeAsync(GetWorkingModeRequest request, DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.GetWorkingModeRequest, ByteString.Empty),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetWorkingModeResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new WorkingMode
+            {
+                DeviceWorkingMode = (DeviceWorkingMode)reader.ReadByte(),
+                DeviceFlowRateControlMode = (DeviceFlowRateControlMode)reader.ReadByte(),
+                WaterPumpWorkingMode = (WaterPumpWorkingMode)reader.ReadByte(),
+            };
+        }
+
+        public async Task<WorkingMode> UpdateWorkingModeAsync(UpdateWorkingModeRequest request, DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            byte[] bytes = new byte[0x03];
+            foreach (string path in request.UpdateMask.Paths)
+            {
+                switch (path)
+                {
+                    case "device_working_mode":
+                        bytes[0] = (byte)request.WorkingMode.DeviceWorkingMode;
+                        break;
+                    case "device_flow_rate_control_mode":
+                        bytes[1] = (byte)request.WorkingMode.DeviceFlowRateControlMode;
+                        break;
+                    case "water_pump_working_mode":
+                        bytes[2] = (byte)request.WorkingMode.WaterPumpWorkingMode;
+                        break;
+                    default:
+                        throw new InvalidDataException("Unrecognized update mask " + path);
+                }
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.UpdateWorkingModeRequest, ByteString.CopyFrom(bytes)),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetWorkingModeResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new WorkingMode
+            {
+                DeviceWorkingMode = (DeviceWorkingMode)reader.ReadByte(),
+                DeviceFlowRateControlMode = (DeviceFlowRateControlMode)reader.ReadByte(),
+                WaterPumpWorkingMode = (WaterPumpWorkingMode)reader.ReadByte(),
+            };
+        }
+
         private Task<PlcFrame> InvokeAsync(PlcFrame request, DateTime? deadline)
         {
             if (this.closingCancellationTokenSource.IsCancellationRequested)

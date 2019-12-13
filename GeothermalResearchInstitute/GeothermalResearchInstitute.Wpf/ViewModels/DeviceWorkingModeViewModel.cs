@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Common;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -79,30 +81,44 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public async Task LoadWorkingMode()
         {
-            this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
-                new GetWorkingModeRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                },
-                deadline: DateTime.UtcNow.AddMilliseconds(500));
+            try
+            {
+                this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
+                    new GetWorkingModeRequest
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                    },
+                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
 
         private bool CanUpdateDeviceWorkingModeCommand() => this.selectedWorkingMode != DeviceWorkingMode.Unspecified;
 
         private async void ExecuteUpdateDeviceWorkingModeCommand()
         {
-            this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
-                new UpdateWorkingModeRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    WorkingMode = new WorkingMode
+            try
+            {
+                this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
+                    new UpdateWorkingModeRequest
                     {
-                        DeviceWorkingMode = this.SelectedDeviceWorkingMode,
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                        WorkingMode = new WorkingMode
+                        {
+                            DeviceWorkingMode = this.SelectedDeviceWorkingMode,
+                        },
+                        UpdateMask = FieldMask.FromString<WorkingMode>("device_working_mode"),
                     },
-                    UpdateMask = FieldMask.FromString("device_working_mode"),
-                },
-                deadline: DateTime.UtcNow.AddSeconds(5));
-            this.SelectedDeviceWorkingMode = DeviceWorkingMode.Unspecified;
+                    deadline: DateTime.UtcNow.AddSeconds(5));
+                this.SelectedDeviceWorkingMode = DeviceWorkingMode.Unspecified;
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
     }
 }

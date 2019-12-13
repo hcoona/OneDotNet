@@ -67,6 +67,16 @@ namespace GeothermalResearchInstitute.FakePlcV2
             WaterPumpWorkingMode = WaterPumpWorkingMode.FixedFlowRate,
         };
 
+        public RunningParameter RunningParameter { get; } = new RunningParameter
+        {
+            SummerHeaterCelsiusDegree = 11F,
+            WinterHeaterCelsiusDegree = 13F,
+            ColdPowerKilowatt = 17F,
+            WarmPowerKilowatt = 19F,
+            WaterPumpFlowRateCubicMeterPerHour = 23F,
+            WaterPumpFrequencyHertz = 29F,
+        };
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -151,6 +161,13 @@ namespace GeothermalResearchInstitute.FakePlcV2
                         this.UpdateWorkingMode(content);
                         responseFrame = this.CreateGetWorkingModeResponseFrame();
                         break;
+                    case PlcMessageType.GetRunningParameterRequest:
+                        responseFrame = this.CreateGetRunningParameterResponseFrame();
+                        break;
+                    case PlcMessageType.UpdateRunningParameterRequest:
+                        this.UpdateRunningParameter(content);
+                        responseFrame = this.CreateGetRunningParameterResponseFrame();
+                        break;
                     default:
                         responseFrame = null;
                         break;
@@ -223,6 +240,16 @@ namespace GeothermalResearchInstitute.FakePlcV2
             }
         }
 
+        private void UpdateRunningParameter(byte[] content)
+        {
+            this.RunningParameter.SummerHeaterCelsiusDegree = BitConverter.ToSingle(content.AsSpan(0, 4));
+            this.RunningParameter.WinterHeaterCelsiusDegree = BitConverter.ToSingle(content.AsSpan(4, 4));
+            this.RunningParameter.ColdPowerKilowatt = BitConverter.ToSingle(content.AsSpan(8, 4));
+            this.RunningParameter.WarmPowerKilowatt = BitConverter.ToSingle(content.AsSpan(12, 4));
+            this.RunningParameter.WaterPumpFlowRateCubicMeterPerHour = BitConverter.ToSingle(content.AsSpan(16, 4));
+            this.RunningParameter.WaterPumpFrequencyHertz = BitConverter.ToSingle(content.AsSpan(20, 4));
+        }
+
         private PlcFrame CreateGetMetricResponse()
         {
             byte[] responseContent = new byte[0x20];
@@ -268,6 +295,24 @@ namespace GeothermalResearchInstitute.FakePlcV2
 
             return PlcFrame.Create(
                 PlcMessageType.GetWorkingModeResponse,
+                ByteString.CopyFrom(responseContent));
+        }
+
+        private PlcFrame CreateGetRunningParameterResponseFrame()
+        {
+            byte[] responseContent = new byte[0x18];
+            using (var writer = new BinaryWriter(new MemoryStream(responseContent)))
+            {
+                writer.Write(this.RunningParameter.SummerHeaterCelsiusDegree);
+                writer.Write(this.RunningParameter.WinterHeaterCelsiusDegree);
+                writer.Write(this.RunningParameter.ColdPowerKilowatt);
+                writer.Write(this.RunningParameter.WarmPowerKilowatt);
+                writer.Write(this.RunningParameter.WaterPumpFlowRateCubicMeterPerHour);
+                writer.Write(this.RunningParameter.WaterPumpFrequencyHertz);
+            }
+
+            return PlcFrame.Create(
+                PlcMessageType.GetRunningParameterResponse,
                 ByteString.CopyFrom(responseContent));
         }
     }

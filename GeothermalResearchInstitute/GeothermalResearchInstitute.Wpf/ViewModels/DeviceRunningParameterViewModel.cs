@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Common;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -233,47 +235,61 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public async Task LoadAsync()
         {
-            this.CurrentRunningParameter = await this.client.GetRunningParameterAsync(
-                new GetRunningParameterRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                },
-                deadline: DateTime.UtcNow.AddMilliseconds(500));
-            this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
+            try
+            {
+                this.CurrentRunningParameter = await this.client.GetRunningParameterAsync(
+                    new GetRunningParameterRequest
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                    },
+                    deadline: DateTime.UtcNow.AddMilliseconds(1500));
+                this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
 
-            this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
-                new GetWorkingModeRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                },
-                deadline: DateTime.UtcNow.AddSeconds(5));
-            this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
+                this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
+                    new GetWorkingModeRequest
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                    },
+                    deadline: DateTime.UtcNow.AddSeconds(5));
+                this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
 
         private async void ExecuteUpdateCommand()
         {
-            this.CurrentRunningParameter = await this.client.UpdateRunningParameterAsync(
-                new UpdateRunningParameterRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    RunningParameter = this.UpdatingRunningParameter,
-                },
-                deadline: DateTime.UtcNow.AddMilliseconds(500));
-            this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
-
-            this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
-                new UpdateWorkingModeRequest
-                {
-                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                    WorkingMode = this.UpdatingWorkingMode,
-                    UpdateMask = FieldMask.FromStringEnumerable<WorkingMode>(new[]
+            try
+            {
+                this.CurrentRunningParameter = await this.client.UpdateRunningParameterAsync(
+                    new UpdateRunningParameterRequest
                     {
-                        "device_flow_rate_control_mode",
-                        "water_pump_working_mode",
-                    }),
-                },
-                deadline: DateTime.UtcNow.AddSeconds(5));
-            this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                        RunningParameter = this.UpdatingRunningParameter,
+                    },
+                    deadline: DateTime.UtcNow.AddMilliseconds(5000));
+                this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
+
+                this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
+                    new UpdateWorkingModeRequest
+                    {
+                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                        WorkingMode = this.UpdatingWorkingMode,
+                        UpdateMask = FieldMask.FromStringEnumerable<WorkingMode>(new[]
+                        {
+                            "device_flow_rate_control_mode",
+                            "water_pump_working_mode",
+                        }),
+                    },
+                    deadline: DateTime.UtcNow.AddSeconds(5));
+                this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
     }
 }

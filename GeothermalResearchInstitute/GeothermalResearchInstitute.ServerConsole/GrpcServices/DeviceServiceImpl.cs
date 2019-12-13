@@ -205,10 +205,34 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 context);
         }
 
-        public override Task<WorkingMode> UpdateWorkingMode(UpdateWorkingModeRequest request, ServerCallContext context)
+        public override Task<WorkingMode> UpdateWorkingMode(
+            UpdateWorkingModeRequest request,
+            ServerCallContext context)
         {
             return this.Invoke(
                 (client, request, deadline) => client.UpdateWorkingModeAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        public override Task<RunningParameter> GetRunningParameter(
+            GetRunningParameterRequest request,
+            ServerCallContext context)
+        {
+            return this.Invoke(
+                (client, request, deadline) => client.GetRunningParameterAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        public override Task<RunningParameter> UpdateRunningParameter(
+            UpdateRunningParameterRequest request,
+            ServerCallContext context)
+        {
+            return this.Invoke(
+                (client, request, deadline) => client.UpdateRunningParameterAsync(request, deadline),
                 request.DeviceId,
                 request,
                 context);

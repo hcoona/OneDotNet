@@ -4,6 +4,7 @@
 // </copyright>
 
 using System;
+using System.Buffers.Binary;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -233,6 +234,138 @@ namespace GeothermalResearchInstitute.PlcV2
                 DeviceWorkingMode = (DeviceWorkingMode)reader.ReadByte(),
                 DeviceFlowRateControlMode = (DeviceFlowRateControlMode)reader.ReadByte(),
                 WaterPumpWorkingMode = (WaterPumpWorkingMode)reader.ReadByte(),
+            };
+        }
+
+        public async Task<RunningParameter> GetRunningParameterAsync(
+            GetRunningParameterRequest request,
+            DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.GetRunningParameterRequest, ByteString.Empty),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetRunningParameterResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new RunningParameter
+            {
+                SummerHeaterCelsiusDegree = reader.ReadSingle(),
+                WinterHeaterCelsiusDegree = reader.ReadSingle(),
+                ColdPowerKilowatt = reader.ReadSingle(),
+                WarmPowerKilowatt = reader.ReadSingle(),
+                WaterPumpFlowRateCubicMeterPerHour = reader.ReadSingle(),
+                WaterPumpFrequencyHertz = reader.ReadSingle(),
+            };
+        }
+
+        public async Task<RunningParameter> UpdateRunningParameterAsync(
+            UpdateRunningParameterRequest request,
+            DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            if (request.UpdateMask == null)
+            {
+                request.UpdateMask = FieldMask.FromFieldNumbers<RunningParameter>(
+                    RunningParameter.Descriptor.Fields.InFieldNumberOrder().Select(f => f.FieldNumber));
+            }
+
+            byte[] bytes = new byte[0x18];
+            foreach (string path in request.UpdateMask.Paths)
+            {
+                switch (path)
+                {
+                    case "summer_heater_celsius_degree":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(0, 4),
+                            request.RunningParameter.SummerHeaterCelsiusDegree))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    case "winter_heater_celsius_degree":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(4, 4),
+                            request.RunningParameter.WinterHeaterCelsiusDegree))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    case "cold_power_kilowatt":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(8, 4),
+                            request.RunningParameter.ColdPowerKilowatt))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    case "warm_power_kilowatt":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(12, 4),
+                            request.RunningParameter.WarmPowerKilowatt))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    case "water_pump_flow_rate_cubic_meter_per_hour":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(16, 4),
+                            request.RunningParameter.WaterPumpFlowRateCubicMeterPerHour))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    case "water_pump_frequency_hertz":
+                        if (!BitConverter.TryWriteBytes(
+                            bytes.AsSpan(20, 4),
+                            request.RunningParameter.WaterPumpFrequencyHertz))
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        break;
+                    default:
+                        throw new InvalidDataException("Unrecognized update mask " + path);
+                }
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.UpdateRunningParameterRequest, ByteString.CopyFrom(bytes)),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetRunningParameterResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new RunningParameter
+            {
+                SummerHeaterCelsiusDegree = reader.ReadSingle(),
+                WinterHeaterCelsiusDegree = reader.ReadSingle(),
+                ColdPowerKilowatt = reader.ReadSingle(),
+                WarmPowerKilowatt = reader.ReadSingle(),
+                WaterPumpFlowRateCubicMeterPerHour = reader.ReadSingle(),
+                WaterPumpFrequencyHertz = reader.ReadSingle(),
             };
         }
 

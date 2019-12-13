@@ -77,6 +77,16 @@ namespace GeothermalResearchInstitute.FakePlcV2
             WaterPumpFrequencyHertz = 29F,
         };
 
+        public Alarm Alarm { get; } = new Alarm
+        {
+            LowFlowRate = false,
+            HighHeaterPressure = false,
+            LowHeaterPressure = false,
+            NoPower = false,
+            HeaterOverloadedBroken = false,
+            ElectricalHeaterBorken = false,
+        };
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -167,6 +177,9 @@ namespace GeothermalResearchInstitute.FakePlcV2
                     case PlcMessageType.UpdateRunningParameterRequest:
                         this.UpdateRunningParameter(content);
                         responseFrame = this.CreateGetRunningParameterResponseFrame();
+                        break;
+                    case PlcMessageType.GetAlarmRequest:
+                        responseFrame = this.CreateGetAlarmResponseFrame();
                         break;
                     default:
                         responseFrame = null;
@@ -313,6 +326,21 @@ namespace GeothermalResearchInstitute.FakePlcV2
 
             return PlcFrame.Create(
                 PlcMessageType.GetRunningParameterResponse,
+                ByteString.CopyFrom(responseContent));
+        }
+
+        private PlcFrame CreateGetAlarmResponseFrame()
+        {
+            byte[] responseContent = new byte[0x06];
+            responseContent[1] = (byte)(this.Alarm.LowFlowRate ? 0x01 : 0x00);
+            responseContent[2] = (byte)(this.Alarm.HighHeaterPressure ? 0x01 : 0x00);
+            responseContent[3] = (byte)(this.Alarm.LowHeaterPressure ? 0x01 : 0x00);
+            responseContent[4] = (byte)(this.Alarm.NoPower ? 0x01 : 0x00);
+            responseContent[5] = (byte)(this.Alarm.HeaterOverloadedBroken ? 0x01 : 0x00);
+            responseContent[6] = (byte)(this.Alarm.ElectricalHeaterBorken ? 0x01 : 0x00);
+
+            return PlcFrame.Create(
+                PlcMessageType.GetAlarmResponse,
                 ByteString.CopyFrom(responseContent));
         }
     }

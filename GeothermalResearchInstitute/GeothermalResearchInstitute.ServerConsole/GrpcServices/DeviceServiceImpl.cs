@@ -4,7 +4,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -20,7 +19,9 @@ using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using GrpcAlarm = GeothermalResearchInstitute.v2.Alarm;
 using GrpcMetric = GeothermalResearchInstitute.v2.Metric;
+using ModelAlarm = GeothermalResearchInstitute.ServerConsole.Models.Alarm;
 using ModelMetric = GeothermalResearchInstitute.ServerConsole.Models.Metric;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
@@ -32,7 +33,8 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
         private readonly ILogger<DeviceServiceImpl> logger;
         private readonly IServiceProvider serviceProvider;
         private readonly PlcManager plcManager;
-        private readonly Timer timer;
+        private readonly Timer askAlarmTimer;
+        private readonly Timer askMetricTimer;
         private bool disposedValue = false;
 
         public DeviceServiceImpl(
@@ -43,7 +45,8 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.plcManager = plcManager ?? throw new ArgumentNullException(nameof(plcManager));
-            this.timer = new Timer(this.AskPersistDeviceMetricAlarm, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+            this.askAlarmTimer = new Timer(this.AskPersistDeviceAlarm, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+            this.askMetricTimer = new Timer(this.AskPersistDeviceMetric, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -94,6 +97,16 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                     Role = credential.Role,
                 });
             }
+        }
+
+        public override Task<TestResponse> Test(TestRequest request, ServerCallContext context)
+        {
+            throw new RpcException(new Status(StatusCode.Unimplemented, "Not supported."));
+        }
+
+        public override Task<ConnectResponse> Connect(ConnectRequest request, ServerCallContext context)
+        {
+            throw new RpcException(new Status(StatusCode.Unimplemented, "Not supported."));
         }
 
         public override Task<ListDevicesResponse> ListDevices(ListDevicesRequest request, ServerCallContext context)
@@ -171,7 +184,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             using (BjdireContext db = this.serviceProvider.GetRequiredService<BjdireContext>())
             {
                 var metrics = (from m in db.Metrics
-                               where m.Id == id
+                               where m.DeviceId == id
                                    && (startDateTime == null || startDateTime <= m.Timestamp)
                                    && m.Timestamp <= endDateTime
                                orderby m.Timestamp descending
@@ -238,13 +251,30 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 context);
         }
 
+        public override Task<GrpcAlarm> GetAlarm(GetAlarmRequest request, ServerCallContext context)
+        {
+            return this.Invoke(
+                (client, request, deadline) => client.GetAlarmAsync(request, deadline),
+                request.DeviceId,
+                request,
+                context);
+        }
+
+        public override Task<ListAlarmChangesResponse> ListAlarmChanges(
+            ListAlarmChangesRequest request,
+            ServerCallContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                    this.timer.Dispose();
+                    this.askAlarmTimer.Dispose();
+                    this.askMetricTimer.Dispose();
                 }
 
                 this.disposedValue = true;
@@ -272,7 +302,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             }
         }
 
-        private async void AskPersistDeviceMetricAlarm(object state)
+        private async void AskPersistDeviceAlarm(object state)
         {
             IOptionsSnapshot<DeviceOptions> deviceOptions =
                 this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
@@ -286,7 +316,52 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                     byte[] id = d.ComputeIdBinary();
                     if (this.plcManager.PlcDictionary.TryGetValue(ByteString.CopyFrom(id), out PlcClient client))
                     {
-                        this.logger.LogInformation("Ask metric & alarm for {0}({1})", d.Id, d.Name);
+                        this.logger.LogInformation("Ask alarm for {0}({1})", d.Id, d.Name);
+
+                        GrpcAlarm alarm = await client
+                            .GetAlarmAsync(new GetAlarmRequest(), DateTime.UtcNow.AddSeconds(5))
+                            .ConfigureAwait(true);
+
+                        var m = new ModelAlarm
+                        {
+                            DeviceId = BitConverter.ToString(id),
+                        };
+                        alarm.AssignTo(m);
+
+                        db.Alarms.Add(m);
+                    }
+                    else
+                    {
+                        this.logger.LogWarning(
+                            "Failed to ask alarm for {0}({1}), currently offline.",
+                            d.Id,
+                            d.Name);
+                    }
+                }
+                catch (RpcException e)
+                {
+                    this.logger.LogWarning(e, "Failed to ask alarm for {0}({1})", d.Id, d.Name);
+                }
+            }
+
+            db.SaveChanges();
+        }
+
+        private async void AskPersistDeviceMetric(object state)
+        {
+            IOptionsSnapshot<DeviceOptions> deviceOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
+
+            using BjdireContext db = this.serviceProvider.GetRequiredService<BjdireContext>();
+
+            foreach (DeviceOptionsEntry d in deviceOptions.Value.Devices)
+            {
+                try
+                {
+                    byte[] id = d.ComputeIdBinary();
+                    if (this.plcManager.PlcDictionary.TryGetValue(ByteString.CopyFrom(id), out PlcClient client))
+                    {
+                        this.logger.LogInformation("Ask metric for {0}({1})", d.Id, d.Name);
 
                         GrpcMetric metric = await client
                             .GetMetricAsync(new GetMetricRequest(), DateTime.UtcNow.AddSeconds(5))
@@ -294,25 +369,23 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
                         var m = new ModelMetric
                         {
-                            Id = BitConverter.ToString(id),
+                            DeviceId = BitConverter.ToString(id),
                         };
                         metric.AssignTo(m);
 
                         db.Metrics.Add(m);
-
-                        // TODO(zhangshuai.ustc): Persist alarm.
                     }
                     else
                     {
                         this.logger.LogWarning(
-                            "Failed to ask metric & alarm for {0}({1}), currently offline.",
+                            "Failed to ask metric for {0}({1}), currently offline.",
                             d.Id,
                             d.Name);
                     }
                 }
                 catch (RpcException e)
                 {
-                    this.logger.LogWarning(e, "Failed to ask metric & alarm for {0}({1})", d.Id, d.Name);
+                    this.logger.LogWarning(e, "Failed to ask metric for {0}({1})", d.Id, d.Name);
                 }
             }
 

@@ -3,7 +3,6 @@ using System;
 using GeothermalResearchInstitute.ServerConsole.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GeothermalResearchInstitute.ServerConsole.Migrations
 {
@@ -16,9 +15,40 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0");
 
+            modelBuilder.Entity("GeothermalResearchInstitute.ServerConsole.Models.Alarm", b =>
+                {
+                    b.Property<string>("DeviceId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ElectricalHeaterBorken")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HeaterOverloadedBroken")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HighHeaterPressure")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LowFlowRate")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LowHeaterPressure")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("NoPower")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DeviceId", "Timestamp");
+
+                    b.ToTable("Alarms");
+                });
+
             modelBuilder.Entity("GeothermalResearchInstitute.ServerConsole.Models.Metric", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("DeviceId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("Timestamp")
@@ -48,7 +78,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
                     b.Property<float>("WaterPumpFlowRateCubicMeterPerHour")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Id", "Timestamp");
+                    b.HasKey("DeviceId", "Timestamp");
 
                     b.ToTable("Metrics");
                 });

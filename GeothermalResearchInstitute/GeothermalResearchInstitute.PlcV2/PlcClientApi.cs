@@ -237,6 +237,36 @@ namespace GeothermalResearchInstitute.PlcV2
             };
         }
 
+        public async Task<Alarm> GetAlarmAsync(GetAlarmRequest request, DateTime? deadline)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            PlcFrame response = await this.InvokeAsync(
+                PlcFrame.Create(PlcMessageType.GetAlarmRequest, ByteString.Empty),
+                deadline)
+                .ConfigureAwait(false);
+            if (response.FrameHeader.MessageType != PlcMessageType.GetAlarmResponse)
+            {
+                throw new InvalidDataException(
+                    "Response message type mismatch: " + response.FrameHeader.MessageType);
+            }
+
+            using var reader = new BinaryReader(new MemoryStream(response.FrameBody.ToByteArray()));
+            return new Alarm
+            {
+                CreateTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow),
+                LowFlowRate = reader.ReadByte() != 0,
+                HighHeaterPressure = reader.ReadByte() != 0,
+                LowHeaterPressure = reader.ReadByte() != 0,
+                NoPower = reader.ReadByte() != 0,
+                HeaterOverloadedBroken = reader.ReadByte() != 0,
+                ElectricalHeaterBorken = reader.ReadByte() != 0,
+            };
+        }
+
         public async Task<RunningParameter> GetRunningParameterAsync(
             GetRunningParameterRequest request,
             DateTime? deadline)

@@ -4,14 +4,12 @@
 // </copyright>
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace GeothermalResearchInstitute.ServerConsole.Models
 {
-    [SuppressMessage("Performance", "CA1819:属性不应返回数组", Justification = "Disable for DTO.")]
     public class Metric
     {
-        public string Id { get; set; }
+        public string DeviceId { get; set; }
 
         public DateTimeOffset Timestamp { get; set; }
 

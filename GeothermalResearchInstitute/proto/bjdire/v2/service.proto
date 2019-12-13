@@ -165,18 +165,42 @@ message WorkingMode {
 }
 
 message Alarm {
+  // 采集时间, PLC can ignore this field.
+  google.protobuf.Timestamp create_time = 1;
   // 流量低
-  bool low_flow_rate = 1;
+  bool low_flow_rate = 2;
   // 热泵压力高
-  bool high_heater_pressure = 2;
+  bool high_heater_pressure = 3;
   // 热泵压力低
-  bool low_heater_pressure = 3;
+  bool low_heater_pressure = 4;
   // 电源断相或相序错
-  bool no_power = 4;
+  bool no_power = 5;
   // 热泵过载故障（热继电器）
-  bool heater_overloaded_broken = 5;
+  bool heater_overloaded_broken = 6;
   // 电加热器故障
-  bool electrical_heater_borken = 6;
+  bool electrical_heater_borken = 7;
+}
+
+enum AlarmType {
+  ALARM_TYPE_UNSPECIFIED = 0;
+  ALARM_TYPE_LOW_FLOW_RATE = 1;
+  ALARM_TYPE_HIGH_HEATER_PRESSURE = 2;
+  ALARM_TYPE_LOW_HEATER_PRESSURE = 3;
+  ALARM_TYPE_NO_POWER = 4;
+  ALARM_TYPE_HEATER_OVERLOADED_BROKEN = 5;
+  ALARM_TYPE_ELECTRICAL_HEATER_BROKEN = 6;
+}
+
+enum AlarmChangeDirection {
+  ALARM_CHANGE_DIRECTION_UNSPECIFIED = 0;
+  ALARM_CHANGE_DIRECTION_APPEARANCE = 1;
+  ALARM_CHANGE_DIRECTION_DISAPPEARANCE = 2;
+}
+
+message AlarmChange {
+  google.protobuf.Timestamp create_time = 1;
+  AlarmType alarm_type = 2;
+  AlarmChangeDirection alarm_change_direction = 3;
 }
 
 message ListDevicesRequest {}
@@ -244,7 +268,7 @@ message GetAlarmRequest {
 // The result is sorted from latest to earliest.
 // The result count is as most page_size.
 // The page_token is null means no more results.
-message ListAlarmsRequest {
+message ListAlarmChangesRequest {
   bytes device_id = 1;
   google.protobuf.Timestamp start_time = 2;
   google.protobuf.Timestamp end_time = 3;
@@ -252,8 +276,8 @@ message ListAlarmsRequest {
   string page_token = 5;
 }
 
-message ListAlarmsResponse {
-  repeated Alarm alarms = 1;
+message ListAlarmChangesResponse {
+  repeated AlarmChange alarm_changes = 1;
   string next_page_token = 2;
 }
 
@@ -297,6 +321,6 @@ service DeviceService {
   // Get alarm for specific PLC.
   rpc GetAlarm (GetAlarmRequest) returns (Alarm) {}
 
-  // List alarms, newest first. PLC don't need this.
-  rpc ListAlarms (ListAlarmsRequest) returns (ListAlarmsResponse) {}
+  // List alarm changes, newest first. PLC don't need this.
+  rpc ListAlarmChanges (ListAlarmChangesRequest) returns (ListAlarmChangesResponse) {}
 }

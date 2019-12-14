@@ -23,7 +23,7 @@ namespace GeothermalResearchInstitute.ServerConsole
     internal class Program
     {
         internal static readonly Action<DbContextOptionsBuilder> DbContextOptionsBuilderAction =
-            builder => builder.UseSqlite("Data Source=bjdire.sqlite;Version=3;Pooling=True;FailIfMissing=True;");
+            builder => builder.UseSqlite("Data Source=bjdire.sqlite;");
 
         private static void Main(string[] args)
         {

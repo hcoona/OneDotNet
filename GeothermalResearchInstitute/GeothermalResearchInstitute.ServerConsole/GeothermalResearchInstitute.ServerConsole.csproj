@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.Staging.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
     <None Update="appsettings.Production.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -45,6 +49,10 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <None Update="bjdire.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
   </ItemGroup>
 
 </Project>

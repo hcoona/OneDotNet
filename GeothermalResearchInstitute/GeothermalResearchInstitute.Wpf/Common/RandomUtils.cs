@@ -25,13 +25,7 @@ namespace GeothermalResearchInstitute.Wpf.Common
         public static float NextFloat(float startInclusive, float endExclusive)
             => (float)NextDouble(startInclusive, endExclusive);
 
-        public static T NextEnum<T> () where T : Enum
-        {
-            T[] vals = Enum.GetValues(typeof(T)) as T[];
-            Random random = new Random();
-            T val = vals[random.Next(0, vals.Length)];
-
-            return val;
-        }
+        public static int Next(int startInclusive, int endExclusive) =>
+            ThreadLocalRandom.Value.Next(startInclusive, endExclusive);
     }
 }

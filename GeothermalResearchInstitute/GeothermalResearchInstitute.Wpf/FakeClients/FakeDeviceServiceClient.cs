@@ -384,8 +384,8 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 alarmChanges.Add(new AlarmChange
                 {
                     CreateTime = Timestamp.FromDateTime(endDateTime),
-                    AlarmType = RandomUtils.NextEnum<AlarmType>(),
-                    AlarmChangeDirection = RandomUtils.NextEnum<AlarmChangeDirection>(),
+                    AlarmType = (AlarmType)RandomUtils.Next(1, 7),
+                    AlarmChangeDirection = (AlarmChangeDirection)RandomUtils.Next(1, 3),
                 });
             }
 

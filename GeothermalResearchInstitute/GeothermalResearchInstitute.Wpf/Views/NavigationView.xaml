@@ -33,7 +33,10 @@
                 Command="{Binding NavigateToDeviceMetricBoardView}"
                 Content="常规实时数据"
                 Style="{StaticResource NavigationButtonStyle}" />
-            <Button Content="故障记录" Style="{StaticResource NavigationButtonStyle}" />
+            <Button
+               Command="{Binding NavigateToDeviceAlarmHistoryView}"
+              Content="故障记录"
+              Style="{StaticResource NavigationButtonStyle}" />
             <Button
                 Command="{Binding NavigateToDeviceMetricHistoryExportView}"
                 Content="导出历史数据"

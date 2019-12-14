@@ -356,5 +356,52 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
                 () => new Metadata(),
                 () => { });
         }
+
+        public override AsyncUnaryCall<ListAlarmChangesResponse> ListAlarmChangesAsync(ListAlarmChangesRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
+        {
+            DateTime endDateTime;
+            if (string.IsNullOrEmpty(request.PageToken))
+            {
+                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.UtcNow;
+            }
+            else
+            {
+                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+            }
+
+            endDateTime = endDateTime.ToUniversalTime();
+            var startDateTime = request.StartTime?.ToDateTime();
+
+            var alarmChanges = new List<AlarmChange>(request.PageSize);
+            for (int i = 0; i < request.PageSize; i++)
+            {
+                endDateTime = endDateTime.Subtract(TimeSpan.FromSeconds(5));
+                if (startDateTime.HasValue && startDateTime > endDateTime)
+                {
+                    break;
+                }
+
+                alarmChanges.Add(new AlarmChange
+                {
+                    CreateTime = Timestamp.FromDateTime(endDateTime),
+                    AlarmType = RandomUtils.NextEnum<AlarmType>(),
+                    AlarmChangeDirection = RandomUtils.NextEnum<AlarmChangeDirection>(),
+                });
+            }
+
+            var response = new ListAlarmChangesResponse
+            {
+                NextPageToken = endDateTime.ToString(CultureInfo.InvariantCulture),
+            };
+            response.AlarmChanges.AddRange(alarmChanges);
+
+            return TestCalls.AsyncUnaryCall(
+                Task.FromResult(response),
+                Task.FromResult(new Metadata()),
+                () => Status.DefaultSuccess,
+                () => new Metadata(),
+                () => { });
+        }
+
     }
 }

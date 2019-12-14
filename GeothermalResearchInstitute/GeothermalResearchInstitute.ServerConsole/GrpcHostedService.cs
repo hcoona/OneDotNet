@@ -34,7 +34,7 @@ namespace GeothermalResearchInstitute.ServerConsole
             if (this.logger.IsEnabled(LogLevel.Information))
             {
                 this.logger.LogInformation(
-                    "gRPC services are listening on {}",
+                    "gRPC services are listening on {0}",
                     string.Join(",", this.server.Ports.Select(p => $"{p.Host}:{p.BoundPort}")));
             }
 

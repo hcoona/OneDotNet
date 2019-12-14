@@ -87,13 +87,13 @@ namespace GeothermalResearchInstitute.PlcV2
             {
                 this.closingCancellationTokenSource.Cancel();
                 this.requestContextSendingBufferBlock.Complete();
-                this.tcpClient.Close();
-
-                this.OnClosed?.Invoke(this, EventArgs.Empty);
 
                 await this.sendingBackgroundTask.ConfigureAwait(false);
                 await this.receivingBackgroundTask.ConfigureAwait(false);
                 await this.deadlineBackgroundTask.ConfigureAwait(false);
+
+                this.tcpClient.Close();
+                this.OnClosed?.Invoke(this, EventArgs.Empty);
             }
         }
 

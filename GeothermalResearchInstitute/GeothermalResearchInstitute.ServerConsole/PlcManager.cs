@@ -94,6 +94,11 @@ namespace GeothermalResearchInstitute.ServerConsole
                     this.logger.LogError(e, "Failed to accept PLC.");
                     continue;
                 }
+                catch (ObjectDisposedException)
+                {
+                    // Ignore it.
+                    break;
+                }
 
                 ConnectResponse response;
                 try

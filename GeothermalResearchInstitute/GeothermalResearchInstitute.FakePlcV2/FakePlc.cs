@@ -108,6 +108,11 @@ namespace GeothermalResearchInstitute.FakePlcV2
 
         public async Task StopAsync()
         {
+            if (this.client == null)
+            {
+                return;
+            }
+
             this.cancellationTokenSource.Cancel();
             await this.backgroundTask.ConfigureAwait(true);
             this.client.Close();

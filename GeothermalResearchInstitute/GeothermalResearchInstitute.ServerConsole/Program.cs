@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
@@ -35,7 +36,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                 {
                     IHostEnvironment env = context.HostingEnvironment;
                     builder
-                        .AddEnvironmentVariables()
                         .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
                         .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
                         .AddCommandLine(args);
@@ -46,10 +46,13 @@ namespace GeothermalResearchInstitute.ServerConsole
                     if (env.IsDevelopment() || env.IsStaging())
                     {
                         builder.AddDebug();
-                        builder.AddConsole();
                     }
 
-                    // TODO(zhangshuai.ustc): Add log provider for production.
+                    Log.Logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(context.Configuration)
+                        .CreateLogger();
+                    builder.AddSerilog(dispose: true);
+
                     builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .ConfigureServices((context, builder) =>

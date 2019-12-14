@@ -116,6 +116,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9578F6A5-5
 		GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf = GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerilogLab", "codelab\SerilogLab\SerilogLab.csproj", "{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -311,6 +313,12 @@ Global
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -352,6 +360,7 @@ Global
 		{2A9CCE89-7269-45C2-A087-36F91630A6AE} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{9578F6A5-5C44-46F3-9965-DEF4D39FC5D5} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
+		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

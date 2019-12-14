@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeothermalResearchInstitute.Wpf.Common;
 using GeothermalResearchInstitute.Wpf.Views;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -16,11 +17,13 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 {
     public class WelcomeViewModel : BindableBase
     {
+        private readonly ILogger<WelcomeViewModel> logger;
         private readonly IRegionManager regionManager;
         private ViewModelContext viewModelContext;
 
-        public WelcomeViewModel(IRegionManager regionManager)
+        public WelcomeViewModel(ILogger<WelcomeViewModel> logger, IRegionManager regionManager)
         {
+            this.logger = logger;
             this.regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
 
             this.NavigateToLoginViewCommand = new DelegateCommand(this.ExecuteNavigateToLoginView);
@@ -29,6 +32,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 this.ExecuteNavigateToNavigationView, this.CanExecuteNavigateToNavigationView);
             this.NavigateToContactViewCommand = new DelegateCommand(
                 this.ExecuteNavigateToContactView);
+
+            this.logger.LogInformation("Hello World!");
         }
 
         public ViewModelContext ViewModelContext
@@ -74,9 +79,11 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private void ExecuteNavigateToContactView()
         {
+#if DEBUG
             this.ViewModelContext.SelectedDevice = FakeClients.FakeDeviceServiceClient.Devices.Values.First();
             this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceControlView));
             this.ViewModelContext.NavigateBackTarget = nameof(WelcomeView);
+#endif
         }
 
         private void ViewModelContext_PropertyChanged(object sender, PropertyChangedEventArgs e)

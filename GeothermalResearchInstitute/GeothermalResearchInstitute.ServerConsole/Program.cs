@@ -30,7 +30,7 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             IHost host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
-                    .AddIniFile("appsettings.ini", true)
+                    .AddIniFile("appsettings.ini", optional: true, reloadOnChange: false)
                     .AddCommandLine(args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {

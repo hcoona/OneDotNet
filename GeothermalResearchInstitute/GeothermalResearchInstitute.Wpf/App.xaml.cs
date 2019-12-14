@@ -7,7 +7,6 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
-using GeothermalResearchInstitute.Wpf.FakeClients;
 using GeothermalResearchInstitute.Wpf.Modules;
 using GeothermalResearchInstitute.Wpf.ViewModels;
 using GeothermalResearchInstitute.Wpf.Views;
@@ -21,6 +20,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using Prism.Unity.Ioc;
+using Serilog;
 using Unity;
 using Unity.Microsoft.DependencyInjection;
 
@@ -41,6 +41,7 @@ namespace GeothermalResearchInstitute.Wpf
             this.Host = new HostBuilder()
                 .UseServiceProviderFactory<IServiceCollection>(new ServiceProviderFactory(this.UnityContainer))
                 .ConfigureHostConfiguration(builder => builder
+                    .AddIniFile("appsettings.ini", optional: true, reloadOnChange: false)
                     .AddCommandLine(e.Args))
                 .ConfigureAppConfiguration((context, builder) =>
                     {
@@ -53,9 +54,18 @@ namespace GeothermalResearchInstitute.Wpf
                     })
                 .ConfigureLogging((context, builder) =>
                 {
-                    builder
-                        .AddDebug()
-                        .AddConfiguration(context.Configuration.GetSection("Logging"));
+                    IHostEnvironment env = context.HostingEnvironment;
+                    if (env.IsDevelopment() || env.IsStaging())
+                    {
+                        builder.AddDebug();
+                    }
+
+                    Log.Logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(context.Configuration)
+                        .CreateLogger();
+                    builder.AddSerilog(dispose: true);
+
+                    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .ConfigureServices((context, builder) =>
                 {
@@ -65,9 +75,14 @@ namespace GeothermalResearchInstitute.Wpf
                             serviceProvider.GetRequiredService<ILoggerFactory>(),
                             serviceProvider.GetRequiredService<ILogger<ClientBase>>());
                     });
+
                     if (context.HostingEnvironment.IsDevelopment())
                     {
-                        builder.AddSingleton<DeviceService.DeviceServiceClient, FakeDeviceServiceClient>();
+#if DEBUG
+                        builder.AddSingleton<
+                            DeviceService.DeviceServiceClient,
+                            FakeClients.FakeDeviceServiceClient>();
+#endif
                     }
                     else
                     {

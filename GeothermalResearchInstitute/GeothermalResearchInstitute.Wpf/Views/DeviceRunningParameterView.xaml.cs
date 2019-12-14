@@ -33,7 +33,7 @@ namespace GeothermalResearchInstitute.Wpf.Views
             ViewModelContext viewModelContext = this.ViewModel.ViewModelContext;
             viewModelContext.UserBarVisibility = Visibility.Visible;
             viewModelContext.BannerVisibility = Visibility.Visible;
-            viewModelContext.Title = "运行控制";  // TODO: From resource.
+            viewModelContext.Title = "参数设置";  // TODO: From resource.
 
             await this.ViewModel.LoadAsync().ConfigureAwait(true);
         }

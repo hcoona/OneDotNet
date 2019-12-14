@@ -30,14 +30,16 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             IHost host = new HostBuilder()
                 .ConfigureHostConfiguration(builder => builder
-                    .AddIniFile("appsettings.ini", optional: true, reloadOnChange: false)
+                    .SetBasePath(Environment.CurrentDirectory)
+                    .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
                     .AddCommandLine(args))
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     IHostEnvironment env = context.HostingEnvironment;
                     builder
+                        .SetBasePath(Environment.CurrentDirectory)
                         .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
-                        .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
+                        .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: false, reloadOnChange: true)
                         .AddCommandLine(args);
                 })
                 .ConfigureLogging((context, builder) =>

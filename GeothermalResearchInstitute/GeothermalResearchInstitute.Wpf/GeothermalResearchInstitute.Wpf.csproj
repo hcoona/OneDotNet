@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>$(DefaultExeTargetFrameworks)</TargetFrameworks>
+    <TargetFramework>$(NetcoreCurrentTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
+
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />

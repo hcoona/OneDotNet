@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>$(DefaultExeTargetFrameworks)</TargetFrameworks>
+    <TargetFramework>$(NetcoreCurrentTargetFramework)</TargetFramework>
+
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>

@@ -41,7 +41,8 @@ namespace GeothermalResearchInstitute.Wpf
             this.Host = new HostBuilder()
                 .UseServiceProviderFactory<IServiceCollection>(new ServiceProviderFactory(this.UnityContainer))
                 .ConfigureHostConfiguration(builder => builder
-                    .AddIniFile("appsettings.ini", optional: true, reloadOnChange: false)
+                    .SetBasePath(Environment.CurrentDirectory)
+                    .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
                     .AddCommandLine(e.Args))
                 .ConfigureAppConfiguration((context, builder) =>
                     {
@@ -49,7 +50,7 @@ namespace GeothermalResearchInstitute.Wpf
                         builder
                             .SetBasePath(Environment.CurrentDirectory)
                             .AddIniFile("appsettings.ini", optional: false, reloadOnChange: true)
-                            .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: true, reloadOnChange: true)
+                            .AddIniFile($"appsettings.{env.EnvironmentName}.ini", optional: false, reloadOnChange: true)
                             .AddCommandLine(e.Args);
                     })
                 .ConfigureLogging((context, builder) =>

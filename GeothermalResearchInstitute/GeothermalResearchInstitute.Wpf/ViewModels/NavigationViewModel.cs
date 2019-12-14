@@ -33,7 +33,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             this.NavigateToDeviceMetricHistoryExportView = this.NavigateToDeviceMetricHistoryExportView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryExportView);
             this.NavigateToDeviceAlarmHistoryView = this.NavigateToDeviceAlarmHistoryView =
-                 new DelegateCommand(this.ExecuteNavigateToDeviceAlarmHistoryView, this.CanNavigateToDeviceAlarmHistoryView);
+                 new DelegateCommand(this.ExecuteNavigateToDeviceAlarmHistoryView);
         }
 
         public ViewModelContext ViewModelContext

@@ -14,7 +14,8 @@ namespace GeothermalResearchInstitute.Wpf.Common
         {
             string text = e.StatusCode switch
             {
-                StatusCode.DeadlineExceeded | StatusCode.Unavailable => "网络连接错误，请检查到服务器的连接是否正常",
+                StatusCode.DeadlineExceeded => "网络连接错误，请检查到服务器的连接是否正常",
+                StatusCode.Unavailable => "网络连接错误，请检查到服务器的连接是否正常",
                 StatusCode.Unauthenticated => "用户名或密码错误",
                 _ => "其他未知错误：\n" + e.ToString(),
             };

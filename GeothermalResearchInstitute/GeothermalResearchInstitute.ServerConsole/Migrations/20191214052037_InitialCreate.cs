@@ -1,9 +1,8 @@
-// <copyright file="20191213144330_InitialCreate.cs" company="Shuai Zhang">
+// <copyright file="20191214052037_InitialCreate.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GeothermalResearchInstitute.ServerConsole.Migrations
@@ -14,21 +13,35 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
         {
             if (migrationBuilder is null)
             {
-                throw new ArgumentNullException(nameof(migrationBuilder));
+                throw new System.ArgumentNullException(nameof(migrationBuilder));
             }
+
+            migrationBuilder.CreateTable(
+                name: "AlarmChanges",
+                columns: table => new
+                {
+                    DeviceId = table.Column<string>(nullable: false),
+                    Timestamp = table.Column<long>(nullable: false),
+                    Type = table.Column<byte>(nullable: false),
+                    Direction = table.Column<byte>(nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlarmChanges", x => new { x.DeviceId, x.Timestamp, x.Type });
+                });
 
             migrationBuilder.CreateTable(
                 name: "Alarms",
                 columns: table => new
                 {
                     DeviceId = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<DateTimeOffset>(nullable: false),
+                    Timestamp = table.Column<long>(nullable: false),
                     LowFlowRate = table.Column<bool>(nullable: false),
                     HighHeaterPressure = table.Column<bool>(nullable: false),
                     LowHeaterPressure = table.Column<bool>(nullable: false),
                     NoPower = table.Column<bool>(nullable: false),
                     HeaterOverloadedBroken = table.Column<bool>(nullable: false),
-                    ElectricalHeaterBorken = table.Column<bool>(nullable: false),
+                    ElectricalHeaterBroken = table.Column<bool>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -40,7 +53,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
                 columns: table => new
                 {
                     DeviceId = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<DateTimeOffset>(nullable: false),
+                    Timestamp = table.Column<long>(nullable: false),
                     OutputWaterCelsiusDegree = table.Column<float>(nullable: false),
                     InputWaterCelsiusDegree = table.Column<float>(nullable: false),
                     HeaterOutputWaterCelsiusDegree = table.Column<float>(nullable: false),
@@ -60,8 +73,11 @@ namespace GeothermalResearchInstitute.ServerConsole.Migrations
         {
             if (migrationBuilder is null)
             {
-                throw new ArgumentNullException(nameof(migrationBuilder));
+                throw new System.ArgumentNullException(nameof(migrationBuilder));
             }
+
+            migrationBuilder.DropTable(
+                name: "AlarmChanges");
 
             migrationBuilder.DropTable(
                 name: "Alarms");

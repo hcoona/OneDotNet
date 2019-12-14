@@ -84,7 +84,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
             LowHeaterPressure = false,
             NoPower = false,
             HeaterOverloadedBroken = false,
-            ElectricalHeaterBorken = false,
+            ElectricalHeaterBroken = false,
         };
 
         public void Dispose()
@@ -337,7 +337,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
             responseContent[3] = (byte)(this.Alarm.LowHeaterPressure ? 0x01 : 0x00);
             responseContent[4] = (byte)(this.Alarm.NoPower ? 0x01 : 0x00);
             responseContent[5] = (byte)(this.Alarm.HeaterOverloadedBroken ? 0x01 : 0x00);
-            responseContent[6] = (byte)(this.Alarm.ElectricalHeaterBorken ? 0x01 : 0x00);
+            responseContent[6] = (byte)(this.Alarm.ElectricalHeaterBroken ? 0x01 : 0x00);
 
             return PlcFrame.Create(
                 PlcMessageType.GetAlarmResponse,

@@ -178,7 +178,7 @@ message Alarm {
   // 热泵过载故障（热继电器）
   bool heater_overloaded_broken = 6;
   // 电加热器故障
-  bool electrical_heater_borken = 7;
+  bool electrical_heater_broken = 7;
 }
 
 enum AlarmType {

@@ -4,6 +4,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -20,8 +21,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using GrpcAlarm = GeothermalResearchInstitute.v2.Alarm;
+using GrpcAlarmChange = GeothermalResearchInstitute.v2.AlarmChange;
 using GrpcMetric = GeothermalResearchInstitute.v2.Metric;
 using ModelAlarm = GeothermalResearchInstitute.ServerConsole.Models.Alarm;
+using ModelAlarmChange = GeothermalResearchInstitute.ServerConsole.Models.AlarmChange;
 using ModelMetric = GeothermalResearchInstitute.ServerConsole.Models.Metric;
 
 namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
@@ -264,7 +267,48 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             ListAlarmChangesRequest request,
             ServerCallContext context)
         {
-            throw new NotImplementedException();
+            string id = BitConverter.ToString(request.DeviceId.ToByteArray());
+
+            DateTimeOffset endDateTime;
+            if (string.IsNullOrEmpty(request.PageToken))
+            {
+                endDateTime = request.EndTime?.ToDateTimeOffset() ?? DateTimeOffset.UtcNow;
+            }
+            else
+            {
+                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+            }
+
+            endDateTime = endDateTime.ToUniversalTime();
+            DateTimeOffset? startDateTime = request.StartTime?.ToDateTimeOffset().ToUniversalTime();
+
+            var response = new ListAlarmChangesResponse();
+            using (BjdireContext db = this.serviceProvider.GetRequiredService<BjdireContext>())
+            {
+                var alarmChanges = (from m in db.AlarmChanges
+                                    where m.DeviceId == id
+                                        && (startDateTime == null || startDateTime <= m.Timestamp)
+                                        && m.Timestamp <= endDateTime
+                                    orderby m.Timestamp descending
+                                    select m)
+                    .Take(request.PageSize)
+                    .ToList();
+                response.AlarmChanges.AddRange(alarmChanges.Select(alarmChange =>
+                {
+                    var m = new GrpcAlarmChange();
+                    m.AssignFrom(alarmChange);
+                    return m;
+                }));
+
+                if (alarmChanges.Count == request.PageSize && alarmChanges.Last().Timestamp > startDateTime)
+                {
+                    response.NextPageToken = alarmChanges.Last().Timestamp
+                            .ToUniversalTime()
+                            .ToString(CultureInfo.InvariantCulture);
+                }
+            }
+
+            return Task.FromResult(response);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -278,6 +322,90 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 }
 
                 this.disposedValue = true;
+            }
+        }
+
+        private static IEnumerable<ModelAlarmChange> ComputeAlarmChanges(
+            string deviceId,
+            ModelAlarm lastKnownAlarm,
+            ModelAlarm currentAlarm)
+        {
+            if (lastKnownAlarm.LowFlowRate != currentAlarm.LowFlowRate)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.LowFlowRate,
+                    Direction = currentAlarm.LowFlowRate
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
+            }
+
+            if (lastKnownAlarm.HighHeaterPressure != currentAlarm.HighHeaterPressure)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.HighHeaterPressure,
+                    Direction = currentAlarm.HighHeaterPressure
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
+            }
+
+            if (lastKnownAlarm.LowHeaterPressure != currentAlarm.LowHeaterPressure)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.LowHeaterPressure,
+                    Direction = currentAlarm.LowHeaterPressure
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
+            }
+
+            if (lastKnownAlarm.NoPower != currentAlarm.NoPower)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.NoPower,
+                    Direction = currentAlarm.NoPower
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
+            }
+
+            if (lastKnownAlarm.HeaterOverloadedBroken != currentAlarm.HeaterOverloadedBroken)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.HeaterOverloadedBroken,
+                    Direction = currentAlarm.HeaterOverloadedBroken
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
+            }
+
+            if (lastKnownAlarm.ElectricalHeaterBroken != currentAlarm.ElectricalHeaterBroken)
+            {
+                yield return new ModelAlarmChange
+                {
+                    DeviceId = deviceId,
+                    Timestamp = currentAlarm.Timestamp,
+                    Type = AlarmType.ElectricalHeaterBroken,
+                    Direction = currentAlarm.ElectricalHeaterBroken
+                        ? AlarmChangeDirection.Appearance
+                        : AlarmChangeDirection.Disappearance,
+                };
             }
         }
 
@@ -314,6 +442,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 try
                 {
                     byte[] id = d.ComputeIdBinary();
+                    string deviceId = BitConverter.ToString(id);
                     if (this.plcManager.PlcDictionary.TryGetValue(ByteString.CopyFrom(id), out PlcClient client))
                     {
                         this.logger.LogInformation("Ask alarm for {0}({1})", d.Id, d.Name);
@@ -324,9 +453,23 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
                         var m = new ModelAlarm
                         {
-                            DeviceId = BitConverter.ToString(id),
+                            DeviceId = deviceId,
                         };
                         alarm.AssignTo(m);
+
+                        ModelAlarm lastKnownAlarmInfo = (
+                            from mm in db.Alarms
+                            where mm.DeviceId == deviceId
+                            orderby mm.Timestamp descending
+                            select mm)
+                            .FirstOrDefault();
+
+                        if (lastKnownAlarmInfo == null)
+                        {
+                            lastKnownAlarmInfo = new ModelAlarm();
+                        }
+
+                        db.AlarmChanges.AddRange(ComputeAlarmChanges(deviceId, lastKnownAlarmInfo, m));
 
                         db.Alarms.Add(m);
                     }

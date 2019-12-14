@@ -5,8 +5,10 @@
 
 using Google.Protobuf.WellKnownTypes;
 using GrpcAlarm = GeothermalResearchInstitute.v2.Alarm;
+using GrpcAlarmChange = GeothermalResearchInstitute.v2.AlarmChange;
 using GrpcMetric = GeothermalResearchInstitute.v2.Metric;
 using ModelAlarm = GeothermalResearchInstitute.ServerConsole.Models.Alarm;
+using ModelAlarmChange = GeothermalResearchInstitute.ServerConsole.Models.AlarmChange;
 using ModelMetric = GeothermalResearchInstitute.ServerConsole.Models.Metric;
 
 namespace GeothermalResearchInstitute.ServerConsole.Utils
@@ -21,7 +23,7 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             gAlarm.LowHeaterPressure = alarm.LowHeaterPressure;
             gAlarm.NoPower = alarm.NoPower;
             gAlarm.HeaterOverloadedBroken = alarm.HeaterOverloadedBroken;
-            gAlarm.ElectricalHeaterBorken = alarm.ElectricalHeaterBorken;
+            gAlarm.ElectricalHeaterBroken = alarm.ElectricalHeaterBroken;
             return gAlarm;
         }
 
@@ -33,8 +35,16 @@ namespace GeothermalResearchInstitute.ServerConsole.Utils
             alarm.LowHeaterPressure = gAlarm.LowHeaterPressure;
             alarm.NoPower = gAlarm.NoPower;
             alarm.HeaterOverloadedBroken = gAlarm.HeaterOverloadedBroken;
-            alarm.ElectricalHeaterBorken = gAlarm.ElectricalHeaterBorken;
+            alarm.ElectricalHeaterBroken = gAlarm.ElectricalHeaterBroken;
             return gAlarm;
+        }
+
+        public static GrpcAlarmChange AssignFrom(this GrpcAlarmChange gAlarmChange, ModelAlarmChange alarmChange)
+        {
+            gAlarmChange.CreateTime = Timestamp.FromDateTimeOffset(alarmChange.Timestamp);
+            gAlarmChange.AlarmType = alarmChange.Type;
+            gAlarmChange.AlarmChangeDirection = alarmChange.Direction;
+            return gAlarmChange;
         }
 
         public static GrpcMetric AssignFrom(this GrpcMetric gMetric, ModelMetric metric)

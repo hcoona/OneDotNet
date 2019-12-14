@@ -20,24 +20,24 @@ namespace GeothermalResearchInstitute.ServerConsole
     [SuppressMessage("Microsoft.Performance", "CA1812", Justification = "Instantiated with reflection.")]
     internal class FakeDevicesHostedService : IHostedService, IDisposable
     {
-        private readonly IConfiguration rootConfig;
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly FakePlc[] fakePlcList;
         private bool disposedValue = false;
 
         public FakeDevicesHostedService(
-            IConfiguration rootConfig,
+            IOptions<CoreOptions> coreOptions,
             IOptions<DeviceOptions> deviceOptions)
         {
-            this.rootConfig = rootConfig;
+            this.coreOptions = coreOptions;
             this.fakePlcList = deviceOptions.Value.Devices
                 .Select(d => new FakePlc(d.ComputeIdBinary()))
-                .Take(rootConfig.GetValue<int>("core:fake_device_num"))
+                .Take(coreOptions.Value.MaxFakeDeviceNum)
                 .ToArray();
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            int port = this.rootConfig.GetValue<int>("core:plc_port");
+            int port = this.coreOptions.Value.TcpPort;
             foreach (FakePlc plc in this.fakePlcList)
             {
                 await plc.StartAsync(IPAddress.Loopback, port).ConfigureAwait(false);

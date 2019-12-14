@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace GeothermalResearchInstitute.ServerConsole
 {
@@ -42,12 +43,13 @@ namespace GeothermalResearchInstitute.ServerConsole
                 .ConfigureLogging((context, builder) =>
                 {
                     IHostEnvironment env = context.HostingEnvironment;
-                    if (env.IsDevelopment())
+                    if (env.IsDevelopment() || env.IsStaging())
                     {
                         builder.AddDebug();
                         builder.AddConsole();
                     }
 
+                    // TODO(zhangshuai.ustc): Add log provider for production.
                     builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 })
                 .ConfigureServices((context, builder) =>
@@ -55,10 +57,16 @@ namespace GeothermalResearchInstitute.ServerConsole
                     IHostEnvironment env = context.HostingEnvironment;
                     IConfiguration config = context.Configuration;
 
+                    // Configuration options.
+                    builder.Configure<AuthenticationOptions>(config);
+                    builder.Configure<CoreOptions>(config.GetSection("core"));
+                    builder.Configure<DeviceOptions>(config);
+                    builder.Configure<TasksOptions>(config.GetSection("tasks"));
+
                     // Database.
                     if (env.IsDevelopment())
                     {
-                        // TODO(zhangshuai.ds): Add fake data.
+                        // TODO(zhangshuai.ustc): Add fake data.
                         builder.AddDbContext<BjdireContext>(
                             options => options.UseInMemoryDatabase("bjdire"),
                             ServiceLifetime.Transient,
@@ -72,15 +80,11 @@ namespace GeothermalResearchInstitute.ServerConsole
                             ServiceLifetime.Transient);
                     }
 
-                    // Configuration options.
-                    builder.Configure<AuthenticationOptions>(context.Configuration);
-                    builder.Configure<DeviceOptions>(context.Configuration);
-
                     // PLC server.
                     builder.AddSingleton(provider => new PlcServer(
                         provider.GetRequiredService<ILoggerFactory>(),
                         IPAddress.Any,
-                        config.GetValue<int>("core:plc_port")));
+                        provider.GetRequiredService<IOptions<CoreOptions>>().Value.TcpPort));
                     builder.AddSingleton<PlcManager>();
 
                     // gRPC services.
@@ -104,7 +108,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                             {
                                 new ServerPort(
                                     "0.0.0.0",
-                                    config.GetValue<int>("core:grpc_port"),
+                                    serviceProvider.GetRequiredService<IOptions<CoreOptions>>().Value.GrpcPort,
                                     ServerCredentials.Insecure),
                             },
                         };

@@ -42,14 +42,23 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
         public DeviceServiceImpl(
             ILogger<DeviceServiceImpl> logger,
+            IOptions<TasksOptions> tasksOptions,
             IServiceProvider serviceProvider,
             PlcManager plcManager)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.plcManager = plcManager ?? throw new ArgumentNullException(nameof(plcManager));
-            this.askAlarmTimer = new Timer(this.AskPersistDeviceAlarm, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
-            this.askMetricTimer = new Timer(this.AskPersistDeviceMetric, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+            this.askAlarmTimer = new Timer(
+                this.AskPersistDeviceAlarm,
+                null,
+                TimeSpan.FromMilliseconds(tasksOptions.Value.CollectAlarmIntervalMillis),
+                TimeSpan.FromMilliseconds(tasksOptions.Value.CollectAlarmIntervalMillis));
+            this.askMetricTimer = new Timer(
+                this.AskPersistDeviceMetric,
+                null,
+                TimeSpan.FromMilliseconds(tasksOptions.Value.CollectMetricIntervalMillis),
+                TimeSpan.FromMilliseconds(tasksOptions.Value.CollectMetricIntervalMillis));
 
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
@@ -432,6 +441,8 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
         private async void AskPersistDeviceAlarm(object state)
         {
+            IOptionsSnapshot<CoreOptions> coreOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<CoreOptions>>();
             IOptionsSnapshot<DeviceOptions> deviceOptions =
                 this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
 
@@ -448,7 +459,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                         this.logger.LogInformation("Ask alarm for {0}({1})", d.Id, d.Name);
 
                         GrpcAlarm alarm = await client
-                            .GetAlarmAsync(new GetAlarmRequest(), DateTime.UtcNow.AddSeconds(5))
+                            .GetAlarmAsync(
+                                new GetAlarmRequest(),
+                                DateTime.UtcNow.AddMilliseconds(
+                                    coreOptions.Value.DefaultReadTimeoutMillis))
                             .ConfigureAwait(true);
 
                         var m = new ModelAlarm
@@ -492,6 +506,8 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
 
         private async void AskPersistDeviceMetric(object state)
         {
+            IOptionsSnapshot<CoreOptions> coreOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<CoreOptions>>();
             IOptionsSnapshot<DeviceOptions> deviceOptions =
                 this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();
 
@@ -507,7 +523,10 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                         this.logger.LogInformation("Ask metric for {0}({1})", d.Id, d.Name);
 
                         GrpcMetric metric = await client
-                            .GetMetricAsync(new GetMetricRequest(), DateTime.UtcNow.AddSeconds(5))
+                            .GetMetricAsync(
+                                new GetMetricRequest(),
+                                DateTime.UtcNow.AddMilliseconds(
+                                    coreOptions.Value.DefaultReadTimeoutMillis))
                             .ConfigureAwait(true);
 
                         var m = new ModelMetric

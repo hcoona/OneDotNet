@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using Google.Protobuf;
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
 namespace GeothermalResearchInstitute.PlcV2
@@ -55,13 +56,27 @@ namespace GeothermalResearchInstitute.PlcV2
                         this.OnDebugReceiving?.Invoke(this, buffer);
                     }
 
-                    if (this.requestContextReceivingDictionary.TryRemove((int)header.SequenceNumber, out PlcRequestContext requestContext))
+                    if (this.requestContextReceivingDictionary.TryRemove(
+                        (int)header.SequenceNumber,
+                        out PlcRequestContext requestContext))
                     {
-                        requestContext.TaskCompletionSource.TrySetResult(new PlcFrame
+                        if (header.Crc32cChecksum != 0
+                            && header.Crc32cChecksum != Crc32C.Crc32CAlgorithm.Compute(bodyBytes))
                         {
-                            FrameHeader = header,
-                            FrameBody = ByteString.CopyFrom(bodyBytes),
-                        });
+                            this.logger.LogWarning(
+                                "Received frame crc32c checksum mismatch from {0}",
+                                this.RemoteEndPoint);
+                            requestContext.TaskCompletionSource.TrySetException(new RpcException(
+                                new Status(StatusCode.Internal, "Data transfer error, checksum mismatch.")));
+                        }
+                        else
+                        {
+                            requestContext.TaskCompletionSource.TrySetResult(new PlcFrame
+                            {
+                                FrameHeader = header,
+                                FrameBody = ByteString.CopyFrom(bodyBytes),
+                            });
+                        }
                     }
                     else
                     {

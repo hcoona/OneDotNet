@@ -34,7 +34,6 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryExportView);
             this.NavigateToDeviceAlarmHistoryView = this.NavigateToDeviceAlarmHistoryView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceAlarmHistoryView, this.CanNavigateToDeviceAlarmHistoryView);
-
         }
 
         public ViewModelContext ViewModelContext
@@ -67,7 +66,6 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         public DelegateCommand NavigateToDeviceMetricHistoryExportView { get; }
 
         public DelegateCommand NavigateToDeviceAlarmHistoryView { get; }
-
 
         private bool IsDeviceConnected =>
             this.ViewModelContext?.SelectedDevice?.Status == v2.DeviceStatus.Healthy

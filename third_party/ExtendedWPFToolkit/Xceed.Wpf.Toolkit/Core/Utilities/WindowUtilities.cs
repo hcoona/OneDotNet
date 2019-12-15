@@ -22,9 +22,9 @@ using System.Windows;
 
 namespace Xceed.Wpf.Toolkit.Core.Utilities
 {
-  internal class WindowUtilities
-  {
+    internal class WindowUtilities
+    {
 
 
-  }
+    }
 }

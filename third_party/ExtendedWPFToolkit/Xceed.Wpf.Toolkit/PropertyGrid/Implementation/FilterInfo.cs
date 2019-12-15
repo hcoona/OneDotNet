@@ -21,9 +21,9 @@ using System.Text;
 
 namespace Xceed.Wpf.Toolkit.PropertyGrid
 {
-  internal struct FilterInfo
-  {
-    public string InputString;
-    public Predicate<object> Predicate;
-  }
+    internal struct FilterInfo
+    {
+        public string InputString;
+        public Predicate<object> Predicate;
+    }
 }

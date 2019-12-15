@@ -20,9 +20,9 @@ using System.Text;
 
 namespace Xceed.Wpf.Toolkit
 {
-  public enum AutoSelectBehavior
-  {
-    Never,
-    OnFocus
-  }
+    public enum AutoSelectBehavior
+    {
+        Never,
+        OnFocus
+    }
 }

@@ -25,19 +25,19 @@ using System.Windows.Data;
 
 namespace Xceed.Wpf.Toolkit.PropertyGrid.Converters
 {
-  public class ObjectToUIElementConverter : IValueConverter
-  {
-    public object Convert( object value, Type targetType, object parameter, CultureInfo culture )
+    public class ObjectToUIElementConverter : IValueConverter
     {
-      if( value is UIElement )
-        return value;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is UIElement)
+                return value;
 
-      return new Control();
-    }
+            return new Control();
+        }
 
-    public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture )
-    {
-      throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 }

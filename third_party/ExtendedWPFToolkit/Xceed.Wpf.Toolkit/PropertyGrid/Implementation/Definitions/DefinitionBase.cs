@@ -28,37 +28,37 @@ using System.Linq.Expressions;
 
 namespace Xceed.Wpf.Toolkit.PropertyGrid
 {
-  public abstract class DefinitionBase : DependencyObject
-  {
-    private bool _isLocked;
-
-    internal bool IsLocked
+    public abstract class DefinitionBase : DependencyObject
     {
-      get { return _isLocked; }
-    }
+        private bool _isLocked;
 
-    internal void ThrowIfLocked<TMember>( Expression<Func<TMember>> propertyExpression )
-    {
-      //In XAML, when using any properties of PropertyDefinition, the error of ThrowIfLocked is always thrown => prevent it !
-      if( DesignerProperties.GetIsInDesignMode( this ) )
-        return;
+        internal bool IsLocked
+        {
+            get { return _isLocked; }
+        }
 
-      if( this.IsLocked )
-      {
-        string propertyName = ReflectionHelper.GetPropertyOrFieldName( propertyExpression );
-        string message = string.Format(
-            @"Cannot modify {0} once the definition has beed added to a collection.",
-            propertyName );
-        throw new InvalidOperationException( message );
-      }
-    }
+        internal void ThrowIfLocked<TMember>(Expression<Func<TMember>> propertyExpression)
+        {
+            //In XAML, when using any properties of PropertyDefinition, the error of ThrowIfLocked is always thrown => prevent it !
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
 
-    internal virtual void Lock()
-    {
-      if( !_isLocked )
-      {
-        _isLocked = true;
-      }
+            if (this.IsLocked)
+            {
+                string propertyName = ReflectionHelper.GetPropertyOrFieldName(propertyExpression);
+                string message = string.Format(
+                    @"Cannot modify {0} once the definition has beed added to a collection.",
+                    propertyName);
+                throw new InvalidOperationException(message);
+            }
+        }
+
+        internal virtual void Lock()
+        {
+            if (!_isLocked)
+            {
+                _isLocked = true;
+            }
+        }
     }
-  }
 }

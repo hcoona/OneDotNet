@@ -21,14 +21,14 @@ using System.Text;
 
 namespace Xceed.Wpf.Toolkit.Primitives
 {
-  /// <summary>
-  /// Specify when the mouse wheel is active.
-  /// </summary>
-  public enum MouseWheelActiveTrigger
-  {
-    Focused,
-    FocusedMouseOver,
-    MouseOver,
-    Disabled
-  }
+    /// <summary>
+    /// Specify when the mouse wheel is active.
+    /// </summary>
+    public enum MouseWheelActiveTrigger
+    {
+        Focused,
+        FocusedMouseOver,
+        MouseOver,
+        Disabled
+    }
 }

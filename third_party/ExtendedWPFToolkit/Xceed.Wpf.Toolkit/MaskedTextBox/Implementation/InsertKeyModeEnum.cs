@@ -20,10 +20,10 @@ using System.Text;
 
 namespace Xceed.Wpf.Toolkit
 {
-  public enum InsertKeyMode
-  {
-    Default = 0,
-    Insert = 1,
-    Overwrite = 2
-  }
+    public enum InsertKeyMode
+    {
+        Default = 0,
+        Insert = 1,
+        Overwrite = 2
+    }
 }

@@ -17,13 +17,16 @@ namespace GeothermalResearchInstitute.Wpf.Views
         {
             return (AlarmType)value switch
             {
-                AlarmType.ElectricalHeaterBroken => "电加热器故障",
-                AlarmType.HeaterOverloadedBroken => "热泵过载故障（热继电器）",
-                AlarmType.HighHeaterPressure => "热泵压力高",
                 AlarmType.LowFlowRate => "流量低",
+                AlarmType.HighHeaterPressure => "热泵压力高",
                 AlarmType.LowHeaterPressure => "热泵压力低",
                 AlarmType.NoPower => "电源断相或相序错",
-                AlarmType.Unspecified => "未知",
+                AlarmType.HeaterOverloadedBroken => "热泵过载故障（热继电器）",
+                AlarmType.ElectricalHeaterBroken => "电加热器故障",
+                AlarmType.NoWater => "系统缺水故障",
+                AlarmType.HighVoltage => "电源电压过高",
+                AlarmType.LowVoltage => "电源电压过低",
+                AlarmType.EmergencyStopped => "急停开关被按下",
                 _ => throw new ArgumentOutOfRangeException(nameof(value)),
             };
         }

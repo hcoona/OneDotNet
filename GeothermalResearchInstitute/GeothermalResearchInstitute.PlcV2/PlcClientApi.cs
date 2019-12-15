@@ -264,6 +264,10 @@ namespace GeothermalResearchInstitute.PlcV2
                 NoPower = reader.ReadByte() != 0,
                 HeaterOverloadedBroken = reader.ReadByte() != 0,
                 ElectricalHeaterBroken = reader.ReadByte() != 0,
+                NoWater = reader.ReadByte() == 0,
+                HighVoltage = reader.ReadByte() == 0,
+                LowVoltage = reader.ReadByte() == 0,
+                EmergencyStopped = reader.ReadByte() == 0,
             };
         }
 

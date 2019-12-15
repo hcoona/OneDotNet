@@ -30,5 +30,17 @@ namespace GeothermalResearchInstitute.ServerConsole.Models
 
         // 电加热器故障
         public bool ElectricalHeaterBroken { get; set; }
+
+        // 系统缺水故障
+        public bool NoWater { get; set; }
+
+        // 电源电压过高
+        public bool HighVoltage { get; set; }
+
+        // 电源电压过低
+        public bool LowVoltage { get; set; }
+
+        // 急停开关被按下
+        public bool EmergencyStopped { get; set; }
     }
 }

@@ -179,6 +179,14 @@ message Alarm {
   bool heater_overloaded_broken = 6;
   // 电加热器故障
   bool electrical_heater_broken = 7;
+  // 系统缺水故障
+  bool no_water = 8;
+  // 电源电压过高
+  bool high_voltage = 9;
+  // 电源电压过低
+  bool low_voltage = 10;
+  // 急停开关被按下
+  bool emergency_stopped = 11;
 }
 
 enum AlarmType {
@@ -189,6 +197,10 @@ enum AlarmType {
   ALARM_TYPE_NO_POWER = 4;
   ALARM_TYPE_HEATER_OVERLOADED_BROKEN = 5;
   ALARM_TYPE_ELECTRICAL_HEATER_BROKEN = 6;
+  ALARM_TYPE_NO_WATER = 7;
+  ALARM_TYPE_HIGH_VOLTAGE = 8;
+  ALARM_TYPE_LOW_VOLTAGE = 9;
+  ALARM_TYPE_EMERGENCY_STOPPED = 10;
 }
 
 enum AlarmChangeDirection {

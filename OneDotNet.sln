@@ -110,13 +110,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeothermalResearchInstitute
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9578F6A5-5C44-46F3-9965-DEF4D39FC5D5}"
 	ProjectSection(SolutionItems) = preProject
-		GeothermalResearchInstitute\docs\上位机设计要求.docx = GeothermalResearchInstitute\docs\上位机设计要求.docx
-		GeothermalResearchInstitute\docs\上位机设计要求.pdf = GeothermalResearchInstitute\docs\上位机设计要求.pdf
-		GeothermalResearchInstitute\docs\地热院项目下位机通信文档.docx = GeothermalResearchInstitute\docs\地热院项目下位机通信文档.docx
-		GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf = GeothermalResearchInstitute\docs\地热院项目下位机通信文档.pdf
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统上位机设计要求.docx = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统上位机设计要求.docx
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统上位机设计要求.pdf = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统上位机设计要求.pdf
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统下位机通信文档.docx = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统下位机通信文档.docx
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统下位机通信文档.pdf = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统下位机通信文档.pdf
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统调试说明.docx = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统调试说明.docx
+		GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统调试说明.pdf = GeothermalResearchInstitute\docs\浅层地温能测试仪远程监控系统调试说明.pdf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerilogLab", "codelab\SerilogLab\SerilogLab.csproj", "{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogLab", "codelab\SerilogLab\SerilogLab.csproj", "{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

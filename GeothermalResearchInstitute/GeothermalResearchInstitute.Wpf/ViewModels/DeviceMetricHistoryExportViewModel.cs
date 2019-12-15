@@ -132,10 +132,21 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),
                         Encoding.UTF8);
 
-                    // TODO: Write it.
+                    await sw
+                        .WriteLineAsync(
+                            "出水温度（摄氏度）,回水温度（摄氏度）,加热器出水温度（摄氏度）,"
+                            + "环境温度（摄氏度）,出水压力（米）,回水压力（米）,"
+                            + "加热器功率（千瓦）,水泵流量（立方米/小时）")
+                        .ConfigureAwait(true);
                     foreach (Metric m in metrics)
                     {
-                        await sw.WriteLineAsync(m.ToString()).ConfigureAwait(true);
+                        await sw
+                            .WriteLineAsync(
+                                $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
+                                + $"{m.HeaterOutputWaterCelsiusDegree:F2},{m.EnvironmentCelsiusDegree:F2},"
+                                + $"{m.OutputWaterPressureMeter:F2},{m.InputWaterPressureMeter:F2},"
+                                + $"{m.HeaterPowerKilowatt:F2},{m.WaterPumpFlowRateCubicMeterPerHour:F2}")
+                            .ConfigureAwait(true);
                     }
                 }
             }

@@ -159,7 +159,44 @@ core.workflow(
 # TODO(zhangshuai.ustc): Add https://github.com/fallin/Itc4net/tree/master/src/Itc4net
 # and then fix Clocks.IntervalTreeClocks
 
-# TODO(zhangshuai.ustc): Add https://github.com/xceedsoftware/wpftoolkit
+# TODO(zhangshuai.ustc): WIP https://github.com/xceedsoftware/wpftoolkit
+core.workflow(
+    name = "com_github_xceedsoftware_wpftoolkit",
+    origin = git.github_origin(
+        url = "https://github.com/xceedsoftware/wpftoolkit",
+        ref = "1e0b826e1fca8cdb2bb4640194c906ac23e53c2b",  # 3.7.0@2019-11-26
+    ),
+    destination = DESTINATION,
+    origin_files = glob(
+        [
+            ".gitignore",
+            "README.md",
+            "license.md",
+            "ExtendedWPFToolkitSolution/Src/Xceed.Wpf.Toolkit/**",
+        ]
+    ),
+    destination_files = glob(
+        [
+            "third_party/ExtendedWPFToolkit/Xceed.Wpf.Toolkit/**",
+            "third_party/ExtendedWPFToolkit/.gitignore",
+            "third_party/ExtendedWPFToolkit/README.md",
+            "third_party/ExtendedWPFToolkit/LICENSE.md",
+        ],
+        exclude = [
+            "**/*.csproj",
+        ],
+    ),
+    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
+    transformations = [
+        core.move(".gitignore", "third_party/ExtendedWPFToolkit/.gitignore"),
+        core.move("README.md", "third_party/ExtendedWPFToolkit/README.md"),
+        core.move("license", "third_party/ExtendedWPFToolkit/LICENSE.md"),
+        core.move(
+            "ExtendedWPFToolkitSolution/Src/Xceed.Wpf.Toolkit/",
+            "third_party/ExtendedWPFToolkit/Xceed.Wpf.Toolkit/"
+        ),
+    ],
+)
 
 # third_party/CRC32.NET/native folder is from https://cdn.machinezoo.com/download/crc32c/crc32c-hw-1.0.5.7z
 core.workflow(

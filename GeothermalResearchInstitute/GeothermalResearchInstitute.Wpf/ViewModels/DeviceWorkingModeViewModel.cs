@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -28,13 +30,17 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             DeviceWorkingMode.WinterSituation,
         };
 
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private WorkingMode currentWorkingMode;
         private DeviceWorkingMode selectedWorkingMode;
 
-        public DeviceWorkingModeViewModel(DeviceService.DeviceServiceClient client)
+        public DeviceWorkingModeViewModel(
+            IOptions<CoreOptions> coreOptions,
+            DeviceService.DeviceServiceClient client)
         {
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.UpdateDeviceWorkingModeCommand = new DelegateCommand(
                 this.ExecuteUpdateDeviceWorkingModeCommand, this.CanUpdateDeviceWorkingModeCommand);
@@ -88,7 +94,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
             }
             catch (RpcException e)
             {
@@ -112,7 +118,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         },
                         UpdateMask = FieldMask.FromString<WorkingMode>("device_working_mode"),
                     },
-                    deadline: DateTime.UtcNow.AddSeconds(5));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
                 this.SelectedDeviceWorkingMode = DeviceWorkingMode.Unspecified;
             }
             catch (RpcException e)

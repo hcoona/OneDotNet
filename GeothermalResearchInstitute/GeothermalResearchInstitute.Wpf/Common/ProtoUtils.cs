@@ -7,7 +7,7 @@ using System;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
 
-namespace GeothermalResearchInstitute.Wpf.ViewModels
+namespace GeothermalResearchInstitute.Wpf.Common
 {
     public static class ProtoUtils
     {

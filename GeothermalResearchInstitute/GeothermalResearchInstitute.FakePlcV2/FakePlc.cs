@@ -336,13 +336,17 @@ namespace GeothermalResearchInstitute.FakePlcV2
 
         private PlcFrame CreateGetAlarmResponseFrame()
         {
-            byte[] responseContent = new byte[0x06];
+            byte[] responseContent = new byte[0x0A];
             responseContent[0] = (byte)(this.Alarm.LowFlowRate ? 0x01 : 0x00);
             responseContent[1] = (byte)(this.Alarm.HighHeaterPressure ? 0x01 : 0x00);
             responseContent[2] = (byte)(this.Alarm.LowHeaterPressure ? 0x01 : 0x00);
             responseContent[3] = (byte)(this.Alarm.NoPower ? 0x01 : 0x00);
             responseContent[4] = (byte)(this.Alarm.HeaterOverloadedBroken ? 0x01 : 0x00);
             responseContent[5] = (byte)(this.Alarm.ElectricalHeaterBroken ? 0x01 : 0x00);
+            responseContent[6] = (byte)(this.Alarm.NoWater ? 0x01 : 0x00);
+            responseContent[7] = (byte)(this.Alarm.HighVoltage ? 0x01 : 0x00);
+            responseContent[8] = (byte)(this.Alarm.LowVoltage ? 0x01 : 0x00);
+            responseContent[9] = (byte)(this.Alarm.EmergencyStopped ? 0x01 : 0x00);
 
             return PlcFrame.Create(
                 PlcMessageType.GetAlarmResponse,

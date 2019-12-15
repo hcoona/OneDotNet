@@ -6,8 +6,10 @@
 using System;
 using System.Windows.Threading;
 using GeothermalResearchInstitute.v2;
+using GeothermalResearchInstitute.Wpf.Options;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Prism.Mvvm;
 using Prism.Regions;
 
@@ -17,19 +19,27 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         "Performance", "CA1822", Justification = "ViewModel.")]
     public class DeviceMetricBoardViewModel : BindableBase, IRegionMemberLifetime, INavigationAware
     {
-        private readonly DeviceService.DeviceServiceClient client;
         private readonly ILogger<DeviceMetricBoardViewModel> logger;
+        private readonly IOptions<CoreOptions> coreOptions;
+        private readonly DeviceService.DeviceServiceClient client;
         private readonly DispatcherTimer timer;
         private ViewModelContext viewModelContext;
         private Metric metric;
 
         public DeviceMetricBoardViewModel(
-            DeviceService.DeviceServiceClient client,
-            ILogger<DeviceMetricBoardViewModel> logger)
+            ILogger<DeviceMetricBoardViewModel> logger,
+            IOptions<CoreOptions> coreOptions,
+            DeviceService.DeviceServiceClient client)
         {
-            this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.DataBind, this.Timer_Tick, Dispatcher.CurrentDispatcher);
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+
+            this.timer = new DispatcherTimer(
+                TimeSpan.FromMilliseconds(this.coreOptions.Value.DefaultRefreshIntervalMillis),
+                DispatcherPriority.DataBind,
+                this.Timer_Tick,
+                Dispatcher.CurrentDispatcher);
         }
 
         public ViewModelContext ViewModelContext
@@ -107,7 +117,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddSeconds(1));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
             }
             catch (RpcException ex)
             {

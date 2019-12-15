@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using GeothermalResearchInstitute.Wpf.Views;
+using Grpc.Core;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -19,14 +22,20 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 {
     public class DeviceListViewModel : BindableBase
     {
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly IRegionManager regionManager;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
 
-        public DeviceListViewModel(IRegionManager regionManager, DeviceService.DeviceServiceClient client)
+        public DeviceListViewModel(
+            IOptions<CoreOptions> coreOptions,
+            IRegionManager regionManager,
+            DeviceService.DeviceServiceClient client)
         {
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
             this.client = client ?? throw new ArgumentNullException(nameof(client));
+
             this.ConfirmCommand = new DelegateCommand(this.ExecuteConfirmCommand);
         }
 
@@ -55,12 +64,19 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         public async Task LoadDevicesAsync()
         {
-            ListDevicesResponse response = await this.client.ListDevicesAsync(
-                new ListDevicesRequest(),
-                deadline: DateTime.UtcNow.AddMilliseconds(500));
-            this.Devices.Clear();
-            this.Devices.AddRange(response.Devices);
-            this.SelectedDevice = this.Devices.FirstOrDefault();
+            try
+            {
+                ListDevicesResponse response = await this.client.ListDevicesAsync(
+                    new ListDevicesRequest(),
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
+                this.Devices.Clear();
+                this.Devices.AddRange(response.Devices);
+                this.SelectedDevice = this.Devices.FirstOrDefault();
+            }
+            catch (RpcException e)
+            {
+                e.ShowMessageBox();
+            }
         }
 
         private void ExecuteConfirmCommand()

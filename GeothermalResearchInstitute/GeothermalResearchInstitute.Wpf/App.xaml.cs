@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Modules;
+using GeothermalResearchInstitute.Wpf.Options;
 using GeothermalResearchInstitute.Wpf.ViewModels;
 using GeothermalResearchInstitute.Wpf.Views;
 using Grpc.Core;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
@@ -70,6 +72,11 @@ namespace GeothermalResearchInstitute.Wpf
                 })
                 .ConfigureServices((context, builder) =>
                 {
+                    IHostEnvironment env = context.HostingEnvironment;
+                    IConfiguration config = context.Configuration;
+
+                    builder.Configure<CoreOptions>(config.GetSection("core"));
+
                     builder.AddSingleton(serviceProvider =>
                     {
                         return new GrpcLoggerAdapter(
@@ -77,7 +84,7 @@ namespace GeothermalResearchInstitute.Wpf
                             serviceProvider.GetRequiredService<ILogger<ClientBase>>());
                     });
 
-                    if (context.HostingEnvironment.IsDevelopment())
+                    if (env.IsDevelopment())
                     {
 #if DEBUG
                         builder.AddSingleton<
@@ -87,14 +94,17 @@ namespace GeothermalResearchInstitute.Wpf
                     }
                     else
                     {
-                        string hostname = context.Configuration.GetValue<string>("core:server.hostname");
-                        int port = context.Configuration.GetValue<int>("core:server.port");
-
-                        var channel = new Channel(hostname, port, ChannelCredentials.Insecure);
-                        var deviceServiceClient = new DeviceService.DeviceServiceClient(channel);
-
-                        builder.AddSingleton(channel);
-                        builder.AddSingleton(deviceServiceClient);
+                        builder.AddSingleton(provider =>
+                        {
+                            IOptions<CoreOptions> coreOptions =
+                                provider.GetRequiredService<IOptions<CoreOptions>>();
+                            return new Channel(
+                                coreOptions.Value.ServerGrpcAddress,
+                                coreOptions.Value.ServerGrpcPort,
+                                ChannelCredentials.Insecure);
+                        });
+                        builder.AddSingleton(provider =>
+                            new DeviceService.DeviceServiceClient(provider.GetRequiredService<Channel>()));
                     }
                 })
                 .Build();

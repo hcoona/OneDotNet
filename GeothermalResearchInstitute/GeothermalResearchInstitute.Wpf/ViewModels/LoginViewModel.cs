@@ -9,7 +9,9 @@ using System.Security.Principal;
 using System.Windows.Controls;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using Grpc.Core;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Validation;
@@ -18,16 +20,22 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 {
     public class LoginViewModel : ValidatableBindableBase, IRegionMemberLifetime
     {
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly IRegionManager regionManager;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private string username = string.Empty;
         private string password = string.Empty;
 
-        public LoginViewModel(IRegionManager regionManager, DeviceService.DeviceServiceClient client)
+        public LoginViewModel(
+            IOptions<CoreOptions> coreOptions,
+            IRegionManager regionManager,
+            DeviceService.DeviceServiceClient client)
         {
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
             this.client = client ?? throw new ArgumentNullException(nameof(client));
+
             this.LoginCommand = new DelegateCommand<PasswordBox>(this.ExecuteLoginCommand);
             this.NavigateBackCommand = new DelegateCommand(this.ExecuteNavigateBackCommand);
         }
@@ -72,7 +80,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         Username = this.Username,
                         Password = this.Password,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
                 this.ViewModelContext.Principal = new GenericPrincipal(
                     new GenericIdentity(response.Nickname, "Remote"),
                     new[] { ProtoUtils.ConvertToString(response.Role) });

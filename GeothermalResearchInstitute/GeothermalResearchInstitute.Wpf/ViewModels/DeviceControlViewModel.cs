@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -19,21 +21,25 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 {
     public class DeviceControlViewModel : BindableBase, IRegionMemberLifetime, INavigationAware
     {
-        private readonly DeviceService.DeviceServiceClient client;
         private readonly ILogger<DeviceControlViewModel> logger;
+        private readonly IOptions<CoreOptions> coreOptions;
+        private readonly DeviceService.DeviceServiceClient client;
         private readonly DispatcherTimer timer;
         private ViewModelContext viewModelContext;
         private Switch deviceSwitch;
         private Metric metric;
 
         public DeviceControlViewModel(
-            DeviceService.DeviceServiceClient client,
-            ILogger<DeviceControlViewModel> logger)
+            ILogger<DeviceControlViewModel> logger,
+            IOptions<CoreOptions> coreOptions,
+            DeviceService.DeviceServiceClient client)
         {
-            this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+
             this.timer = new DispatcherTimer(
-                TimeSpan.FromSeconds(1),
+                TimeSpan.FromMilliseconds(this.coreOptions.Value.DefaultRefreshIntervalMillis),
                 DispatcherPriority.DataBind,
                 this.Timer_Tick,
                 Dispatcher.CurrentDispatcher);
@@ -102,7 +108,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
             }
             catch (RpcException e)
             {
@@ -122,7 +128,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
                 this.Switch = response;
             }
             catch (RpcException e)
@@ -153,7 +159,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                             Switch = updatingSwitch,
                             UpdateMask = updatingMask,
                         },
-                        deadline: DateTime.UtcNow.AddMilliseconds(500));
+                        deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
             }
             catch (RpcException e)
             {
@@ -175,7 +181,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         Switch = updatingSwitch,
                         UpdateMask = updatingMask,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
             }
             catch (RpcException e)
             {

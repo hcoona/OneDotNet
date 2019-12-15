@@ -11,8 +11,11 @@ using System.Text;
 using System.Windows.Forms;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -24,20 +27,26 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
     {
         private static readonly TimeSpan[] CandidateExportTimeSpans = new TimeSpan[]
         {
-            TimeSpan.FromSeconds(1),
-            TimeSpan.FromSeconds(5),
-            TimeSpan.FromSeconds(15),
+            TimeSpan.FromSeconds(10),
         };
 
+        private readonly ILogger<DeviceMetricHistoryExportViewModel> logger;
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private DateTime startDateTime = DateTime.Now;
         private DateTime endDateTime = DateTime.Now;
         private TimeSpan selectedTimeSpan = CandidateExportTimeSpans[0];
 
-        public DeviceMetricHistoryExportViewModel(DeviceService.DeviceServiceClient client)
+        public DeviceMetricHistoryExportViewModel(
+            ILogger<DeviceMetricHistoryExportViewModel> logger,
+            IOptions<CoreOptions> coreOptions,
+            DeviceService.DeviceServiceClient client)
         {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.client = client ?? throw new ArgumentNullException(nameof(client));
+
             this.ExportCommand = new DelegateCommand(this.ExecuteExport, this.CanExport);
         }
 
@@ -73,86 +82,101 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private async void ExecuteExport()
         {
-            try
+            int errorCounter = 0;
+            var metrics = new List<Metric>();
+            string nextPageToken = null;
+            while (true)
             {
-                var metrics = new List<Metric>();
-                string nextPageToken = null;
-                while (true)
+                var request = new ListMetricsRequest
                 {
-                    var request = new ListMetricsRequest
-                    {
-                        DeviceId = this.ViewModelContext.SelectedDevice.Id,
-                        StartTime = Timestamp.FromDateTime(this.StartDateTime.ToUniversalTime()),
-                        EndTime = Timestamp.FromDateTime(this.EndDateTime.ToUniversalTime()),
-                        PageSize = 200,
-                    };
+                    DeviceId = this.ViewModelContext.SelectedDevice.Id,
+                    StartTime = Timestamp.FromDateTime(this.StartDateTime.ToUniversalTime()),
+                    EndTime = Timestamp.FromDateTime(this.EndDateTime.ToUniversalTime()),
+                    PageSize = this.coreOptions.Value.DefaultPageSize,
+                };
 
-                    if (nextPageToken != null)
-                    {
-                        request.PageToken = nextPageToken;
-                    }
+                if (nextPageToken != null)
+                {
+                    request.PageToken = nextPageToken;
+                }
 
-                    ListMetricsResponse response = await this.client.ListMetricsAsync(
+                ListMetricsResponse response;
+                try
+                {
+                    response = await this.client.ListMetricsAsync(
                         request,
-                        deadline: DateTime.UtcNow.AddSeconds(5));
-
-                    nextPageToken = response.NextPageToken;
-
-                    if (response.Metrics.Count == 0)
+                        deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
+                }
+                catch (RpcException e)
+                {
+                    this.logger.LogError(
+                        e,
+                        "Failed to list metrics for device {0}",
+                        this.ViewModelContext.SelectedDevice.Id);
+                    errorCounter++;
+                    if (errorCounter < this.coreOptions.Value.MaxErrorToleranceNum)
                     {
-                        break;
-                    }
-
-                    if (response.Metrics.Any(m => m.CreateTime.ToDateTimeOffset() < this.StartDateTime))
-                    {
-                        metrics.AddRange(response.Metrics.Where(
-                            m => m.CreateTime.ToDateTimeOffset() >= this.StartDateTime));
-                        break;
+                        continue;
                     }
                     else
                     {
-                        metrics.AddRange(response.Metrics);
-                    }
-
-                    if (string.IsNullOrEmpty(nextPageToken))
-                    {
-                        break;
+                        e.ShowMessageBox();
+                        return;
                     }
                 }
 
-                using var saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "逗号分隔文件(*.csv)|*.csv",
-                    AddExtension = true,
-                };
+                nextPageToken = response.NextPageToken;
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (response.Metrics.Count == 0)
                 {
-                    using var sw = new StreamWriter(
-                        File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),
-                        Encoding.UTF8);
+                    break;
+                }
 
-                    await sw
-                        .WriteLineAsync(
-                            "出水温度（摄氏度）,回水温度（摄氏度）,加热器出水温度（摄氏度）,"
-                            + "环境温度（摄氏度）,出水压力（米）,回水压力（米）,"
-                            + "加热器功率（千瓦）,水泵流量（立方米/小时）")
-                        .ConfigureAwait(true);
-                    foreach (Metric m in metrics)
-                    {
-                        await sw
-                            .WriteLineAsync(
-                                $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
-                                + $"{m.HeaterOutputWaterCelsiusDegree:F2},{m.EnvironmentCelsiusDegree:F2},"
-                                + $"{m.OutputWaterPressureMeter:F2},{m.InputWaterPressureMeter:F2},"
-                                + $"{m.HeaterPowerKilowatt:F2},{m.WaterPumpFlowRateCubicMeterPerHour:F2}")
-                            .ConfigureAwait(true);
-                    }
+                if (response.Metrics.Any(m => m.CreateTime.ToDateTimeOffset() < this.StartDateTime))
+                {
+                    metrics.AddRange(response.Metrics.Where(
+                        m => m.CreateTime.ToDateTimeOffset() >= this.StartDateTime));
+                    break;
+                }
+                else
+                {
+                    metrics.AddRange(response.Metrics);
+                }
+
+                if (string.IsNullOrEmpty(nextPageToken))
+                {
+                    break;
                 }
             }
-            catch (RpcException e)
+
+            using var saveFileDialog = new SaveFileDialog
             {
-                e.ShowMessageBox();
+                Filter = "逗号分隔文件(*.csv)|*.csv",
+                AddExtension = true,
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using var sw = new StreamWriter(
+                    File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),
+                    Encoding.UTF8);
+
+                await sw
+                    .WriteLineAsync(
+                        "出水温度（摄氏度）,回水温度（摄氏度）,加热器出水温度（摄氏度）,"
+                        + "环境温度（摄氏度）,出水压力（米）,回水压力（米）,"
+                        + "加热器功率（千瓦）,水泵流量（立方米/小时）")
+                    .ConfigureAwait(true);
+                foreach (Metric m in metrics)
+                {
+                    await sw
+                        .WriteLineAsync(
+                            $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
+                            + $"{m.HeaterOutputWaterCelsiusDegree:F2},{m.EnvironmentCelsiusDegree:F2},"
+                            + $"{m.OutputWaterPressureMeter:F2},{m.InputWaterPressureMeter:F2},"
+                            + $"{m.HeaterPowerKilowatt:F2},{m.WaterPumpFlowRateCubicMeterPerHour:F2}")
+                        .ConfigureAwait(true);
+                }
             }
         }
     }

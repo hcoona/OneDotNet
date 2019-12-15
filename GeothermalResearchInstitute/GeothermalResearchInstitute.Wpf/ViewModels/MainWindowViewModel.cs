@@ -3,6 +3,7 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.ComponentModel;
 using System.Windows;
 using Prism.Mvvm;
 
@@ -36,7 +37,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             set => this.ViewModelContext.BannerVisibility = value;
         }
 
-        private void ViewModelContext_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ViewModelContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.RaisePropertyChanged(e.PropertyName);
         }

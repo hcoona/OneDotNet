@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -32,6 +34,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             WaterPumpWorkingMode.FixedFrequency,
         };
 
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private WorkingMode currentWorkingMode;
@@ -39,9 +42,13 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private RunningParameter currentRunningParameter;
         private RunningParameter updatingRunningParameter;
 
-        public DeviceRunningParameterViewModel(DeviceService.DeviceServiceClient client)
+        public DeviceRunningParameterViewModel(
+            IOptions<CoreOptions> coreOptions,
+            DeviceService.DeviceServiceClient client)
         {
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.client = client ?? throw new ArgumentNullException(nameof(client));
+
             this.UpdateCommand = new DelegateCommand(this.ExecuteUpdateCommand);
         }
 
@@ -242,7 +249,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(1500));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
                 this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
 
                 this.CurrentWorkingMode = await this.client.GetWorkingModeAsync(
@@ -250,7 +257,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     {
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                     },
-                    deadline: DateTime.UtcNow.AddSeconds(5));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultReadTimeoutMillis));
                 this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
             }
             catch (RpcException e)
@@ -269,7 +276,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         DeviceId = this.ViewModelContext.SelectedDevice.Id,
                         RunningParameter = this.UpdatingRunningParameter,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(5000));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
                 this.UpdatingRunningParameter = this.CurrentRunningParameter.Clone();
 
                 this.CurrentWorkingMode = await this.client.UpdateWorkingModeAsync(
@@ -283,7 +290,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                             "water_pump_working_mode",
                         }),
                     },
-                    deadline: DateTime.UtcNow.AddSeconds(5));
+                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
                 this.UpdatingWorkingMode = this.CurrentWorkingMode.Clone();
             }
             catch (RpcException e)

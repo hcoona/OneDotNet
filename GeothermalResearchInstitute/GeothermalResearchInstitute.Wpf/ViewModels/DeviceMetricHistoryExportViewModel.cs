@@ -61,13 +61,21 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         public DateTime StartDateTime
         {
             get => this.startDateTime;
-            set => this.SetProperty(ref this.startDateTime, value);
+            set
+            {
+                this.SetProperty(ref this.startDateTime, value);
+                this.ExportCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public DateTime EndDateTime
         {
             get => this.endDateTime;
-            set => this.SetProperty(ref this.endDateTime, value);
+            set
+            {
+                this.SetProperty(ref this.endDateTime, value);
+                this.ExportCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public TimeSpan SelectedTimeSpan

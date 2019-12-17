@@ -35,7 +35,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         private readonly IOptions<CoreOptions> coreOptions;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
-        private DateTime startDateTime = DateTime.Now;
+        private DateTime startDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(1));
         private DateTime endDateTime = DateTime.Now;
         private TimeSpan selectedTimeSpan = CandidateExportTimeSpans[0];
 

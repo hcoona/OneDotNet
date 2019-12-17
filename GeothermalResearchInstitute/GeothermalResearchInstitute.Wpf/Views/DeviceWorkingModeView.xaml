@@ -23,36 +23,34 @@
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Viewbox Grid.Row="1" Grid.Column="1">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="当前系统工作模式：" />
-                    <TextBlock Text="{Binding CurrentDeviceWorkingMode, Converter={local:DeviceWorkingModeConverter}}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="设定系统工作模式：" />
-                    <TextBlock Text="{Binding SelectedDeviceWorkingMode, Converter={local:DeviceWorkingModeConverter}}" />
-                </StackPanel>
-                <ListBox
-                    BorderThickness="0"
-                    ItemsSource="{Binding DeviceWorkingModes}"
-                    SelectedItem="{Binding SelectedDeviceWorkingMode}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton
-                                Content="{Binding Path=., Converter={local:DeviceWorkingModeConverter}}"
-                                GroupName="SelectDeviceWorkingMode"
-                                IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button
-                    HorizontalAlignment="Right"
-                    Command="{Binding UpdateDeviceWorkingModeCommand}"
-                    Content="确定"
-                    IsDefault="True"
-                    Style="{StaticResource ButtonBaseStyle}" />
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="当前系统工作模式：" />
+                <TextBlock Text="{Binding CurrentDeviceWorkingMode, Converter={local:DeviceWorkingModeConverter}}" />
             </StackPanel>
-        </Viewbox>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="设定系统工作模式：" />
+                <TextBlock Text="{Binding SelectedDeviceWorkingMode, Converter={local:DeviceWorkingModeConverter}}" />
+            </StackPanel>
+            <ListBox
+                BorderThickness="0"
+                ItemsSource="{Binding DeviceWorkingModes}"
+                SelectedItem="{Binding SelectedDeviceWorkingMode}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton
+                            Content="{Binding Path=., Converter={local:DeviceWorkingModeConverter}}"
+                            GroupName="SelectDeviceWorkingMode"
+                            IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button
+                HorizontalAlignment="Right"
+                Command="{Binding UpdateDeviceWorkingModeCommand}"
+                Content="确定"
+                IsDefault="True"
+                Style="{StaticResource ButtonBaseStyle}" />
+        </StackPanel>
     </Grid>
 </UserControl>

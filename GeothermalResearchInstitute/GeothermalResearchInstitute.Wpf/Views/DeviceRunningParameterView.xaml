@@ -22,299 +22,297 @@
             <RowDefinition Height="8*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Viewbox Grid.Row="1" Grid.Column="1">
-            <DockPanel>
-                <Button
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Button
+                HorizontalAlignment="Right"
+                Command="{Binding UpdateCommand}"
+                Content="确定"
+                DockPanel.Dock="Bottom"
+                IsDefault="True"
+                Style="{StaticResource ButtonBaseStyle}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="设定值" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="系统值" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="系统供水温度设定" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
                     HorizontalAlignment="Right"
-                    Command="{Binding UpdateCommand}"
-                    Content="确定"
-                    DockPanel.Dock="Bottom"
-                    IsDefault="True"
-                    Style="{StaticResource ButtonBaseStyle}" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+                    VerticalAlignment="Center"
+                    Text="夏季工况（Thout）" />
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingSummerHeaterCelsiusDegree, StringFormat={}{0:#0.0}}" />
                     <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
+                        Width="80"
                         VerticalAlignment="Center"
-                        Text="设定值" />
+                        Text="℃ (20.0-60.0)" />
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentSummerHeaterCelsiusDegree, StringFormat={}{0:#0.0}℃}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="（稳定工况）" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="冬季工况（Tcout）" />
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingWinterHeaterCelsiusDegree, StringFormat={}{0:#0.0}}" />
                     <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
+                        Width="80"
                         VerticalAlignment="Center"
-                        Text="系统值" />
+                        Text="℃ (2.0-60.0)" />
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentWinterHeaterCelsiusDegree, StringFormat={}{0:#0.0}℃}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="冷、热量设定" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="冷量（Qc）" />
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingColdPowerKilowatt, StringFormat={}{0:#0.0}}" />
                     <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
+                        Width="80"
                         VerticalAlignment="Center"
-                        Text="系统供水温度设定" />
+                        Text="kW (0-11)" />
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentColdPowerKilowatt, StringFormat={}{0:#0.0}kW}" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="（稳定热流）" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="热量（Qh）" />
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingWarmPowerKilowatt, StringFormat={}{0:#0.0}}" />
                     <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
+                        Width="80"
                         VerticalAlignment="Center"
-                        Text="夏季工况（Thout）" />
-                    <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalContentAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingSummerHeaterCelsiusDegree, StringFormat={}{0:#0.0}}" />
-                        <TextBlock
-                            Width="80"
-                            VerticalAlignment="Center"
-                            Text="℃ (20.0-60.0)" />
-                    </StackPanel>
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentSummerHeaterCelsiusDegree, StringFormat={}{0:#0.0}℃}" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="（稳定工况）" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="冬季工况（Tcout）" />
-                    <StackPanel
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalContentAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingWinterHeaterCelsiusDegree, StringFormat={}{0:#0.0}}" />
-                        <TextBlock
-                            Width="80"
-                            VerticalAlignment="Center"
-                            Text="℃ (2.0-60.0)" />
-                    </StackPanel>
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentWinterHeaterCelsiusDegree, StringFormat={}{0:#0.0}℃}" />
-                    <TextBlock
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="冷、热量设定" />
-                    <TextBlock
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="冷量（Qc）" />
-                    <StackPanel
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalContentAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingColdPowerKilowatt, StringFormat={}{0:#0.0}}" />
-                        <TextBlock
-                            Width="80"
-                            VerticalAlignment="Center"
-                            Text="kW (0-11)" />
-                    </StackPanel>
-                    <TextBlock
-                        Grid.Row="3"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentColdPowerKilowatt, StringFormat={}{0:#0.0}kW}" />
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="（稳定热流）" />
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="热量（Qh）" />
-                    <StackPanel
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalContentAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingWarmPowerKilowatt, StringFormat={}{0:#0.0}}" />
-                        <TextBlock
-                            Width="80"
-                            VerticalAlignment="Center"
-                            Text="kW (0-12)" />
-                    </StackPanel>
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentWarmPowerKilowatt, StringFormat={}{0:#0.0}kW}" />
-                    <TextBlock
-                        Grid.Row="5"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="系统流量调节" />
-                    <ListBox
-                        Grid.Row="5"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        HorizontalContentAlignment="Center"
-                        BorderThickness="0"
-                        ItemsSource="{Binding DeviceFlowRateControlModes}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        SelectedItem="{Binding UpdatingFlowRateControlMode}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <RadioButton
-                                    Width="100"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding Path=., Converter={local:DeviceFlowRateControlModeConverter}}"
-                                    GroupName="FlowMode"
-                                    IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <TextBlock
-                        Grid.Row="5"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentFlowRateControlMode, Converter={local:DeviceFlowRateControlModeConverter}}" />
-                    <TextBlock
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="水泵运行模式" />
-                    <ListBox
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        HorizontalContentAlignment="Center"
-                        BorderThickness="0"
-                        ItemsSource="{Binding WaterPumpWorkingModes}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        SelectedItem="{Binding UpdatingWaterPumpWorkingMode}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <RadioButton
-                                    Width="100"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding Path=., Converter={local:WaterPumpWorkingModeConverter}}"
-                                    GroupName="WaterPumpMode"
-                                    IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <TextBlock
-                        Grid.Row="6"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding CurrentWaterPumpWorkingMode, Converter={local:WaterPumpWorkingModeConverter}}" />
-                    <StackPanel
-                        Grid.Row="7"
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingWaterPumpFlowRateCubicMeterPerHour}" />
-                        <TextBlock Width="80" VerticalAlignment="Center">
-                            m<Run BaselineAlignment="TextTop" FontSize="10">3</Run>
-                            /h</TextBlock>
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Row="7"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBox
-                            VerticalAlignment="Center"
-                            Style="{StaticResource TextBoxBaseStyle}"
-                            Text="{Binding UpdatingWaterPumpFrequencyHertz}" />
-                        <TextBlock Width="80" VerticalAlignment="Center">
-                            Hz(0-50)
-                        </TextBlock>
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Row="7"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentWaterPumpFlowRateCubicMeterPerHourVisibility}">
-                            <TextBlock
+                        Text="kW (0-12)" />
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentWarmPowerKilowatt, StringFormat={}{0:#0.0}kW}" />
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="系统流量调节" />
+                <ListBox
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    HorizontalContentAlignment="Center"
+                    BorderThickness="0"
+                    ItemsSource="{Binding DeviceFlowRateControlModes}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    SelectedItem="{Binding UpdatingFlowRateControlMode}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                Width="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="{Binding CurrentWaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.0}}" />
-                            <TextBlock VerticalAlignment="Center">
-                                m<Run BaselineAlignment="TextTop" FontSize="10">3</Run>
-                                /h</TextBlock>
-                        </StackPanel>
+                                VerticalContentAlignment="Center"
+                                Content="{Binding Path=., Converter={local:DeviceFlowRateControlModeConverter}}"
+                                GroupName="FlowMode"
+                                IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentFlowRateControlMode, Converter={local:DeviceFlowRateControlModeConverter}}" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="水泵运行模式" />
+                <ListBox
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    HorizontalContentAlignment="Center"
+                    BorderThickness="0"
+                    ItemsSource="{Binding WaterPumpWorkingModes}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    SelectedItem="{Binding UpdatingWaterPumpWorkingMode}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton
+                                Width="100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="{Binding Path=., Converter={local:WaterPumpWorkingModeConverter}}"
+                                GroupName="WaterPumpMode"
+                                IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentWaterPumpWorkingMode, Converter={local:WaterPumpWorkingModeConverter}}" />
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingWaterPumpFlowRateCubicMeterPerHour}" />
+                    <TextBlock Width="80" VerticalAlignment="Center">
+                        m<Run BaselineAlignment="TextTop" FontSize="10">3</Run>
+                        /h</TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBox
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBoxBaseStyle}"
+                        Text="{Binding UpdatingWaterPumpFrequencyHertz}" />
+                    <TextBlock Width="80" VerticalAlignment="Center">
+                        Hz(0-50)
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentWaterPumpFlowRateCubicMeterPerHourVisibility}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding CurrentWaterPumpFrequencyHertz, StringFormat={}{0:#0.0}Hz}"
-                            Visibility="{Binding CurrentWaterPumpFrequencyHertzVisibility}" />
+                            Text="{Binding CurrentWaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.0}}" />
+                        <TextBlock VerticalAlignment="Center">
+                            m<Run BaselineAlignment="TextTop" FontSize="10">3</Run>
+                            /h</TextBlock>
                     </StackPanel>
-                </Grid>
-            </DockPanel>
-        </Viewbox>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding CurrentWaterPumpFrequencyHertz, StringFormat={}{0:#0.0}Hz}"
+                        Visibility="{Binding CurrentWaterPumpFrequencyHertzVisibility}" />
+                </StackPanel>
+            </Grid>
+        </DockPanel>
     </Grid>
 </UserControl>

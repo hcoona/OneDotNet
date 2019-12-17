@@ -23,68 +23,66 @@
             <RowDefinition Height="3*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Viewbox Grid.Row="1" Grid.Column="1">
-            <DockPanel>
-                <Button
-                    HorizontalAlignment="Right"
-                    Command="{Binding ExportCommand}"
-                    Content="确定"
-                    DockPanel.Dock="Bottom"
-                    IsDefault="True"
-                    Style="{StaticResource ButtonBaseStyle}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Content="起始时间：" />
-                    <xwtk:DateTimePicker
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        ShowButtonSpinner="False"
-                        Value="{Binding StartDateTime}" />
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Content="结束时间：" />
-                    <xwtk:DateTimePicker
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        ShowButtonSpinner="False"
-                        Value="{Binding EndDateTime}" />
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Content="时间间隔：" />
-                    <ComboBox
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        ItemsSource="{Binding ExportTimeSpans}"
-                        SelectedItem="{Binding SelectedTimeSpan}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=TotalSeconds, StringFormat={}{0:# 秒}}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-            </DockPanel>
-        </Viewbox>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Button
+                HorizontalAlignment="Right"
+                Command="{Binding ExportCommand}"
+                Content="确定"
+                DockPanel.Dock="Bottom"
+                IsDefault="True"
+                Style="{StaticResource ButtonBaseStyle}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="起始时间：" />
+                <xwtk:DateTimePicker
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    ShowButtonSpinner="False"
+                    Value="{Binding StartDateTime}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="结束时间：" />
+                <xwtk:DateTimePicker
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    ShowButtonSpinner="False"
+                    Value="{Binding EndDateTime}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="时间间隔：" />
+                <ComboBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding ExportTimeSpans}"
+                    SelectedItem="{Binding SelectedTimeSpan}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=TotalSeconds, StringFormat={}{0:# 秒}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </DockPanel>
     </Grid>
 </UserControl>

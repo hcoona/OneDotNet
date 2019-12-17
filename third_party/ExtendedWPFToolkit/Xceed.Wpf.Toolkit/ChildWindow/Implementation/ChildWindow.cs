@@ -431,8 +431,8 @@ namespace Xceed.Wpf.Toolkit
                 }
                 else
                 {
-              //Focus first Focusable Child element of ChildWindow
-              var focusableChild = TreeHelper.FindChild<FrameworkElement>(this.Content as DependencyObject, x => x.Focusable);
+                    //Focus first Focusable Child element of ChildWindow
+                    var focusableChild = TreeHelper.FindChild<FrameworkElement>(this.Content as DependencyObject, x => x.Focusable);
                     if (focusableChild != null)
                     {
                         _hasChildren = true;

@@ -419,7 +419,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
             return true;
 #else
-            return TryWriteBytes(destination, value);
+            return BitConverter.TryWriteBytes(destination, value);
 #endif
         }
 

@@ -119,8 +119,8 @@ namespace Xceed.Wpf.Toolkit.Panels
               DispatcherPriority.Normal,
               (ThreadStart)delegate ()
             {
-                  this.UpdateSwitchTemplate();
-              });
+                this.UpdateSwitchTemplate();
+            });
         }
 
         #endregion

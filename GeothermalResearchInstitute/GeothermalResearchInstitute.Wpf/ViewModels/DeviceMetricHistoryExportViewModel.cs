@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -171,7 +172,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
                 await sw
                     .WriteLineAsync(
-                        "出水温度（摄氏度）,回水温度（摄氏度）,加热器出水温度（摄氏度）,"
+                        "采集时间,"
+                        + "出水温度（摄氏度）,回水温度（摄氏度）,加热器出水温度（摄氏度）,"
                         + "环境温度（摄氏度）,出水压力（米）,回水压力（米）,"
                         + "加热器功率（千瓦）,水泵流量（立方米/小时）")
                     .ConfigureAwait(true);
@@ -179,7 +181,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 {
                     await sw
                         .WriteLineAsync(
-                            $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
+                            $"{m.CreateTime.ToDateTimeOffset().ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)},"
+                            + $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
                             + $"{m.HeaterOutputWaterCelsiusDegree:F2},{m.EnvironmentCelsiusDegree:F2},"
                             + $"{m.OutputWaterPressureMeter:F2},{m.InputWaterPressureMeter:F2},"
                             + $"{m.HeaterPowerKilowatt:F2},{m.WaterPumpFlowRateCubicMeterPerHour:F2}")

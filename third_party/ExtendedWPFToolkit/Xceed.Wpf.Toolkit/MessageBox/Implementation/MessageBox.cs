@@ -1125,8 +1125,8 @@ namespace Xceed.Wpf.Toolkit
             {
                 Action action = () =>
                 {
-            //Focus first Focusable Child element of MessageBox to prevent Tab outside MessageBox.
-            var defaultButton = this.GetDefaultButtonFromDefaultResult();
+                    //Focus first Focusable Child element of MessageBox to prevent Tab outside MessageBox.
+                    var defaultButton = this.GetDefaultButtonFromDefaultResult();
                     if (defaultButton != null)
                     {
                         defaultButton.Focus();

@@ -18,14 +18,21 @@ namespace GeothermalResearchInstitute.PlcV2
             CancellationToken closingCancellationToken = this.closingCancellationTokenSource.Token;
             while (!closingCancellationToken.WaitHandle.WaitOne(300))
             {
-                DateTime now = DateTime.Now;
+                DateTime now = DateTime.UtcNow;
                 foreach (KeyValuePair<int, PlcRequestContext> entry in this.requestContextReceivingDictionary)
                 {
                     if (entry.Value.Deadline < now)
                     {
-                        if (this.requestContextReceivingDictionary.TryRemove(entry.Key, out PlcRequestContext requestContext))
+                        if (this.requestContextReceivingDictionary.TryRemove(
+                                entry.Key,
+                                out PlcRequestContext requestContext))
                         {
-                            this.logger.LogWarning("Request {0} to {1} exceed deadline.", entry.Key, this.RemoteEndPoint);
+                            this.logger.LogWarning(
+                                "Request {0} to {1} exceed deadline, deadline={2:u}, now1={3:u}, now2={4:u}",
+                                entry.Key,
+                                this.RemoteEndPoint,
+                                now,
+                                DateTime.UtcNow);
                             requestContext.TaskCompletionSource.TrySetException(new RpcException(new Status(
                                 StatusCode.DeadlineExceeded, string.Empty)));
                         }

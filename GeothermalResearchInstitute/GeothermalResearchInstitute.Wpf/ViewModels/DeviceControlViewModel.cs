@@ -150,6 +150,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             var updatingMask = FieldMask.FromString<Switch>(fieldMask);
             var updatingSwitch = new Switch();
             Switch.Descriptor.FindFieldByName(fieldMask).Accessor.SetValue(updatingSwitch, true);
+            DateTime now = DateTime.UtcNow;
+            DateTime deadline = now.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis);
             try
             {
                 this.Switch = await this.client.UpdateSwitchAsync(
@@ -159,11 +161,23 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                             Switch = updatingSwitch,
                             UpdateMask = updatingMask,
                         },
-                        deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
+                        deadline: deadline);
             }
             catch (RpcException e)
             {
-                e.ShowMessageBox();
+                if (e.StatusCode == StatusCode.DeadlineExceeded)
+                {
+                    this.logger.LogDebug(
+                        "Request deadline exceeded, send_time={0:u}, deadline={1:u}, now={2:u}",
+                        now,
+                        deadline,
+                        DateTime.UtcNow);
+                    e.ShowMessageBox();
+                }
+                else
+                {
+                    e.ShowMessageBox();
+                }
             }
         }
 
@@ -172,6 +186,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             var updatingMask = FieldMask.FromString<Switch>(fieldMask);
             var updatingSwitch = new Switch();
             Switch.Descriptor.FindFieldByName(fieldMask).Accessor.SetValue(updatingSwitch, false);
+            DateTime now = DateTime.UtcNow;
+            DateTime deadline = now.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis);
             try
             {
                 this.Switch = await this.client.UpdateSwitchAsync(
@@ -181,11 +197,23 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         Switch = updatingSwitch,
                         UpdateMask = updatingMask,
                     },
-                    deadline: DateTime.UtcNow.AddMilliseconds(this.coreOptions.Value.DefaultWriteTimeoutMillis));
+                    deadline: deadline);
             }
             catch (RpcException e)
             {
-                e.ShowMessageBox();
+                if (e.StatusCode == StatusCode.DeadlineExceeded)
+                {
+                    this.logger.LogDebug(
+                        "Request deadline exceeded, send_time={0:u}, deadline={1:u}, now={2:u}",
+                        now,
+                        deadline,
+                        DateTime.UtcNow);
+                    e.ShowMessageBox();
+                }
+                else
+                {
+                    e.ShowMessageBox();
+                }
             }
         }
     }

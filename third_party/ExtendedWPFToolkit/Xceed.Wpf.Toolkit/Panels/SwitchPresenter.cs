@@ -255,8 +255,8 @@ namespace Xceed.Wpf.Toolkit.Panels
                     string id = SwitchTemplate.GetID(element);
                     if (knownLocations.ContainsKey(id))
                     {
-                // ensure that the new locations have been resolved
-                if (newLocations == null)
+                        // ensure that the new locations have been resolved
+                        if (newLocations == null)
                         {
                             newLocations = this.SwitchParent.ActiveLayout.GetNewLocationsBasedOnTargetPlacement(this, _switchRoot);
                         }

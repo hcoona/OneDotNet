@@ -626,13 +626,13 @@ namespace Xceed.Wpf.Toolkit
                   throw new InvalidOperationException("Wrong TimeSpan format");
           }
 #else
-              // Display days and hours or totalHours
-              content = (!this.ShowDays && (span.Days != 0) && (info.Format == "hh"))
-                        ? Math.Truncate(Math.Abs(span.TotalHours)).ToString()
-                        : span.ToString(info.Format, this.CultureInfo.DateTimeFormat);
+                   // Display days and hours or totalHours
+                   content = (!this.ShowDays && (span.Days != 0) && (info.Format == "hh"))
+                             ? Math.Truncate(Math.Abs(span.TotalHours)).ToString()
+                             : span.ToString(info.Format, this.CultureInfo.DateTimeFormat);
 #endif
 
-              if (modifyInfo)
+                   if (modifyInfo)
                    {
                        if (info.Format == "dd")
                        {

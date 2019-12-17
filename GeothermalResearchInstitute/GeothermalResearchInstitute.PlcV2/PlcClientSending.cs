@@ -40,6 +40,11 @@ namespace GeothermalResearchInstitute.PlcV2
         {
             if (requestContext.Deadline?.ToUniversalTime() < utcNow)
             {
+                this.logger.LogDebug(
+                    "Request deadline exceeded, deadline={0:u}, now1={1:u}, now2={2:u}",
+                    requestContext.Deadline,
+                    utcNow,
+                    DateTime.UtcNow);
                 requestContext.TaskCompletionSource.SetException(new RpcException(
                     new Status(StatusCode.DeadlineExceeded, string.Empty)));
                 return;

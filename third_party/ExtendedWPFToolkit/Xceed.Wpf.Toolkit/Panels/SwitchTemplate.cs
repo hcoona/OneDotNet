@@ -55,12 +55,12 @@ namespace Xceed.Wpf.Toolkit.Panels
                 d.Dispatcher.BeginInvoke(DispatcherPriority.Loaded,
                     (ThreadStart)delegate ()
               {
-                    parentPresenter = VisualTreeHelperEx.FindAncestorByType<SwitchPresenter>(d);
-                    if (parentPresenter != null)
-                    {
-                        parentPresenter.RegisterID(e.NewValue as string, d as FrameworkElement);
-                    }
-                });
+                  parentPresenter = VisualTreeHelperEx.FindAncestorByType<SwitchPresenter>(d);
+                  if (parentPresenter != null)
+                  {
+                      parentPresenter.RegisterID(e.NewValue as string, d as FrameworkElement);
+                  }
+              });
             }
         }
 

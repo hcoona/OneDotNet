@@ -164,7 +164,7 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
                     if (property.DisplayName != null)
                     {
 #if !VS2008
-                var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>(property.PropertyDescriptor);
+                        var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>(property.PropertyDescriptor);
                         if (displayAttribute != null)
                         {
                             var canBeFiltered = displayAttribute.GetAutoGenerateFilter();
@@ -172,7 +172,7 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
                                 return false;
                         }
 #endif
-                property.HighlightedText = property.DisplayName.ToLower().Contains(text.ToLower()) ? text : null;
+                        property.HighlightedText = property.DisplayName.ToLower().Contains(text.ToLower()) ? text : null;
                         return (property.HighlightedText != null);
                     }
 

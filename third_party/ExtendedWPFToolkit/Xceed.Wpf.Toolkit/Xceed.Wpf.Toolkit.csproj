@@ -4,6 +4,7 @@
     <UseWpf>true</UseWpf>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />

@@ -3,6 +3,8 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Text.Json;
+
 namespace GeothermalResearchInstitute.Wpf.Options
 {
     public class CoreOptions
@@ -20,5 +22,10 @@ namespace GeothermalResearchInstitute.Wpf.Options
         public int DefaultRefreshIntervalMillis { get; set; } = 1000;
 
         public int MaxErrorToleranceNum { get; set; } = 5;
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

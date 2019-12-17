@@ -60,6 +60,11 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                 TimeSpan.FromMilliseconds(tasksOptions.Value.CollectMetricIntervalMillis),
                 TimeSpan.FromMilliseconds(tasksOptions.Value.CollectMetricIntervalMillis));
 
+            IOptionsSnapshot<CoreOptions> coreOptions =
+                this.serviceProvider.GetRequiredService<IOptionsSnapshot<CoreOptions>>();
+            this.logger.LogInformation("CoreOptions: {0}", coreOptions.Value);
+            this.logger.LogInformation("TasksOptions: {0}", tasksOptions.Value);
+
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
                 IOptionsSnapshot<DeviceOptions> deviceOptions = this.serviceProvider.GetRequiredService<IOptionsSnapshot<DeviceOptions>>();

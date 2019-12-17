@@ -7,8 +7,10 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using GeothermalResearchInstitute.Wpf.Common;
+using GeothermalResearchInstitute.Wpf.Options;
 using GeothermalResearchInstitute.Wpf.Views;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -18,12 +20,17 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
     public class WelcomeViewModel : BindableBase
     {
         private readonly ILogger<WelcomeViewModel> logger;
+        private readonly IOptions<CoreOptions> coreOptions;
         private readonly IRegionManager regionManager;
         private ViewModelContext viewModelContext;
 
-        public WelcomeViewModel(ILogger<WelcomeViewModel> logger, IRegionManager regionManager)
+        public WelcomeViewModel(
+            ILogger<WelcomeViewModel> logger,
+            IOptions<CoreOptions> coreOptions,
+            IRegionManager regionManager)
         {
-            this.logger = logger;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.coreOptions = coreOptions ?? throw new ArgumentNullException(nameof(coreOptions));
             this.regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
 
             this.NavigateToLoginViewCommand = new DelegateCommand(this.ExecuteNavigateToLoginView);
@@ -33,7 +40,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             this.NavigateToContactViewCommand = new DelegateCommand(
                 this.ExecuteNavigateToContactView);
 
-            this.logger.LogInformation("Hello World!");
+            this.logger.LogInformation("CoreOptions: {0}", this.coreOptions.Value);
         }
 
         public ViewModelContext ViewModelContext

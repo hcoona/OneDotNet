@@ -3,6 +3,8 @@
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System.Text.Json;
+
 namespace GeothermalResearchInstitute.ServerConsole.Options
 {
     public class CoreOptions
@@ -14,5 +16,10 @@ namespace GeothermalResearchInstitute.ServerConsole.Options
         public int DefaultReadTimeoutMillis { get; set; }
 
         public int MaxFakeDeviceNum { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

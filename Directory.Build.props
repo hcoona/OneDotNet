@@ -6,13 +6,15 @@
     <NetfxLegacyTargetFramework>net45</NetfxLegacyTargetFramework>
     <NetfxCurrentTargetFramework>net48</NetfxCurrentTargetFramework>
     <NetcoreCurrentTargetFramework>netcoreapp3.1</NetcoreCurrentTargetFramework>
-    <NetstandardCurrentTargetFramework>netstandard2.0</NetstandardCurrentTargetFramework>
+    <NetstandardLegacyTargetFramework>netstandard2.0</NetstandardLegacyTargetFramework>
+    <NetstandardCurrentTargetFramework>netstandard2.1</NetstandardCurrentTargetFramework>
 
     <DefaultExeTargetFrameworks>$(NetcoreCurrentTargetFramework)</DefaultExeTargetFrameworks>
 
-    <DefaultLibraryTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetfxLegacyTargetFramework);$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
-    <DefaultLibraryTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetstandardCurrentTargetFramework)</DefaultLibraryTargetFrameworks>
+    <DefaultLibraryTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetfxLegacyTargetFramework);$(NetstandardLegacyTargetFramework)</DefaultLibraryTargetFrameworks>
+    <DefaultLibraryTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetstandardLegacyTargetFramework)</DefaultLibraryTargetFrameworks>
 
+    <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">8.0</LangVersion>
     <Deterministic>true</Deterministic>
     <NoWarn>NU5048</NoWarn>
   </PropertyGroup>

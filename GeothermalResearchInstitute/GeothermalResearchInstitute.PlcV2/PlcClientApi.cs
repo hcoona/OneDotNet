@@ -323,7 +323,7 @@ namespace GeothermalResearchInstitute.PlcV2
                 switch (path)
                 {
                     case "summer_heater_celsius_degree":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(0, 4),
                             request.RunningParameter.SummerHeaterCelsiusDegree))
                         {
@@ -332,7 +332,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                         break;
                     case "winter_heater_celsius_degree":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(4, 4),
                             request.RunningParameter.WinterHeaterCelsiusDegree))
                         {
@@ -341,7 +341,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                         break;
                     case "cold_power_kilowatt":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(8, 4),
                             request.RunningParameter.ColdPowerKilowatt))
                         {
@@ -350,7 +350,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                         break;
                     case "warm_power_kilowatt":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(12, 4),
                             request.RunningParameter.WarmPowerKilowatt))
                         {
@@ -359,7 +359,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                         break;
                     case "water_pump_flow_rate_cubic_meter_per_hour":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(16, 4),
                             request.RunningParameter.WaterPumpFlowRateCubicMeterPerHour))
                         {
@@ -368,7 +368,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                         break;
                     case "water_pump_frequency_hertz":
-                        if (!BitConverter.TryWriteBytes(
+                        if (!TryWriteBytes(
                             bytes.AsSpan(20, 4),
                             request.RunningParameter.WaterPumpFrequencyHertz))
                         {
@@ -401,6 +401,26 @@ namespace GeothermalResearchInstitute.PlcV2
                 WaterPumpFlowRateCubicMeterPerHour = reader.ReadSingle(),
                 WaterPumpFrequencyHertz = reader.ReadSingle(),
             };
+        }
+
+        private static bool TryWriteBytes(Span<byte> destination, float value)
+        {
+#if NET48
+            if (destination.Length < sizeof(float))
+            {
+                return false;
+            }
+
+            byte[] bytes = BitConverter.GetBytes(value);
+            destination[0] = bytes[0];
+            destination[1] = bytes[1];
+            destination[2] = bytes[2];
+            destination[3] = bytes[3];
+
+            return true;
+#else
+            return TryWriteBytes(destination, value);
+#endif
         }
 
         private Task<PlcFrame> InvokeAsync(PlcFrame request, DateTime? deadline)

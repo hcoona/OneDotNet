@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(NetcoreCurrentTargetFramework)</TargetFramework>
+    <TargetFrameworks>$(NetfxCurrentTargetFramework);$(DefaultExeTargetFrameworks)</TargetFrameworks>
     <UseWPF>true</UseWPF>
 
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>

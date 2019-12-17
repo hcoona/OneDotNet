@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using GeothermalResearchInstitute.v2;
 using GeothermalResearchInstitute.Wpf.Common;
 using GeothermalResearchInstitute.Wpf.Options;
@@ -16,6 +15,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -149,13 +149,13 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 }
             }
 
-            using var saveFileDialog = new SaveFileDialog
+            var saveFileDialog = new SaveFileDialog
             {
                 Filter = "逗号分隔文件(*.csv)|*.csv",
                 AddExtension = true,
             };
 
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == true)
             {
                 using var sw = new StreamWriter(
                     File.Open(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Read),

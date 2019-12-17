@@ -9,7 +9,7 @@ if ([System.IO.Directory]::Exists($OutputRoot)) {
 }
 New-Item -Path $OutputRoot -ItemType Directory
 
-dotnet.exe publish -c "Release" -o (Join-Path $OutputRoot "GeothermalResearchInstitute/ServerConsole") (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/GeothermalResearchInstitute.ServerConsole")
+dotnet.exe publish -c "Release" -f "netcoreapp3.1" -o (Join-Path $OutputRoot "GeothermalResearchInstitute/ServerConsole") (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/GeothermalResearchInstitute.ServerConsole")
 if ($LASTEXITCODE -ne 0) {
   Write-Error "Failed to publish GeothermalResearchInstitute ServerConsole project."
 }
@@ -19,7 +19,7 @@ if ($LASTEXITCODE -ne 0) {
   Write-Error "Failed to publish GeothermalResearchInstitute FakePlcV2 project."
 }
 
-dotnet.exe publish -c "Release" -o (Join-Path $OutputRoot "GeothermalResearchInstitute/Wpf") (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/GeothermalResearchInstitute.Wpf")
+dotnet.exe publish -c "Release" -f "netcoreapp3.1" -o (Join-Path $OutputRoot "GeothermalResearchInstitute/Wpf") (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/GeothermalResearchInstitute.Wpf")
 if ($LASTEXITCODE -ne 0) {
   Write-Error "Failed to publish GeothermalResearchInstitute Wpf project."
 }

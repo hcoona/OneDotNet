@@ -9,9 +9,17 @@
     <PublishSingleFile>False</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
     <PublishTrimmed>False</PublishTrimmed>
+
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.7.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="MiqM.Xceed.Wpf.Toolkit.NETCore" Version="3.4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Condition="'$(Configuration)' != 'Release'" Include="Grpc.Core.Testing" Version="2.25.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="3.0.0" />
@@ -34,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
-    <ProjectReference Include="..\..\third_party\ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>

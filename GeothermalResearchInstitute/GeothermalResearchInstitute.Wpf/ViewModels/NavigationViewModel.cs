@@ -6,6 +6,7 @@
 using System;
 using GeothermalResearchInstitute.Wpf.Common;
 using GeothermalResearchInstitute.Wpf.Views;
+using Microsoft.Extensions.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,12 +15,15 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 {
     public class NavigationViewModel : BindableBase
     {
+        private readonly ILogger<NavigationViewModel> logger;
         private readonly IRegionManager regionManager;
         private ViewModelContext viewModelContext;
 
-        public NavigationViewModel(IRegionManager regionManager)
+        public NavigationViewModel(ILogger<NavigationViewModel> logger, IRegionManager regionManager)
         {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
+
             this.NavigateToDeviceControlView =
                 new DelegateCommand(this.ExecuteNavigateToDeviceControlView, this.CanNavigateToDeviceControlView);
             this.NavigateToDeviceWorkingModeView =
@@ -120,8 +124,15 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
         private void ExecuteNavigateToDeviceMetricHistoryExportView()
         {
-            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
-            this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
+            try
+            {
+                this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
+                this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError(e, "Failed to navigate to device metric history export view.");
+            }
         }
 
         private bool CanNavigateToDeviceAlarmHistoryView() => this.IsDeviceConnected;

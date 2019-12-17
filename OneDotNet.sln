@@ -120,6 +120,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9578F6A5-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogLab", "codelab\SerilogLab\SerilogLab.csproj", "{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xceed.Wpf.Toolkit", "third_party\ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj", "{6F79C3CF-633E-4645-A3B1-D9D6520526CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -321,6 +323,12 @@ Global
 		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -363,6 +371,7 @@ Global
 		{D724B7E1-7DCF-4BF2-AAF6-B4CDB743DB99} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{9578F6A5-5C44-46F3-9965-DEF4D39FC5D5} = {BB7EFF62-B03A-4996-9798-17DB422DD96F}
 		{B0AF0ADB-08FE-4312-BDDE-3C3562FB7E37} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
+		{6F79C3CF-633E-4645-A3B1-D9D6520526CD} = {E307CA64-13F5-446A-BCA5-C611A235A2E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

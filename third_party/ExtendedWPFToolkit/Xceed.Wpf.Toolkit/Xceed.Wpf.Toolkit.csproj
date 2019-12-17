@@ -3,8 +3,9 @@
     <TargetFrameworks>$(NetfxLegacyTargetFramework);$(NetcoreCurrentTargetFramework)</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    
     <DebugType>Full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />

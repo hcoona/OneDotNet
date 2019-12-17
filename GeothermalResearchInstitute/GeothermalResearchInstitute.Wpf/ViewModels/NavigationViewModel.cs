@@ -4,6 +4,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using GeothermalResearchInstitute.Wpf.Common;
 using GeothermalResearchInstitute.Wpf.Views;
 using Microsoft.Extensions.Logging;
@@ -129,7 +130,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
                 this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 this.logger.LogError(e, "Failed to navigate to device metric history export view.");
             }

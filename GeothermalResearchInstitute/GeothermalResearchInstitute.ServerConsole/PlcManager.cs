@@ -84,14 +84,15 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             while (!this.cancellationTokenSource.IsCancellationRequested)
             {
-                PlcClient client;
+                PlcClient client = null;
                 try
                 {
                     client = await this.plcServer.AcceptAsync().ConfigureAwait(true);
+                    this.logger.LogInformation("TCP connection established from {0}", client.RemoteEndPoint);
                 }
                 catch (SocketException e)
                 {
-                    this.logger.LogError(e, "Failed to accept PLC.");
+                    this.logger.LogError(e, "Failed to TCP accept PLC.");
                     continue;
                 }
                 catch (ObjectDisposedException)
@@ -111,10 +112,21 @@ namespace GeothermalResearchInstitute.ServerConsole
                 {
                     this.logger.LogWarning(
                         e,
-                        "Failed to send ConnectRequest to newly PLC {0}",
+                        "Failed to send ConnectRequest to newly PLC {0}, hang up.",
                         client.RemoteEndPoint);
+                    await client.Close().ConfigureAwait(true);
+                    client.Dispose();
                     continue;
                 }
+
+                client.OnClosed += (sender, args) =>
+                {
+                    this.logger.LogInformation(
+                        "Client(MAC={0}, EndPoint={1}) disconnected.",
+                        BitConverter.ToString(response.Id.ToByteArray()),
+                        client.RemoteEndPoint);
+                    this.PlcDictionary.TryRemove(response.Id, out PlcClient _);
+                };
 
                 if (this.PlcDictionary.TryAdd(response.Id, client))
                 {
@@ -122,14 +134,6 @@ namespace GeothermalResearchInstitute.ServerConsole
                         "Client(MAC={0}, EndPoint={1}) connected.",
                         BitConverter.ToString(response.Id.ToByteArray()),
                         client.RemoteEndPoint);
-                    client.OnClosed += (sender, args) =>
-                    {
-                        this.logger.LogInformation(
-                            "Client(MAC={0}, EndPoint={1}) disconnected.",
-                            BitConverter.ToString(response.Id.ToByteArray()),
-                            client.RemoteEndPoint);
-                        this.PlcDictionary.TryRemove(response.Id, out PlcClient _);
-                    };
                 }
                 else
                 {

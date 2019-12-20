@@ -191,7 +191,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             }
             else
             {
-                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+                endDateTime = DateTimeOffset.Parse(request.PageToken, CultureInfo.InvariantCulture);
             }
 
             endDateTime = endDateTime.ToUniversalTime();
@@ -290,7 +290,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
             }
             else
             {
-                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+                endDateTime = DateTimeOffset.Parse(request.PageToken, CultureInfo.InvariantCulture);
             }
 
             endDateTime = endDateTime.ToUniversalTime();

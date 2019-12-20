@@ -256,14 +256,14 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<ListMetricsResponse> ListMetricsAsync(ListMetricsRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            DateTime endDateTime;
+            DateTimeOffset endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
-                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.UtcNow;
+                endDateTime = request.EndTime?.ToDateTimeOffset() ?? DateTimeOffset.UtcNow;
             }
             else
             {
-                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+                endDateTime = DateTimeOffset.Parse(request.PageToken, CultureInfo.InvariantCulture);
             }
 
             endDateTime = endDateTime.ToUniversalTime();
@@ -280,7 +280,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
                 metrics.Add(new Metric
                 {
-                    CreateTime = Timestamp.FromDateTime(endDateTime),
+                    CreateTime = Timestamp.FromDateTimeOffset(endDateTime),
                     InputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
                     OutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
                     HeaterOutputWaterCelsiusDegree = RandomUtils.NextFloat(10, 20),
@@ -292,7 +292,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
             var response = new ListMetricsResponse
             {
-                NextPageToken = endDateTime.ToString(CultureInfo.InvariantCulture),
+                NextPageToken = endDateTime.ToUniversalTime().ToString(CultureInfo.InvariantCulture),
             };
             response.Metrics.AddRange(metrics);
 
@@ -359,14 +359,14 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
         public override AsyncUnaryCall<ListAlarmChangesResponse> ListAlarmChangesAsync(ListAlarmChangesRequest request, Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default)
         {
-            DateTime endDateTime;
+            DateTimeOffset endDateTime;
             if (string.IsNullOrEmpty(request.PageToken))
             {
-                endDateTime = request.EndTime?.ToDateTime() ?? DateTime.UtcNow;
+                endDateTime = request.EndTime?.ToDateTimeOffset() ?? DateTimeOffset.UtcNow;
             }
             else
             {
-                endDateTime = DateTime.Parse(request.PageToken, CultureInfo.InvariantCulture);
+                endDateTime = DateTimeOffset.Parse(request.PageToken, CultureInfo.InvariantCulture);
             }
 
             endDateTime = endDateTime.ToUniversalTime();
@@ -383,7 +383,7 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
                 alarmChanges.Add(new AlarmChange
                 {
-                    CreateTime = Timestamp.FromDateTime(endDateTime),
+                    CreateTime = Timestamp.FromDateTimeOffset(endDateTime),
                     AlarmType = (AlarmType)RandomUtils.Next(1, 7),
                     AlarmChangeDirection = (AlarmChangeDirection)RandomUtils.Next(1, 3),
                 });
@@ -391,8 +391,9 @@ namespace GeothermalResearchInstitute.Wpf.FakeClients
 
             var response = new ListAlarmChangesResponse
             {
-                NextPageToken = endDateTime.ToString(CultureInfo.InvariantCulture),
+                NextPageToken = endDateTime.ToUniversalTime().ToString(CultureInfo.InvariantCulture),
             };
+
             response.AlarmChanges.AddRange(alarmChanges);
 
             return TestCalls.AsyncUnaryCall(

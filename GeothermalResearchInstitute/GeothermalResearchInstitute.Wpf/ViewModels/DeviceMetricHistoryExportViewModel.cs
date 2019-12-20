@@ -172,14 +172,17 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                     .ConfigureAwait(true);
 
                 var metricInterval = TimeSpan.FromMinutes(this.IntervalMinutes);
-                DateTimeOffset lastKnownMetricCreateTime = DateTimeOffset.MinValue;
+
+                // Notice that the metrics is ordered by create_time descending.
+                DateTimeOffset lastKnownMetricCreateTime = DateTimeOffset.MaxValue;
+
                 foreach (Metric m in metrics)
                 {
                     DateTimeOffset createTimeThreshold = lastKnownMetricCreateTime
-                        .AddSeconds(metricInterval.TotalSeconds * 0.9);
+                        .Subtract(TimeSpan.FromSeconds(metricInterval.TotalSeconds * 0.9));
 
                     var createTime = m.CreateTime.ToDateTimeOffset();
-                    if (createTime < createTimeThreshold)
+                    if (createTimeThreshold < createTime)
                     {
                         continue;
                     }

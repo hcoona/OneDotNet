@@ -6,8 +6,8 @@
 
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
-    <PublishSingleFile>True</PublishSingleFile>
-    <PublishReadyToRun>True</PublishReadyToRun>
+    <PublishSingleFile>False</PublishSingleFile>
+    <PublishReadyToRun>False</PublishReadyToRun>
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
 
@@ -38,9 +38,20 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Condition="'$(Configuration)' != 'Release'" Include="..\GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj" />
-    <Compile Condition="'$(Configuration)' == 'Release'" Remove="FakeDevicesHostedService.cs" />
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ProjectReference Include="..\GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj" />
+    <None Update="appsettings.Development.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+    <None Update="appsettings.Staging.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <Compile Remove="FakeDevicesHostedService.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,14 +60,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
     <None Update="appsettings.Production.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </None>
-    <None Condition="'$(Configuration)' == 'Debug'" Update="appsettings.Development.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </None>
-    <None Condition="'$(Configuration)' == 'Debug'" Update="appsettings.Staging.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>

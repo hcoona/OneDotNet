@@ -13,8 +13,8 @@
     <DebugType>Full</DebugType>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Condition="'$(Configuration)' != 'Release'" Include="Grpc.Core.Testing" Version="2.25.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0" />
@@ -34,12 +34,30 @@
     <PackageReference Include="Unity.Container" Version="5.11.4" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
     <ProjectReference Include="..\..\third_party\ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <PackageReference Include="Grpc.Core.Testing" Version="2.25.0" />
+    <None Update="appsettings.Development.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+    <None Update="appsettings.Staging.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <Compile Remove="FakeClients\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Resources\device.png" />
     <Resource Include="Resources\device.png" />
@@ -52,6 +70,7 @@
     <None Remove="Resources\logo.png" />
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="appsettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -61,16 +80,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
-    <None Condition="'$(Configuration)' == 'Debug'" Update="appsettings.Development.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </None>
-    <None Condition="'$(Configuration)' == 'Debug'" Update="appsettings.Staging.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Condition="'$(Configuration)' == 'Release'" Remove="FakeClients\**" />
   </ItemGroup>
 </Project>

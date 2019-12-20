@@ -33,12 +33,12 @@
             ScrollViewer.ScrollChanged="Scroll_ScrollChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding CreateTime, Converter={local:TimestampConverter}, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Header="时间" />
-                <DataGridTextColumn Binding="{Binding OutputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="出水温度" />
-                <DataGridTextColumn Binding="{Binding InputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="进水温度" />
-                <DataGridTextColumn Binding="{Binding HeaterOutputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="加热器出水温度" />
-                <DataGridTextColumn Binding="{Binding EnvironmentCelsiusDegree, StringFormat={}{0:#0.0}}" Header="环境温度" />
-                <DataGridTextColumn Binding="{Binding WaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.0}}" Header="水泵流量" />
-                <DataGridTextColumn Binding="{Binding HeaterPowerKilowatt, StringFormat={}{0:#0.0}}" Header="加热功率" />
+                <DataGridTextColumn Binding="{Binding OutputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="出水温度℃" />
+                <DataGridTextColumn Binding="{Binding InputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="进水温度℃" />
+                <DataGridTextColumn Binding="{Binding HeaterOutputWaterCelsiusDegree, StringFormat={}{0:#0.0}}" Header="加热器出水温度℃" />
+                <DataGridTextColumn Binding="{Binding EnvironmentCelsiusDegree, StringFormat={}{0:#0.0}}" Header="环境温度℃" />
+                <DataGridTextColumn Binding="{Binding WaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.0}}" Header="水泵流量m3/h" />
+                <DataGridTextColumn Binding="{Binding HeaterPowerKilowatt, StringFormat={}{0:#0.0}}" Header="加热功率kW" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -612,3 +612,4 @@ $RECYCLE.BIN/
 !/dev-support/bin
 /.ionide
 /output
+*.tmp

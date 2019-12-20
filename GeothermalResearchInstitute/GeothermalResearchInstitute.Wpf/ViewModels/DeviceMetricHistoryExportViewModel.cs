@@ -170,16 +170,30 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                         + "环境温度（摄氏度）,出水压力（米）,回水压力（米）,"
                         + "加热器功率（千瓦）,水泵流量（立方米/小时）")
                     .ConfigureAwait(true);
+
+                var metricInterval = TimeSpan.FromMinutes(this.IntervalMinutes);
+                DateTimeOffset lastKnownMetricCreateTime = DateTimeOffset.MinValue;
                 foreach (Metric m in metrics)
                 {
+                    DateTimeOffset createTimeThreshold = lastKnownMetricCreateTime
+                        .AddSeconds(metricInterval.TotalSeconds * 0.9);
+
+                    var createTime = m.CreateTime.ToDateTimeOffset();
+                    if (createTime < createTimeThreshold)
+                    {
+                        continue;
+                    }
+
                     await sw
                         .WriteLineAsync(
-                            $"{m.CreateTime.ToDateTimeOffset().ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)},"
+                            $"{createTime.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)},"
                             + $"{m.OutputWaterCelsiusDegree:F2},{m.InputWaterCelsiusDegree:F2},"
                             + $"{m.HeaterOutputWaterCelsiusDegree:F2},{m.EnvironmentCelsiusDegree:F2},"
                             + $"{m.OutputWaterPressureMeter:F2},{m.InputWaterPressureMeter:F2},"
                             + $"{m.HeaterPowerKilowatt:F2},{m.WaterPumpFlowRateCubicMeterPerHour:F2}")
                         .ConfigureAwait(true);
+
+                    lastKnownMetricCreateTime = createTime;
                 }
             }
         }

@@ -26,18 +26,13 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         "Performance", "CA1822", Justification = "ViewModel.")]
     public class DeviceMetricHistoryExportViewModel : BindableBase
     {
-        private static readonly TimeSpan[] CandidateExportTimeSpans = new TimeSpan[]
-        {
-            TimeSpan.FromSeconds(10),
-        };
-
         private readonly ILogger<DeviceMetricHistoryExportViewModel> logger;
         private readonly IOptions<CoreOptions> coreOptions;
         private readonly DeviceService.DeviceServiceClient client;
         private ViewModelContext viewModelContext;
         private DateTime startDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(1));
         private DateTime endDateTime = DateTime.Now;
-        private TimeSpan selectedTimeSpan = CandidateExportTimeSpans[0];
+        private int intervalMinutes = 10;
 
         public DeviceMetricHistoryExportViewModel(
             ILogger<DeviceMetricHistoryExportViewModel> logger,
@@ -50,8 +45,6 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
 
             this.ExportCommand = new DelegateCommand(this.ExecuteExport, this.CanExport);
         }
-
-        public ICollection<TimeSpan> ExportTimeSpans => CandidateExportTimeSpans;
 
         public ViewModelContext ViewModelContext
         {
@@ -79,10 +72,10 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             }
         }
 
-        public TimeSpan SelectedTimeSpan
+        public int IntervalMinutes
         {
-            get => this.selectedTimeSpan;
-            set => this.SetProperty(ref this.selectedTimeSpan, value);
+            get => this.intervalMinutes;
+            set => this.SetProperty(ref this.intervalMinutes, value);
         }
 
         public DelegateCommand ExportCommand { get; }

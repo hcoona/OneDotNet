@@ -122,10 +122,12 @@ namespace GeothermalResearchInstitute.ServerConsole
                     builder.AddHostedService<GrpcHostedService>();
                     builder.AddHostedService<PlcHostedService>();
 
+#if DEBUG
                     if (env.IsDevelopment())
                     {
                         builder.AddHostedService<FakeDevicesHostedService>();
                     }
+#endif
                 })
                 .UseConsoleLifetime()
                 .Build();

@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using GeothermalResearchInstitute.FakePlcV2;
 using GeothermalResearchInstitute.ServerConsole.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 

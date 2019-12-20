@@ -17,3 +17,20 @@ steps:
     command: 'build'
     projects: '$(solution)'
     arguments: '-c $(buildConfiguration)'
+- task: PowerShell@2
+  inputs:
+    filePath: 'dev-support/bin/publish.ps1'
+    pwsh: true
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'output'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '6fdda69a-feef-492b-9027-6ca329dcade4/af8d15e0-742a-4658-a87e-06eb29c6e60e'
+    vstsFeedPackagePublish: 'OneDotNet'
+    versionOption: 'patch'

@@ -1,7 +1,6 @@
 param(
   [string] $Configuration = "Release",
-  [switch] $MyBuiltDos2Unix,
-  [switch] $BuildDos2Unix,
+  [switch] $SkipDos2Unix,
   [switch] $SkipGriPlc,
   [switch] $SkipGriServer,
   [switch] $SkipGriWpf
@@ -15,24 +14,6 @@ if ([System.IO.Directory]::Exists($OutputRoot)) {
   Remove-Item -Path $OutputRoot -Recurse -Force
 }
 New-Item -Path $OutputRoot -ItemType Directory
-
-if ($BuildDos2Unix) {
-  $DosToUnixRoot = Join-Path $OutputRoot "dos2unix"
-  Copy-Item `
-    (Join-Path $EnlistmentRoot "third_party/dos2unix-7.4.1") `
-    -Destination $DosToUnixRoot `
-    -Recurse
-  Push-Location $DosToUnixRoot
-  nmake.exe /f vc.mak
-  Pop-Location
-  $UnixToDosExec = Join-Path $DosToUnixRoot "dos2unix.exe"
-} else {
-  $UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/unix2dos.exe"
-}
-
-if ($MyBuiltDos2Unix) {
-  $UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/vs2019_dos2unix/unix2dos.exe"
-}
 
 if (-not $SkipGriServer) {
   dotnet.exe publish `
@@ -67,8 +48,10 @@ if (-not $SkipGriWpf) {
   }
 }
 
-Get-ChildItem -Path (Join-Path $OutputRoot "GeothermalResearchInstitute") -Filter "*.ini" -Recurse `
-  | ForEach-Object{ & "$UnixToDosExec" --verbose --add-bom $_.FullName }
+if (-not $SkipDos2Unix) {
+  Get-ChildItem -Path (Join-Path $OutputRoot "GeothermalResearchInstitute") `-Filter "*.ini" -Recurse `
+    | ForEach-Object{ & "$UnixToDosExec" --add-bom $_.FullName }
+}
 
 New-Item -Path (Join-Path $OutputRoot "GeothermalResearchInstitute/docs") -Type Directory
 Copy-Item -Path (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/docs/*") -Destination (Join-Path $OutputRoot "GeothermalResearchInstitute/docs") -Include "*.pdf", "*.exe", "*.msu" -Recurse

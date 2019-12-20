@@ -1,5 +1,6 @@
 param(
   [string] $Configuration = "Release",
+  [switch] $BuildDos2Unix,
   [switch] $SkipGriPlc,
   [switch] $SkipGriServer,
   [switch] $SkipGriWpf
@@ -8,13 +9,25 @@ param(
 $ErrorActionPreference = "Stop"
 
 $EnlistmentRoot = [System.IO.Path]::GetDirectoryName([System.IO.Path]::GetDirectoryName($PSScriptRoot))
-$UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/unix2dos.exe"
-
 $OutputRoot = (Join-Path $EnlistmentRoot "output")
 if ([System.IO.Directory]::Exists($OutputRoot)) {
   Remove-Item -Path $OutputRoot -Recurse -Force
 }
 New-Item -Path $OutputRoot -ItemType Directory
+
+if ($BuildDos2Unix) {
+  $DosToUnixRoot = Join-Path $OutputRoot "dos2unix"
+  Copy-Item `
+    (Join-Path $EnlistmentRoot "third_party/dos2unix-7.4.1") `
+    -Destination $DosToUnixRoot `
+    -Recurse
+  Push-Location $DosToUnixRoot
+  nmake.exe /f vc.mak
+  Pop-Location
+  $UnixToDosExec = Join-Path $DosToUnixRoot "dos2unix.exe"
+} else {
+  $UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/unix2dos.exe"
+}
 
 if (-not $SkipGriServer) {
   dotnet.exe publish `

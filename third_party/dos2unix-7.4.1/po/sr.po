@@ -1,0 +1,673 @@
+# Serbian translation for dos2unix.
+# Copyright (C) 2014 Erwin Waterlander (msgids)
+# This file is distributed under the same license as the dos2unix package.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2014—2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: dos2unix-7.3.4-beta4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-11 20:59+0100\n"
+"PO-Revision-Date: 2016-05-29 19:36+0200\n"
+"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: Serbian <(nothing)>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: dos2unix.c:79
+#, c-format
+msgid ""
+"Copyright (C) 2009-%d Erwin Waterlander\n"
+"Copyright (C) 1998      Christian Wurll (Version 3.1)\n"
+"Copyright (C) 1998      Bernd Johannes Wuebben (Version 3.0)\n"
+"Copyright (C) 1994-1995 Benjamin Lin\n"
+"All rights reserved.\n"
+"\n"
+msgstr ""
+"Ауторска права © 2009-%d Ервин Вотерландер\n"
+"Ауторска права © 1998      Кристиан Вирл (издање 3.1)\n"
+"Ауторска права © 1998      Берн Јохан Вјебен (Version 3.0)\n"
+"Ауторска права © 1994-1995 Бенџамин Лин\n"
+"Сва права су задржана.\n"
+"\n"
+
+#: dos2unix.c:212 dos2unix.c:249 unix2dos.c:149 unix2dos.c:209
+#, c-format
+msgid "Binary symbol 0x00%02X found at line %u\n"
+msgstr "Бинарни симбол 0x00%02X је пронађен у %u. реду\n"
+
+#: dos2unix.c:305 dos2unix.c:488 unix2dos.c:261 unix2dos.c:461
+#, c-format
+msgid "program error, invalid conversion mode %d\n"
+msgstr "програмска грешка, неисправан режим претварања %d\n"
+
+#: dos2unix.c:313 dos2unix.c:494 unix2dos.c:269 unix2dos.c:467
+#, c-format
+msgid "Converted %u out of %u line breaks.\n"
+msgstr "Претворио сам %u од %u прекида реда.\n"
+
+#: dos2unix.c:371 unix2dos.c:327
+#, c-format
+msgid "using code page %d.\n"
+msgstr "користим кодну страницу %d.\n"
+
+#: dos2unix.c:395 dos2unix.c:432 unix2dos.c:349 unix2dos.c:409
+#, c-format
+msgid "Binary symbol 0x%02X found at line %u\n"
+msgstr "Бинарни симбол 0x%02X је пронађен у %u. реду\n"
+
+#: dos2unix.c:530 unix2dos.c:503
+msgid "error: Value of environment variable DOS2UNIX_LOCALEDIR is too long.\n"
+msgstr "грешка: Вредност променљиве окружења „ДОС2UNIX_LOCALEDIR“ је предуга.\n"
+
+#: unix2dos.c:69
+#, c-format
+msgid ""
+"Copyright (C) 2009-%d Erwin Waterlander\n"
+"Copyright (C) 1994-1995 Benjamin Lin\n"
+"All rights reserved.\n"
+"\n"
+msgstr ""
+"Ауторска права © 2009-%d Ервин Вотерландер\n"
+"Ауторска права © 1994-1995 Бенџамин Лин\n"
+"Сва права су задржана.\n"
+"\n"
+
+#: common.c:81
+#, c-format
+msgid "Failed to write to temporary output file %s:"
+msgstr "Нисам успео да пишем у привремену излазну датотеку „%s“:"
+
+#: common.c:83
+#, c-format
+msgid "Failed to close input file %s:"
+msgstr "Нисам успео да затворим улазну датотеку „%s“:"
+
+#: common.c:613
+msgid ""
+"Redistribution and use in source and binary forms, with or without\n"
+"modification, are permitted provided that the following conditions\n"
+"are met:\n"
+"1. Redistributions of source code must retain the above copyright\n"
+"   notice, this list of conditions and the following disclaimer.\n"
+"2. Redistributions in binary form must reproduce the above copyright\n"
+"   notice in the documentation and/or other materials provided with\n"
+"   the distribution.\n"
+"\n"
+msgstr ""
+"Прерасподела и употреба у изворном и бинарном облику, са или без измена, су дозвољене ако су задовољени следећи услови:\n"
+"1. Расподела изворног кода мора да садржи горње обавештење о ауторском праву, овај списак услова и следећи опозив.\n"
+"2. Расподела у бинарном облику мора да понови обавештење горе наведеног ауторског права у документацији и/или у другом материјалу који долази уз дистрибуцију.\n"
+
+#: common.c:623
+msgid ""
+"THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY\n"
+"EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n"
+"IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE\n"
+"FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n"
+"CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT\n"
+"OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR\n"
+"BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,\n"
+"WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE\n"
+"OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN\n"
+"IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
+msgstr ""
+"ОВАЈ СОФТВЕР АУТОР ДОСТАВЉА „ТАКВИМ КАКАВ ЈЕСТЕ“ И СВЕ ИЗРАЖЕНЕ\n"
+"ИЛИ ПРИМЕЊЕНЕ ГАРАНЦИЈЕ, УКЉУЧУЈУЋИ, АЛИ НЕ ОГРАНИЧАВАЈУЋИ СЕ НА,\n"
+"ПРИМЕЊЕНЕ ГАРАНЦИЈЕ ТРЖИШНЕ ВРЕДНОСТИ И ПРИЛАГОЂЕНОСТИ ОДРЕЂЕНОЈ\n"
+"НАМЕНИ СУ ОДБАЧЕНЕ.  НИ У КОМ СЛУЧАЈУ НЕЋЕ АУТОР БИТИ ОДГОВОРАН ЗА\n"
+"БИЛО КАКВУ НЕПОСРЕДНУ, ПОСРЕДНУ, СЛУЧАЈНУ, ПОСЕБНУ, ПРИМЕРНУ, ИЛИ\n"
+"ПОСЛЕДИЧНУ ШТЕТУ (УКЉУЧУЈУЋИ, АЛИ НЕ ОГРАНИЧАВАЈУЋИ СЕ НА, ДОБАВЉАЊЕ\n"
+"ЗАМЕНСКИХ ДОБАРА ИЛИ УСЛУГА; ГУБИТАК УПОТРЕБЕ, ПОДАТАКА, ИЛИ ЗАРАДЕ;\n"
+"ИЛИ ПРЕКИД ПОСЛОВАЊА) БИЛО КАКО ИЗАЗВАНУ И ПРИ ТЕОРИЈИ ОДГОВОРНОСТИ,\n"
+"БИЛО У УГОВОРУ, ОБЈЕКТИВНОЈ ОДГОВОРНОСТИ, ИЛИ У КРИВУ (УКЉУЧУЈУЋИ\n"
+"НЕПАЖЊУ ИЛИ ДРУГО) ДОВОДЕЋИ НА БИЛО КОЈИ НАЧИН ДО ПРЕКИДА УПОТРЕБЕ\n"
+"ОВОГ СОФТВЕРА, ЧАК И АКО СТЕ ОБАВЕШТЕНИ О МОГУЋНОСТИ ТАКВИХ ШТЕТА.\n"
+
+#: common.c:648
+#, c-format
+msgid "Usage: %s [options] [file ...] [-n infile outfile ...]\n"
+msgstr "Употреба: %s [опције] [датотека ...] [-n ул.датотека изл.датотека ...]\n"
+
+#: common.c:650
+msgid " --allow-chown         allow file ownership change\n"
+msgstr ""
+
+#: common.c:652
+msgid " -ascii                convert only line breaks (default)\n"
+msgstr " -ascii                претвара само прекиде реда (основно)\n"
+
+#: common.c:653
+msgid " -iso                  conversion between DOS and ISO-8859-1 character set\n"
+msgstr " -iso                  претварање између скупа знакова ДОС-а и ИСО-8859-1\n"
+
+#: common.c:654
+msgid "   -1252               use Windows code page 1252 (Western European)\n"
+msgstr "   -1252               користи Виндоуз кодну страницу 1252 (западно-европски)\n"
+
+#: common.c:655
+msgid "   -437                use DOS code page 437 (US) (default)\n"
+msgstr "   -437                користи ДОС кодну страницу 437 (САД) (основно)\n"
+
+#: common.c:656
+msgid "   -850                use DOS code page 850 (Western European)\n"
+msgstr "   -850                користи ДОС кодну страницу 850 (западно-европски)\n"
+
+#: common.c:657
+msgid "   -860                use DOS code page 860 (Portuguese)\n"
+msgstr "   -860                користи ДОС кодну страницу 860 (португалски)\n"
+
+#: common.c:658
+msgid "   -863                use DOS code page 863 (French Canadian)\n"
+msgstr "   -863                користи ДОС кодну страницу 863 (канадски француски)\n"
+
+#: common.c:659
+msgid "   -865                use DOS code page 865 (Nordic)\n"
+msgstr "   -865                користи ДОС кодну страницу 865 (норвешки)\n"
+
+#: common.c:660
+msgid " -7                    convert 8 bit characters to 7 bit space\n"
+msgstr " -7                    претвара 8-битне знакове у 7-битне размаке\n"
+
+#: common.c:662
+msgid " -b, --keep-bom        keep Byte Order Mark\n"
+msgstr " -b, --keep-bom        задржава назнаку поретка бајта\n"
+
+#: common.c:664
+msgid " -b, --keep-bom        keep Byte Order Mark (default)\n"
+msgstr " -b, --keep-bom        задржава назнаку поретка бајта (основно)\n"
+
+#: common.c:665
+msgid ""
+" -c, --convmode        conversion mode\n"
+"   convmode            ascii, 7bit, iso, mac, default to ascii\n"
+msgstr ""
+" -c, --convmode        режим претварања\n"
+"   режим претварања    аскри, 7бита, исо, мек, подразумева аскри\n"
+
+#: common.c:668
+msgid ""
+" -D, --display-enc     set encoding of displayed text messages\n"
+"   encoding            ansi, unicode, utf8, default to ansi\n"
+msgstr ""
+" -D, --display-enc     подешава кодирање приказаних порука текста\n"
+"   кодирање            „ansi“, „unicode“, „utf8“, основно је „ansi“\n"
+
+#: common.c:671
+msgid " -f, --force           force conversion of binary files\n"
+msgstr " -f, --force           присиљава претварање бинарних датотека\n"
+
+#: common.c:674
+msgid " -gb, --gb18030        convert UTF-16 to GB18030\n"
+msgstr " -gb, --gb18030        претвара УТФ-16 у ГБ18030\n"
+
+#: common.c:677
+msgid " -h, --help            display this help text\n"
+msgstr " -h, --help            приказује овај текст помоћи\n"
+
+#: common.c:678
+msgid ""
+" -i, --info[=FLAGS]    display file information\n"
+"   file ...            files to analyze\n"
+msgstr ""
+" -i, --info[=ЗАСТАВЕ]  приказује податке о датотеци\n"
+"   file ...            датотеке за анализу\n"
+
+#: common.c:680
+msgid " -k, --keepdate        keep output file date\n"
+msgstr " -k, --keepdate        задржава датум излазне датотеке\n"
+
+#: common.c:681
+msgid " -L, --license         display software license\n"
+msgstr " -L, --license         приказује дозволу софтвера\n"
+
+#: common.c:682
+msgid " -l, --newline         add additional newline\n"
+msgstr " -l, --newline         додаје додатни нови ред\n"
+
+#: common.c:683
+msgid " -m, --add-bom         add Byte Order Mark (default UTF-8)\n"
+msgstr " -m, --add-bom         додаје назнаку поретка бајта (основно УТФ-8)\n"
+
+#: common.c:684
+msgid ""
+" -n, --newfile         write to new file\n"
+"   infile              original file in new-file mode\n"
+"   outfile             output file in new-file mode\n"
+msgstr ""
+" -n, --newfile         пише у нову датотеку\n"
+"   улазна датотека     изворна датотека у режиму нове датотеке\n"
+"   излазна датотека    излазна датотека у режиму нове датотеке\n"
+
+#: common.c:688
+msgid " --no-allow-chown      don't allow file ownership change (default)\n"
+msgstr ""
+
+#: common.c:690
+msgid ""
+" -o, --oldfile         write to old file (default)\n"
+"   file ...            files to convert in old-file mode\n"
+msgstr ""
+" -o, --oldfile         пише у стару датотеку (основно)\n"
+"   датотека ...        датотеке за претварање у режиму старе датотеке\n"
+
+#: common.c:692
+msgid " -q, --quiet           quiet mode, suppress all warnings\n"
+msgstr " -q, --quiet           тихи режим, потискује сва упозорења\n"
+
+#: common.c:694
+msgid " -r, --remove-bom      remove Byte Order Mark (default)\n"
+msgstr " -r, --remove-bom      уклања назнаку поретка бајта (основно)\n"
+
+#: common.c:696
+msgid " -r, --remove-bom      remove Byte Order Mark\n"
+msgstr " -r, --remove-bom      уклања назнаку поретка бајта\n"
+
+#: common.c:697
+msgid " -s, --safe            skip binary files (default)\n"
+msgstr " -s, --safe            прескаче бинарне датотеке (основно)\n"
+
+#: common.c:699
+msgid " -u,  --keep-utf16     keep UTF-16 encoding\n"
+msgstr " -u,  --keep-utf16     задржава УТФ-16 кодирање\n"
+
+#: common.c:700
+msgid " -ul, --assume-utf16le assume that the input format is UTF-16LE\n"
+msgstr " -ul, --assume-utf16le подразумева да је улазни запис „UTF-16LE“\n"
+
+#: common.c:701
+msgid " -ub, --assume-utf16be assume that the input format is UTF-16BE\n"
+msgstr " -ub, --assume-utf16be подразумева да је улазни запис „UTF-16BE“\n"
+
+#: common.c:703
+msgid " -v,  --verbose        verbose operation\n"
+msgstr " -v,  --verbose        опширне радње\n"
+
+#: common.c:705
+msgid " -F, --follow-symlink  follow symbolic links and convert the targets\n"
+msgstr " -F, --follow-symlink  прати симболичке везе и претвара мете\n"
+
+#: common.c:708
+msgid ""
+" -R, --replace-symlink replace symbolic links with converted files\n"
+"                         (original target files remain unchanged)\n"
+msgstr ""
+" -R, --replace-symlink замењује симболичке везе претвореним датотекама\n"
+"                         (изворне датотеке мете остају непромењене)\n"
+
+#: common.c:710
+msgid " -S, --skip-symlink    keep symbolic links and targets unchanged (default)\n"
+msgstr " -S, --skip-symlink    задржава неизмењеним симболичке везе и мете (основно)\n"
+
+#: common.c:712
+msgid " -V, --version         display version number\n"
+msgstr " -V, --version         приказује број издања\n"
+
+#: common.c:724
+msgid "DOS 16 bit version (WATCOMC).\n"
+msgstr "ДОС 16-битно издање (WATCOMC).\n"
+
+#: common.c:726
+msgid "DOS 16 bit version (TURBOC).\n"
+msgstr "ДОС 16-битно издање (TURBOC).\n"
+
+#: common.c:728
+msgid "DOS 32 bit version (WATCOMC).\n"
+msgstr "ДОС 32-битно издање (WATCOMC).\n"
+
+#: common.c:730
+msgid "DOS 32 bit version (DJGPP).\n"
+msgstr "ДОС 32-битно издање (DJGPP).\n"
+
+#: common.c:732
+msgid "MSYS version.\n"
+msgstr "МСИС издање.\n"
+
+#: common.c:734
+msgid "Cygwin version.\n"
+msgstr "Цигвин издање.\n"
+
+#: common.c:736
+msgid "Windows 64 bit version (MinGW-w64).\n"
+msgstr "Виндоуз 64-битно издање (MinGW-w64).\n"
+
+#: common.c:738
+msgid "Windows 32 bit version (WATCOMC).\n"
+msgstr "Виндоуз 32-битно издање (WATCOMC).\n"
+
+#: common.c:740
+msgid "Windows 32 bit version (MinGW-w64).\n"
+msgstr "Виндоуз 32-битно издање (MinGW-w64).\n"
+
+#: common.c:742
+msgid "Windows 32 bit version (MinGW).\n"
+msgstr "Виндоуз 32-битно издање (MinGW).\n"
+
+#: common.c:744
+#, c-format
+msgid "Windows 64 bit version (MSVC %d).\n"
+msgstr "Виндоуз 64-битно издање (MSVC %d).\n"
+
+#: common.c:746
+#, c-format
+msgid "Windows 32 bit version (MSVC %d).\n"
+msgstr "Виндоуз 32-битно издање (MSVC %d).\n"
+
+#: common.c:748
+msgid "OS/2 version (WATCOMC).\n"
+msgstr "ОС/2 издање (WATCOMC).\n"
+
+#: common.c:750
+msgid "OS/2 version (EMX).\n"
+msgstr "ОС/2 издање (EMX).\n"
+
+#: common.c:752
+#, c-format
+msgid "%s version.\n"
+msgstr "%s издање.\n"
+
+#: common.c:758
+msgid "With Unicode UTF-16 support.\n"
+msgstr "Са подршком Јуникода УТФ-16.\n"
+
+#: common.c:760
+msgid "Without Unicode UTF-16 support.\n"
+msgstr "Без подршке Јуникода УТФ-16.\n"
+
+#: common.c:764
+msgid "With Unicode file name support.\n"
+msgstr "Са подршком назива датотеке Јуникода.\n"
+
+#: common.c:766
+msgid "Without Unicode file name support.\n"
+msgstr "Без подршке назива датотеке Јуникода.\n"
+
+#: common.c:770
+msgid "With native language support.\n"
+msgstr "Са подршком матерњег језика.\n"
+
+#: common.c:775
+msgid "With support to preserve the user and group ownership of files.\n"
+msgstr ""
+
+#: common.c:777
+msgid "Without support to preserve the user and group ownership of files.\n"
+msgstr ""
+
+#: common.c:911
+msgid "Path for temporary output file is too long:"
+msgstr "Путања за привремену излазну датотеку је предуга:"
+
+#: common.c:1197 common.c:1204 common.c:1211 common.c:1218 common.c:1230
+#: common.c:1237
+#, c-format
+msgid "Writing %s BOM.\n"
+msgstr "Записујем %s НПБ-а.\n"
+
+#: common.c:1197 common.c:1250 common.c:1783 common.c:1804
+msgid "UTF-16LE"
+msgstr "УТФ-16ЛЕ"
+
+#: common.c:1204 common.c:1253 common.c:1785 common.c:1806
+msgid "UTF-16BE"
+msgstr "УТФ-16БЕ"
+
+#: common.c:1211 common.c:1230 common.c:1259 common.c:1796
+msgid "GB18030"
+msgstr "ГБ18030"
+
+#: common.c:1218 common.c:1237 common.c:1256 common.c:1798
+msgid "UTF-8"
+msgstr "УТФ-8"
+
+#: common.c:1282
+#, c-format
+msgid "Input file %s has %s BOM.\n"
+msgstr "Улазна датотека „%s“ има %s НПБ-а.\n"
+
+#: common.c:1323 common.c:1365
+msgid "Assuming UTF-16LE encoding.\n"
+msgstr "Подразумевам УТФ-16ЛЕ кодирање.\n"
+
+#: common.c:1327 common.c:1369
+msgid "Assuming UTF-16BE encoding.\n"
+msgstr "Подразумевам УТФ-16БЕ кодирање.\n"
+
+#: common.c:1514
+#, c-format
+msgid "Failed to open temporary output file: %s\n"
+msgstr "Нисам успео да отворим привремену излазну датотеку: %s\n"
+
+#: common.c:1526
+#, c-format
+msgid "using %s as temporary file\n"
+msgstr "користим „%s“ као привремену датотеку\n"
+
+#: common.c:1578 common.c:1606
+#, c-format
+msgid "Failed to change the permissions of temporary output file %s:"
+msgstr "Нисам успео да изменим овлашћења привремене излазне датотеке „%s“:"
+
+#: common.c:1594
+#, c-format
+msgid "The user and/or group ownership of file %s is not preserved.\n"
+msgstr ""
+
+#: common.c:1616
+#, c-format
+msgid "Failed to change the owner and group of temporary output file %s:"
+msgstr "Нисам успео да изменим власника и групу привремене излазне датотеке „%s“:"
+
+#: common.c:1664
+#, c-format
+msgid "problems resolving symbolic link '%s'\n"
+msgstr "проблеми решавања симболичке везе „%s“\n"
+
+#: common.c:1665 common.c:1697
+#, c-format
+msgid "          output file remains in '%s'\n"
+msgstr "          излазна датотека остаје у „%s“\n"
+
+#: common.c:1691
+#, c-format
+msgid "problems renaming '%s' to '%s':"
+msgstr "проблеми преименовања „%s“ у „%s“:"
+
+#: common.c:1695
+#, c-format
+msgid "          which is the target of symbolic link '%s'\n"
+msgstr "          који је мета симболичке везе „%s“\n"
+
+#: common.c:1758 common.c:1853
+#, c-format
+msgid "Skipping binary file %s\n"
+msgstr "Прескачем бинарну датотеку „%s“\n"
+
+#: common.c:1761 common.c:1856
+#, c-format
+msgid "code page %d is not supported.\n"
+msgstr "Кодна страница „%d“ није подржана.\n"
+
+#: common.c:1765 common.c:1860 common.c:1948
+#, c-format
+msgid "Skipping UTF-16 file %s, the size of wchar_t is %d bytes.\n"
+msgstr "Прескачем УТФ-16 датотеку „%s“, величина „wchar_t“-а је %d бајта.\n"
+
+#: common.c:1768 common.c:1863
+#, c-format
+msgid "Skipping UTF-16 file %s, an UTF-16 conversion error occurred on line %u.\n"
+msgstr "Прескачем УТФ-16 датотеку „%s“, дошло је од грешке УТФ-16 претварања у %u. реду.\n"
+
+#: common.c:1772 common.c:1867
+#, c-format
+msgid "Skipping UTF-16 file %s, UTF-16 conversion is not supported in this version of %s.\n"
+msgstr "Прескачем УТФ-16 датотеку „%s“, УТФ-16 претварање није подржано у овом издању „%s“.\n"
+
+#: common.c:1838 common.c:1937
+#, c-format
+msgid "Skipping %s, not a regular file.\n"
+msgstr "Прескачем „%s“, није обична датотека.\n"
+
+#: common.c:1842
+#, c-format
+msgid "Skipping %s, output file %s is a symbolic link.\n"
+msgstr "Прескачем „%s“, излазна датотека „%s“ је симболичка веза.\n"
+
+#: common.c:1844
+#, c-format
+msgid "Skipping symbolic link %s.\n"
+msgstr "Прескачем симболичку везу „%s“.\n"
+
+#: common.c:1847 common.c:1942
+#, c-format
+msgid "Skipping symbolic link %s, target is not a regular file.\n"
+msgstr "Прескачем симболичку везу „%s“, мета није обична датотека.\n"
+
+#: common.c:1850
+#, c-format
+msgid "Skipping %s, target of symbolic link %s is not a regular file.\n"
+msgstr "Прескачем „%s“, мета симболичке везе „%s“ није обична датотека.\n"
+
+#: common.c:1875
+#, c-format
+msgid "converting file %s to file %s in Unix format...\n"
+msgstr "претварам датотеку „%s“ у датотеку „%s“ у запису Јуникса...\n"
+
+#: common.c:1877
+#, c-format
+msgid "converting file %s to Unix format...\n"
+msgstr "претварам датотеку „%s“ у запису Јуникса...\n"
+
+#: common.c:1881
+#, c-format
+msgid "converting file %s to file %s in Mac format...\n"
+msgstr "претварам датотеку „%s“ у датотеку „%s“ у запису Мека...\n"
+
+#: common.c:1883
+#, c-format
+msgid "converting file %s to Mac format...\n"
+msgstr "претварам датотеку „%s“ у запису Мека...\n"
+
+#: common.c:1886
+#, c-format
+msgid "converting file %s to file %s in DOS format...\n"
+msgstr "претварам датотеку „%s“ у датотеку „%s“ у запису ДОС-а...\n"
+
+#: common.c:1888
+#, c-format
+msgid "converting file %s to DOS format...\n"
+msgstr "претварам датотеку „%s“ у запису ДОС-а...\n"
+
+#. TRANSLATORS:
+#. 1st %s is encoding of input file.
+#. 2nd %s is name of input file.
+#. 3rd %s is encoding of output file.
+#. 4th %s is name of output file.
+#. E.g.: converting UTF-16LE file in.txt to UTF-8 file out.txt in Unix format...
+#: common.c:1900
+#, c-format
+msgid "converting %s file %s to %s file %s in Unix format...\n"
+msgstr "претварам %s датотеку „%s“ у %s датотеку „%s“ у запису Јуникса...\n"
+
+#. TRANSLATORS:
+#. 1st %s is encoding of input file.
+#. 2nd %s is name of input file.
+#. 3rd %s is encoding of output (input file is overwritten).
+#. E.g.: converting UTF-16LE file foo.txt to UTF-8 Unix format...
+#: common.c:1907
+#, c-format
+msgid "converting %s file %s to %s Unix format...\n"
+msgstr "претварам %s датотеку „%s“ у %s запис Јуникса...\n"
+
+#: common.c:1911
+#, c-format
+msgid "converting %s file %s to %s file %s in Mac format...\n"
+msgstr "претварам %s датотеку „%s“ у %s датотеку „%s“ у запису Мека...\n"
+
+#: common.c:1913
+#, c-format
+msgid "converting %s file %s to %s Mac format...\n"
+msgstr "претварам %s датотеку „%s“ у %s запис Мека...\n"
+
+#: common.c:1916
+#, c-format
+msgid "converting %s file %s to %s file %s in DOS format...\n"
+msgstr "претварам %s датотеку „%s“ у %s датотеку „%s“ у запису Дос-а...\n"
+
+#: common.c:1918
+#, c-format
+msgid "converting %s file %s to %s DOS format...\n"
+msgstr "претварам %s датотеку „%s“ у %s запис Дос-а...\n"
+
+#: common.c:1925
+#, c-format
+msgid "problems converting file %s to file %s\n"
+msgstr "проблеми претварања датотеке „%s“ у датотеку „%s“\n"
+
+#: common.c:1927
+#, c-format
+msgid "problems converting file %s\n"
+msgstr "проблеми претварања датотеке „%s“\n"
+
+#: common.c:2062 common.c:2112
+#, c-format
+msgid "can not read from input file %s:"
+msgstr "не могу да читам из улазне датотеке „%s“:"
+
+#: common.c:2268
+#, c-format
+msgid "wrong flag '%c' for option -i or --info\n"
+msgstr "погрешна заставица „%c“ за опцију „-i“ или „--info“\n"
+
+#: common.c:2398 common.c:2441
+#, c-format
+msgid "active code page: %d\n"
+msgstr "радна кодна страница: %d\n"
+
+#: common.c:2453
+#, c-format
+msgid "invalid %s conversion mode specified\n"
+msgstr "наведен је неисправан „%s“ режим претварања\n"
+
+#: common.c:2461 common.c:2491
+#, c-format
+msgid "option '%s' requires an argument\n"
+msgstr "опција „%s“ захтева аргумент\n"
+
+#: common.c:2483
+#, c-format
+msgid "invalid %s display encoding specified\n"
+msgstr "наведено је неисправно кодирање „%s“ приказа\n"
+
+#: common.c:2503 common.c:2516 common.c:2583
+#, c-format
+msgid "target of file %s not specified in new-file mode\n"
+msgstr "мета датотеке „%s“ није наведена у режиму нове датотеке\n"
+
+#: common.c:2595
+#, c-format
+msgid "can not read from input file: %s\n"
+msgstr "не могу да читам из улазне датотеке: „%s“\n"
+
+#: common.c:2605 common.c:2617
+#, c-format
+msgid "can not write to output file: %s\n"
+msgstr "не могу да пишем у излазну датотеку: %s\n"
+
+#: common.c:2692
+msgid "error: Invalid surrogate pair. Missing low surrogate.\n"
+msgstr "грешка: Неисправан пар надометка. Недостаје нижи надометак.\n"
+
+#: common.c:2708
+msgid "error: Invalid surrogate pair. Missing high surrogate.\n"
+msgstr "грешка: Неисправан пар надометка. Недостаје виши надометак.\n"
+
+#~ msgid "Skipping UTF-16 file %s, the current locale character encoding is not UTF-8.\n"
+#~ msgstr "Прескачем УТФ-16 датотеку „%s“, кодни рспоред текућег језика није УТФ-8.\n"
+
+#~ msgid " -m, --add-bom         add UTF-8 Byte Order Mark\n"
+#~ msgstr " -m, --add-bom         додаје УТФ-8 назнаку поретка бајта\n"

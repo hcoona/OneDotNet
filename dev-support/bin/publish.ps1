@@ -63,7 +63,7 @@ if (-not $SkipGriWpf) {
 }
 
 Get-ChildItem -Path (Join-Path $OutputRoot "GeothermalResearchInstitute") -Filter "*.ini" -Recurse `
-  | ForEach-Object{ & "$UnixToDosExec" $_.FullName }
+  | ForEach-Object{ & "$UnixToDosExec" --verbose --add-bom $_.FullName }
 
 New-Item -Path (Join-Path $OutputRoot "GeothermalResearchInstitute/docs") -Type Directory
 Copy-Item -Path (Join-Path $EnlistmentRoot "GeothermalResearchInstitute/docs/*") -Destination (Join-Path $OutputRoot "GeothermalResearchInstitute/docs") -Include "*.pdf", "*.exe", "*.msu" -Recurse

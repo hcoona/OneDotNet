@@ -21,7 +21,7 @@ namespace GeothermalResearchInstitute.PlcV2
         GetRunningParameterResponse = 0x0501,
         UpdateRunningParameterRequest = 0x0600,
         GetWorkingModeRequest = 0x0700,
-        GetWorkingModeResponse = 0x0700,
+        GetWorkingModeResponse = 0x0701,
         UpdateWorkingModeRequest = 0x0800,
         GetAlarmRequest = 0x0900,
         GetAlarmResponse = 0x0901,

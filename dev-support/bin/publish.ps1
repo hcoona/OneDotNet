@@ -1,5 +1,6 @@
 param(
   [string] $Configuration = "Release",
+  [switch] $MyBuiltDos2Unix,
   [switch] $BuildDos2Unix,
   [switch] $SkipGriPlc,
   [switch] $SkipGriServer,
@@ -27,6 +28,10 @@ if ($BuildDos2Unix) {
   $UnixToDosExec = Join-Path $DosToUnixRoot "dos2unix.exe"
 } else {
   $UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/unix2dos.exe"
+}
+
+if ($MyBuiltDos2Unix) {
+  $UnixToDosExec = Join-Path $EnlistmentRoot "dev-support/bin/vs2019_dos2unix/unix2dos.exe"
 }
 
 if (-not $SkipGriServer) {

@@ -33,5 +33,5 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: '6fdda69a-feef-492b-9027-6ca329dcade4/af8d15e0-742a-4658-a87e-06eb29c6e60e'
-    vstsFeedPackagePublish: 'OneDotNet'
+    vstsFeedPackagePublish: 'one-dotnet'
     versionOption: 'patch'

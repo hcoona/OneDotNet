@@ -468,7 +468,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                                 new GetAlarmRequest(),
                                 DateTime.UtcNow.AddMilliseconds(
                                     coreOptions.Value.DefaultReadTimeoutMillis))
-                            .ConfigureAwait(true);
+                            .ConfigureAwait(false);
 
                         var m = new ModelAlarm
                         {
@@ -532,7 +532,7 @@ namespace GeothermalResearchInstitute.ServerConsole.GrpcServices
                                 new GetMetricRequest(),
                                 DateTime.UtcNow.AddMilliseconds(
                                     coreOptions.Value.DefaultReadTimeoutMillis))
-                            .ConfigureAwait(true);
+                            .ConfigureAwait(false);
 
                         var m = new ModelMetric
                         {

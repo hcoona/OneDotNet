@@ -103,7 +103,7 @@ namespace GeothermalResearchInstitute.PlcV2
             {
                 if (disposing)
                 {
-                    this.Close().ConfigureAwait(true).GetAwaiter().GetResult();
+                    this.Close().GetAwaiter().GetResult();
 
                     this.sendingBackgroundTask.Dispose();
                     this.receivingBackgroundTask.Dispose();

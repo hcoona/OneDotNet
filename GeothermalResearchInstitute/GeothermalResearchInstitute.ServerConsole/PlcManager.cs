@@ -61,13 +61,13 @@ namespace GeothermalResearchInstitute.ServerConsole
         public async Task StopAsync()
         {
             this.cancellationTokenSource.Cancel();
-            await this.backgroundTask.ConfigureAwait(true);
+            await this.backgroundTask.ConfigureAwait(false);
 
             foreach (ByteString id in this.PlcDictionary.Keys)
             {
                 if (this.PlcDictionary.TryRemove(id, out PlcClient client))
                 {
-                    await client.Close().ConfigureAwait(true);
+                    await client.Close().ConfigureAwait(false);
                     client.Dispose();
                 }
             }
@@ -87,7 +87,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 PlcClient client = null;
                 try
                 {
-                    client = await this.plcServer.AcceptAsync().ConfigureAwait(true);
+                    client = await this.plcServer.AcceptAsync().ConfigureAwait(false);
                     this.logger.LogInformation("TCP connection established from {0}", client.RemoteEndPoint);
                 }
                 catch (SocketException e)
@@ -106,7 +106,11 @@ namespace GeothermalResearchInstitute.ServerConsole
                 {
                     response = await client
                         .ConnectAsync(new ConnectRequest(), DateTime.UtcNow.AddSeconds(10))
-                        .ConfigureAwait(true);
+                        .ConfigureAwait(false);
+                    this.logger.LogInformation(
+                        "ConnectResponse received from newly PLC {0}: {1}",
+                        client.RemoteEndPoint,
+                        response);
                 }
                 catch (RpcException e)
                 {
@@ -114,7 +118,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                         e,
                         "Failed to send ConnectRequest to newly PLC {0}, hang up.",
                         client.RemoteEndPoint);
-                    await client.Close().ConfigureAwait(true);
+                    await client.Close().ConfigureAwait(false);
                     client.Dispose();
                     continue;
                 }
@@ -141,7 +145,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                         "Failed to add the client(MAC={0}, EndPoint={1}) into dictionary.",
                         BitConverter.ToString(response.Id.ToByteArray()),
                         client.RemoteEndPoint);
-                    await client.Close().ConfigureAwait(true);
+                    await client.Close().ConfigureAwait(false);
                     client.Dispose();
                 }
             }

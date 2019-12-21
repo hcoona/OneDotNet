@@ -114,7 +114,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
             }
 
             this.cancellationTokenSource.Cancel();
-            await this.backgroundTask.ConfigureAwait(true);
+            await this.backgroundTask.ConfigureAwait(false);
             this.client.Close();
 
             this.backgroundTask.Dispose();
@@ -133,7 +133,7 @@ namespace GeothermalResearchInstitute.FakePlcV2
                 {
                     if (this.backgroundTask != null)
                     {
-                        this.StopAsync().ConfigureAwait(true).GetAwaiter().GetResult();
+                        this.StopAsync().GetAwaiter().GetResult();
                     }
                 }
 

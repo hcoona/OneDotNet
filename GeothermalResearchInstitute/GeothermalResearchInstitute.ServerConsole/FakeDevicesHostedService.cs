@@ -47,7 +47,7 @@ namespace GeothermalResearchInstitute.ServerConsole
         {
             foreach (FakePlc plc in this.fakePlcList)
             {
-                await plc.StopAsync().ConfigureAwait(true);
+                await plc.StopAsync().ConfigureAwait(false);
             }
         }
 
@@ -64,7 +64,7 @@ namespace GeothermalResearchInstitute.ServerConsole
                 {
                     foreach (FakePlc plc in this.fakePlcList)
                     {
-                        plc.StopAsync().ConfigureAwait(true).GetAwaiter().GetResult();
+                        plc.StopAsync().ConfigureAwait(false).GetAwaiter().GetResult();
                         plc.Dispose();
                     }
                 }

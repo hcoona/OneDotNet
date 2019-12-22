@@ -318,6 +318,11 @@ namespace GeothermalResearchInstitute.PlcV2
             }
 
             byte[] bytes = new byte[0x18];
+            for (int i = 0; i < 0x18; i++)
+            {
+                bytes[i] = 0xFF;
+            }
+
             foreach (string path in request.UpdateMask.Paths)
             {
                 switch (path)

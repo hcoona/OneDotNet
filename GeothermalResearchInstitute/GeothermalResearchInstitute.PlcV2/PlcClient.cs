@@ -31,6 +31,7 @@ namespace GeothermalResearchInstitute.PlcV2
         private readonly Task sendingBackgroundTask;
         private readonly Task receivingBackgroundTask;
         private readonly Task deadlineBackgroundTask;
+        private readonly SemaphoreSlim mutex = new SemaphoreSlim(1);
         private readonly CancellationTokenSource closingCancellationTokenSource = new CancellationTokenSource();
 
         private readonly ConcurrentDictionary<int, PlcRequestContext> requestContextReceivingDictionary =
@@ -83,17 +84,25 @@ namespace GeothermalResearchInstitute.PlcV2
 
         public async Task Close()
         {
-            if (!this.closingCancellationTokenSource.IsCancellationRequested)
+            await this.mutex.WaitAsync().ConfigureAwait(false);
+            try
             {
-                this.closingCancellationTokenSource.Cancel();
-                this.requestContextSendingBufferBlock.Complete();
+                if (!this.closingCancellationTokenSource.IsCancellationRequested)
+                {
+                    this.closingCancellationTokenSource.Cancel();
+                    this.requestContextSendingBufferBlock.Complete();
 
-                await this.sendingBackgroundTask.ConfigureAwait(false);
-                await this.receivingBackgroundTask.ConfigureAwait(false);
-                await this.deadlineBackgroundTask.ConfigureAwait(false);
+                    await this.sendingBackgroundTask.ConfigureAwait(false);
+                    await this.receivingBackgroundTask.ConfigureAwait(false);
+                    await this.deadlineBackgroundTask.ConfigureAwait(false);
 
-                this.tcpClient.Close();
-                this.OnClosed?.Invoke(this, EventArgs.Empty);
+                    this.tcpClient.Close();
+                    this.OnClosed?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            finally
+            {
+                this.mutex.Release();
             }
         }
 
@@ -111,6 +120,7 @@ namespace GeothermalResearchInstitute.PlcV2
 
                     this.tcpClient.Dispose();
                     this.closingCancellationTokenSource.Dispose();
+                    this.mutex.Dispose();
                 }
 
                 this.disposedValue = true;

@@ -34,12 +34,16 @@
                 Content="常规实时数据"
                 Style="{StaticResource NavigationButtonStyle}" />
             <Button
-               Command="{Binding NavigateToDeviceAlarmHistoryView}"
-              Content="故障记录"
-              Style="{StaticResource NavigationButtonStyle}" />
+                Command="{Binding NavigateToDeviceAlarmHistoryView}"
+                Content="故障记录"
+                Style="{StaticResource NavigationButtonStyle}" />
             <Button
                 Command="{Binding NavigateToDeviceMetricHistoryExportView}"
                 Content="导出历史数据"
+                Style="{StaticResource NavigationButtonStyle}" />
+            <Button
+                Command="{Binding NavigateToDeviceMetricHistoryPlotView}"
+                Content="历史数据折线图"
                 Style="{StaticResource NavigationButtonStyle}" />
         </UniformGrid>
     </Border>

@@ -1,0 +1,96 @@
+<UserControl
+    x:Class="GeothermalResearchInstitute.Wpf.Views.DeviceMetricHistoryPlotView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:xwtk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    d:DesignHeight="360"
+    d:DesignWidth="600"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="DeviceMetricHistoryPlotView_Loaded"
+    mc:Ignorable="d">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="起始时间：" />
+            <xwtk:DateTimePicker
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                ShowButtonSpinner="False"
+                Value="{Binding StartDateTime}" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="结束时间：" />
+            <xwtk:DateTimePicker
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                ShowButtonSpinner="False"
+                Value="{Binding EndDateTime}" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="时间间隔：" />
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    Height="20"
+                    VerticalAlignment="Center"
+                    Text="{Binding IntervalMinutes}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Padding="5,0"
+                    VerticalAlignment="Center"
+                    Text="分钟" />
+            </Grid>
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="数据指标：" />
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                DisplayMemberPath="DisplayName"
+                ItemsSource="{Binding MetricFields}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedMetricField}" />
+            <Button
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Command="{Binding PlotCommand}"
+                Content="确定"
+                DockPanel.Dock="Bottom"
+                IsDefault="True"
+                Style="{StaticResource ButtonBaseStyle}" />
+        </Grid>
+        <oxy:PlotView Model="{Binding PlotModel}" />
+    </DockPanel>
+</UserControl>

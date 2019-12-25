@@ -31,12 +31,14 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
                 new DelegateCommand(this.ExecuteNavigateToDeviceWorkingModeView, this.CanNavigateToDeviceWorkingModeView);
             this.NavigateToDeviceRunningParameterView =
                 new DelegateCommand(this.ExecuteNavigateToDeviceRunningParameterView, this.CanNavigateToDeviceRunningParameterView);
-            this.NavigateToDeviceMetricHistoryView = this.NavigateToDeviceMetricHistoryView =
+            this.NavigateToDeviceMetricHistoryView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryView);
             this.NavigateToDeviceMetricBoardView =
                 new DelegateCommand(this.ExecuteNavigateToDeviceMetricBoardView, this.CanNavigateToDeviceMetricBoardView);
-            this.NavigateToDeviceMetricHistoryExportView = this.NavigateToDeviceMetricHistoryExportView =
+            this.NavigateToDeviceMetricHistoryExportView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryExportView);
+            this.NavigateToDeviceMetricHistoryPlotView =
+                 new DelegateCommand(this.ExecuteNavigateToDeviceMetricHistoryPlotView);
             this.NavigateToDeviceAlarmHistoryView = this.NavigateToDeviceAlarmHistoryView =
                  new DelegateCommand(this.ExecuteNavigateToDeviceAlarmHistoryView);
         }
@@ -69,6 +71,8 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         public DelegateCommand NavigateToDeviceMetricBoardView { get; }
 
         public DelegateCommand NavigateToDeviceMetricHistoryExportView { get; }
+
+        public DelegateCommand NavigateToDeviceMetricHistoryPlotView { get; }
 
         public DelegateCommand NavigateToDeviceAlarmHistoryView { get; }
 
@@ -133,6 +137,19 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
             catch (IOException e)
             {
                 this.logger.LogError(e, "Failed to navigate to device metric history export view.");
+            }
+        }
+
+        private void ExecuteNavigateToDeviceMetricHistoryPlotView()
+        {
+            try
+            {
+                this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryPlotView));
+                this.ViewModelContext.NavigateBackTarget = nameof(NavigationView);
+            }
+            catch (IOException e)
+            {
+                this.logger.LogError(e, "Failed to navigate to device metric history plot view.");
             }
         }
 

@@ -88,7 +88,7 @@ namespace GeothermalResearchInstitute.Wpf.ViewModels
         {
 #if DEBUG
             this.ViewModelContext.SelectedDevice = FakeClients.FakeDeviceServiceClient.Devices.Values.First();
-            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryExportView));
+            this.regionManager.RequestNavigate(Constants.ContentRegion, nameof(DeviceMetricHistoryPlotView));
             this.ViewModelContext.NavigateBackTarget = nameof(WelcomeView);
 #endif
         }

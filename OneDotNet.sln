@@ -124,7 +124,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xceed.Wpf.Toolkit", "third_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskAssigner", "TaskAssigner\TaskAssigner.csproj", "{02544C21-1FEB-4B34-9F01-288EE78B3630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompdbRegrouper", "codelab\CompdbRegrouper\CompdbRegrouper.csproj", "{6310868B-AF37-4D08-A1E5-0C00085A914D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompdbRegrouper", "codelab\CompdbRegrouper\CompdbRegrouper.csproj", "{6310868B-AF37-4D08-A1E5-0C00085A914D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParseHeader", "codelab\ParseHeader\ParseHeader.csproj", "{EA3FDE46-7B74-4463-BAFD-74710BA98313}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManifests", "codelab\FileManifests\FileManifests.csproj", "{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -344,6 +348,18 @@ Global
 		{6310868B-AF37-4D08-A1E5-0C00085A914D}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
 		{6310868B-AF37-4D08-A1E5-0C00085A914D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6310868B-AF37-4D08-A1E5-0C00085A914D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.DebugNonWindows|Any CPU.ActiveCfg = Debug|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.DebugNonWindows|Any CPU.Build.0 = Debug|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -389,6 +405,8 @@ Global
 		{6F79C3CF-633E-4645-A3B1-D9D6520526CD} = {E307CA64-13F5-446A-BCA5-C611A235A2E4}
 		{02544C21-1FEB-4B34-9F01-288EE78B3630} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 		{6310868B-AF37-4D08-A1E5-0C00085A914D} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
+		{EA3FDE46-7B74-4463-BAFD-74710BA98313} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
+		{14045A3B-ADE7-4CCF-992A-8FFF558FAD17} = {9D7C39A1-EF36-4491-8CC0-2D45C3B51580}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0F2E2F1-944D-46B4-BA89-EE1F0BBD57A1}

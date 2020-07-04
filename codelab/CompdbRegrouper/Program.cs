@@ -32,7 +32,7 @@ namespace CompdbRegrouper
             }
 
             IEnumerable<IGrouping<string, CookedCompdbItem>> g = compdb
-                .Where(item => !item.Directory.Contains("src/test") && !item.Directory.Contains("src/example"))
+                .Where(item => item.Directory == "/tmp/thrift-0.13.0/lib/cpp")
                 .Select(item => new CookedCompdbItem(item))
                 .GroupBy(item => string.Join(",", item.Arguments));
 

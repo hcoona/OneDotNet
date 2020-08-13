@@ -1,6 +1,6 @@
 param(
   [string] $Configuration = "Release",
-  [switch] $SkipDos2Unix,
+  [switch] $SkipUnix2Dos,
   [switch] $SkipGriPlc,
   [switch] $SkipGriServer,
   [switch] $SkipGriWpf
@@ -10,6 +10,8 @@ $ErrorActionPreference = "Stop"
 
 $EnlistmentRoot = [System.IO.Path]::GetDirectoryName([System.IO.Path]::GetDirectoryName($PSScriptRoot))
 $OutputRoot = (Join-Path $EnlistmentRoot "output")
+$UnixToDosExec = (Join-Path $EnlistmentRoot "dev-support\bin\vs2019_dos2unix\unix2dos.exe")
+
 if ([System.IO.Directory]::Exists($OutputRoot)) {
   Remove-Item -Path $OutputRoot -Recurse -Force
 }
@@ -48,9 +50,9 @@ if (-not $SkipGriWpf) {
   }
 }
 
-if (-not $SkipDos2Unix) {
-  Get-ChildItem -Path (Join-Path $OutputRoot "GeothermalResearchInstitute") `-Filter "*.ini" -Recurse `
-    | ForEach-Object{ & "$UnixToDosExec" --add-bom $_.FullName }
+if (-not $SkipUnix2Dos) {
+  Get-ChildItem -Path (Join-Path $OutputRoot "GeothermalResearchInstitute") -Filter "*.ini" -Recurse `
+    | ForEach-Object{ & $UnixToDosExec --add-bom $_.FullName }
 }
 
 New-Item -Path (Join-Path $OutputRoot "GeothermalResearchInstitute/docs") -Type Directory

@@ -132,6 +132,12 @@ namespace GeothermalResearchInstitute.ServerConsole
                 .UseConsoleLifetime()
                 .Build();
 
+            ILogger<Program> programLogger = host.Services.GetRequiredService<ILogger<Program>>();
+            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) =>
+            {
+                programLogger.LogCritical("Global unhandled exception occurred!", (Exception)e.ExceptionObject);
+            };
+
             using (host)
             {
                 host.Run();

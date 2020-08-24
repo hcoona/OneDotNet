@@ -57,7 +57,7 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    Text="{Binding Metric.WaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.0 }}" />
+                    Text="{Binding Metric.WaterPumpFlowRateCubicMeterPerHour, StringFormat={}{0:#0.00 }}" />
                 <c:Label
                     Grid.Row="3"
                     Grid.Column="0"

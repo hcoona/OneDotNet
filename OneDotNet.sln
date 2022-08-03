@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "third_party", "third_party", "{E307CA64-13F5-446A-BCA5-C611A235A2E4}"
 EndProject
@@ -21,8 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{2D9A3D47
 		azure-pipelines.yml = azure-pipelines.yml
 		copy.bara.sky = copy.bara.sky
 		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		global.json = global.json
 		LICENSE = LICENSE
 		OneDotNet.ruleset = OneDotNet.ruleset
+		Packages.props = Packages.props
 		README.adoc = README.adoc
 		stylecop.json = stylecop.json
 		stylecop.props = stylecop.props
@@ -128,7 +131,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompdbRegrouper", "codelab\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParseHeader", "codelab\ParseHeader\ParseHeader.csproj", "{EA3FDE46-7B74-4463-BAFD-74710BA98313}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManifests", "codelab\FileManifests\FileManifests.csproj", "{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileManifests", "codelab\FileManifests\FileManifests.csproj", "{14045A3B-ADE7-4CCF-992A-8FFF558FAD17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

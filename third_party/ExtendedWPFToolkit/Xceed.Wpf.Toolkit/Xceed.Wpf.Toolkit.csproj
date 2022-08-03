@@ -3,7 +3,7 @@
     <TargetFrameworks>$(NetfxLegacyTargetFramework);$(NetcoreCurrentTargetFramework)</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <OutputType>Library</OutputType>
-    
+
     <DebugType>Full</DebugType>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
@@ -11,7 +11,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CollectionControl\Implementation\CollectionControlDialog.xaml.cs">

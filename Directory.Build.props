@@ -26,6 +26,5 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
-  <Import Project="$(EnlistmentRoot)/version.props" />
   <Import Project="$(EnlistmentRoot)/stylecop.props" />
 </Project>

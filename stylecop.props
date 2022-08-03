@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" DevelopmentDependency="true" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="2.9.8" DevelopmentDependency="true" PrivateAssets="All" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" DevelopmentDependency="true" PrivateAssets="All" />
-  </ItemGroup>
   <PropertyGroup>
     <!-- According to https://docs.microsoft.com/zh-cn/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2019 -->
     <RunCodeAnalysis>false</RunCodeAnalysis>

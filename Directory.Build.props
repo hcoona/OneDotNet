@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project>
   <PropertyGroup>
-    <EnlistmentRoot>$(MSBuildThisFileDirectory)</EnlistmentRoot>
+    <EnlistmentRoot>$(MSBuildThisFileDirectory.TrimEnd('\\'))</EnlistmentRoot>
 
-    <NetfxLegacyTargetFramework>net45</NetfxLegacyTargetFramework>
+    <NetfxLegacyTargetFramework>net472</NetfxLegacyTargetFramework>
     <NetfxCurrentTargetFramework>net48</NetfxCurrentTargetFramework>
     <NetcoreCurrentTargetFramework>netcoreapp3.1</NetcoreCurrentTargetFramework>
     <NetstandardLegacyTargetFramework>netstandard2.0</NetstandardLegacyTargetFramework>
@@ -16,7 +16,11 @@
 
     <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">8.0</LangVersion>
     <Deterministic>true</Deterministic>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <NoWarn>NU5048</NoWarn>
+
+    <RestorePackagesConfig>true</RestorePackagesConfig>
+    <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugNonWindows' ">

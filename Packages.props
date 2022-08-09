@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
+  <ItemGroup Label="Git Versioning">
     <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.5.108" DevelopmentDependency="true" PrivateAssets="All" Condition=" '$(EnableGitVersioning)' != 'false' " />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <ItemGroup Label="Code Analyzing" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <GlobalPackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" DevelopmentDependency="true" PrivateAssets="All" />
     <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="2.9.8" DevelopmentDependency="true" PrivateAssets="All" />
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.1.118" DevelopmentDependency="true" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Tool -->
+  <ItemGroup Label="CLI Tools">
     <DotNetCliToolReference Update="dotnet-sourcelink" Version="2.8.0" />
     <DotNetCliToolReference Update="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
 
-    <!-- SDK -->
+  <ItemGroup Label="SDK">
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+  </ItemGroup>
 
-    <!-- System -->
+  <ItemGroup Label="System">
     <PackageReference Update="System.Collections.Immutable" Version="1.7.0" />
     <PackageReference Update="System.ComponentModel.Annotations" Version="4.7.0" />
     <PackageReference Update="System.Memory" Version="4.5.3" />
     <PackageReference Update="System.Text.Json" Version="4.7.2" />
     <PackageReference Update="System.Threading.Tasks.Dataflow" Version="4.11.0" />
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
 
-    <!-- Microsoft Extensions -->
+  <ItemGroup Label="Microsoft Extensions">
     <PackageReference Update="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.0" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Ini" Version="3.1.0" />
     <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
@@ -36,12 +38,22 @@
     <PackageReference Update="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
     <PackageReference Update="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Update="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
+  </ItemGroup>
 
-    <!-- Entity Framework -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
+    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Entity Framework">
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+  </ItemGroup>
 
+  <ItemGroup>
     <PackageReference Update="Google.OrTools" Version="7.6.7691" />
     <PackageReference Update="Google.Protobuf" Version="3.15.0" />
     <PackageReference Update="Grpc" Version="2.25.0" />
@@ -62,25 +74,20 @@
     <PackageReference Update="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Update="Unity.Container" Version="5.11.4" />
     <PackageReference Update="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
+  </ItemGroup>
 
-    <!-- F# -->
+  <ItemGroup Label="FSharp">
     <PackageReference Update="FSharp.Core" Version="4.7.0" />
 
     <PackageReference Update="SourceLink.Create.CommandLine" Version="2.8.3" />
     <PackageReference Update="SourceLink.Embed.PaketFiles" Version="2.8.3" />
+  </ItemGroup>
 
-    <!-- Tests -->
+  <ItemGroup Label="Tests">
     <PackageReference Update="xunit.abstractions" Version="2.0.3" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Update="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Update="MSTest.TestFramework" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
-    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
   </ItemGroup>
 </Project>

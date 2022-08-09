@@ -1,5 +1,12 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="**\*.*proj" />
+    <ProjectReference Include="CRC32C.NET\Crc32C.NET\Crc32C.NET.csproj" />
+    <ProjectReference Include="ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
+    <ProjectReference Include="FSharp.Data\FSharp.Data\FSharp.Data.fsproj" />
+    <ProjectReference Include="FSharp.Data\FSharp.Data.DesignTime\FSharp.Data.DesignTime.fsproj" />
+    <ProjectReference Include="OxyPlot\OxyPlot\OxyPlot.csproj" />
+    <ProjectReference Include="OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
+    <ProjectReference Include="ToggleSwitch\WPF\Demo\Demo.csproj" />
+    <ProjectReference Include="ToggleSwitch\WPF\ToggleSwitch\ToggleSwitch.csproj" />
   </ItemGroup>
 </Project>

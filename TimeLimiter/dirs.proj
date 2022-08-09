@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="**\*.*proj" />
+    <ProjectReference Include="TimeLimiter\TimeLimiter.csproj" />
+    <ProjectReference Include="TimeLimiterUnitTest\TimeLimiterUnitTest.csproj" />
   </ItemGroup>
 </Project>

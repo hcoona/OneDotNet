@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="**\*.*proj" />
+    <ProjectReference Include="SwigDoc2Latex.ConsoleApp\SwigDoc2Latex.ConsoleApp.fsproj" />
+    <ProjectReference Include="SwigDoc2Latex.CsConsoleApp\SwigDoc2Latex.CsConsoleApp.csproj" />
   </ItemGroup>
 </Project>

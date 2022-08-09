@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="**\*.*proj" />
+    <ProjectReference Include="GeothermalResearchInstitute.FakePlcV2\GeothermalResearchInstitute.FakePlcV2.csproj" />
+    <ProjectReference Include="GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
+    <ProjectReference Include="GeothermalResearchInstitute.PlcClient\GeothermalResearchInstitute.Plc.csproj" />
+    <ProjectReference Include="GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
+    <ProjectReference Include="GeothermalResearchInstitute.ServerConsole\GeothermalResearchInstitute.ServerConsole.csproj" />
+    <ProjectReference Include="GeothermalResearchInstitute.Wpf\GeothermalResearchInstitute.Wpf.csproj" />
   </ItemGroup>
 </Project>

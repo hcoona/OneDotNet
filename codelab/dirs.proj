@@ -1,5 +1,14 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="**\*.*proj" />
+    <ProjectReference Include="CompdbRegrouper\CompdbRegrouper.csproj" />
+    <ProjectReference Include="FileManifests\FileManifests.csproj" />
+    <ProjectReference Include="OxyPlot.SimpleDemo\OxyPlot.SimpleDemo.csproj" />
+    <ProjectReference Include="ParseHeader\ParseHeader.csproj" />
+    <ProjectReference Include="PrismLab\PrismLab.csproj" />
+    <ProjectReference Include="ProtocolLab\ProtocolLab.csproj" />
+    <ProjectReference Include="SerilogLab\SerilogLab.csproj" />
+    <ProjectReference Include="TcpServerLab\TcpServerLab.csproj" />
+    <ProjectReference Include="TplLab\TplLab.csproj" />
+    <ProjectReference Include="Wpf_lab\Wpf_lab.csproj" />
   </ItemGroup>
 </Project>

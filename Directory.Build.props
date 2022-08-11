@@ -31,4 +31,14 @@
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/stylecop.props" />
+
+  <PropertyGroup Label="SlnGen">
+    <SlnGenFolders>true</SlnGenFolders>
+  </PropertyGroup>
+
+  <ItemGroup Label="SlnGen">
+    <SlnGenSolutionItem Include="$(EnlistmentRoot)\.editorconfig" />
+    <SlnGenSolutionItem Include="$(EnlistmentRoot)\global.json" />
+    <SlnGenSolutionItem Include="$(EnlistmentRoot)\README.adoc" />
+  </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 = The unique dotnet repository for me
 Shuai Zhang<zhangshuai.ustc@gmail.com>
-v1.0, 2019-09-02
+v1.1, 2022-08-11
 
 One is a uni-repo for all of my codes. Please check Google's article link:https://cacm.acm.org/magazines/2016/7/204032-why-google-stores-billions-of-lines-of-code-in-a-single-repository/fulltext[Why Google Stores Billions of Lines of Code in a Single Repository] for more details about why this repo born.
 
@@ -10,13 +10,22 @@ Bazel currently has poorly support for DotNet projects. Just put all DotNet proj
 
 === Prerequisites
 
-Install VS2019 & DotNet Core 3.0 for compiliation.
+Install VS2022 & .NET 5.0 for compilation.
 
-Install .NET Framework 4.7 or DotNet Core 3.0 for runtime.
+Install .NET 5.0 for runtime.
 
 === Compile
 
 [source]
 ----
 dotnet build
+----
+
+=== SlnGen
+
+See link:https://microsoft.github.io/slngen/[SlnGen] & link:https://github.com/microsoft/vssetup.powershell[VSSetup].
+
+[source,PowerShell]
+----
+slngen -vs ((Get-VSSetupInstance).InstallationPath + "\Common7\IDE\devenv.exe") --folders true --collapsefolders true -o OneDotNet.sln
 ----

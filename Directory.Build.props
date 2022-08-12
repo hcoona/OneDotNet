@@ -5,7 +5,7 @@
 
     <NetfxLegacyTargetFramework>net472</NetfxLegacyTargetFramework>
     <NetfxCurrentTargetFramework>net48</NetfxCurrentTargetFramework>
-    <NetcoreCurrentTargetFramework>netcoreapp3.1</NetcoreCurrentTargetFramework>
+    <NetcoreCurrentTargetFramework>net6</NetcoreCurrentTargetFramework>
     <NetstandardLegacyTargetFramework>netstandard2.0</NetstandardLegacyTargetFramework>
     <NetstandardCurrentTargetFramework>netstandard2.1</NetstandardCurrentTargetFramework>
 

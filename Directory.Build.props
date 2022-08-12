@@ -19,6 +19,7 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <NoWarn>NU5048</NoWarn>
 
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestorePackagesConfig>true</RestorePackagesConfig>
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
   </PropertyGroup>

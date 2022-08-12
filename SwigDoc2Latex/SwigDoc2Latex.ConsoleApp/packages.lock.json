@@ -4,9 +4,18 @@
     ".NETCoreApp,Version=v3.1": {
       "FSharp.Core": {
         "type": "Direct",
-        "requested": "[4.7.0, )",
-        "resolved": "4.7.0",
-        "contentHash": "6Bf2qzSCaJoP6tTfO+a5muUS7QbyJANqSut73zQvwQ9It5P0ITz9VKseeia2ofco30c55EQ0jA2wf2+A2gpGnw=="
+        "requested": "[6.0.5, )",
+        "resolved": "6.0.5",
+        "contentHash": "2rHXbGSO/fCuHOV90HQuBi3rLGQRXIirZR1CepSKT8dqGi9JFswaGp2M4RhHqsZNRR5aWi/Y1mnOKu8OaAwcBw=="
+      },
+      "FSharp.Data": {
+        "type": "Direct",
+        "requested": "[4.2.9, )",
+        "resolved": "4.2.9",
+        "contentHash": "mnZHmHJPQysjVRifWbiAut6hj/whzeIhmJkM56xDDH/FAXvJwIyBQXhLJ6SPm67US7kYpOgte1N7zSI6b2+lww==",
+        "dependencies": {
+          "FSharp.Core": "5.0.1"
+        }
       },
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
@@ -57,19 +66,6 @@
         "type": "Transitive",
         "resolved": "2.9.8",
         "contentHash": "8fZYJqeKBW5uuKBact26IeOBogchn5Km85klHqHneRY7Jxp+ERtrw8zJVumNFUVL68pIcf4uKPOY7zfBQ7eY3A=="
-      },
-      "fsharp.data": {
-        "type": "Project",
-        "dependencies": {
-          "FSharp.Core": "4.7.0",
-          "FSharp.Data.DesignTime": "1.0.0"
-        }
-      },
-      "fsharp.data.designtime": {
-        "type": "Project",
-        "dependencies": {
-          "FSharp.Core": "4.7.0"
-        }
       }
     }
   }

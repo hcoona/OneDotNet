@@ -77,7 +77,8 @@
   </ItemGroup>
 
   <ItemGroup Label="FSharp">
-    <PackageReference Update="FSharp.Core" Version="4.7.0" />
+    <PackageReference Update="FSharp.Core" Version="6.0.5" />
+    <PackageReference Update="FSharp.Data" Version="4.2.9" />
 
     <PackageReference Update="SourceLink.Create.CommandLine" Version="2.8.3" />
     <PackageReference Update="SourceLink.Embed.PaketFiles" Version="2.8.3" />

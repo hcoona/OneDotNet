@@ -693,3 +693,6 @@ $RECYCLE.BIN/
 /.ionide
 /output
 *.tmp
+
+# Generate with SlnGen
+*.sln

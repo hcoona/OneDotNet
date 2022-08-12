@@ -9,12 +9,25 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 
 steps:
 - checkout: self
   clean: true
   lfs: true
+
+- task: Cache@2
+  displayName: 'Restore nuget cache'
+  inputs:
+    key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'
+    restoreKeys: |
+      nuget | "$(Agent.OS)"
+      nuget
+    path: '$(NUGET_PACKAGES)'
+    cacheHitVar: 'CACHE_RESTORED'
+
 - task: DotNetCoreCLI@2
+  displayName: 'Build projects'
   inputs:
     command: 'build'
     projects: 'dirs.proj'

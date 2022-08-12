@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>$(NetfxLegacyTargetFramework);$(NetcoreCurrentTargetFramework)</TargetFrameworks>
+    <TargetFrameworks>$(NetfxLegacyTargetFramework);$(NetcoreCurrentTargetFramework)-windows</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <OutputType>Library</OutputType>
 

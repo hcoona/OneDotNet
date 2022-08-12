@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    ".NETCoreApp,Version=v3.1": {
+    "net6.0": {
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
         "requested": "[2.9.8, )",
@@ -126,8 +126,8 @@
       "geothermalresearchinstitute.grpc": {
         "type": "Project",
         "dependencies": {
-          "Google.Protobuf": "3.15.0",
-          "Grpc": "2.25.0"
+          "Google.Protobuf": "[3.15.0, )",
+          "Grpc": "[2.25.0, )"
         }
       }
     }

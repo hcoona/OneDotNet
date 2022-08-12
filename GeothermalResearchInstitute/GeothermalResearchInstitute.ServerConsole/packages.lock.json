@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    ".NETCoreApp,Version=v3.1": {
+    "net6.0": {
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
         "requested": "[2.9.8, )",
@@ -840,35 +840,35 @@
       "geothermalresearchinstitute.fakeplcv2": {
         "type": "Project",
         "dependencies": {
-          "GeothermalResearchInstitute.PlcV2": "1.0.0"
+          "GeothermalResearchInstitute.PlcV2": "[1.0.0, )"
         }
       },
       "geothermalresearchinstitute.grpc": {
         "type": "Project",
         "dependencies": {
-          "Google.Protobuf": "3.15.0",
-          "Grpc": "2.25.0"
+          "Google.Protobuf": "[3.15.0, )",
+          "Grpc": "[2.25.0, )"
         }
       },
       "geothermalresearchinstitute.plcv2": {
         "type": "Project",
         "dependencies": {
-          "Crc32C.NET": "1.0.0",
-          "GeothermalResearchInstitute.Grpc": "1.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "2.2.0",
-          "System.Memory": "4.5.3",
-          "System.Threading.Tasks.Dataflow": "4.11.0"
+          "Crc32C.NET": "[1.0.0, )",
+          "GeothermalResearchInstitute.Grpc": "[1.0.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[2.2.0, )",
+          "System.Memory": "[4.5.3, )",
+          "System.Threading.Tasks.Dataflow": "[4.11.0, )"
         }
       },
       "grpcloggeradapater": {
         "type": "Project",
         "dependencies": {
-          "Grpc.Core": "2.25.0",
-          "Microsoft.Extensions.Logging.Abstractions": "2.2.0"
+          "Grpc.Core": "[2.25.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[2.2.0, )"
         }
       }
     },
-    ".NETCoreApp,Version=v3.1/win-x64": {
+    "net6.0/win-x64": {
       "Grpc.Core": {
         "type": "Transitive",
         "resolved": "2.25.0",

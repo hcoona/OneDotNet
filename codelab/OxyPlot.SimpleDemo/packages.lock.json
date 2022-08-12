@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    ".NETCoreApp,Version=v3.1": {
+    "net6.0-windows7.0": {
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
         "requested": "[2.9.8, )",
@@ -58,7 +58,7 @@
       "oxyplot.wpf": {
         "type": "Project",
         "dependencies": {
-          "OxyPlot.Core": "1.0.0"
+          "OxyPlot.Core": "[1.0.0, )"
         }
       }
     }

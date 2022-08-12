@@ -6,11 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\third_party\FSharp.Data\FSharp.Data\FSharp.Data.fsproj" />
+    <PackageReference Include="FSharp.Data" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +15,5 @@
     </None>
     <Compile Include="Program.fs" />
   </ItemGroup>
-
-  <ItemGroup />
 
 </Project>

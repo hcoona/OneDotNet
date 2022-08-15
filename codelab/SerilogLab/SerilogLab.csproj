@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>$(DefaultExeTargetFrameworks)</TargetFrameworks>
+    <TargetFramework>$(CurrentTargetFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +29,5 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

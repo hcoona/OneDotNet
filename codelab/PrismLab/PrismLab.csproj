@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(DefaultExeTargetFrameworks)-windows</TargetFramework>
+    <TargetFramework>$(CurrentWpfTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>PrismLab</AssemblyName>
   </PropertyGroup>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(DefaultExeTargetFrameworks)-windows</TargetFramework>
+    <TargetFramework>$(CurrentWpfTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 

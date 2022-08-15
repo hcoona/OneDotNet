@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(NetcoreCurrentTargetFramework)-windows</TargetFramework>
+    <TargetFramework>$(CurrentWpfTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 

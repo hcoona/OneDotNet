@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>$(NetcoreCurrentTargetFramework);$(NetfxCurrentTargetFramework)</TargetFrameworks>
+    <TargetFramework>$(CurrentTargetFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

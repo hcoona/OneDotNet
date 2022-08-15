@@ -14,6 +14,9 @@
     <DefaultLibraryTargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">$(NetfxLegacyTargetFramework);$(NetstandardLegacyTargetFramework)</DefaultLibraryTargetFrameworks>
     <DefaultLibraryTargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">$(NetstandardLegacyTargetFramework)</DefaultLibraryTargetFrameworks>
 
+    <CurrentTargetFramework>net6.0</CurrentTargetFramework>
+    <CurrentWpfTargetFramework>net6.0-windows</CurrentWpfTargetFramework>
+
     <LangVersion Condition="'$(MSBuildProjectExtension)' == '.csproj'">8.0</LangVersion>
     <Deterministic>true</Deterministic>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>

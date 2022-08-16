@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_lab"
-        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+        xmlns:oxycontrols="http://oxyplot.org/wpf/contrib"
         mc:Ignorable="d"
         Title="常规历史数据"
         WindowStartupLocation="CenterOwner"
@@ -35,14 +36,14 @@
                 </UniformGrid>
             </DockPanel>
         </Border>
-        <oxy:Plot x:Name="pltData">
-            <oxy:Plot.Axes>
-                <oxy:DateTimeAxis x:Name="axisData" Position="Bottom" />
-            </oxy:Plot.Axes>
-            <oxy:Plot.Series>
-                <oxy:LineSeries Title="出水温度"
+        <oxycontrols:Plot x:Name="pltData">
+            <oxycontrols:Plot.Axes>
+                <oxycontrols:DateTimeAxis x:Name="axisData" Position="Bottom" />
+            </oxycontrols:Plot.Axes>
+            <oxycontrols:Plot.Series>
+                <oxycontrols:LineSeries Title="出水温度"
                                 ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Points}"/>
-            </oxy:Plot.Series>
-        </oxy:Plot>
+            </oxycontrols:Plot.Series>
+        </oxycontrols:Plot>
     </DockPanel>
 </Window>

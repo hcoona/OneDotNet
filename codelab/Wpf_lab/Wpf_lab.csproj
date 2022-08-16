@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot.Wpf\OxyPlot.Wpf.csproj" />
-    <ProjectReference Include="..\..\third_party\OxyPlot\OxyPlot\OxyPlot.csproj" />
+    <PackageReference Include="OxyPlot.Contrib.Wpf" />
+    <PackageReference Include="OxyPlot.Wpf" />
   </ItemGroup>
 
   <ItemGroup>

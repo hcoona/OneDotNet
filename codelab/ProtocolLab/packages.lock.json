@@ -70,6 +70,12 @@
         "resolved": "1.7.0",
         "contentHash": "RVSM6wZUo6L2y6P3vN6gjUtyJ2IF2RVtrepF3J7nrDKfFQd5u/SnSUFclchYQis8/k5scHy9E+fVeKVQLnnkzw=="
       },
+      "ToggleSwitch": {
+        "type": "Direct",
+        "requested": "[1.2.0, )",
+        "resolved": "1.2.0",
+        "contentHash": "Rhv4kXlH8Zo8Hb5ZEBECwONAF9HKmYyz1AR5RFyOrU5trbyyu1FCjDQ9E1Njo8ocsfYdjzbsdxgYYEQ3Oh9v9w=="
+      },
       "Google.Protobuf": {
         "type": "Transitive",
         "resolved": "3.15.0",
@@ -234,9 +240,6 @@
           "System.Memory": "[4.5.3, )",
           "System.Threading.Tasks.Dataflow": "[4.11.0, )"
         }
-      },
-      "toggleswitch": {
-        "type": "Project"
       }
     }
   }

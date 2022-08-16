@@ -1,0 +1,4 @@
+<Project>
+  <!-- https://github.com/dotnet/Nerdbank.GitVersioning/issues/751#issuecomment-1121151652 -->
+  <Target Name="VSTest" />
+</Project>

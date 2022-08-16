@@ -8,7 +8,6 @@ namespace TaskAssigner
         static void Main()
         {
             using var solver = Solver.CreateSolver(
-                "SimpleMipProgram",
                 "CBC_MIXED_INTEGER_PROGRAMMING");
 
             var assigner = new Assigner(solver);

@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:GeothermalResearchInstitute.Wpf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:xwtk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     d:DesignHeight="360"
     d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -46,7 +46,7 @@
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="起始时间：" />
-                <xwtk:DateTimePicker
+                <xctk:DateTimePicker
                     Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Center"
@@ -57,7 +57,7 @@
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="结束时间：" />
-                <xwtk:DateTimePicker
+                <xctk:DateTimePicker
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"

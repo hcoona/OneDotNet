@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
     <ProjectReference Include="CRC32C.NET\Crc32C.NET\Crc32C.NET.csproj" />
-    <ProjectReference Include="ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
   </ItemGroup>
 </Project>

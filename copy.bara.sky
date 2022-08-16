@@ -1,40 +1,5 @@
 DESTINATION = folder.destination()
 
-core.workflow(
-    name = "com_github_ejensen_toggle_switch_control",
-    origin = git.github_origin(
-        url = "https://github.com/ejensen/toggle-switch-control.git",
-        ref = "a870f7981c890c62dd8fa3468fa683817a7635e3",
-    ),
-    destination = DESTINATION,
-    origin_files = glob(
-        [
-            "README.md",
-            "Common/**",
-            "WPF/**",
-        ],
-        exclude = [
-            "**/*.sln",
-        ],
-    ),
-    destination_files = glob(
-        [
-            "third_party/ToggleSwitch/**",
-        ],
-        exclude = [
-        ],
-    ),
-    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
-    transformations = [
-        core.move("Common", "third_party/ToggleSwitch/Common"),
-        core.move("WPF", "third_party/ToggleSwitch/WPF"),
-        core.move("README.md", "third_party/ToggleSwitch/README.md"),
-    ],
-)
-
-# TODO(zhangshuai.ustc): Add https://github.com/fallin/Itc4net/tree/master/src/Itc4net
-# and then fix Clocks.IntervalTreeClocks
-
 # third_party/CRC32.NET/native folder is from https://cdn.machinezoo.com/download/crc32c/crc32c-hw-1.0.5.7z
 core.workflow(
     name = "com_github_zeldafreak_crc32c_net",

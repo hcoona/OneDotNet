@@ -1142,7 +1142,10 @@
         }
       },
       "timelimiter": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "NETStandard.Library": "[1.6.1, )"
+        }
       }
     }
   }

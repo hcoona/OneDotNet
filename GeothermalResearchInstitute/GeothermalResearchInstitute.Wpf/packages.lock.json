@@ -117,6 +117,16 @@
         "resolved": "3.5.108",
         "contentHash": "+1Zn/jrrbBS1MVK20W8d8g4nEREPuZ6IHDTmtqlJiNeGXN45Iou0IPe5hykbLAVyWfnoN3bPCDBIVjeAfoMsWQ=="
       },
+      "OxyPlot.Wpf": {
+        "type": "Direct",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "behQPbPDbV5+OerxO1E2iKH7dNaDN4OFSCzWF8Dy296p9CG/RFd4KyOEHDmcckZ7mYp5KQ4BMLD+WtQLjDSQvQ==",
+        "dependencies": {
+          "OxyPlot.Core": "2.1.0",
+          "OxyPlot.Wpf.Shared": "2.1.0"
+        }
+      },
       "Prism.Unity": {
         "type": "Direct",
         "requested": "[7.2.0.1422, )",
@@ -227,6 +237,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.0",
           "Unity.Container": "5.11.4"
         }
+      },
+      "Xceed.Wpf.Toolkit": {
+        "type": "Direct",
+        "requested": "[4.4.0, )",
+        "resolved": "4.4.22258.9000",
+        "contentHash": "rqWMWc2UWPxsklMoFyObhih7J/8hUHrKvmTjp4dYb7BYf/lAEUt10kJnmrkWPHnCqNZZ+FGx26gIOqJL1BozhA=="
       },
       "CommonServiceLocator": {
         "type": "Transitive",
@@ -632,6 +648,19 @@
           "System.Xml.XDocument": "4.0.11"
         }
       },
+      "OxyPlot.Core": {
+        "type": "Transitive",
+        "resolved": "2.1.0",
+        "contentHash": "jG+Ct3T59fXDG2LE1hyUaXqH7i+h5Nfway1iB0+0NaY2mvDsz8Row/BKjiBWCt5NHp3+q9JSMiD2wpin2hh3kw=="
+      },
+      "OxyPlot.Wpf.Shared": {
+        "type": "Transitive",
+        "resolved": "2.1.0",
+        "contentHash": "ign36iiFEadBUNF7SVgsPn3DCqP1VWjISRVgEChW5M4LNyC9Lz8iOPy1mypQG/imdn0mCQppTjju+0a4k+yTsA==",
+        "dependencies": {
+          "OxyPlot.Core": "2.1.0"
+        }
+      },
       "Prism.Core": {
         "type": "Transitive",
         "resolved": "7.2.0.1422",
@@ -802,8 +831,8 @@
       },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "0YFqjhp/mYkDGpU0Ye1GjE53HMp9UVfGN7seGpAMttAC0C40v5gw598jCgpbBLMmCo0E5YRLBv5Z2doypO49ZQ=="
+        "resolved": "4.5.0",
+        "contentHash": "UxYQ3FGUOtzJ7LfSdnYSFd7+oEv6M8NgUatatIN2HxNtDdlcvFAf+VIq4Of9cDMJEJC0aSRv/x898RYhB4Yppg=="
       },
       "System.Console": {
         "type": "Transitive",
@@ -1581,21 +1610,6 @@
         "dependencies": {
           "Grpc.Core": "[2.25.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[2.2.0, )"
-        }
-      },
-      "OxyPlot.Core": {
-        "type": "Project"
-      },
-      "oxyplot.wpf": {
-        "type": "Project",
-        "dependencies": {
-          "OxyPlot.Core": "[1.0.0, )"
-        }
-      },
-      "xceed.wpf.toolkit": {
-        "type": "Project",
-        "dependencies": {
-          "System.ComponentModel.Annotations": "[4.7.0, )"
         }
       }
     },

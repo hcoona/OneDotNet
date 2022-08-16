@@ -34,11 +34,11 @@
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="Unity.Container" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" />
+    <PackageReference Include="Xceed.Wpf.Toolkit" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
-    <ProjectReference Include="..\..\third_party\ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>

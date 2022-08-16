@@ -26,6 +26,25 @@
         "resolved": "3.5.108",
         "contentHash": "+1Zn/jrrbBS1MVK20W8d8g4nEREPuZ6IHDTmtqlJiNeGXN45Iou0IPe5hykbLAVyWfnoN3bPCDBIVjeAfoMsWQ=="
       },
+      "OxyPlot.Contrib.Wpf": {
+        "type": "Direct",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "Yid7E9+Td7CgUr6fwNKoH0fXxitdqY+NZToA+ZO3PxPT7yyaUjWxypKezYQNhqNKlVcLC9Toc6GcUZMuiHeXog==",
+        "dependencies": {
+          "OxyPlot.Wpf": "2.1.0"
+        }
+      },
+      "OxyPlot.Wpf": {
+        "type": "Direct",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "behQPbPDbV5+OerxO1E2iKH7dNaDN4OFSCzWF8Dy296p9CG/RFd4KyOEHDmcckZ7mYp5KQ4BMLD+WtQLjDSQvQ==",
+        "dependencies": {
+          "OxyPlot.Core": "2.1.0",
+          "OxyPlot.Wpf.Shared": "2.1.0"
+        }
+      },
       "StyleCop.Analyzers": {
         "type": "Direct",
         "requested": "[1.1.118, )",
@@ -53,12 +72,16 @@
         "contentHash": "8fZYJqeKBW5uuKBact26IeOBogchn5Km85klHqHneRY7Jxp+ERtrw8zJVumNFUVL68pIcf4uKPOY7zfBQ7eY3A=="
       },
       "OxyPlot.Core": {
-        "type": "Project"
+        "type": "Transitive",
+        "resolved": "2.1.0",
+        "contentHash": "jG+Ct3T59fXDG2LE1hyUaXqH7i+h5Nfway1iB0+0NaY2mvDsz8Row/BKjiBWCt5NHp3+q9JSMiD2wpin2hh3kw=="
       },
-      "oxyplot.wpf": {
-        "type": "Project",
+      "OxyPlot.Wpf.Shared": {
+        "type": "Transitive",
+        "resolved": "2.1.0",
+        "contentHash": "ign36iiFEadBUNF7SVgsPn3DCqP1VWjISRVgEChW5M4LNyC9Lz8iOPy1mypQG/imdn0mCQppTjju+0a4k+yTsA==",
         "dependencies": {
-          "OxyPlot.Core": "[1.0.0, )"
+          "OxyPlot.Core": "2.1.0"
         }
       }
     }

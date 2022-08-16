@@ -1,62 +1,6 @@
 DESTINATION = folder.destination()
 
 core.workflow(
-    name = "oxyplot",
-    origin = git.github_origin(
-        url = "https://github.com/oxyplot/oxyplot.git",
-        ref = "05b527e154e1d5d8deedef634c0bd19c7e742bdc",
-    ),
-    destination = DESTINATION,
-    origin_files = glob(
-        [
-            "LICENSE",
-            "README.md",
-            "Source/OxyPlot/**",
-            "Source/OxyPlot.Wpf/**",
-        ],
-        exclude = [
-            "**/*.*proj",
-            "**/*.*nuspec",
-            "**/*.DotSettings",
-            "Source/OxyPlot.Wpf/Properties/Resources.*",
-            "Source/OxyPlot.Wpf/Properties/Settings.*",
-        ],
-    ),
-    destination_files = glob(
-        [
-            "third_party/OxyPlot/**",
-        ],
-        exclude = [
-            "third_party/OxyPlot/**/*.*proj",
-            "third_party/OxyPlot/*.props",
-        ],
-    ),
-    authoring = authoring.pass_thru("Shuai Zhang <zhangshuai.ustc@gmail.com>"),
-    transformations = [
-        core.replace(
-            before = "[assembly: AssemblyTitle(\"${words}\")]",
-            after = "",
-            regex_groups = {
-                "words": "[A-Za-z0-9 ]+",
-            },
-            paths = glob(["**/AssemblyDescription.cs"]),
-        ),
-        core.replace(
-            before = "[assembly: AssemblyDescription(\"${words}\")]",
-            after = "",
-            regex_groups = {
-                "words": "[A-Za-z0-9 ]+",
-            },
-            paths = glob(["**/AssemblyDescription.cs"]),
-        ),
-        core.move("LICENSE", "third_party/OxyPlot/LICENSE"),
-        core.move("README.md", "third_party/OxyPlot/README.md"),
-        core.move("Source/OxyPlot", "third_party/OxyPlot/OxyPlot"),
-        core.move("Source/OxyPlot.Wpf", "third_party/OxyPlot/OxyPlot.Wpf"),
-    ],
-)
-
-core.workflow(
     name = "com_github_ejensen_toggle_switch_control",
     origin = git.github_origin(
         url = "https://github.com/ejensen/toggle-switch-control.git",

@@ -1,10 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;$(DefaultLibraryTargetFrameworks)</TargetFrameworks>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>IO.Github.Hcoona.Collections</RootNamespace>
   </PropertyGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties _1_1_4_1_1_4stylecop_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

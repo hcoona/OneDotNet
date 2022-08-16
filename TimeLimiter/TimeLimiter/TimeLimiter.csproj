@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Title>$(MSBuildProjectName)</Title>
-    <TargetFrameworks>netstandard1.0;$(DefaultLibraryTargetFrameworks)</TargetFrameworks>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Shuai Zhang</Authors>

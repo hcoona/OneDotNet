@@ -5,7 +5,7 @@
 
 using System;
 using System.Text;
-using Microsoft.Extensions.Logging.Abstractions.Internal;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit.Abstractions;
 
 namespace Microsoft.Extensions.Logging.Xunit
@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.Logging.Xunit
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            return NullScope.Instance;
+            return NullLogger.Instance.BeginScope(state);
         }
 
         public bool IsEnabled(LogLevel logLevel) => true;

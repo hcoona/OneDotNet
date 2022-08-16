@@ -2,7 +2,5 @@
   <ItemGroup>
     <ProjectReference Include="CRC32C.NET\Crc32C.NET\Crc32C.NET.csproj" />
     <ProjectReference Include="ExtendedWPFToolkit\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj" />
-    <ProjectReference Include="ToggleSwitch\WPF\Demo\Demo.csproj" />
-    <ProjectReference Include="ToggleSwitch\WPF\ToggleSwitch\ToggleSwitch.csproj" />
   </ItemGroup>
 </Project>

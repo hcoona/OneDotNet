@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="Memoization\Memoization.csproj" />
+    <ProjectReference Include="Memoization.Tests\Memoization.Tests.csproj" />
+  </ItemGroup>
+</Project>

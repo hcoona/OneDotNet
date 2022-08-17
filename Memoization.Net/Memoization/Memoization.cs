@@ -1,3 +1,8 @@
+// <copyright file="IClock.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Caching.Memory;
@@ -12,13 +17,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, TResult> Create<T1, TResult>(Func<T1, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, TResult> Create<T1, TResult>(Func<T1, TResult> func, IMemoryCache cache)
         {
             return (T1 t1) => cache.GetOrCreate((t1), ignored => func(t1));
@@ -50,13 +55,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, TResult> Create<T1, T2, TResult>(Func<T1, T2, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, TResult> Create<T1, T2, TResult>(Func<T1, T2, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2) => cache.GetOrCreate((t1, t2), ignored => func(t1, t2));
@@ -88,13 +93,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, TResult> Create<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, TResult> Create<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3) => cache.GetOrCreate((t1, t2, t3), ignored => func(t1, t2, t3));
@@ -126,13 +131,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, TResult> Create<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, TResult> Create<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4) => cache.GetOrCreate((t1, t2, t3, t4), ignored => func(t1, t2, t3, t4));
@@ -164,13 +169,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, TResult> Create<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, TResult> Create<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) => cache.GetOrCreate((t1, t2, t3, t4, t5), ignored => func(t1, t2, t3, t4, t5));
@@ -202,13 +207,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, TResult> Create<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, TResult> Create<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6), ignored => func(t1, t2, t3, t4, t5, t6));
@@ -240,13 +245,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, TResult> Create<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, TResult> Create<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7), ignored => func(t1, t2, t3, t4, t5, t6, t7));
@@ -278,13 +283,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8));
@@ -316,13 +321,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9));
@@ -354,13 +359,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
@@ -392,13 +397,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11));
@@ -430,13 +435,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11, T12 t12) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12));
@@ -468,13 +473,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11, T12 t12, T13 t13) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13));
@@ -506,13 +511,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11, T12 t12, T13 t13, T14 t14) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14));
@@ -544,13 +549,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11, T12 t12, T13 t13, T14 t14, T15 t15) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15));
@@ -582,13 +587,13 @@ namespace Memoization
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
         }
-        
+
         [DebuggerStepThrough]
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> func, MemoryCacheEntryOptions options)
         {
             return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
         }
-        
+
         public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> func, IMemoryCache cache)
         {
             return (T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, T11 t11, T12 t12, T13 t13, T14 t14, T15 t15, T16 t16) => cache.GetOrCreate((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16), ignored => func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16));

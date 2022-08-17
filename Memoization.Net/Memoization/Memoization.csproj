@@ -2,15 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
 
-  <PropertyGroup>
     <PackageId>Memoization.Net</PackageId>
+    <Copyright>Copyright 2017 Shuai Zhang under GPLv3</Copyright>
+    <Description>This project help C# make memoized function. See project site for further details.</Description>
+    <PackageProjectUrl>https://github.com/hcoona/Memoization.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hcoona/Memoization.Net</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>memoization</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" VersionOverride="2.1.0" />
+    <PackageReference Include="System.ValueTuple" VersionOverride="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

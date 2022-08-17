@@ -31,10 +31,19 @@ steps:
   displayName: "List Git-LFS files"
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 6.0'
+  displayName: 'Install DotNet SDK'
   inputs:
-    packageType: 'sdk'
-    version: '6.0.x'
+    useGlobalJson: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . nbgv
+  displayName: Install NBGV tool
+
+- script: nbgv cloud
+  displayName: Set Version
 
 - task: Cache@2
   displayName: 'Restore nuget cache'

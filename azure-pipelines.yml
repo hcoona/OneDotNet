@@ -14,7 +14,14 @@ variables:
 steps:
 - checkout: self
   clean: true
-  lfs: true
+  persistCredentials: true
+
+# Checkout Git-LFS if necessary in the future.
+# Note that we need to save Git-LFS bandwidth so currently we disabled it.
+# Consider to use a separate Git-LFS storage than the one in GitHub.
+- powershell: |
+    git lfs ls-files
+  displayName: "List Git-LFS files"
 
 - task: Cache@2
   displayName: 'Restore nuget cache'

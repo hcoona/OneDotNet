@@ -4,8 +4,15 @@ trigger:
 pr:
 - main
 
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    windows:
+      imageName: 'windows-latest'
+
 pool:
-  vmImage: 'windows-latest'
+  vmImage: $(imageName)
 
 variables:
   buildConfiguration: 'Release'
@@ -22,6 +29,12 @@ steps:
 - powershell: |
     git lfs ls-files
   displayName: "List Git-LFS files"
+
+- task: UseDotNet@2
+  displayName: 'Use .NET 6.0'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
 
 - task: Cache@2
   displayName: 'Restore nuget cache'

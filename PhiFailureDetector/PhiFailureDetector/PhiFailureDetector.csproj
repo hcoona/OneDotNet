@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('version.props', '$(MSBuildThisFileDirectory)../'))" />
   <PropertyGroup>
-    <TargetFrameworks>net20;netstandard1.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netstandard1.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <TargetFrameworks>netstandard1.0</TargetFrameworks>
+
+    <Description>An implementation of the phi accrual failure detector: N. Hayashibara, X. Defago, R. Yared, and T. Katayama, The /spl phi/ accrual failure detector, Proc. 23rd IEEE Int. Symp. Reliab. Distrib. Syst. 2004., pp. 66-78, 2004.</Description>
+    <Copyright>Copyright 2017 Shuai Zhang under GPLv3</Copyright>
+    <PackageProjectUrl>https://github.com/hcoona/PhiFailureDetector</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hcoona/PhiFailureDetector</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>failure-detector distributed-system</PackageTags>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Clocks.Abstraction" Version="1.0.0" />
+    <ProjectReference Include="..\..\Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj" />
   </ItemGroup>
 </Project>

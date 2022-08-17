@@ -4,12 +4,12 @@ using System.Text;
 
 namespace PhiFailureDetector.ConsoleApp
 {
-    class Program
+    internal class Program
     {
         const long toNano = 1000000L;
         const long last = 555 * toNano;
 
-        static void Main(string[] args)
+        public static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -33,7 +33,6 @@ namespace PhiFailureDetector.ConsoleApp
             //PrintPhi(1200, last, arrivalWindow, PhiFailureDetector.Normal);
 
             Console.WriteLine();
-
 
             Console.WriteLine("===== Exponential Distribution =====");
 

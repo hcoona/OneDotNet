@@ -9,6 +9,5 @@
     <ProjectReference Include="SwigDoc2Latex\dirs.proj" />
     <ProjectReference Include="TaskAssigner\TaskAssigner.csproj" />
     <ProjectReference Include="third_party\dirs.proj" />
-    <ProjectReference Include="TimeLimiter\dirs.proj" />
   </ItemGroup>
 </Project>

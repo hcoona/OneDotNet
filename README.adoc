@@ -29,3 +29,9 @@ See link:https://microsoft.github.io/slngen/[SlnGen] & link:https://github.com/m
 ----
 slngen -vs ((Get-VSSetupInstance).InstallationPath + "\Common7\IDE\devenv.exe") --folders true --collapsefolders true -o OneDotNet.sln
 ----
+
+== Deprecated Packages
+
+These packages are deprecated and source code removed. The link can redirect you to the last commit before removing it.
+
+* link:https://github.com/hcoona/OneDotNet/tree/5ab8904/TimeLimiter[TimeLimiter]. This package is ill-designed & has performance issue. Please do not use it.

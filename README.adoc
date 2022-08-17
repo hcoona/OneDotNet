@@ -10,15 +10,13 @@ Bazel currently has poorly support for DotNet projects. Just put all DotNet proj
 
 === Prerequisites
 
-Install VS2022 & .NET 5.0 for compilation.
-
-Install .NET 5.0 for runtime.
+Install VS2022 (optional) & .NET 6.0 for compilation & runtime.
 
 === Compile
 
 [source]
 ----
-dotnet build
+dotnet build dirs.proj
 ----
 
 === SlnGen

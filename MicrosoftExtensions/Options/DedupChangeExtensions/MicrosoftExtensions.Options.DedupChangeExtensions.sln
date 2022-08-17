@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosoftExtensions.Options.DedupChangeExtensions", "MicrosoftExtensions.Options.DedupChangeExtensions\MicrosoftExtensions.Options.DedupChangeExtensions.csproj", "{FC4962B5-99AA-4E9D-A02A-D449495B6943}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1DB02E6E-34EB-4C63-B362-0159C4FBE20F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		common.props = common.props
+		Directory.Build.props = Directory.Build.props
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+		version.json = version.json
+		version.props = version.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC4962B5-99AA-4E9D-A02A-D449495B6943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4962B5-99AA-4E9D-A02A-D449495B6943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4962B5-99AA-4E9D-A02A-D449495B6943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4962B5-99AA-4E9D-A02A-D449495B6943}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {257DF2D3-296D-4F55-986C-6AEC768A0B93}
+	EndGlobalSection
+EndGlobal

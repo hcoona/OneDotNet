@@ -1,0 +1,53 @@
+= WebHdfs File Provider =
+
+This is a file provider for link:https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html[HDFS] through link:https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/WebHDFS.html[WebHDFS] protocol for link:https://github.com/aspnet/FileSystem[Microsoft.Extensions.FileProviders].
+
+== Getting Started ==
+
+This project support .NET framework 4.5+ & .NET standard 1.1+
+
+=== Installing ===
+
+[source,powershell]
+----
+# Add the WebHdfs.Extensions.FileProviders package to the default project
+Install-Package WebHdfs.Extensions.FileProviders
+
+# Add the WebHdfs.Extensions.FileProviders package to a project named UtilitiesLib that is not the default
+Install-Package WebHdfs.Extensions.FileProviders -ProjectName UtilitiesLib
+----
+
+=== Samples ===
+
+[source,csharp]
+----
+var fileFileInfo = new WebHdfsFileInfo(nameNodeUri, settings.FilePath);
+Assert.True(fileFileInfo.Exists);
+Assert.True(fileFileInfo.Length > 0);
+Assert.True(fileFileInfo.LastModified > DateTimeOffset.Parse("2010/1/1"));
+Assert.False(fileFileInfo.IsDirectory);
+
+string content;
+using (var reader = new StreamReader(fileFileInfo.CreateReadStream())) {
+    content = reader.ReadToEnd();
+}
+----
+
+== Build ==
+
+[source]
+----
+msbuild.exe
+
+dotnet build
+----
+
+== Todo ==
+
+. Support OAuth
+. Support watch globbing files
+. Add CI for both Windows & Linux
+
+== License ==
+
+This project is licensed under the GPL3.0 License -- see the link:LICENSE.txt[LICENSE.txt] file for details

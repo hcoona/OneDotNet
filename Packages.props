@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="Git Versioning">
-    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.5.108" />
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.5.109" />
   </ItemGroup>
 
   <ItemGroup Label="Code Analyzing">

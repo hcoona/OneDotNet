@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="DedupChangeExtensions\dirs.proj" />
+  </ItemGroup>
+</Project>

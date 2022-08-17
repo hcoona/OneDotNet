@@ -2,5 +2,6 @@
   <ItemGroup>
     <ProjectReference Include="FileProviders\dirs.proj" />
     <ProjectReference Include="Logging\dirs.proj" />
+    <ProjectReference Include="Options\dirs.proj" />
   </ItemGroup>
 </Project>

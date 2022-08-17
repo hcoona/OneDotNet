@@ -35,11 +35,6 @@
     <SlnGenSolutionItem Include="$(EnlistmentRoot)\README.adoc" />
   </ItemGroup>
 
-  <PropertyGroup Label="Workaround">
-    <!-- https://github.com/dotnet/Nerdbank.GitVersioning/issues/751#issuecomment-1121151652 -->
-    <NBGV_PrivateP2PAuxTargets>$(EnlistmentRoot)\Nerdbank.GitVersioning.751-workaround.targets</NBGV_PrivateP2PAuxTargets>
-  </PropertyGroup>
-
   <PropertyGroup Label="NuPack">
     <Authors>Shuai Zhang</Authors>
     <Company>Shuai Zhang</Company>

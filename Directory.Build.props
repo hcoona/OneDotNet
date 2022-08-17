@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
     <EnlistmentRoot>$(MSBuildThisFileDirectory.TrimEnd('\\'))</EnlistmentRoot>
@@ -38,5 +38,10 @@
   <PropertyGroup Label="Workaround">
     <!-- https://github.com/dotnet/Nerdbank.GitVersioning/issues/751#issuecomment-1121151652 -->
     <NBGV_PrivateP2PAuxTargets>$(EnlistmentRoot)\Nerdbank.GitVersioning.751-workaround.targets</NBGV_PrivateP2PAuxTargets>
+  </PropertyGroup>
+
+  <PropertyGroup Label="NuPack">
+    <Authors>Shuai Zhang</Authors>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

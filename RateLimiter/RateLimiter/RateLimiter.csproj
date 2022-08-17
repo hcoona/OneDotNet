@@ -1,22 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../common.props" />
-
   <PropertyGroup>
-    <TargetFrameworks>net20;net45;netstandard1.3</TargetFrameworks>
-  </PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
 
-  <PropertyGroup>
     <PackageId>RateLimiter2</PackageId>
+    <Copyright>Copyright 2017 Shuai Zhang under GPLv3</Copyright>
+    <Description>This is a C# port of modified version of Guava RateLimiter. See project site for further details.</Description>
+    <PackageProjectUrl>https://github.com/hcoona/RateLimiter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hcoona/RateLimiter</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>rate-limit guava</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clocks.Abstraction" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net20'">
-    <Compile Remove="IAsyncBlocker.cs" />
-    <PackageReference Include="LinqBridge" Version="1.3.0" />
+    <ProjectReference Include="..\..\Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

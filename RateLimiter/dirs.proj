@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="RateLimiter\RateLimiter.csproj" />
+    <ProjectReference Include="RateLimiter.Tests\RateLimiter.Tests.csproj" />
+  </ItemGroup>
+</Project>

@@ -5,7 +5,8 @@
     "^Clocks.Net",
     "^Memoization.Net",
     "^MicrosoftExtensions",
-    "^PhiFailureDetector"
+    "^PhiFailureDetector",
+    "^RateLimiter"
   ],
   "gitCommitIdShortFixedLength": 7,
   "gitCommitIdShortAutoMinimum": 7,

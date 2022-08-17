@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Shuai Zhang</Authors>
+    <Company>Shuai Zhang</Company>
+    <Description>An implementation of the phi accrual failure detector: N. Hayashibara, X. Defago, R. Yared, and T. Katayama, The /spl phi/ accrual failure detector, Proc. 23rd IEEE Int. Symp. Reliab. Distrib. Syst. 2004., pp. 66-78, 2004.</Description>
+    <Copyright>Copyright 2017 Shuai Zhang under GPLv3</Copyright>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0-standalone.html</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/hcoona/PhiFailureDetector</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hcoona/PhiFailureDetector</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>failure-detector distributed-system</PackageTags>
+    <PackageReleaseNotes>$(Description)</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.7" PrivateAssets="All"  />
+  </ItemGroup>
+</Project>

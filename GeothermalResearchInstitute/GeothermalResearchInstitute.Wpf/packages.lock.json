@@ -2,6 +2,12 @@
   "version": 1,
   "dependencies": {
     "net6.0-windows7.0": {
+      "Extended.Wpf.Toolkit": {
+        "type": "Direct",
+        "requested": "[4.4.0, )",
+        "resolved": "4.4.0",
+        "contentHash": "EAG/XbjY+m9x1zHj2OE62C8X/Nm09gHyrhi3wnbT/8L06CTW4jtaz4RwN/nupx3sV5U3xsNmeRDILvRw3WO9Ew=="
+      },
       "Grpc.Core.Testing": {
         "type": "Direct",
         "requested": "[2.25.0, )",
@@ -237,12 +243,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.0",
           "Unity.Container": "5.11.4"
         }
-      },
-      "Xceed.Wpf.Toolkit": {
-        "type": "Direct",
-        "requested": "[4.4.0, )",
-        "resolved": "4.4.22258.9000",
-        "contentHash": "rqWMWc2UWPxsklMoFyObhih7J/8hUHrKvmTjp4dYb7BYf/lAEUt10kJnmrkWPHnCqNZZ+FGx26gIOqJL1BozhA=="
       },
       "CommonServiceLocator": {
         "type": "Transitive",

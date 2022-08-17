@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
@@ -34,7 +35,6 @@
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="Unity.Container" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" />
-    <PackageReference Include="Xceed.Wpf.Toolkit" />
   </ItemGroup>
 
   <ItemGroup>

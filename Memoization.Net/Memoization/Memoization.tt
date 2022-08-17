@@ -1,0 +1,62 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Memoization
+{
+    public static partial class Memoization
+    {
+
+<# for (int i = 0; i < 16; i++) { #>
+<#
+var inputTypes = string.Join(", ", Enumerable.Range(1, i + 1).Select(idx => $"T{idx}"));
+var inputTypeWithParams = string.Join(", ", Enumerable.Range(1, i + 1).Select(idx => $"T{idx} t{idx}"));
+var inputParams = string.Join(", ", Enumerable.Range(1, i + 1).Select(idx => $"t{idx}"));
+#>
+        [DebuggerStepThrough]
+        public static Func<<#= inputTypes #>, TResult> Create<<#= inputTypes #>, TResult>(Func<<#= inputTypes #>, TResult> func)
+        {
+            return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"));
+        }
+        
+        [DebuggerStepThrough]
+        public static Func<<#= inputTypes #>, TResult> Create<<#= inputTypes #>, TResult>(Func<<#= inputTypes #>, TResult> func, MemoryCacheEntryOptions options)
+        {
+            return Create(func, DefaultCache ?? throw new InvalidOperationException("Memoization.DefaultCache is null"), options);
+        }
+        
+        public static Func<<#= inputTypes #>, TResult> Create<<#= inputTypes #>, TResult>(Func<<#= inputTypes #>, TResult> func, IMemoryCache cache)
+        {
+            return (<#= inputTypeWithParams #>) => cache.GetOrCreate((<#= inputParams #>), ignored => func(<#= inputParams #>));
+        }
+
+        public static Func<<#= inputTypes #>, TResult> Create<<#= inputTypes #>, TResult>(Func<<#= inputTypes #>, TResult> func, IMemoryCache cache, MemoryCacheEntryOptions options)
+        {
+            return (<#= inputTypeWithParams #>) =>
+            {
+                var key = (<#= inputParams #>);
+                if (!cache.TryGetValue<TResult>(key, out var result))
+                {
+                    var entry = cache.CreateEntry(key);
+                    result = func(<#= inputParams #>);
+                    entry.SetOptions(options);
+                    entry.SetValue(result);
+                    // need to manually call dispose instead of having a using
+                    // in case the factory passed in throws, in which case we
+                    // do not want to add the entry to the cache
+                    entry.Dispose();
+                }
+
+                return result;
+            };
+        }
+
+<# } #>
+    }
+}

@@ -1,10 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
-  "version": "0.4.1",
-  "nugetPackageVersion": {
-    "semVer": 2
-  },
+  "version": "0.4.1-beta.{height}",
+  "pathFilters": ["."],
   "publicReleaseRefSpec": [
-    "^refs/heads/master$"
-  ]
+    "^refs/tags/microsoftextensions-fileproviders-webhdfs/v\\d+\\.\\d+\\.\\d+"
+  ],
+  "inherit": true
 }

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="FileProviders\dirs.proj" />
+    <ProjectReference Include="Logging\dirs.proj" />
+  </ItemGroup>
+</Project>

@@ -42,6 +42,7 @@
 
   <PropertyGroup Label="NuPack">
     <Authors>Shuai Zhang</Authors>
+    <Company>Shuai Zhang</Company>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

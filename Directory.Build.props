@@ -23,6 +23,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
+  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
+
   <Import Project="$(EnlistmentRoot)/stylecop.props" />
 
   <PropertyGroup Label="SlnGen">

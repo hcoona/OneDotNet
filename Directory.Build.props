@@ -16,13 +16,6 @@
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'DebugNonWindows' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-
   <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
 
   <Import Project="$(EnlistmentRoot)/stylecop.props" />

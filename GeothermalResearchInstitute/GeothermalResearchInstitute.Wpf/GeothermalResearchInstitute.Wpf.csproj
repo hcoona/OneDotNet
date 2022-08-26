@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Microsoft.Build.Artifacts" />
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>$(CurrentWpfTargetFramework)</TargetFramework>
@@ -12,6 +14,8 @@
 
     <DebugType>Full</DebugType>
     <DebugSymbols>True</DebugSymbols>
+
+    <ArtifactsPath>$(BaseArtifactsPath)\GeothermalResearchInstitute.Wpf</ArtifactsPath>
   </PropertyGroup>
 
   <ItemGroup>

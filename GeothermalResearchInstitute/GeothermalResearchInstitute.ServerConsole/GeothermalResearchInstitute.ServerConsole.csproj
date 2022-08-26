@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Microsoft.Build.Artifacts" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,6 +10,9 @@
     <PublishSingleFile>False</PublishSingleFile>
     <PublishReadyToRun>False</PublishReadyToRun>
     <PublishTrimmed>False</PublishTrimmed>
+
+    <ArtifactsPath>$(BaseArtifactsPath)\GeothermalResearchInstitute.ServerConsole</ArtifactsPath>
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.ini *.sqlite</DefaultArtifactsFileMatch>
   </PropertyGroup>
 
   <ItemGroup>

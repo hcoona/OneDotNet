@@ -41,4 +41,10 @@
     <Company>Shuai Zhang</Company>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
+
+  <PropertyGroup Label="Artifacts">
+    <BaseArtifactsPath>$(EnlistmentRoot)\artifacts</BaseArtifactsPath>
+
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json *.nupkg</DefaultArtifactsFileMatch>
+  </PropertyGroup>
 </Project>

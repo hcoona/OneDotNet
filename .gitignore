@@ -696,3 +696,6 @@ $RECYCLE.BIN/
 
 # Generate with SlnGen
 *.sln
+
+# Artifacts folder
+/artifacts

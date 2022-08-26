@@ -9,6 +9,5 @@
     <ProjectReference Include="SerilogLab\SerilogLab.csproj" />
     <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="TcpServerLab\TcpServerLab.csproj" />
     <ProjectReference Include="TplLab\TplLab.csproj" />
-    <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="Wpf_lab\Wpf_lab.csproj" />
   </ItemGroup>
 </Project>

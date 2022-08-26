@@ -1,18 +1,20 @@
-trigger:
+pr:
 - main
 
 strategy:
   matrix:
     linux:
       imageName: 'ubuntu-latest'
+      osSuffix: 'linux'
     windows:
       imageName: 'windows-latest'
+      osSuffix: 'windows'
 
 pool:
   vmImage: $(imageName)
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Debug'
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 
 steps:
@@ -65,3 +67,9 @@ steps:
     command: 'test'
     projects: 'dirs.proj'
     arguments: '-c $(buildConfiguration)'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish artifacts'
+  inputs:
+    targetPath: $(System.DefaultWorkingDirectory)/artifacts
+    artifactName: OneDotNet-$(osSuffix)

@@ -35,7 +35,7 @@ namespace RateLimiter
             this.stopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
         }
 
-    public double PermitsPerSecond
+        public double PermitsPerSecond
         {
             get
             {

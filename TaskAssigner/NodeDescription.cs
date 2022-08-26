@@ -1,4 +1,4 @@
-﻿namespace TaskAssigner
+namespace TaskAssigner
 {
     public class NodeDescription
     {

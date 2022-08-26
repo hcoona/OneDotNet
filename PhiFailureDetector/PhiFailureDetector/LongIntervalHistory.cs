@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,7 +8,7 @@ namespace PhiFailureDetector
     {
         private readonly Queue<long> m_queue;
         private readonly int m_capacity;
-        
+
         private long m_sum;
         private long m_squaredSum;
         private double m_avg;

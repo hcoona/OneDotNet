@@ -68,7 +68,8 @@ steps:
   inputs:
     command: 'test'
     projects: 'dirs.proj'
-    arguments: '-c $(buildConfiguration)'
+    arguments: '--no-restore --no-build -c $(buildConfiguration) --collect "Code coverage"'
+    publishTestResults: true
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts'

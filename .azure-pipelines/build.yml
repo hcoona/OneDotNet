@@ -1,6 +1,15 @@
+parameters:
+- name: isOfficial
+  type: boolean
+  default: false
+- name: packProjects
+  type: boolean
+  default: false
+
 steps:
 - checkout: self
   clean: true
+  fetchDepth: -1
   persistCredentials: true
 
 # Checkout Git-LFS if necessary in the future.
@@ -49,6 +58,15 @@ steps:
     projects: 'dirs.proj'
     arguments: '--no-restore --no-build -c $(buildConfiguration) --collect "Code coverage"'
     publishTestResults: $(isWindows)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack projects'
+  condition: and(succeeded(), eq('${{ parameters.packProjects }}', 'true'), eq(variables['isWindows'], 'true'))
+  inputs:
+    command: 'pack'
+    packagesToPack: 'dev-support/pack/packaging_dirs.proj'
+    arguments: '--no-restore --no-build -c $(buildConfiguration) /p:PublicRelease=$(isOfficial)'
+    packDirectory: $(System.DefaultWorkingDirectory)/artifacts/packages
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts'

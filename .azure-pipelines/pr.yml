@@ -23,3 +23,6 @@ variables:
 
 steps:
 - template: /.azure-pipelines/build.yml@self
+  parameters:
+    isOfficial: 'false'
+    packProjects: 'false'

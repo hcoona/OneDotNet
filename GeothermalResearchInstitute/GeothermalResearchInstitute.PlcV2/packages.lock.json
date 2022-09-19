@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
     "net6.0": {
       "DotNet.ReproducibleBuilds": {
@@ -34,9 +34,18 @@
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",
-        "requested": "[2.2.0, )",
-        "resolved": "2.2.0",
-        "contentHash": "B2WqEox8o+4KUOpL7rZPyh6qYjik8tHi2tN8Z9jZkHzED8ElYgZa/h6K+xliB435SqUcWT290Fr2aa8BtZjn8A=="
+        "requested": "[3.1.0, )",
+        "resolved": "3.1.0",
+        "contentHash": "jjo4YXRx6MIpv6DiRxJjSpl+sPP0+5VW0clMEdLyIAz44PPwrDTFrd5PZckIxIXl1kKZ2KK6IL2nkt0+ug2MQg=="
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
+        "dependencies": {
+          "Microsoft.NETFramework.ReferenceAssemblies.net461": "1.0.3"
+        }
       },
       "Microsoft.SourceLink.GitHub": {
         "type": "Direct",
@@ -72,36 +81,10 @@
         "resolved": "4.11.0",
         "contentHash": "bMF+efWutZcnXPWyDni1tF4dyn3YpIj7QLdhRPiqwOUNO+Y9NfN0FZH1v2s89VNz5yrxHa6OonIWEA8mOr7ytQ=="
       },
-      "Google.Protobuf": {
-        "type": "Transitive",
-        "resolved": "3.15.0",
-        "contentHash": "2na7LsYrtxkEQaVCNjaafBzVu4IJ4U4+dwwBazK8oUkpDiIFjO0GkyTc+IbStx4xNVAV4EqHl+qp2uegFgFiiA==",
-        "dependencies": {
-          "System.Memory": "4.5.3",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
-        }
-      },
-      "Grpc": {
-        "type": "Transitive",
-        "resolved": "2.25.0",
-        "contentHash": "zSnsLPdChvG7kc2q779m0Z32qyRc3n1Y5BKWX22SDB4PCcaDjQipWo4kgYqp9u4XLceAjg1j35PQ4wAduKVi0g==",
-        "dependencies": {
-          "Grpc.Core": "2.25.0"
-        }
-      },
-      "Grpc.Core": {
-        "type": "Transitive",
-        "resolved": "2.25.0",
-        "contentHash": "PbMZqC8VEJve3+3obzP7yTEJrSmRjgZhTlhcTFkPGGZM4gW6JQyQhqqfNm6J2ew31BjPArGthW9c4fPYilaTFA==",
-        "dependencies": {
-          "Grpc.Core.Api": "2.25.0",
-          "System.Memory": "4.5.3"
-        }
-      },
       "Grpc.Core.Api": {
         "type": "Transitive",
-        "resolved": "2.25.0",
-        "contentHash": "ax4qg0k4ZTlWf8PtZoU/hfbwWkgtCRIucVqqgXrRd9HYyieuilZtX6h55SwoFeW8sdNQs950gEkR5XHGStR0lQ==",
+        "resolved": "2.46.3",
+        "contentHash": "uy1oe5baVa4V+C8ZyMiA8xYdNIx5A3PiacQL0f1zWDjF2z64Cb1MMXXRTs3GX+jeKpoK/RtOZg8UnJSm2KC/pQ==",
         "dependencies": {
           "System.Memory": "4.5.3"
         }
@@ -130,6 +113,11 @@
         "type": "Transitive",
         "resolved": "2.9.8",
         "contentHash": "8fZYJqeKBW5uuKBact26IeOBogchn5Km85klHqHneRY7Jxp+ERtrw8zJVumNFUVL68pIcf4uKPOY7zfBQ7eY3A=="
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies.net461": {
+        "type": "Transitive",
+        "resolved": "1.0.3",
+        "contentHash": "AmOJZwCqnOCNp6PPcf9joyogScWLtwy0M1WkqfEQ0M9nYwyDD7EX9ZjscKS5iYnyvteX7kzSKFCKt9I9dXA6mA=="
       },
       "Microsoft.SourceLink.AzureRepos.Git": {
         "type": "Transitive",
@@ -163,19 +151,39 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
-      "System.Runtime.CompilerServices.Unsafe": {
-        "type": "Transitive",
-        "resolved": "4.5.2",
-        "contentHash": "wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ=="
-      },
       "crc32c.net": {
         "type": "Project"
       },
       "geothermalresearchinstitute.grpc": {
         "type": "Project",
         "dependencies": {
-          "Google.Protobuf": "[3.15.0, )",
-          "Grpc": "[2.25.0, )"
+          "Google.Protobuf": "[3.21.6, )",
+          "Grpc": "[2.46.3, )"
+        }
+      },
+      "Google.Protobuf": {
+        "type": "CentralTransitive",
+        "requested": "[3.21.6, )",
+        "resolved": "3.21.6",
+        "contentHash": "HSYHFnfuTu/O4Ijy0mCW9zxLI8MJfCZJ10dk3JGPrkLaRR4LsiPKzZrrnapf2G0tP2yRMkHCl+2LKLTXqGBn2A=="
+      },
+      "Grpc": {
+        "type": "CentralTransitive",
+        "requested": "[2.46.3, )",
+        "resolved": "2.46.3",
+        "contentHash": "79TsAcLBVl5J7AmtnV+GmgkhWlpK3D9JYJDhYxZGO0DKukbyrRxxcbaFlRZ84WGwTAW8LezrInUYgfiJi3zGVg==",
+        "dependencies": {
+          "Grpc.Core": "2.46.3"
+        }
+      },
+      "Grpc.Core": {
+        "type": "CentralTransitive",
+        "requested": "[2.46.3, )",
+        "resolved": "2.46.3",
+        "contentHash": "lu7KP7BVWdvFXWbn/IFYHBQCpMohJwbLM1aL+nu2C0pY2CdS0idaUNAJNC2nZ60fXfqoxnSiERrIU6rC474oTw==",
+        "dependencies": {
+          "Grpc.Core.Api": "2.46.3",
+          "System.Memory": "4.5.3"
         }
       }
     }

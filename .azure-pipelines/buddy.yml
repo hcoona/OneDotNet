@@ -1,0 +1,22 @@
+trigger: none
+
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+      osSuffix: 'linux'
+      isWindows: false
+    windows:
+      imageName: 'windows-latest'
+      osSuffix: 'windows'
+      isWindows: true
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  buildConfiguration: 'Debug'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+
+steps:
+- template: /.azure-pipelines/build.yml@self

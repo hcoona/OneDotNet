@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
     "net6.0": {
       "DotNet.ReproducibleBuilds": {
@@ -16,13 +16,15 @@
       },
       "Google.OrTools": {
         "type": "Direct",
-        "requested": "[9.3.10497, )",
-        "resolved": "9.3.10497",
-        "contentHash": "483tZvX1I2sVE73bA5yRYxRT6IpCJ5uYV3tCbatNM6QyfZgm2rkKeK1FI6qe2fyRu9JYvFbjvHRDJYNb/p0sxw==",
+        "requested": "[9.4.1874, )",
+        "resolved": "9.4.1874",
+        "contentHash": "jqRoI+pYlym+fhoU25u+13oti5h+772bllQ9zDitTVMclDXVTiG6pxzvmYO74wnADBMdpb2SQlgiNQxoNk5dlA==",
         "dependencies": {
-          "Google.OrTools.runtime.linux-x64": "9.3.10497",
-          "Google.OrTools.runtime.osx-x64": "9.3.10497",
-          "Google.OrTools.runtime.win-x64": "9.3.10497",
+          "Google.OrTools.runtime.linux-arm64": "9.4.1874",
+          "Google.OrTools.runtime.linux-x64": "9.4.1874",
+          "Google.OrTools.runtime.osx-arm64": "9.4.1874",
+          "Google.OrTools.runtime.osx-x64": "9.4.1874",
+          "Google.OrTools.runtime.win-x64": "9.4.1874",
           "Google.Protobuf": "3.19.4"
         }
       },
@@ -42,6 +44,15 @@
           "Microsoft.CodeQuality.Analyzers": "[2.9.8]",
           "Microsoft.NetCore.Analyzers": "[2.9.8]",
           "Microsoft.NetFramework.Analyzers": "[2.9.8]"
+        }
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
+        "dependencies": {
+          "Microsoft.NETFramework.ReferenceAssemblies.net461": "1.0.3"
         }
       },
       "Microsoft.SourceLink.GitHub": {
@@ -66,25 +77,30 @@
         "resolved": "1.1.118",
         "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
       },
+      "Google.OrTools.runtime.linux-arm64": {
+        "type": "Transitive",
+        "resolved": "9.4.1874",
+        "contentHash": "Z46ndZcZa2Lt5b76xU9kxVYbPLg/LfuMufhUVsu3Qo3L7Bibf7WXd9j7RRldjnuv8RIHWTqb0b+2FwwMxs0c5A=="
+      },
       "Google.OrTools.runtime.linux-x64": {
         "type": "Transitive",
-        "resolved": "9.3.10497",
-        "contentHash": "XiThh2bs56LARHWun6AavteyFKizEkxe2EXUo4sFysw2YBj8x6LA3ywFehLDHrRUbXjf4n3nUM7OrHD4Znb04w=="
+        "resolved": "9.4.1874",
+        "contentHash": "zGeDb8FuvP9HXjrsU7krVXtSDFpR+DUGNEsH51k94jL9tzf2vWYI8+WUBRHZ/cGe50dpLr+vIjfcNo3gFyOpkQ=="
+      },
+      "Google.OrTools.runtime.osx-arm64": {
+        "type": "Transitive",
+        "resolved": "9.4.1874",
+        "contentHash": "Wo0ZfDaH6DhiQw0jZm4HWJm/oPGPpWNwOLUz+EYaoH3MLtocSxItHGQj/Ta3HyhXnYNOv+TliAH8L+8RCXu/2w=="
       },
       "Google.OrTools.runtime.osx-x64": {
         "type": "Transitive",
-        "resolved": "9.3.10497",
-        "contentHash": "ODijvADcrNd1D8900jx5JsjpixHASDAuO9uI11JbkN5sye7psDt1lCn1em0qp8Heq4vUIu3cXbGDfPIeD+D5xQ=="
+        "resolved": "9.4.1874",
+        "contentHash": "IAfGgKR1og6vU87axK1d37Ak/4jy8B4NMoElovG/KZc/2UY+cJEAQDA709UMegtI4lBhuxTWFNUiHQYmRIB9yQ=="
       },
       "Google.OrTools.runtime.win-x64": {
         "type": "Transitive",
-        "resolved": "9.3.10497",
-        "contentHash": "jfBlnrqp2agirfyiMy+BjRAbXM2QalaXK2YD8nupggUpl6+kk8QTVuJLoC+rH1zxR0KJvHQamjIXUqAQ1ixlmw=="
-      },
-      "Google.Protobuf": {
-        "type": "Transitive",
-        "resolved": "3.19.4",
-        "contentHash": "fd07/ykL4O4FhqrZIELm5lmiyOHfdPg9+o+hWr6tcfRdS7tHXnImg/2wtogLzlW2eEmr0J7j6ZrZvaWOLiJbxQ=="
+        "resolved": "9.4.1874",
+        "contentHash": "fUs5qDnZA6itygolcX6nPuachQkY9CVvQbakIzIiRAWKcaj8umQAbFdGwbkyzp3qp34BKW5mtPVsmMyfQBBjOQ=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -110,6 +126,11 @@
         "type": "Transitive",
         "resolved": "2.9.8",
         "contentHash": "8fZYJqeKBW5uuKBact26IeOBogchn5Km85klHqHneRY7Jxp+ERtrw8zJVumNFUVL68pIcf4uKPOY7zfBQ7eY3A=="
+      },
+      "Microsoft.NETFramework.ReferenceAssemblies.net461": {
+        "type": "Transitive",
+        "resolved": "1.0.3",
+        "contentHash": "AmOJZwCqnOCNp6PPcf9joyogScWLtwy0M1WkqfEQ0M9nYwyDD7EX9ZjscKS5iYnyvteX7kzSKFCKt9I9dXA6mA=="
       },
       "Microsoft.SourceLink.AzureRepos.Git": {
         "type": "Transitive",
@@ -142,6 +163,12 @@
           "Microsoft.Build.Tasks.Git": "1.1.1",
           "Microsoft.SourceLink.Common": "1.1.1"
         }
+      },
+      "Google.Protobuf": {
+        "type": "CentralTransitive",
+        "requested": "[3.21.6, )",
+        "resolved": "3.21.6",
+        "contentHash": "HSYHFnfuTu/O4Ijy0mCW9zxLI8MJfCZJ10dk3JGPrkLaRR4LsiPKzZrrnapf2G0tP2yRMkHCl+2LKLTXqGBn2A=="
       }
     }
   }

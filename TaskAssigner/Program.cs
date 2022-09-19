@@ -8,9 +8,9 @@ using Google.OrTools.LinearSolver;
 
 namespace TaskAssigner
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             using var solver = Solver.CreateSolver(
                 "CBC_MIXED_INTEGER_PROGRAMMING");
@@ -33,6 +33,7 @@ namespace TaskAssigner
                     MemoryMiB = 64 << 10,  // 64 GiB
                 });
             }
+
             for (int i = 0; i < 13; i++)
             {
                 assignment.Tasks.Add(new TaskDescription
@@ -42,6 +43,7 @@ namespace TaskAssigner
                     MemoryMiB = 32 << 10,  // 32 GiB, CPU:MEM=1:4
                 });
             }
+
             for (int i = 0; i < 17; i++)
             {
                 assignment.Tasks.Add(new TaskDescription
@@ -51,11 +53,13 @@ namespace TaskAssigner
                     MemoryMiB = 32 << 10,  // 16 GiB, CPU:MEM=1:2
                 });
             }
+
             assignment.Assignments[0] = new HashSet<int>();
             for (int i = 0; i < assignment.Tasks.Count; i++)
             {
                 assignment.Assignments[0].Add(i);
             }
+
             for (int i = 1; i < assignment.Nodes.Count; i++)
             {
                 assignment.Assignments[i] = new HashSet<int>();
@@ -65,4 +69,3 @@ namespace TaskAssigner
         }
     }
 }
-

@@ -18,4 +18,3 @@ namespace TaskAssigner
             new Dictionary<int, ISet<int>>();
     }
 }
-

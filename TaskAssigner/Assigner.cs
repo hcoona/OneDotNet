@@ -10,11 +10,11 @@ namespace TaskAssigner
 {
     public class Assigner
     {
-        private readonly Solver solver_;
+        private readonly Solver solver;
 
         public Assigner(Solver solver)
         {
-            this.solver_ = solver ?? throw new ArgumentNullException(nameof(solver));
+            this.solver = solver ?? throw new ArgumentNullException(nameof(solver));
         }
 
         public AssignmentDescription Solve(AssignmentDescription assignment)
@@ -24,9 +24,8 @@ namespace TaskAssigner
                 throw new ArgumentNullException(nameof(assignment));
             }
 
-            var assignerCore = new AssignerCore(this.solver_, assignment);
+            var assignerCore = new AssignerCore(this.solver, assignment);
             return assignerCore.Run();
         }
     }
 }
-

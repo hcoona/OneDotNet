@@ -14,4 +14,3 @@ namespace TaskAssigner
         public int MemoryMiB { get; set; }
     }
 }
-

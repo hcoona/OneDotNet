@@ -58,10 +58,10 @@ namespace Memoization.Tests
 
     internal static class YCombinator<T>
     {
-        delegate Func<T, T> Recursive(Recursive recursive);
-
         public static Func<Func<Func<T, T>, Func<T, T>>, Func<T, T>> Fix =
           f => ((Recursive)(g =>
-              (f(x => g(g)(x)))))((Recursive)(g => f(x => g(g)(x))));
+              f(x => g(g)(x))))((Recursive)(g => f(x => g(g)(x))));
+
+        private delegate Func<T, T> Recursive(Recursive recursive);
     }
 }

@@ -1,4 +1,4 @@
-// <copyright file="IClock.cs" company="Shuai Zhang">
+// <copyright file="Memoization.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -11,7 +11,6 @@ namespace Memoization
 {
     public static partial class Memoization
     {
-
         [DebuggerStepThrough]
         public static Func<T1, TResult> Create<T1, TResult>(Func<T1, TResult> func)
         {
@@ -40,6 +39,7 @@ namespace Memoization
                     result = func(t1);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -78,6 +78,7 @@ namespace Memoization
                     result = func(t1, t2);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -116,6 +117,7 @@ namespace Memoization
                     result = func(t1, t2, t3);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -154,6 +156,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -192,6 +195,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -230,6 +234,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -268,6 +273,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -306,6 +312,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -344,6 +351,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -382,6 +390,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -420,6 +429,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -458,6 +468,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -496,6 +507,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -534,6 +546,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -572,6 +585,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -610,6 +624,7 @@ namespace Memoization
                     result = func(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16);
                     entry.SetOptions(options);
                     entry.SetValue(result);
+
                     // need to manually call dispose instead of having a using
                     // in case the factory passed in throws, in which case we
                     // do not want to add the entry to the cache
@@ -619,6 +634,5 @@ namespace Memoization
                 return result;
             };
         }
-
     }
 }

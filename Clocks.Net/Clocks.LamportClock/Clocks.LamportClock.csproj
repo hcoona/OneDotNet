@@ -1,7 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>netstandard1.0;net20</TargetFrameworks>
+
+    <!--
+      Necessary to support net20 target, see
+      https://github.com/dotnet/Nerdbank.GitVersioning/issues/456
+      and
+      https://github.com/dotnet/Nerdbank.GitVersioning/issues/292
+    -->
+    <NBGV_EmitThisAssemblyClass>false</NBGV_EmitThisAssemblyClass>
   </PropertyGroup>
 
   <ItemGroup>

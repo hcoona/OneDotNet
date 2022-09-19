@@ -22,34 +22,33 @@ namespace WebHdfs.Extensions.FileProviders
             this.directoryInfo = directoryInfo;
         }
 
-        public bool Exists => directoryInfo.Exists;
+        public bool Exists => this.directoryInfo.Exists;
 
         public IEnumerator<IFileInfo> GetEnumerator()
         {
-            var responseContent = directoryInfo.GetFileStatuses().Result;
+            var responseContent = this.directoryInfo.GetFileStatuses().Result;
             var fileStatuses = JsonConvert.DeserializeAnonymousType(responseContent, new
             {
                 FileStatuses = new
                 {
                     FileStatus = new WebHdfsFileStatus[0]
-                }
+                },
             }).FileStatuses.FileStatus;
 
             return fileStatuses.Select(s => new WebHdfsFileInfo(
-                directoryInfo.NameNodeUri,
-                Path.Combine(directoryInfo.RelativePath, s.PathSuffix),
+                this.directoryInfo.NameNodeUri,
+                Path.Combine(this.directoryInfo.RelativePath, s.PathSuffix),
                 s) as IFileInfo).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         public void Dispose()
         {
-            directoryInfo.Dispose();
+            this.directoryInfo.Dispose();
         }
     }
 }
-

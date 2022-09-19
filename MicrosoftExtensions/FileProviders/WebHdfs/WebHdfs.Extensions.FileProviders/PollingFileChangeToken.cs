@@ -52,15 +52,15 @@ namespace WebHdfs.Extensions.FileProviders
 
         public bool ActiveChangeCallbacks => false;
 
+        public IDisposable RegisterChangeCallback(Action<object> callback, object state)
+        {
+            return EmptyDisposable.Instance;
+        }
+
         private DateTime GetLastWriteTimeUtc()
         {
             this.fileInfo.Refresh();
             return this.fileInfo.Exists ? this.fileInfo.LastModified.UtcDateTime : DateTime.MinValue;
-        }
-
-        public IDisposable RegisterChangeCallback(Action<object> callback, object state)
-        {
-            return EmptyDisposable.Instance;
         }
     }
 }

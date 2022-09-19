@@ -7,6 +7,13 @@ using Newtonsoft.Json;
 
 namespace WebHdfs.Extensions.FileProviders
 {
+    internal enum WebHdfsFileType
+    {
+        FILE,
+        DIRECTORY,
+        SYMLINK,
+    }
+
     internal class WebHdfsFileStatus
     {
         public long Length { get; set; }
@@ -17,20 +24,14 @@ namespace WebHdfs.Extensions.FileProviders
 
         public WebHdfsFileType Type { get; set; }
 
+        internal static WebHdfsFileStatus Empty { get; } = new WebHdfsFileStatus();
+
         internal static WebHdfsFileStatus ParseJson(string json)
         {
             return JsonConvert.DeserializeAnonymousType(json, new
             {
-                FileStatus = new WebHdfsFileStatus()
+                FileStatus = new WebHdfsFileStatus(),
             }).FileStatus;
         }
-
-        internal static WebHdfsFileStatus Empty { get; } = new WebHdfsFileStatus();
-    }
-
-    internal enum WebHdfsFileType
-    {
-        FILE, DIRECTORY, SYMLINK
     }
 }
-

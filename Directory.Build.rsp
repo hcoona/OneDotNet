@@ -3,3 +3,5 @@
 /NodeReuse:false
 /Restore
 /Interactive
+/BinaryLogger
+/IgnoreProjectExtensions:.sln

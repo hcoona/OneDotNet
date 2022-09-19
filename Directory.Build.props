@@ -21,7 +21,8 @@
     <!-- https://github.com/dotnet/fsharp/issues/12315 -->
     <DisableImplicitFSharpCoreReference Condition="'$(MSBuildProjectExtension)' == '.fsproj'">true</DisableImplicitFSharpCoreReference>
     <!-- https://github.com/NuGet/Home/issues/11949#issuecomment-1212508955 -->
-    <NoWarn Condition="'$(MSBuildProjectExtension)' == '.fsproj'">NU1507</NoWarn>
+    <!-- Also for Microsoft.CodeAnalysis.NetAnalyzers -->
+    <NoWarn>NU1507</NoWarn>
   </PropertyGroup>
 
   <!-- TF_BUILD is automatically set in Azure Pipelines -->

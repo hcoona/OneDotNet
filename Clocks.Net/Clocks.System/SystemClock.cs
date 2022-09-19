@@ -8,7 +8,7 @@ using System;
 namespace Clocks
 {
     /// <summary>
-    /// System built-in clock implemented by <seealso cref="DateTime"/>
+    /// System built-in clock implemented by <seealso cref="DateTime"/>.
     /// </summary>
     /// <seealso cref="Clocks.IPhysicalClock{System.DateTime}" />
     public class SystemClock : IPhysicalClock<DateTime>
@@ -33,6 +33,10 @@ namespace Clocks
 
         public DateTime Now => DateTime.Now;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Performance",
+            "CA1822: Member UtcNow does not access instance data and can be marked as static",
+            Justification = "By-design to align with `Now`, will mark static in next version")]
         public DateTime UtcNow => DateTime.UtcNow;
 
         public DateTime ParseTimePoint(DateTime timepoint)

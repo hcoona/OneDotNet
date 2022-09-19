@@ -33,8 +33,8 @@ namespace Clocks
         public void Restart()
         {
 #if NET20
-            stopwatch.Stop();
-            stopwatch.Start();
+            this.stopwatch.Stop();
+            this.stopwatch.Start();
 #else
             this.stopwatch.Restart();
 #endif

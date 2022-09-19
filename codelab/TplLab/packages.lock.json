@@ -16,21 +16,15 @@
       },
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
-        "requested": "[2.9.8, )",
-        "resolved": "2.9.8",
-        "contentHash": "DPJU5cE6/10d9ZqoUqd23vY4ZcbA4j1ebjZ1fLpVjMfzo7SwJFYKeuz8YN7l7gA2rJAfJ90JtgKeRIARW7YPCA=="
+        "requested": "[3.3.3, )",
+        "resolved": "3.3.3",
+        "contentHash": "vvz3XCHVrd/Ks4xPoutLmL/T2+8JcOk/OMs3ngwQqnzokQCGEDsY+WjK/txCsDWU29sX3fGzH/FnYwNV93O1mA=="
       },
-      "Microsoft.CodeAnalysis.FxCopAnalyzers": {
+      "Microsoft.CodeAnalysis.NetAnalyzers": {
         "type": "Direct",
-        "requested": "[2.9.8, )",
-        "resolved": "2.9.8",
-        "contentHash": "FZhO7S+xinFrcRvPyIxPbFgY0Jg3X+KNkawhg7wwoVxnT/ySdoO162dyIMXfQQ6/qCmjNFHmTDXiNlpPNvKNyQ==",
-        "dependencies": {
-          "Microsoft.CodeAnalysis.VersionCheckAnalyzer": "[2.9.8]",
-          "Microsoft.CodeQuality.Analyzers": "[2.9.8]",
-          "Microsoft.NetCore.Analyzers": "[2.9.8]",
-          "Microsoft.NetFramework.Analyzers": "[2.9.8]"
-        }
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "cjG06LMeOADNUeCUaklOfVgrnVkLy80H5PVll4QHDUXv+C+6G9rHczrNdWjfb3xKv3Ts9s4UsP6J2ZWe52Gz4Q=="
       },
       "Microsoft.NETFramework.ReferenceAssemblies": {
         "type": "Direct",
@@ -79,26 +73,6 @@
         "type": "Transitive",
         "resolved": "1.1.1",
         "contentHash": "AT3HlgTjsqHnWpBHSNeR0KxbLZD7bztlZVj7I8vgeYG9SYqbeFGh0TM/KVtC6fg53nrWHl3VfZFvb5BiQFcY6Q=="
-      },
-      "Microsoft.CodeAnalysis.VersionCheckAnalyzer": {
-        "type": "Transitive",
-        "resolved": "2.9.8",
-        "contentHash": "iSjqkECKpagJPjzc7sMjD6rQWSznVYqTfUZ96yR0r0jDzA45TymBof350tlOfGDRvn4OrU/KKJav21/oZDttrA=="
-      },
-      "Microsoft.CodeQuality.Analyzers": {
-        "type": "Transitive",
-        "resolved": "2.9.8",
-        "contentHash": "KevAiJKuolGKK84jDHMVGJjBAigH/86xyCVtbOzh5avUYzW7jPErdJW708byKKMiVKTwv027mbKCNnnOgNQHsA=="
-      },
-      "Microsoft.NetCore.Analyzers": {
-        "type": "Transitive",
-        "resolved": "2.9.8",
-        "contentHash": "zbGttCZ8T5wJiBDhgIaFWTrYa/X7zbCnQ76PEu/B4gb64KY+yB9gjkndsKWR+2TbOId76PN7WrSQAn+W7gr5jQ=="
-      },
-      "Microsoft.NetFramework.Analyzers": {
-        "type": "Transitive",
-        "resolved": "2.9.8",
-        "contentHash": "8fZYJqeKBW5uuKBact26IeOBogchn5Km85klHqHneRY7Jxp+ERtrw8zJVumNFUVL68pIcf4uKPOY7zfBQ7eY3A=="
       },
       "Microsoft.NETFramework.ReferenceAssemblies.net461": {
         "type": "Transitive",

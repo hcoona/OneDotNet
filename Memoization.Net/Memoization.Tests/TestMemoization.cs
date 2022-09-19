@@ -1,3 +1,8 @@
+// <copyright file="TestMemoization.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using Microsoft.Extensions.Caching.Memory;
 using Xunit;
@@ -54,6 +59,7 @@ namespace Memoization.Tests
     internal static class YCombinator<T>
     {
         delegate Func<T, T> Recursive(Recursive recursive);
+
         public static Func<Func<Func<T, T>, Func<T, T>>, Func<T, T>> Fix =
           f => ((Recursive)(g =>
               (f(x => g(g)(x)))))((Recursive)(g => f(x => g(g)(x))));

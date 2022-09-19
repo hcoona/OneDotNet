@@ -8,9 +8,11 @@ strategy:
     linux:
       imageName: 'ubuntu-latest'
       osSuffix: 'linux'
+      isWindows: false
     windows:
       imageName: 'windows-latest'
       osSuffix: 'windows'
+      isWindows: true
 
 pool:
   vmImage: $(imageName)
@@ -69,7 +71,7 @@ steps:
     command: 'test'
     projects: 'dirs.proj'
     arguments: '--no-restore --no-build -c $(buildConfiguration) --collect "Code coverage"'
-    publishTestResults: true
+    publishTestResults: $(isWindows)
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts'

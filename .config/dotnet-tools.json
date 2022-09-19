@@ -8,8 +8,8 @@
         "dotnet-format"
       ]
     },
-    "fantomas-tool": {
-      "version": "4.7.9",
+    "fantomas": {
+      "version": "5.0.1",
       "commands": [
         "fantomas"
       ]

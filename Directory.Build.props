@@ -72,6 +72,6 @@
   <PropertyGroup Label="Artifacts">
     <BaseArtifactsPath>$(EnlistmentRoot)\artifacts</BaseArtifactsPath>
 
-    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json *.nupkg</DefaultArtifactsFileMatch>
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json</DefaultArtifactsFileMatch>
   </PropertyGroup>
 </Project>

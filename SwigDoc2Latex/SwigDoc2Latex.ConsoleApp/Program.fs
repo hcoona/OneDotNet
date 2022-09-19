@@ -33,12 +33,7 @@ let translateCode (node: HtmlNode) = ""
 
 let rec translate (node: HtmlNode) =
     match node with
-    | n when
-        n.HasName "h1"
-        || n.HasName "h2"
-        || n.HasName "h3"
-        || n.HasName "h4"
-        ->
+    | n when n.HasName "h1" || n.HasName "h2" || n.HasName "h3" || n.HasName "h4" ->
         translateHeader n
     | n when n.HasName "p" -> "Paragraph"
     | n when n.HasName "table" -> "Table"

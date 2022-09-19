@@ -1,3 +1,8 @@
+// <copyright file="WebHdfsFileProvider.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
@@ -58,3 +63,4 @@ namespace WebHdfs.Extensions.FileProviders
         }
     }
 }
+

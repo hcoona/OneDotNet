@@ -1,4 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+// <copyright file="ExponentialPhi_UnitTest.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PhiFailureDetector.UnitTest
 {
@@ -22,3 +27,4 @@ namespace PhiFailureDetector.UnitTest
         }
     }
 }
+

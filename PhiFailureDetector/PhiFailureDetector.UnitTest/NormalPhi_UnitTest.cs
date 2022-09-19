@@ -1,4 +1,9 @@
-﻿using System;
+// <copyright file="NormalPhi_UnitTest.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -93,3 +98,4 @@ namespace PhiFailureDetector.UnitTest
         }
     }
 }
+

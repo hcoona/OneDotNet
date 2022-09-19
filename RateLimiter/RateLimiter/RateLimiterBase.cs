@@ -1,3 +1,8 @@
+// <copyright file="RateLimiterBase.cs" company="Shuai Zhang">
+// Copyright Shuai Zhang. All rights reserved.
+// Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -318,3 +323,4 @@ namespace RateLimiter
         protected abstract long ReserveEarliestAvailable(int permits, long nowTimestamp);
     }
 }
+

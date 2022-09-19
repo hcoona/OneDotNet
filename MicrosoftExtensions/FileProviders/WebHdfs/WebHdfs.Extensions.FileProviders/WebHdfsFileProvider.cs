@@ -13,7 +13,8 @@ namespace WebHdfs.Extensions.FileProviders
     {
         public WebHdfsFileProvider(Uri nameNodeUri)
             : this(nameNodeUri, TimeSpan.FromSeconds(5))
-        { }
+        {
+        }
 
         public WebHdfsFileProvider(Uri nameNodeUri, TimeSpan defaultPollingInterval)
         {
@@ -27,7 +28,7 @@ namespace WebHdfs.Extensions.FileProviders
 
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
-            var directoryInfo = new WebHdfsFileInfo(NameNodeUri, subpath);
+            var directoryInfo = new WebHdfsFileInfo(this.NameNodeUri, subpath);
             if (directoryInfo.Exists && directoryInfo.IsDirectory)
             {
                 return new WebHdfsDirectoryContents(directoryInfo);
@@ -40,12 +41,12 @@ namespace WebHdfs.Extensions.FileProviders
 
         public IFileInfo GetFileInfo(string subpath)
         {
-            return new WebHdfsFileInfo(NameNodeUri, subpath);
+            return new WebHdfsFileInfo(this.NameNodeUri, subpath);
         }
 
         public IChangeToken Watch(string filter)
         {
-            return Watch(filter, DefaultPollingInterval);
+            return this.Watch(filter, this.DefaultPollingInterval);
         }
 
         public IChangeToken Watch(string filter, TimeSpan pollingInterval)
@@ -57,10 +58,9 @@ namespace WebHdfs.Extensions.FileProviders
             else
             {
                 return new PollingFileChangeToken(
-                    (WebHdfsFileInfo)GetFileInfo(filter),
+                    (WebHdfsFileInfo)this.GetFileInfo(filter),
                     pollingInterval);
             }
         }
     }
 }
-

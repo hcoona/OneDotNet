@@ -20,43 +20,43 @@ namespace WebHdfs.Extensions.FileProviders
         {
             this.fileInfo = fileInfo;
             this.pollingInterval = pollingInterval;
-            this.previousWriteTimeUtc = GetLastWriteTimeUtc();
-        }
-
-        private DateTime GetLastWriteTimeUtc()
-        {
-            fileInfo.Refresh();
-            return fileInfo.Exists ? fileInfo.LastModified.UtcDateTime : DateTime.MinValue;
+            this.previousWriteTimeUtc = this.GetLastWriteTimeUtc();
         }
 
         public bool HasChanged
         {
             get
             {
-                if (hasChanged)
+                if (this.hasChanged)
                 {
-                    return hasChanged;
+                    return this.hasChanged;
                 }
 
                 var currentTime = DateTime.UtcNow;
-                if (currentTime - lastCheckedTimeUtc < pollingInterval)
+                if (currentTime - this.lastCheckedTimeUtc < this.pollingInterval)
                 {
-                    return hasChanged;
+                    return this.hasChanged;
                 }
 
-                var lastWriteTimeUtc = GetLastWriteTimeUtc();
-                if (previousWriteTimeUtc != lastWriteTimeUtc)
+                var lastWriteTimeUtc = this.GetLastWriteTimeUtc();
+                if (this.previousWriteTimeUtc != lastWriteTimeUtc)
                 {
-                    previousWriteTimeUtc = lastWriteTimeUtc;
-                    hasChanged = true;
+                    this.previousWriteTimeUtc = lastWriteTimeUtc;
+                    this.hasChanged = true;
                 }
 
-                lastCheckedTimeUtc = currentTime;
-                return hasChanged;
+                this.lastCheckedTimeUtc = currentTime;
+                return this.hasChanged;
             }
         }
 
         public bool ActiveChangeCallbacks => false;
+
+        private DateTime GetLastWriteTimeUtc()
+        {
+            this.fileInfo.Refresh();
+            return this.fileInfo.Exists ? this.fileInfo.LastModified.UtcDateTime : DateTime.MinValue;
+        }
 
         public IDisposable RegisterChangeCallback(Action<object> callback, object state)
         {
@@ -64,4 +64,3 @@ namespace WebHdfs.Extensions.FileProviders
         }
     }
 }
-

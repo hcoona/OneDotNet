@@ -12,18 +12,18 @@ namespace TaskAssigner
 {
     public class AssignerCore
     {
-        private readonly Solver solver_;
-        private readonly AssignmentDescription assignment_;
-        private readonly int[,] costs_;
-        private readonly Variable[,] variables_;
+        private readonly Solver solver;
+        private readonly AssignmentDescription assignment;
+        private readonly int[,] costs;
+        private readonly Variable[,] variables;
 
         // TODO(zhangshuai.ds): Pass in 3 policies.
         public AssignerCore(Solver solver, AssignmentDescription assignment)
         {
-            this.solver_ = solver ?? throw new ArgumentNullException(nameof(solver));
-            this.assignment_ = assignment ?? throw new ArgumentNullException(nameof(assignment));
-            this.costs_ = this.ComputeCosts(assignment);
-            this.variables_ = this.solver_.MakeBoolVarMatrix(assignment.Nodes.Count, assignment.Tasks.Count);
+            this.solver = solver ?? throw new ArgumentNullException(nameof(solver));
+            this.assignment = assignment ?? throw new ArgumentNullException(nameof(assignment));
+            this.costs = ComputeCosts(assignment);
+            this.variables = this.solver.MakeBoolVarMatrix(assignment.Nodes.Count, assignment.Tasks.Count);
         }
 
         public AssignmentDescription Run()
@@ -31,38 +31,40 @@ namespace TaskAssigner
             this.AddObjective();
             this.AddConstraints();
 
-            Solver.ResultStatus status = this.solver_.Solve();
+            Solver.ResultStatus status = this.solver.Solve();
             if (status == Solver.ResultStatus.OPTIMAL)
             {
                 var result = new AssignmentDescription();
 
-                foreach (NodeDescription n in this.assignment_.Nodes)
+                foreach (NodeDescription n in this.assignment.Nodes)
                 {
                     result.Nodes.Add(n);
                 }
 
-                foreach (TaskDescription t in this.assignment_.Tasks)
+                foreach (TaskDescription t in this.assignment.Tasks)
                 {
                     result.Tasks.Add(t);
                 }
 
-                for (int i = 1; i < this.assignment_.Nodes.Count; i++)
+                for (int i = 1; i < this.assignment.Nodes.Count; i++)
                 {
-                    for (int j = 0; j < this.assignment_.Tasks.Count; j++)
+                    for (int j = 0; j < this.assignment.Tasks.Count; j++)
                     {
-                        if (this.variables_[i, j].SolutionValue() > 0)
+                        if (this.variables[i, j].SolutionValue() > 0)
                         {
                             if (!result.Assignments.TryGetValue(i, out ISet<int> tasks))
                             {
                                 tasks = new HashSet<int>();
                                 result.Assignments.Add(i, tasks);
                             }
+
                             tasks.Add(j);
-                            Console.WriteLine($"Task {j} assigned to node {i} with cost {this.costs_[i, j]}.");
+                            Console.WriteLine($"Task {j} assigned to node {i} with cost {this.costs[i, j]}.");
                         }
                     }
                 }
-                Console.WriteLine($"Total cost is {this.solver_.Objective().Value()}");
+
+                Console.WriteLine($"Total cost is {this.solver.Objective().Value()}");
 
                 return result;
             }
@@ -70,13 +72,13 @@ namespace TaskAssigner
             throw new NotImplementedException($"Not implemented for status: {status}");
         }
 
-        protected int[,] ComputeCosts(AssignmentDescription assignment)
+        protected static int[,] ComputeCosts(AssignmentDescription assignment)
         {
             int[,] costs = new int[assignment.Nodes.Count, assignment.Tasks.Count];
             for (int j = 0; j < assignment.Tasks.Count; j++)
             {
                 costs[0, j] = 500;  // UNASSIGNED cost
-                if (assignment.Assignments[0].Contains(j))  // Not assigned yet.
+                if (assignment.Assignments[0].Contains(j)) // Not assigned yet.
                 {
                     for (int i = 1; i < assignment.Nodes.Count; i++)
                     {
@@ -98,17 +100,18 @@ namespace TaskAssigner
                     }
                 }
             }
+
             return costs;
         }
 
         protected void AddObjective()
         {
             var movingCosts = new LinearExpr();
-            for (int i = 0; i < this.assignment_.Nodes.Count; i++)
+            for (int i = 0; i < this.assignment.Nodes.Count; i++)
             {
-                for (int j = 0; j < this.assignment_.Tasks.Count; j++)
+                for (int j = 0; j < this.assignment.Tasks.Count; j++)
                 {
-                    movingCosts += this.costs_[i, j] * this.variables_[i, j];
+                    movingCosts += this.costs[i, j] * this.variables[i, j];
                 }
             }
 
@@ -116,37 +119,36 @@ namespace TaskAssigner
             var imbalanceCosts = new LinearExpr();
 
             // TODO(zhangshuai.ds): Add coefficients for the two costs.
-            this.solver_.Minimize(movingCosts + imbalanceCosts);
+            this.solver.Minimize(movingCosts + imbalanceCosts);
         }
 
         protected void AddConstraints()
         {
             // Each task is assigned to exactly one node (including UNASSIGNED virtual node).
-            for (int j = 0; j < this.assignment_.Tasks.Count; j++)
+            for (int j = 0; j < this.assignment.Tasks.Count; j++)
             {
-                LinearExpr expr = Enumerable.Range(0, this.assignment_.Nodes.Count)
-                    .Select(i => this.variables_[i, j])
+                LinearExpr expr = Enumerable.Range(0, this.assignment.Nodes.Count)
+                    .Select(i => this.variables[i, j])
                     .ToArray()
                     .Sum();
-                this.solver_.Add(expr == 1);
+                this.solver.Add(expr == 1);
             }
 
             // Each worker cannot exceed its capacity.
-            for (int i = 0; i < this.assignment_.Nodes.Count; i++)
+            for (int i = 0; i < this.assignment.Nodes.Count; i++)
             {
                 var cpuCores = new LinearExpr();
                 var memoryMiB = new LinearExpr();
 
-                for (int j = 0; j < this.assignment_.Tasks.Count; j++)
+                for (int j = 0; j < this.assignment.Tasks.Count; j++)
                 {
-                    cpuCores += this.variables_[i, j] * this.assignment_.Tasks[j].CpuCores;
-                    memoryMiB += this.variables_[i, j] * this.assignment_.Tasks[j].MemoryMiB;
+                    cpuCores += this.variables[i, j] * this.assignment.Tasks[j].CpuCores;
+                    memoryMiB += this.variables[i, j] * this.assignment.Tasks[j].MemoryMiB;
                 }
 
-                this.solver_.Add(cpuCores <= this.assignment_.Nodes[i].CpuCores);
-                this.solver_.Add(memoryMiB <= this.assignment_.Nodes[i].MemoryMiB);
+                this.solver.Add(cpuCores <= this.assignment.Nodes[i].CpuCores);
+                this.solver.Add(memoryMiB <= this.assignment.Nodes[i].MemoryMiB);
             }
         }
     }
 }
-

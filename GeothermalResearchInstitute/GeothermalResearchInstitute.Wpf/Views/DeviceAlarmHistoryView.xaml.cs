@@ -12,7 +12,7 @@ using Prism.Regions;
 namespace GeothermalResearchInstitute.Wpf.Views
 {
     /// <summary>
-    /// DeviceAlarmHistoryView.xaml 的交互逻辑
+    /// DeviceAlarmHistoryView.xaml 的交互逻辑.
     /// </summary>
     public partial class DeviceAlarmHistoryView : UserControl
     {

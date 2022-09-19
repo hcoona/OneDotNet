@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 namespace PrismLab.Views
 {
     /// <summary>
-    /// WelcomeView.xaml 的交互逻辑
+    /// WelcomeView.xaml 的交互逻辑.
     /// </summary>
     public partial class WelcomeView : UserControl
     {

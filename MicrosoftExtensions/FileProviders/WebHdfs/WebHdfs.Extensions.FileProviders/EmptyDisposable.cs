@@ -16,4 +16,3 @@ namespace WebHdfs.Extensions.FileProviders
         }
     }
 }
-

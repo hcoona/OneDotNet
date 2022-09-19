@@ -14,9 +14,10 @@ namespace Microsoft.Extensions.Options
 {
     public static class OptionsDedupChangeExtensions
     {
-        private readonly static ThreadLocal<IFormatter> formatterLocal =
+        private static readonly ThreadLocal<IFormatter> FormatterLocal =
             new ThreadLocal<IFormatter>(() => new BinaryFormatter());
-        private readonly static ThreadLocal<HashAlgorithm> hashAlgorithmLocal =
+
+        private static readonly ThreadLocal<HashAlgorithm> HashAlgorithmLocal =
             new ThreadLocal<HashAlgorithm>(SHA1.Create);
 
         public static IDisposable OnChangeDedup<TOptions>(
@@ -56,9 +57,9 @@ namespace Microsoft.Extensions.Options
         {
             using (var stream = new MemoryStream())
             {
-                formatterLocal.Value.Serialize(stream, graph);
+                FormatterLocal.Value.Serialize(stream, graph);
                 stream.Seek(0, SeekOrigin.Begin);
-                return hashAlgorithmLocal.Value.ComputeHash(stream);
+                return HashAlgorithmLocal.Value.ComputeHash(stream);
             }
         }
 
@@ -68,4 +69,3 @@ namespace Microsoft.Extensions.Options
         }
     }
 }
-

@@ -15,11 +15,13 @@ namespace RateLimiter.Tests
     {
         private long instant = 0;
 
+        public bool IsHighResolution => throw new NotImplementedException();
+
         internal IList<long> Events { get; } = new List<long>();
 
         public long GetTimestamp()
         {
-            return instant;
+            return this.instant;
         }
 
         public TimeSpan ParseDuration(long from, long to)
@@ -34,12 +36,10 @@ namespace RateLimiter.Tests
 
         public Task WaitAsync(TimeSpan timeout, CancellationToken cancellationToken)
         {
-            instant += timeout.Ticks;
-            Events.Add(timeout.Ticks);
+            this.instant += timeout.Ticks;
+            this.Events.Add(timeout.Ticks);
             return Task.FromResult<object>(null);
         }
-
-        public bool IsHighResolution => throw new NotImplementedException();
 
         public IStopwatch Create()
         {
@@ -52,4 +52,3 @@ namespace RateLimiter.Tests
         }
     }
 }
-

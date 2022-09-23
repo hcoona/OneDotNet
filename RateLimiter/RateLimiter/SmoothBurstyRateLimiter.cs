@@ -10,6 +10,8 @@ namespace RateLimiter
 {
     internal sealed class SmoothBurstyRateLimiter : SmoothRateLimiter
     {
+        private readonly double maxBurstSeconds;
+
         public SmoothBurstyRateLimiter(
             IStopwatchProvider<long> stopwatchProvider,
             double maxBurstSeconds)
@@ -30,21 +32,19 @@ namespace RateLimiter
             this.maxBurstSeconds = maxBurstSeconds;
         }
 
-        private readonly double maxBurstSeconds;
-
-        protected override TimeSpan CoolDownInterval => stableInterval;
+        protected override TimeSpan CoolDownInterval => this.stableInterval;
 
         protected override void DoSetRate(double permitsPerSecond, TimeSpan stableInterval)
         {
-            var oldMaxPermits = maxPermits;
-            maxPermits = maxBurstSeconds * permitsPerSecond;
+            var oldMaxPermits = this.maxPermits;
+            this.maxPermits = this.maxBurstSeconds * permitsPerSecond;
             if (double.IsPositiveInfinity(oldMaxPermits))
             {
-                storedPermits = maxPermits;
+                this.storedPermits = this.maxPermits;
             }
             else
             {
-                storedPermits = (oldMaxPermits == 0) ? 0 : storedPermits * maxPermits / oldMaxPermits;
+                this.storedPermits = (oldMaxPermits == 0) ? 0 : this.storedPermits * this.maxPermits / oldMaxPermits;
             }
         }
 
@@ -54,4 +54,3 @@ namespace RateLimiter
         }
     }
 }
-

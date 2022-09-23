@@ -15,12 +15,12 @@ namespace RateLimiter
 {
     public abstract class RateLimiterBase : IRateLimiter
     {
-        protected readonly IStopwatchProvider<long> stopwatchProvider;
+        internal readonly IStopwatchProvider<long> StopwatchProvider;
 #if NET20
-        protected readonly object lockObject = new object();
+        private readonly object lockObject = new object();
 #else
-        protected readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        internal readonly IAsyncBlocker asyncBlocker;
+        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private readonly IAsyncBlocker asyncBlocker;
 #endif
 
         protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
@@ -37,7 +37,7 @@ namespace RateLimiter
 #else
         {
 #endif
-            this.stopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
+            this.StopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
         }
 
         public double PermitsPerSecond
@@ -47,41 +47,44 @@ namespace RateLimiter
 #if NET20
                 Monitor.Enter(lockObject);
 #else
-                semaphoreSlim.Wait();
+                this.semaphoreSlim.Wait();
 #endif
                 try
                 {
-                    return DoGetRate();
+                    return this.DoGetRate();
                 }
                 finally
                 {
 #if NET20
                     Monitor.Exit(lockObject);
 #else
-                    semaphoreSlim.Release();
+                    this.semaphoreSlim.Release();
 #endif
                 }
             }
+
             set
             {
-                if (!(value > 0 && !Double.IsNaN(value)))
-                    throw new ArgumentOutOfRangeException(nameof(PermitsPerSecond));
+                if (!(value > 0 && !double.IsNaN(value)))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(this.PermitsPerSecond));
+                }
 
 #if NET20
                 Monitor.Enter(lockObject);
 #else
-                semaphoreSlim.Wait();
+                this.semaphoreSlim.Wait();
 #endif
                 try
                 {
-                    DoSetRate(value, stopwatchProvider.GetTimestamp());
+                    this.DoSetRate(value, this.StopwatchProvider.GetTimestamp());
                 }
                 finally
                 {
 #if NET20
                     Monitor.Exit(lockObject);
 #else
-                    semaphoreSlim.Release();
+                    this.semaphoreSlim.Release();
 #endif
                 }
             }
@@ -90,20 +93,20 @@ namespace RateLimiter
         [DebuggerStepThrough]
         public TimeSpan Acquire()
         {
-            return Acquire(1);
+            return this.Acquire(1);
         }
 
 #if !NET20
         [DebuggerStepThrough]
         public Task<TimeSpan> AcquireAsync()
         {
-            return AcquireAsync(CancellationToken.None);
+            return this.AcquireAsync(CancellationToken.None);
         }
 
         [DebuggerStepThrough]
         public Task<TimeSpan> AcquireAsync(CancellationToken cancellationToken)
         {
-            return AcquireAsync(1, cancellationToken);
+            return this.AcquireAsync(1, cancellationToken);
         }
 #endif
 
@@ -113,19 +116,19 @@ namespace RateLimiter
         public TimeSpan Acquire(int permits)
 #if !NET20
         {
-            return AcquireAsync(permits).GetAwaiter().GetResult();
+            return this.AcquireAsync(permits).GetAwaiter().GetResult();
         }
 
         [DebuggerStepThrough]
         public Task<TimeSpan> AcquireAsync(int permits)
         {
-            return AcquireAsync(permits, CancellationToken.None);
+            return this.AcquireAsync(permits, CancellationToken.None);
         }
 
         public async Task<TimeSpan> AcquireAsync(int permits, CancellationToken cancellationToken)
         {
-            var waitTimeout = await ReserveAsync(permits, cancellationToken);
-            await asyncBlocker.WaitAsync(waitTimeout, cancellationToken);
+            var waitTimeout = await this.ReserveAsync(permits, cancellationToken);
+            await this.asyncBlocker.WaitAsync(waitTimeout, cancellationToken);
             return waitTimeout;
         }
 #else
@@ -139,60 +142,60 @@ namespace RateLimiter
         [DebuggerStepThrough]
         public TryAcquireResult TryAcquire()
         {
-            return TryAcquire(1, TimeSpan.Zero);
+            return this.TryAcquire(1, TimeSpan.Zero);
         }
 
 #if !NET20
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync()
         {
-            return TryAcquireAsync(CancellationToken.None);
+            return this.TryAcquireAsync(CancellationToken.None);
         }
 
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(CancellationToken cancellationToken)
         {
-            return TryAcquireAsync(1, TimeSpan.Zero, cancellationToken);
+            return this.TryAcquireAsync(1, TimeSpan.Zero, cancellationToken);
         }
 #endif
 
         [DebuggerStepThrough]
         public TryAcquireResult TryAcquire(int permits)
         {
-            return TryAcquire(permits, TimeSpan.Zero);
+            return this.TryAcquire(permits, TimeSpan.Zero);
         }
 
 #if !NET20
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(int permits)
         {
-            return TryAcquireAsync(permits, CancellationToken.None);
+            return this.TryAcquireAsync(permits, CancellationToken.None);
         }
 
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(int permits, CancellationToken cancellationToken)
         {
-            return TryAcquireAsync(permits, TimeSpan.Zero, cancellationToken);
+            return this.TryAcquireAsync(permits, TimeSpan.Zero, cancellationToken);
         }
 #endif
 
         [DebuggerStepThrough]
         public TryAcquireResult TryAcquire(TimeSpan timeout)
         {
-            return TryAcquire(1, timeout);
+            return this.TryAcquire(1, timeout);
         }
 
 #if !NET20
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(TimeSpan timeout)
         {
-            return TryAcquireAsync(timeout, CancellationToken.None);
+            return this.TryAcquireAsync(timeout, CancellationToken.None);
         }
 
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(TimeSpan timeout, CancellationToken cancellationToken)
         {
-            return TryAcquireAsync(1, timeout, cancellationToken);
+            return this.TryAcquireAsync(1, timeout, cancellationToken);
         }
 #endif
 
@@ -202,40 +205,43 @@ namespace RateLimiter
         public TryAcquireResult TryAcquire(int permits, TimeSpan timeout)
 #if !NET20
         {
-            return TryAcquireAsync(permits, timeout, CancellationToken.None).GetAwaiter().GetResult();
+            return this.TryAcquireAsync(permits, timeout, CancellationToken.None).GetAwaiter().GetResult();
         }
 
         [DebuggerStepThrough]
         public Task<TryAcquireResult> TryAcquireAsync(int permits, TimeSpan timeout)
         {
-            return TryAcquireAsync(permits, timeout, CancellationToken.None);
+            return this.TryAcquireAsync(permits, timeout, CancellationToken.None);
         }
 
         public async Task<TryAcquireResult> TryAcquireAsync(int permits, TimeSpan timeout, CancellationToken cancellationToken)
 #endif
         {
-            if (!(permits > 0)) throw new ArgumentOutOfRangeException(nameof(permits));
+            if (!(permits > 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(permits));
+            }
 
             TimeSpan waitTimeout;
 #if NET20
             Monitor.Enter(lockObject);
 #else
-            await semaphoreSlim.WaitAsync(cancellationToken);
+            await this.semaphoreSlim.WaitAsync(cancellationToken);
 #endif
             try
             {
-                var nowTimestamp = stopwatchProvider.GetTimestamp();
-                if (!CanAcquire(nowTimestamp, timeout, out var momentAvailableInterval))
+                var nowTimestamp = this.StopwatchProvider.GetTimestamp();
+                if (!this.CanAcquire(nowTimestamp, timeout, out var momentAvailableInterval))
                 {
                     return new TryAcquireResult
                     {
                         Succeed = false,
-                        MomentAvailableInterval = momentAvailableInterval
+                        MomentAvailableInterval = momentAvailableInterval,
                     };
                 }
                 else
                 {
-                    waitTimeout = ReserveAndGetWaitLength(permits, nowTimestamp);
+                    waitTimeout = this.ReserveAndGetWaitLength(permits, nowTimestamp);
                 }
             }
             finally
@@ -243,19 +249,19 @@ namespace RateLimiter
 #if NET20
                 Monitor.Exit(lockObject);
 #else
-                semaphoreSlim.Release();
+                this.semaphoreSlim.Release();
 #endif
             }
 
 #if NET20
             Thread.Sleep(waitTimeout);
 #else
-            await asyncBlocker.WaitAsync(waitTimeout, cancellationToken);
+            await this.asyncBlocker.WaitAsync(waitTimeout, cancellationToken);
 #endif
             return new TryAcquireResult
             {
                 Succeed = true,
-                MomentAvailableInterval = TimeSpan.Zero
+                MomentAvailableInterval = TimeSpan.Zero,
             };
         }
 
@@ -265,35 +271,38 @@ namespace RateLimiter
         public TimeSpan Reserve(int permits)
 #if !NET20
         {
-            return ReserveAsync(permits).GetAwaiter().GetResult();
+            return this.ReserveAsync(permits).GetAwaiter().GetResult();
         }
 
         [DebuggerStepThrough]
         public Task<TimeSpan> ReserveAsync(int permits)
         {
-            return ReserveAsync(permits, CancellationToken.None);
+            return this.ReserveAsync(permits, CancellationToken.None);
         }
 
         public async Task<TimeSpan> ReserveAsync(int permits, CancellationToken cancellationToken)
 #endif
         {
-            if (!(permits > 0)) throw new ArgumentOutOfRangeException(nameof(permits));
+            if (!(permits > 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(permits));
+            }
 
 #if NET20
             Monitor.Enter(lockObject);
 #else
-            await semaphoreSlim.WaitAsync(cancellationToken);
+            await this.semaphoreSlim.WaitAsync(cancellationToken);
 #endif
             try
             {
-                return ReserveAndGetWaitLength(permits, stopwatchProvider.GetTimestamp());
+                return this.ReserveAndGetWaitLength(permits, this.StopwatchProvider.GetTimestamp());
             }
             finally
             {
 #if NET20
                 Monitor.Exit(lockObject);
 #else
-                semaphoreSlim.Release();
+                this.semaphoreSlim.Release();
 #endif
             }
         }
@@ -304,17 +313,17 @@ namespace RateLimiter
 
         protected TimeSpan ReserveAndGetWaitLength(int permits, long nowTimestamp)
         {
-            var momentAvailable = stopwatchProvider.ParseDuration(
+            var momentAvailable = this.StopwatchProvider.ParseDuration(
                 nowTimestamp,
-                ReserveEarliestAvailable(permits, nowTimestamp));
+                this.ReserveEarliestAvailable(permits, nowTimestamp));
             return momentAvailable.Ticks > 0 ? momentAvailable : TimeSpan.Zero;
         }
 
         protected bool CanAcquire(long nowTimestamp, TimeSpan timeout, out TimeSpan momentAvailableInterval)
         {
-            momentAvailableInterval = stopwatchProvider.ParseDuration(
+            momentAvailableInterval = this.StopwatchProvider.ParseDuration(
                 nowTimestamp,
-                QueryEarliestAvailable(nowTimestamp));
+                this.QueryEarliestAvailable(nowTimestamp));
             return momentAvailableInterval <= timeout;
         }
 
@@ -323,4 +332,3 @@ namespace RateLimiter
         protected abstract long ReserveEarliestAvailable(int permits, long nowTimestamp);
     }
 }
-

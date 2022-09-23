@@ -17,7 +17,7 @@ namespace RateLimiter
         {
             return new SmoothBurstyRateLimiter(stopwatchProvider, maxBurstSeconds)
             {
-                PermitsPerSecond = permitsPerSecond
+                PermitsPerSecond = permitsPerSecond,
             };
         }
 
@@ -29,7 +29,7 @@ namespace RateLimiter
         {
             return new SmoothWarmingUpRateLimiter(stopwatchProvider, warmupPeriod, coldFactor)
             {
-                PermitsPerSecond = permitsPerSecond
+                PermitsPerSecond = permitsPerSecond,
             };
         }
 
@@ -49,4 +49,3 @@ namespace RateLimiter
         }
     }
 }
-

@@ -14,4 +14,3 @@ namespace RateLimiter
         public TimeSpan MomentAvailableInterval { get; set; }
     }
 }
-

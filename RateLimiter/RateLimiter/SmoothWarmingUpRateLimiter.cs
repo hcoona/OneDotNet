@@ -10,6 +10,14 @@ namespace RateLimiter
 {
     internal sealed class SmoothWarmingUpRateLimiter : SmoothRateLimiter
     {
+        private readonly TimeSpan warmupPeriod;
+
+        private readonly double coldFactor;
+
+        private double thresholdPermits;
+
+        private TimeSpan slope;
+
         public SmoothWarmingUpRateLimiter(
             IStopwatchProvider<long> stopwatchProvider,
             TimeSpan warmupPeriod,
@@ -33,53 +41,45 @@ namespace RateLimiter
             this.coldFactor = coldFactor;
         }
 
-        private readonly TimeSpan warmupPeriod;
-
-        private readonly double coldFactor;
-
-        private double thresholdPermits;
-
-        private TimeSpan slope;
-
-        protected override TimeSpan CoolDownInterval => warmupPeriod.Divide(maxPermits);
+        protected override TimeSpan CoolDownInterval => this.warmupPeriod.Divide(this.maxPermits);
 
         protected override void DoSetRate(double permitsPerSecond, TimeSpan stableInterval)
         {
-            var oldMaxPermits = maxPermits;
-            var coldInterval = stableInterval.Multiply(coldFactor);
-            thresholdPermits = 0.5 * warmupPeriod.Ticks / stableInterval.Ticks;
-            maxPermits = thresholdPermits + 2.0 * warmupPeriod.Ticks / (stableInterval + coldInterval).Ticks;
-            slope = (coldInterval - stableInterval).Divide(maxPermits - thresholdPermits);
+            var oldMaxPermits = this.maxPermits;
+            var coldInterval = stableInterval.Multiply(this.coldFactor);
+            this.thresholdPermits = 0.5 * this.warmupPeriod.Ticks / stableInterval.Ticks;
+            this.maxPermits = this.thresholdPermits + (2.0 * this.warmupPeriod.Ticks / (stableInterval + coldInterval).Ticks);
+            this.slope = (coldInterval - stableInterval).Divide(this.maxPermits - this.thresholdPermits);
             if (oldMaxPermits == double.PositiveInfinity)
             {
-                storedPermits = 0;
+                this.storedPermits = 0;
             }
             else
             {
-                storedPermits = (oldMaxPermits == 0) ? maxPermits : (storedPermits * maxPermits / oldMaxPermits);
+                this.storedPermits = (oldMaxPermits == 0) ? this.maxPermits : (this.storedPermits * this.maxPermits / oldMaxPermits);
             }
         }
 
         protected override TimeSpan StoredPermitsToWaitTime(double storedPermits, double permitsToTake)
         {
-            var availablePermitsAboveThreshold = storedPermits - thresholdPermits;
+            var availablePermitsAboveThreshold = storedPermits - this.thresholdPermits;
             var returnValue = TimeSpan.Zero;
             if (availablePermitsAboveThreshold > 0)
             {
                 var permitsAboveThresholdToTake = Math.Min(availablePermitsAboveThreshold, permitsToTake);
-                var length = PermitsToTime(availablePermitsAboveThreshold)
-                    + PermitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake);
+                var length = this.PermitsToTime(availablePermitsAboveThreshold)
+                    + this.PermitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake);
                 returnValue = length.Multiply(permitsAboveThresholdToTake / 2.0);
                 permitsToTake -= permitsAboveThresholdToTake;
             }
-            returnValue += stableInterval.Multiply(permitsToTake);
+
+            returnValue += this.stableInterval.Multiply(permitsToTake);
             return returnValue;
         }
 
         private TimeSpan PermitsToTime(double permits)
         {
-            return stableInterval + slope.Multiply(permits);
+            return this.stableInterval + this.slope.Multiply(permits);
         }
     }
 }
-

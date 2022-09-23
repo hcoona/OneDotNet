@@ -78,7 +78,9 @@ namespace TaskAssigner
             for (int j = 0; j < assignment.Tasks.Count; j++)
             {
                 costs[0, j] = 500;  // UNASSIGNED cost
-                if (assignment.Assignments[0].Contains(j)) // Not assigned yet.
+
+                // Not assigned yet.
+                if (assignment.Assignments[0].Contains(j))
                 {
                     for (int i = 1; i < assignment.Nodes.Count; i++)
                     {

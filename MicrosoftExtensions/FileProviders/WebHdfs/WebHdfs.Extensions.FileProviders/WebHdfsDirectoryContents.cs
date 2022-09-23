@@ -31,7 +31,7 @@ namespace WebHdfs.Extensions.FileProviders
             {
                 FileStatuses = new
                 {
-                    FileStatus = new WebHdfsFileStatus[0]
+                    FileStatus = new WebHdfsFileStatus[0],
                 },
             }).FileStatuses.FileStatus;
 

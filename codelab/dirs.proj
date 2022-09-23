@@ -1,13 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
-    <ProjectReference Include="CompdbRegrouper\CompdbRegrouper.csproj" />
-    <ProjectReference Include="FileManifests\FileManifests.csproj" />
     <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="OxyPlot.SimpleDemo\OxyPlot.SimpleDemo.csproj" />
-    <ProjectReference Include="ParseHeader\ParseHeader.csproj" />
-    <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="PrismLab\PrismLab.csproj" />
-    <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="ProtocolLab\ProtocolLab.csproj" />
-    <ProjectReference Include="SerilogLab\SerilogLab.csproj" />
-    <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="TcpServerLab\TcpServerLab.csproj" />
     <ProjectReference Include="TplLab\TplLab.csproj" />
   </ItemGroup>
 </Project>

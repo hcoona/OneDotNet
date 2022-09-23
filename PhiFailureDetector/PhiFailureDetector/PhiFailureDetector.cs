@@ -10,7 +10,12 @@ namespace PhiFailureDetector
 {
     public class PhiFailureDetector
     {
-        public delegate double PhiFunc(long timestamp, long lastTimestamp, IWithStatistics statistics);
+        private readonly LongIntervalHistory arrivalWindow;
+        private readonly long initialHeartbeatInterval;
+        private readonly IStopwatchProvider<long> stopwatchProvider;
+        private readonly PhiFunc phiFunc;
+
+        private long last;
 
         public PhiFailureDetector(
             int capacity,
@@ -18,51 +23,25 @@ namespace PhiFailureDetector
             IStopwatchProvider<long> stopwatchProvider,
             PhiFunc phiFunc)
         {
-            m_arrivalWindow = new LongIntervalHistory(capacity);
-            m_initialHeartbeatInterval = initialHeartbeatInterval;
-            m_stopwatchProvider = stopwatchProvider;
-            m_phiFunc = phiFunc;
+            this.arrivalWindow = new LongIntervalHistory(capacity);
+            this.initialHeartbeatInterval = initialHeartbeatInterval;
+            this.stopwatchProvider = stopwatchProvider;
+            this.phiFunc = phiFunc;
         }
 
-        private readonly LongIntervalHistory m_arrivalWindow;
-        private readonly long m_initialHeartbeatInterval;
-        private readonly IStopwatchProvider<long> m_stopwatchProvider;
-        private readonly PhiFunc m_phiFunc;
-
-        private long m_last;
-
-        public double Phi()
-        {
-            return m_phiFunc(m_stopwatchProvider.GetTimestamp(), m_last, m_arrivalWindow);
-        }
-
-        public void Report()
-        {
-            var now = m_stopwatchProvider.GetTimestamp();
-            m_last = now;
-
-            if (m_arrivalWindow.Count == 0)
-            {
-                m_arrivalWindow.Enqueue(m_initialHeartbeatInterval);
-            }
-            else
-            {
-                var interval = now - m_last;
-                m_arrivalWindow.Enqueue(interval);
-            }
-        }
+        public delegate double PhiFunc(long timestamp, long lastTimestamp, IWithStatistics statistics);
 
         /**
          * https://issues.apache.org/jira/browse/CASSANDRA-2597
          * Regular message transmissions experiencing typical random jitter will follow a normal distribution,
          * but since gossip messages from endpoint A to endpoint B are sent at random intervals,
          * they likely make up a Poisson process, making the exponential distribution appropriate.
-         * 
+         *
          * P_later(t) = 1 - F(t)
          * P_later(t) = 1 - (1 - e^(-Lt))
-         * 
+         *
          * The maximum likelihood estimation for the rate parameter L is given by 1/mean
-         * 
+         *
          * P_later(t) = 1 - (1 - e^(-t/mean))
          * P_later(t) = e^(-t/mean)
          * phi(t) = -log10(P_later(t))
@@ -91,16 +70,36 @@ namespace PhiFailureDetector
         {
             var duration = nowTimestamp - lastTimestamp;
             var y = (duration - statistics.Avg) / statistics.StdDeviation;
-            var exp = Math.Exp(-y * (1.5976 + 0.070566 * y * y));
+            var exp = Math.Exp(-y * (1.5976 + (0.070566 * y * y)));
             if (duration > statistics.Avg)
             {
                 return -Math.Log10(exp / (1 + exp));
             }
             else
             {
-                return -Math.Log10(1 - 1 / (1 + exp));
+                return -Math.Log10(1 - (1 / (1 + exp)));
+            }
+        }
+
+        public double Phi()
+        {
+            return this.phiFunc(this.stopwatchProvider.GetTimestamp(), this.last, this.arrivalWindow);
+        }
+
+        public void Report()
+        {
+            var now = this.stopwatchProvider.GetTimestamp();
+            this.last = now;
+
+            if (this.arrivalWindow.Count == 0)
+            {
+                this.arrivalWindow.Enqueue(this.initialHeartbeatInterval);
+            }
+            else
+            {
+                var interval = now - this.last;
+                this.arrivalWindow.Enqueue(interval);
             }
         }
     }
 }
-

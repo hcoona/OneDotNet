@@ -18,4 +18,3 @@ namespace PhiFailureDetector
         double Variance { get; }
     }
 }
-

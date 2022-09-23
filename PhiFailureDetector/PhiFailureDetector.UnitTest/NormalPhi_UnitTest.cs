@@ -13,33 +13,6 @@ namespace PhiFailureDetector.UnitTest
     [TestClass]
     public class NormalPhi_UnitTest
     {
-        internal static double CDF(double phi)
-        {
-            return 1 - Math.Pow(10, -phi);
-        }
-
-        internal static double Phi(long interval, double mean, double stdDeviation)
-        {
-            return PhiFailureDetector.Normal(interval, 0, new FakeWithStatistics
-            {
-                Avg = mean,
-                StdDeviation = stdDeviation
-            });
-        }
-
-        internal class FakeWithStatistics : IWithStatistics
-        {
-            public double Avg { get; set; }
-
-            public int Count { get; set; }
-
-            public double StdDeviation { get; set; }
-
-            public long Sum { get; set; }
-
-            public double Variance { get; set; }
-        }
-
         [TestMethod]
         public void Test_CDFProperties()
         {
@@ -77,7 +50,7 @@ namespace PhiFailureDetector.UnitTest
                 { 1200, 1.6 },
                 { 1400, 4.7 },
                 { 1600, 10.8 },
-                { 1700, 15.3 }
+                { 1700, 15.3 },
             };
 
             foreach (var p in data)
@@ -94,8 +67,34 @@ namespace PhiFailureDetector.UnitTest
         {
             Assert.AreEqual(0.3, Phi(1000, 1000, 250), 0.2);
             Assert.AreEqual(4.5, Phi(2000, 1000, 250), 0.3);
-            Assert.IsTrue(15 < Phi(3000, 1000, 250));
+            Assert.IsTrue(Phi(3000, 1000, 250) > 15);
+        }
+
+        internal static double CDF(double phi)
+        {
+            return 1 - Math.Pow(10, -phi);
+        }
+
+        internal static double Phi(long interval, double mean, double stdDeviation)
+        {
+            return PhiFailureDetector.Normal(interval, 0, new FakeWithStatistics
+            {
+                Avg = mean,
+                StdDeviation = stdDeviation,
+            });
+        }
+
+        internal class FakeWithStatistics : IWithStatistics
+        {
+            public double Avg { get; set; }
+
+            public int Count { get; set; }
+
+            public double StdDeviation { get; set; }
+
+            public long Sum { get; set; }
+
+            public double Variance { get; set; }
         }
     }
 }
-

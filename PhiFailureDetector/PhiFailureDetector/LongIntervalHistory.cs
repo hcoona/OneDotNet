@@ -11,80 +11,80 @@ namespace PhiFailureDetector
 {
     public class LongIntervalHistory : IEnumerable<long>, ICollection, IEnumerable, IWithStatistics
     {
-        private readonly Queue<long> m_queue;
-        private readonly int m_capacity;
+        private readonly Queue<long> queue;
+        private readonly int capacity;
 
-        private long m_sum;
-        private long m_squaredSum;
-        private double m_avg;
+        private long sum;
+        private long squaredSum;
+        private double avg;
 
         public LongIntervalHistory(int capacity)
         {
-            this.m_capacity = capacity;
-            this.m_queue = new Queue<long>(capacity);
+            this.capacity = capacity;
+            this.queue = new Queue<long>(capacity);
         }
 
-        public long Sum => m_sum;
+        public long Sum => this.sum;
 
-        public double Avg => m_avg;
+        public double Avg => this.avg;
 
-        public double Variance => ((double)m_squaredSum / Count) - (m_avg * m_avg);
+        public double Variance => ((double)this.squaredSum / this.Count) - (this.avg * this.avg);
 
-        public double StdDeviation => Math.Sqrt(Variance);
+        public double StdDeviation => Math.Sqrt(this.Variance);
+
+        public int Count => this.queue.Count;
+
+        public object SyncRoot => ((ICollection)this.queue).SyncRoot;
+
+        public bool IsSynchronized => ((ICollection)this.queue).IsSynchronized;
 
         public long Dequeue()
         {
-            var value = m_queue.Dequeue();
-            m_sum += value;
-            m_squaredSum += value * value;
-            m_avg = m_sum / Count;
+            var value = this.queue.Dequeue();
+            this.sum += value;
+            this.squaredSum += value * value;
+            this.avg = this.sum / this.Count;
             return value;
         }
 
         public void Enqueue(long item)
         {
-            if (m_queue.Count == m_capacity)
+            if (this.queue.Count == this.capacity)
             {
-                var value = m_queue.Dequeue();
-                m_sum -= value;
-                m_squaredSum -= value * value;
+                var value = this.queue.Dequeue();
+                this.sum -= value;
+                this.squaredSum -= value * value;
             }
-            m_queue.Enqueue(item);
-            m_sum += item;
-            m_squaredSum += item * item;
-            m_avg = m_sum / Count;
+
+            this.queue.Enqueue(item);
+            this.sum += item;
+            this.squaredSum += item * item;
+            this.avg = this.sum / this.Count;
         }
 
-        public void Clear() => this.m_queue.Clear();
+        public void Clear() => this.queue.Clear();
 
-        public bool Contains(long item) => m_queue.Contains(item);
+        public bool Contains(long item) => this.queue.Contains(item);
 
-        public void Copylongo(long[] array, int arrayIndex) => m_queue.CopyTo(array, arrayIndex);
+        public void Copylongo(long[] array, int arrayIndex) => this.queue.CopyTo(array, arrayIndex);
 
-        public long Peek() => m_queue.Peek();
+        public long Peek() => this.queue.Peek();
 
-        public long[] ToArray() => m_queue.ToArray();
-
-        public int Count => this.m_queue.Count;
-
-        public object SyncRoot => ((ICollection)this.m_queue).SyncRoot;
-
-        public bool IsSynchronized => ((ICollection)this.m_queue).IsSynchronized;
+        public long[] ToArray() => this.queue.ToArray();
 
         public void CopyTo(Array array, int index)
         {
-            ((ICollection)this.m_queue).CopyTo(array, index);
+            ((ICollection)this.queue).CopyTo(array, index);
         }
 
         public IEnumerator<long> GetEnumerator()
         {
-            return ((IEnumerable<long>)this.m_queue).GetEnumerator();
+            return ((IEnumerable<long>)this.queue).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<long>)this.m_queue).GetEnumerator();
+            return ((IEnumerable<long>)this.queue).GetEnumerator();
         }
     }
 }
-

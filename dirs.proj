@@ -9,7 +9,6 @@
     <ProjectReference Include="PhiFailureDetector\dirs.proj" />
     <ProjectReference Include="RateLimiter\dirs.proj" />
     <ProjectReference Include="SharpCircularList\dirs.proj" />
-    <ProjectReference Include="TaskAssigner\TaskAssigner.csproj" />
     <ProjectReference Include="third_party\dirs.proj" />
   </ItemGroup>
 </Project>

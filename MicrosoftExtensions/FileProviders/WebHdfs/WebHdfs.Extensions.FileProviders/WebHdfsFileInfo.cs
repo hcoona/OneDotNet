@@ -110,6 +110,43 @@ namespace WebHdfs.Extensions.FileProviders
             }
         }
 
+        private static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
+        {
+#if _NET462 || _NETSTANDARD2_0
+            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
+#else
+            // Number of days in a non-leap year
+            const int DaysPerYear = 365;
+
+            // Number of days in 4 years
+            const int DaysPer4Years = (DaysPerYear * 4) + 1;       // 1461
+
+            // Number of days in 100 years
+            const int DaysPer100Years = (DaysPer4Years * 25) - 1;  // 36524
+
+            // Number of days in 400 years
+            const int DaysPer400Years = (DaysPer100Years * 4) + 1; // 146097
+
+            const int DaysTo1970 = (DaysPer400Years * 4) + (DaysPer100Years * 3) + (DaysPer4Years * 17) + DaysPerYear; // 719,162
+
+            const long UnixEpochTicks = TimeSpan.TicksPerDay * DaysTo1970; // 621,355,968,000,000,000
+            const long UnixEpochMilliseconds = UnixEpochTicks / TimeSpan.TicksPerMillisecond; // 62,135,596,800,000
+
+            long minMilliseconds = (DateTime.MinValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
+            long maxMilliseconds = (DateTime.MaxValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
+
+            if (milliseconds < minMilliseconds || milliseconds > maxMilliseconds)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(milliseconds),
+                    string.Format("Valid value between {0} and {1} (included).", minMilliseconds, maxMilliseconds));
+            }
+
+            long ticks = (milliseconds * TimeSpan.TicksPerMillisecond) + UnixEpochTicks;
+            return new DateTimeOffset(ticks, TimeSpan.Zero);
+#endif
+        }
+
         private void SetFileStatus(WebHdfsFileStatus fileStatus)
         {
             if (fileStatus == null || fileStatus == WebHdfsFileStatus.Empty)
@@ -148,43 +185,6 @@ namespace WebHdfs.Extensions.FileProviders
                     default: throw new InvalidOperationException(message);
                 }
             }
-        }
-
-        private static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
-        {
-#if _NET462 || _NETSTANDARD2_0
-            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
-#else
-            // Number of days in a non-leap year
-            const int DaysPerYear = 365;
-
-            // Number of days in 4 years
-            const int DaysPer4Years = (DaysPerYear * 4) + 1;       // 1461
-
-            // Number of days in 100 years
-            const int DaysPer100Years = (DaysPer4Years * 25) - 1;  // 36524
-
-            // Number of days in 400 years
-            const int DaysPer400Years = (DaysPer100Years * 4) + 1; // 146097
-
-            const int DaysTo1970 = (DaysPer400Years * 4) + (DaysPer100Years * 3) + (DaysPer4Years * 17) + DaysPerYear; // 719,162
-
-            const long UnixEpochTicks = TimeSpan.TicksPerDay * DaysTo1970; // 621,355,968,000,000,000
-            const long UnixEpochMilliseconds = UnixEpochTicks / TimeSpan.TicksPerMillisecond; // 62,135,596,800,000
-
-            long minMilliseconds = (DateTime.MinValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
-            long maxMilliseconds = (DateTime.MaxValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
-
-            if (milliseconds < minMilliseconds || milliseconds > maxMilliseconds)
-            {
-                throw new ArgumentOutOfRangeException(
-                    nameof(milliseconds),
-                    string.Format("Valid value between {0} and {1} (included).", minMilliseconds, maxMilliseconds));
-            }
-
-            long ticks = (milliseconds * TimeSpan.TicksPerMillisecond) + UnixEpochTicks;
-            return new DateTimeOffset(ticks, TimeSpan.Zero);
-#endif
         }
     }
 }

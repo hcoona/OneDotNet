@@ -3,9 +3,14 @@
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
+  <PropertyGroup>
+    <!-- Won't run code analysis for third party codes. -->
+    <RunAnalyzers>false</RunAnalyzers>
+  </PropertyGroup>
+
   <!-- Won't run code analysis for third party codes. -->
   <ItemGroup>
-    <PackageReference Remove="Microsoft.CodeAnalysis.FxCopAnalyzers" />
+    <PackageReference Remove="Microsoft.CodeAnalysis.NetAnalyzers" />
     <PackageReference Remove="Microsoft.CodeAnalysis.BannedApiAnalyzers" />
     <PackageReference Remove="StyleCop.Analyzers" />
   </ItemGroup>

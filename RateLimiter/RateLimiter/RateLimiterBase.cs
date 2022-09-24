@@ -23,22 +23,25 @@ namespace RateLimiter
         private readonly IAsyncBlocker asyncBlocker;
 #endif
 
-        protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
 #if !NET20
-            : this(stopwatchProvider, null)
-        {
-        }
-
         internal RateLimiterBase(
             IStopwatchProvider<long> stopwatchProvider,
             IAsyncBlocker asyncBlocker)
         {
             this.asyncBlocker = asyncBlocker ?? TaskDelayAsyncBlocker.Instance;
-#else
-        {
-#endif
             this.StopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
         }
+
+        protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
+            : this(stopwatchProvider, null)
+        {
+        }
+#else
+        protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
+        {
+            this.StopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
+        }
+#endif
 
         public double PermitsPerSecond
         {

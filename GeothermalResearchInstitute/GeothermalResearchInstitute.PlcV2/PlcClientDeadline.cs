@@ -31,6 +31,7 @@ namespace GeothermalResearchInstitute.PlcV2
                                 "Request {0} to {1} exceed deadline, deadline={2:u}, now1={3:u}, now2={4:u}",
                                 entry.Key,
                                 this.RemoteEndPoint,
+                                entry.Value.Deadline,
                                 now,
                                 DateTime.UtcNow);
                             requestContext.TaskCompletionSource.TrySetException(new RpcException(new Status(

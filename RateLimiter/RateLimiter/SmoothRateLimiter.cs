@@ -18,19 +18,22 @@ namespace RateLimiter
 
         private long nextFreeTicketTimestamp = 0;
 
-        protected SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider)
 #if !NET20
-            : this(stopwatchProvider, null)
+        internal SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider, IAsyncBlocker asyncBlocker)
+            : base(stopwatchProvider, asyncBlocker)
         {
         }
 
-        internal SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider, IAsyncBlocker asyncBlocker)
-            : base(stopwatchProvider, asyncBlocker)
-#else
-            : base(stopwatchProvider)
-#endif
+        protected SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider)
+            : this(stopwatchProvider, null)
         {
         }
+#else
+        protected SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider)
+            : base(stopwatchProvider)
+        {
+        }
+#endif
 
         protected abstract TimeSpan CoolDownInterval { get; }
 

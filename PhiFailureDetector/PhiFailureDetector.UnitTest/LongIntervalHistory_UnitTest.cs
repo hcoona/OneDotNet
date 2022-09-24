@@ -29,8 +29,7 @@ namespace PhiFailureDetector.UnitTest
 
             CollectionAssert.AreEqual(
                 new long[] { 3, 4, 5, 6, 7 },
-                queueArray
-            );
+                queueArray);
 
             Assert.AreEqual(25, arrivalWindow.Sum);
             Assert.AreEqual(5, arrivalWindow.Avg);

@@ -54,14 +54,16 @@ namespace Memoization.Tests
             m_fib(7);
             Assert.Equal(0, counter);
         }
-    }
 
-    internal static class YCombinator<T>
-    {
-        public static Func<Func<Func<T, T>, Func<T, T>>, Func<T, T>> Fix =
-          f => ((Recursive)(g =>
-              f(x => g(g)(x))))((Recursive)(g => f(x => g(g)(x))));
+        internal static class YCombinator<T>
+        {
+            private static Func<Func<Func<T, T>, Func<T, T>>, Func<T, T>> fix =
+              f => ((Recursive)(g =>
+                  f(x => g(g)(x))))((Recursive)(g => f(x => g(g)(x))));
 
-        private delegate Func<T, T> Recursive(Recursive recursive);
+            private delegate Func<T, T> Recursive(Recursive recursive);
+
+            public static Func<Func<Func<T, T>, Func<T, T>>, Func<T, T>> Fix { get => fix; set => fix = value; }
+        }
     }
 }

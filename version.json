@@ -13,7 +13,9 @@
   "nugetPackageVersion": {
     "semVer": 2
   },
-  "publicReleaseRefSpec": [],
+  "publicReleaseRefSpec": [
+    "^refs/heads/main$"
+  ],
   "cloudBuild": {
     "buildNumber": {
       "enabled": false

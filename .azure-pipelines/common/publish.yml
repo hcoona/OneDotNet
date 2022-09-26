@@ -10,8 +10,8 @@ steps:
   - script: |
       git config user.name "Azure DevOps Build Bot"
       git config user.email "zhangshuai.ustc+devopsbot@gmail.com"
-      git tag -a "${{ parameters.tagPrefix }}/$(NBGV_CloudBuildNumber)" -m "Created by Azure DevOps Build Pipeline"
-      git push origin "${{ parameters.tagPrefix }}/$(NBGV_CloudBuildNumber)"
+      git tag -a "${{ parameters.tagPrefix }}/$(NBGV_SemVer2)" -m "Created by Azure DevOps Build Pipeline"
+      git push origin "${{ parameters.tagPrefix }}/$(NBGV_SemVer2)"
     displayName: 'Create git tag'
 
   - task: GitHubRelease@0

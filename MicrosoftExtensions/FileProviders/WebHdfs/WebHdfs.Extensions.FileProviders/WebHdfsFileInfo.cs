@@ -18,6 +18,7 @@ namespace WebHdfs.Extensions.FileProviders
         private readonly HttpClient httpClient;
         private readonly UriBuilder fileWebHdfsUriBuilder;
         private WebHdfsFileStatus fileStatus;
+        private bool disposedValue;
 
         public WebHdfsFileInfo(Uri nameNodeUri, string relativePath)
         {
@@ -81,7 +82,9 @@ namespace WebHdfs.Extensions.FileProviders
 
         public void Dispose()
         {
-            this.httpClient.Dispose();
+            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         internal async Task<string> GetFileStatuses()
@@ -107,6 +110,19 @@ namespace WebHdfs.Extensions.FileProviders
                     case HttpStatusCode.InternalServerError: throw new InvalidOperationException(message);
                     default: throw new InvalidOperationException(message);
                 }
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.httpClient.Dispose();
+                }
+
+                this.disposedValue = true;
             }
         }
 

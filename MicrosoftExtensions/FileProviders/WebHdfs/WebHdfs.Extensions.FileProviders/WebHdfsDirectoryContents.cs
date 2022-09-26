@@ -16,6 +16,7 @@ namespace WebHdfs.Extensions.FileProviders
     public class WebHdfsDirectoryContents : IDirectoryContents, IDisposable
     {
         private readonly WebHdfsFileInfo directoryInfo;
+        private bool disposedValue;
 
         public WebHdfsDirectoryContents(WebHdfsFileInfo directoryInfo)
         {
@@ -31,7 +32,11 @@ namespace WebHdfs.Extensions.FileProviders
             {
                 FileStatuses = new
                 {
+#if NETSTANDARD2_0
+                    FileStatus = Array.Empty<WebHdfsFileStatus>(),
+#else
                     FileStatus = new WebHdfsFileStatus[0],
+#endif
                 },
             }).FileStatuses.FileStatus;
 
@@ -48,7 +53,22 @@ namespace WebHdfs.Extensions.FileProviders
 
         public void Dispose()
         {
-            this.directoryInfo.Dispose();
+            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.directoryInfo.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
         }
     }
 }

@@ -1,0 +1,38 @@
+parameters:
+- name: isOfficial
+  type: boolean
+  default: false
+- name: tagPrefix
+  type: string
+
+steps:
+- ${{ if parameters.isOfficial }}:
+  - script: |
+      git config user.name "Azure DevOps Build Bot"
+      git config user.email "zhangshuai.ustc+devopsbot@gmail.com"
+      git tag -a "${{ parameters.tagPrefix }}/$(NBGV_CloudBuildNumber)" -m "Created by Azure DevOps Build Pipeline"
+      git push origin "${{ parameters.tagPrefix }}/$(NBGV_CloudBuildNumber)"
+    displayName: 'Create git tag'
+
+  - task: GitHubRelease@0
+    displayName: 'Create GitHub release'
+    inputs:
+      gitHubConnection: GitHub
+      isPreRelease: '${{ eq(parameters.isOfficial, false) }}'
+      assets: $(Build.SourcesDirectory)/artifacts/packages/**
+
+  - task: AzureKeyVault@2
+    displayName: Get ApiKey from Azure KeyVault
+    inputs:
+      connectedServiceName: 'Isolated'
+      keyVaultName: 'shuaizhang-akv'
+      secretsFilter: 'NuGetOrgApiKey'
+
+  - script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetOrgApiKey)
+    displayName: 'Push NuGet packages to nuget.org'
+- ${{ else }}:
+  - task: NuGetAuthenticate@1
+    displayName: Setup NuGet authentication
+
+  - script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://pkgs.dev.azure.com/zhangshuai89/4debf70e-9948-4d59-9745-b27035b12245/_packaging/OneDotNet/nuget/v3/index.json --api-key AzureDevOps"
+    displayName: 'Push NuGet packages to internal feed'

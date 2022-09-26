@@ -13,13 +13,8 @@ variables:
 
 steps:
 - script: exit 1
+  displayName: Check if is main branch
   condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
-
-- task: AzureKeyVault@2
-  inputs:
-    connectedServiceName: 'Isolated'
-    keyVaultName: 'shuaizhang-akv'
-    secretsFilter: 'NuGetOrgApiKey'
 
 - template: /.azure-pipelines/build.yml@self
   parameters:
@@ -27,19 +22,7 @@ steps:
     packProjects: 'true'
     projects: 'Clocks.Net/dirs.proj'
 
-- script: |
-    git config user.name "Azure DevOps Build Bot"
-    git config user.email "zhangshuai.ustc+devopsbot@gmail.com"
-    git tag -a "Clocks.Net/$(NBGV_CloudBuildNumber)" -m "Created by Azure DevOps Build Pipeline"
-    git push origin "$(NBGV_CloudBuildNumber)"
-  displayName: 'Create git tag'
-
-- task: GitHubRelease@0
-  displayName: 'Create GitHub release'
-  inputs:
-    gitHubConnection: GitHub
-    isPreRelease: true
-    assets: $(Build.SourcesDirectory)/artifacts/packages/**
-
-- script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetOrgApiKey)
-  displayName: 'Push NuGet packages to nuget.org'
+- template: /.azure-pipelines/publish.yml@self
+  parameters:
+    isOfficial: 'false'
+    tagPrefix: 'Clocks.Net'

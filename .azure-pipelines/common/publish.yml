@@ -4,6 +4,9 @@ parameters:
   default: false
 - name: tagPrefix
   type: string
+- name: releaseNotesFilePath
+  type: string
+  default: '$(System.DefaultWorkingDirectory)/.azure-pipelines/empty.txt'
 
 steps:
 - ${{ if parameters.isOfficial }}:
@@ -20,6 +23,7 @@ steps:
       gitHubConnection: GitHub
       isPreRelease: '${{ eq(parameters.isOfficial, false) }}'
       assets: $(Build.SourcesDirectory)/artifacts/packages/**
+      releaseNotesFilePath: '${{ parameters.releaseNotesFilePath }}'
 
   - task: AzureKeyVault@2
     displayName: Get ApiKey from Azure KeyVault

@@ -8,7 +8,7 @@ using System;
 namespace Clocks
 {
     /// <summary>
-    /// The factory providing <seealso cref="IStopwatch"/>
+    /// The factory providing. <seealso cref="IStopwatch"/>
     /// </summary>
     public interface IStopwatchProvider
     {
@@ -46,12 +46,12 @@ namespace Clocks
         T GetTimestamp();
 
         /// <summary>
-        /// Parses the duration from <paramref name="from"/> to <paramref name="to"/> to a readable <seealso cref="TimeSpan"/>.
+        /// Parses the duration from <paramref name="fromTimestamp"/> to <paramref name="toTimestamp"/> to a readable <seealso cref="TimeSpan"/>.
         /// </summary>
-        /// <param name="from">The starting timestamp.</param>
-        /// <param name="to">The ending timestamp.</param>
-        /// <returns>The readable <seealso cref="TimeSpan"/> representing the duration from <paramref name="from"/> to <paramref name="to"/>.</returns>
-        TimeSpan ParseDuration(T from, T to);
+        /// <param name="fromTimestamp">The starting timestamp.</param>
+        /// <param name="toTimestamp">The ending timestamp.</param>
+        /// <returns>The readable <seealso cref="TimeSpan"/> representing the duration from <paramref name="fromTimestamp"/> to <paramref name="toTimestamp"/>.</returns>
+        TimeSpan ParseDuration(T fromTimestamp, T toTimestamp);
 
         /// <summary>
         /// Gets the next timestamp elapsed <paramref name="interval"/> from <paramref name="from"/>.

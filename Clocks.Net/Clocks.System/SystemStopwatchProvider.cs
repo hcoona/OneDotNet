@@ -31,9 +31,9 @@ namespace Clocks
             return Stopwatch.GetTimestamp();
         }
 
-        public TimeSpan ParseDuration(long from, long to)
+        public TimeSpan ParseDuration(long fromTimestamp, long toTimestamp)
         {
-            return TimeSpan.FromSeconds((to - from) / (double)Stopwatch.Frequency);
+            return TimeSpan.FromSeconds((toTimestamp - fromTimestamp) / (double)Stopwatch.Frequency);
         }
 
         public IStopwatch StartNew()

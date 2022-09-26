@@ -8,10 +8,10 @@ using System;
 namespace Clocks
 {
     /// <summary>
-    /// Basic interface for a logical clock
-    /// <para>Typical logical clocks are <strong>lamport scalar clock</strong> &amp; <strong>vector clock</strong></para>
+    /// Basic interface for a logical clock.
+    /// <para>Typical logical clocks are <strong>lamport scalar clock</strong> &amp;. <strong>vector clock</strong></para>
     /// </summary>
-    /// <typeparam name="T">The concrete type of time point</typeparam>
+    /// <typeparam name="T">The concrete type of time point.</typeparam>
     public interface ILogicalClock<T> : IClock<T>
         where T : IComparable<T>, IEquatable<T>
     {
@@ -23,7 +23,7 @@ namespace Clocks
         /// <summary>
         /// Increments the internal clock and get the timepoint.
         /// </summary>
-        /// <returns>The incremented clock timepoint</returns>
+        /// <returns>The incremented clock timepoint.</returns>
         T IncrementAndGet();
 
         /// <summary>

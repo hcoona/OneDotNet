@@ -8,6 +8,9 @@
 
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(EnlistmentRoot)/Clocks.Net/ReleaseNotes.md"))</PackageReleaseNotes>
+
+    <AnalysisMode>Recommended</AnalysisMode>
+    <NoWarn>NU1507</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

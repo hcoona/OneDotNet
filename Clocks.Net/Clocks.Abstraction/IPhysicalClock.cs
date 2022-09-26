@@ -8,10 +8,10 @@ using System;
 namespace Clocks
 {
     /// <summary>
-    /// Basic interface for a physical clock
-    /// <para>Physical clock could be regarded as a logical clock</para>
+    /// Basic interface for a physical clock.
+    /// <para>Physical clock could be regarded as a logical clock.</para>
     /// </summary>
-    /// <typeparam name="T">The concrete type of time point</typeparam>
+    /// <typeparam name="T">The concrete type of time point.</typeparam>
     /// <seealso cref="Clocks.ILogicalClock{T}" />
     public interface IPhysicalClock<T> : IClock<T>
         where T : IComparable<T>, IEquatable<T>

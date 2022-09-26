@@ -1,0 +1,28 @@
+trigger: none
+
+pr: none
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  osSuffix: 'windows'
+  isWindows: true
+  buildConfiguration: 'Release'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+
+steps:
+- script: exit 1
+  displayName: Check if is main branch
+  condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
+
+- template: /.azure-pipelines/build.yml@self
+  parameters:
+    isOfficial: 'true'
+    packProjects: 'true'
+    projects: 'Clocks.Net/dirs.proj'
+
+- template: /.azure-pipelines/publish.yml@self
+  parameters:
+    isOfficial: 'true'
+    tagPrefix: 'Clocks.Net'

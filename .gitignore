@@ -689,7 +689,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/vim,linux,macos,csharp,windows,visualstudio,visualstudiocode
 
 !Directory.Build.rsp
-!/dev-support/bin
 /.ionide
 /output
 *.tmp

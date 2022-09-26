@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)/Clocks.Net/dirs.proj" />
-    <ProjectReference Include="$(EnlistmentRoot)/Memoization.Net/Memoization/Memoization.csproj" />
-    <ProjectReference Include="$(EnlistmentRoot)/PhiFailureDetector/PhiFailureDetector/PhiFailureDetector.csproj" />
-    <ProjectReference Include="$(EnlistmentRoot)/RateLimiter/RateLimiter/RateLimiter.csproj" />
-  </ItemGroup>
-</Project>

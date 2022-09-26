@@ -26,4 +26,4 @@ steps:
   parameters:
     isOfficial: 'true'
     tagPrefix: 'Clocks.Net'
-    releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/Clocks.Net/ReleaseNotes.md'
+    releaseNotesFilePath: '$(Build.SourcesDirectory)/Clocks.Net/ReleaseNotes.md'

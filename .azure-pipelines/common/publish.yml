@@ -6,7 +6,7 @@ parameters:
   type: string
 - name: releaseNotesFilePath
   type: string
-  default: '$(System.DefaultWorkingDirectory)/.azure-pipelines/empty.txt'
+  default: '$(Build.SourcesDirectory)/.azure-pipelines/empty.txt'
 
 steps:
 - ${{ if parameters.isOfficial }}:
@@ -21,7 +21,7 @@ steps:
     displayName: 'Create GitHub release'
     inputs:
       gitHubConnection: GitHub
-      isPreRelease: '${{ eq(parameters.isOfficial, false) }}'
+      isPreRelease: ${{ ne(variables['NBGV_PrereleaseVersion'], '') }}
       assets: $(Build.SourcesDirectory)/artifacts/packages/**
       releaseNotesFilePath: '${{ parameters.releaseNotesFilePath }}'
 

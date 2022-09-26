@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" VersionOverride="2.1.0" />
-    <PackageReference Include="System.ValueTuple" VersionOverride="4.3.0" />
+    <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
 
   <ItemGroup>

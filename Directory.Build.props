@@ -16,7 +16,7 @@
     <!-- https://devblogs.microsoft.com/nuget/introducing-central-package-management/ -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-    <EnablePackageVersionOverride>true</EnablePackageVersionOverride>
+    <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
 
     <!-- https://github.com/dotnet/fsharp/issues/12315 -->
     <DisableImplicitFSharpCoreReference Condition="'$(MSBuildProjectExtension)' == '.fsproj'">true</DisableImplicitFSharpCoreReference>

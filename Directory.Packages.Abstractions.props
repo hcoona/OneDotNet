@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Please order items in each group lexicographically -->
+
+  <ItemGroup Label="Microsoft Extensions">
+    <PackageVersion Update="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
+    <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.1'">
+    <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

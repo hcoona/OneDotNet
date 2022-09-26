@@ -72,7 +72,7 @@ namespace GeothermalResearchInstitute.PlcV2
                 this.sb.Append($"{i & 0xFF:X2}");
                 if (i + 1 < this.bytesPerLine)
                 {
-                    this.sb.Append(" ");
+                    this.sb.Append(' ');
                 }
             }
 

@@ -1,0 +1,45 @@
+trigger: none
+
+pr: none
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  osSuffix: 'windows'
+  isWindows: true
+  buildConfiguration: 'Release'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+
+steps:
+- script: exit 1
+  condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
+
+- task: AzureKeyVault@2
+  inputs:
+    connectedServiceName: 'Isolated'
+    keyVaultName: 'shuaizhang-akv'
+    secretsFilter: 'NuGetOrgApiKey'
+
+- template: /.azure-pipelines/build.yml@self
+  parameters:
+    isOfficial: 'false'
+    packProjects: 'true'
+    projects: 'Clocks.Net/dirs.proj'
+
+- script: |
+    git config user.name "Azure DevOps Build Bot"
+    git config user.email "zhangshuai.ustc+devopsbot@gmail.com"
+    git tag -a "Clocks.Net/$(NBGV_CloudBuildNumber)" -m "Created by Azure DevOps Build Pipeline"
+    git push origin "$(NBGV_CloudBuildNumber)"
+  displayName: 'Create git tag'
+
+- task: GitHubRelease@0
+  displayName: 'Create GitHub release'
+  inputs:
+    gitHubConnection: GitHub
+    isPreRelease: true
+    assets: $(Build.SourcesDirectory)/artifacts/packages/**
+
+- script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetOrgApiKey)
+  displayName: 'Push NuGet packages to nuget.org'

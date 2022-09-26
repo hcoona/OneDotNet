@@ -5,6 +5,9 @@ parameters:
 - name: packProjects
   type: boolean
   default: false
+- name: projects
+  type: string
+  default: dirs.proj
 
 steps:
 - checkout: self
@@ -15,7 +18,7 @@ steps:
 # Checkout Git-LFS if necessary in the future.
 # Note that we need to save Git-LFS bandwidth so currently we disabled it.
 # Consider to use a separate Git-LFS storage than the one in GitHub.
-- powershell: |
+- script: |
     git lfs ls-files
   displayName: "List Git-LFS files"
 
@@ -25,14 +28,14 @@ steps:
     useGlobalJson: true
 
 - task: DotNetCoreCLI@2
+  displayName: Install NBGV tool
   inputs:
     command: custom
     custom: tool
-    arguments: install --tool-path . nbgv
-  displayName: Install NBGV tool
+    arguments: install --tool-path $(Agent.ToolsDirectory) nbgv
 
-- script: nbgv cloud
-  displayName: Set Version
+- script: $(Agent.ToolsDirectory)/nbgv cloud -a -p ./Clocks.Net
+  displayName: NBGV set environment variables
 
 - task: Cache@2
   displayName: 'Restore nuget cache'
@@ -48,14 +51,15 @@ steps:
   displayName: 'Build projects'
   inputs:
     command: 'build'
-    projects: 'dirs.proj'
+    projects: '${{ parameters.projects }}'
     arguments: '-c $(buildConfiguration)'
+    buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
 - task: DotNetCoreCLI@2
   displayName: 'Test projects'
   inputs:
     command: 'test'
-    projects: 'dirs.proj'
+    projects: '${{ parameters.projects }}'
     arguments: '--no-restore --no-build -c $(buildConfiguration) --collect "Code coverage"'
     publishTestResults: $(isWindows)
 
@@ -64,9 +68,11 @@ steps:
   condition: and(succeeded(), eq('${{ parameters.packProjects }}', 'true'), eq(variables['isWindows'], 'true'))
   inputs:
     command: 'pack'
-    packagesToPack: 'dev-support/pack/packaging_dirs.proj'
-    arguments: '--no-restore --no-build -c $(buildConfiguration) /p:PublicRelease=$(isOfficial)'
+    packagesToPack: '${{ parameters.projects }}'
+    configuration: '$(buildConfiguration)'
     packDirectory: $(System.DefaultWorkingDirectory)/artifacts/packages
+    nobuild: true
+    buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts'

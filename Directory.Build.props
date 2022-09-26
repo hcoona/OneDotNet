@@ -39,6 +39,8 @@
       <RepositoryType>git</RepositoryType>
       <PublishRepositoryUrl>true</PublishRepositoryUrl>
       <EmbedUntrackedSources>true</EmbedUntrackedSources>
+      <DebugSymbols>true</DebugSymbols>
+      <DebugType>portable</DebugType>
       <IncludeSymbols>true</IncludeSymbols>
       <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

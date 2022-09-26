@@ -104,7 +104,7 @@ namespace GeothermalResearchInstitute.Plc
                 this.WriteByte();
                 if (this.index % this.bytesPerLine != 0 && this.index < this.bytes.Length)
                 {
-                    this.sb.Append(" ");
+                    this.sb.Append(' ');
                 }
             }
 

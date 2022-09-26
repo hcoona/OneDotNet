@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
+    <ProjectReference Include="Grpc\HCOONa.MicrosoftExtensions.Logging.GrpcAdapter\HCOONa.MicrosoftExtensions.Logging.GrpcAdapter.csproj" />
     <ProjectReference Include="MSTest\MicrosoftExtensions.Logging.MSTest\MicrosoftExtensions.Logging.MSTest.csproj" />
     <ProjectReference Include="Xunit\MicrosoftExtensions.Logging.Xunit\MicrosoftExtensions.Logging.Xunit.csproj" />
     <ProjectReference Include="Xunit\MicrosoftExtensions.Logging.Xunit.Tests\MicrosoftExtensions.Logging.Xunit.Tests.csproj" />

@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\MicrosoftExtensions\Logging\Grpc\HCOONa.MicrosoftExtensions.Logging.GrpcAdapter\HCOONa.MicrosoftExtensions.Logging.GrpcAdapter.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.Grpc\GeothermalResearchInstitute.Grpc.csproj" />
     <ProjectReference Include="..\GeothermalResearchInstitute.PlcV2\GeothermalResearchInstitute.PlcV2.csproj" />
   </ItemGroup>

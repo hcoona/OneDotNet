@@ -3,7 +3,6 @@
     <ProjectReference Include="Clocks.Net\dirs.proj" />
     <ProjectReference Include="codelab\dirs.proj" />
     <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="GeothermalResearchInstitute\dirs.proj" />
-    <ProjectReference Include="GrpcLoggerAdapater\GrpcLoggerAdapater\GrpcLoggerAdapater.csproj" />
     <ProjectReference Include="Memoization.Net\dirs.proj" />
     <ProjectReference Include="MicrosoftExtensions\dirs.proj" />
     <ProjectReference Include="PhiFailureDetector\dirs.proj" />

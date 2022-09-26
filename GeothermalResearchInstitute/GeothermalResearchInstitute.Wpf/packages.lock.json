@@ -1448,7 +1448,7 @@
           "System.Threading.Tasks.Dataflow": "[4.11.0, )"
         }
       },
-      "grpcloggeradapater": {
+      "hcoona.microsoftextensions.logging.grpcadapter": {
         "type": "Project",
         "dependencies": {
           "Grpc.Core": "[2.46.3, )",

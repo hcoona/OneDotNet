@@ -1,4 +1,4 @@
-// <copyright file="GrpcLoggerAdapter.cs" company="Shuai Zhang">
+// <copyright file="GrpcLogger.cs" company="Shuai Zhang">
 // Copyright Shuai Zhang. All rights reserved.
 // Licensed under the GPLv3 license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -9,14 +9,14 @@ using ExtensionILogger = Microsoft.Extensions.Logging.ILogger;
 using ExtensionILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using GrpcILogger = Grpc.Core.Logging.ILogger;
 
-namespace GrpcLoggerAdapater
+namespace HCOONa.MicrosoftExtensions.Logging.GrpcAdapater
 {
-    public class GrpcLoggerAdapter : GrpcILogger
+    public class GrpcLogger : GrpcILogger
     {
         private readonly ExtensionILoggerFactory loggerFactory;
         private readonly ExtensionILogger logger;
 
-        public GrpcLoggerAdapter(ExtensionILoggerFactory loggerFactory, ExtensionILogger logger)
+        public GrpcLogger(ExtensionILoggerFactory loggerFactory, ExtensionILogger logger)
         {
             this.loggerFactory = loggerFactory;
             this.logger = logger;
@@ -49,7 +49,7 @@ namespace GrpcLoggerAdapater
 
         public GrpcILogger ForType<T>()
         {
-            return new GrpcLoggerAdapter(this.loggerFactory, this.loggerFactory.CreateLogger<T>());
+            return new GrpcLogger(this.loggerFactory, this.loggerFactory.CreateLogger<T>());
         }
 
         public void Info(string message)

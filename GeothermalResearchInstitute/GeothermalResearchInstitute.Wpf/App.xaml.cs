@@ -12,7 +12,7 @@ using GeothermalResearchInstitute.Wpf.Options;
 using GeothermalResearchInstitute.Wpf.ViewModels;
 using GeothermalResearchInstitute.Wpf.Views;
 using Grpc.Core;
-using GrpcLoggerAdapater;
+using HCOONa.MicrosoftExtensions.Logging.GrpcAdapater;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -79,7 +79,7 @@ namespace GeothermalResearchInstitute.Wpf
 
                     builder.AddSingleton(serviceProvider =>
                     {
-                        return new GrpcLoggerAdapter(
+                        return new GrpcLogger(
                             serviceProvider.GetRequiredService<ILoggerFactory>(),
                             serviceProvider.GetRequiredService<ILogger<ClientBase>>());
                     });

@@ -95,14 +95,14 @@ namespace GeothermalResearchInstitute.ServerConsole
                     // gRPC services.
                     builder.AddSingleton(serviceProvider =>
                     {
-                        return new GrpcLoggerAdapater.GrpcLoggerAdapter(
+                        return new HCOONa.MicrosoftExtensions.Logging.GrpcAdapater.GrpcLogger(
                             serviceProvider.GetRequiredService<ILoggerFactory>(),
                             serviceProvider.GetRequiredService<ILogger<Server>>());
                     });
                     builder.AddSingleton<DeviceServiceImpl>();
                     builder.AddSingleton(serviceProvider =>
                     {
-                        GrpcEnvironment.SetLogger(serviceProvider.GetRequiredService<GrpcLoggerAdapater.GrpcLoggerAdapter>());
+                        GrpcEnvironment.SetLogger(serviceProvider.GetRequiredService<HCOONa.MicrosoftExtensions.Logging.GrpcAdapater.GrpcLogger>());
                         return new Server
                         {
                             Services =

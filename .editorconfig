@@ -46,6 +46,8 @@ max_line_length = 80
 #   1. Use our license header (IDE0073).
 #   2. csharp_style_var_elsewhere = false:slience.
 
+[.{cs,vb}]
+
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = warning
 

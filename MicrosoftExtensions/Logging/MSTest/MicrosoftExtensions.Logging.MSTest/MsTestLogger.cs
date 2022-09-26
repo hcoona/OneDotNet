@@ -70,7 +70,7 @@ namespace Microsoft.Extensions.Logging.MSTest
             // category and event id
             logBuilder.Append(LoglevelPadding);
             logBuilder.Append(logName);
-            logBuilder.Append("[");
+            logBuilder.Append('[');
             logBuilder.Append(eventId);
             logBuilder.AppendLine("]");
 

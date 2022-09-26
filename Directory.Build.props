@@ -34,15 +34,15 @@
   <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
 
   <PropertyGroup Label="SourceLink">
-      <ProjectUrl>https://github.com/hcoona/OneDotNet</ProjectUrl>
-      <RepositoryUrl>https://github.com/hcoona/OneDotNet.git</RepositoryUrl>
-      <RepositoryType>git</RepositoryType>
-      <PublishRepositoryUrl>true</PublishRepositoryUrl>
-      <EmbedUntrackedSources>true</EmbedUntrackedSources>
-      <DebugSymbols>true</DebugSymbols>
-      <DebugType>portable</DebugType>
-      <IncludeSymbols>true</IncludeSymbols>
-      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ProjectUrl>https://github.com/hcoona/OneDotNet</ProjectUrl>
+    <RepositoryUrl>https://github.com/hcoona/OneDotNet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <Import Project="$(EnlistmentRoot)/stylecop.props" />
@@ -75,5 +75,16 @@
     <BaseArtifactsPath>$(EnlistmentRoot)\artifacts</BaseArtifactsPath>
 
     <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json</DefaultArtifactsFileMatch>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code Analysis">
+    <AnalysisLevel>6.0</AnalysisLevel>
+    <!-- Use 'Recommended' in the future. -->
+    <AnalysisMode>Minimum</AnalysisMode>
+    <!-- CA2253: Temporarily. -->
+    <!-- CA2254: https://stackoverflow.com/questions/70955861/the-logging-message-template-should-not-vary-between-calls-ca2254-when-only-pa -->
+    <NoWarn>$(NoWarn);CA2253;CA2254</NoWarn>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 </Project>

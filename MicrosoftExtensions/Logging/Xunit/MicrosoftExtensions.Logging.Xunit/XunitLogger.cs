@@ -74,7 +74,7 @@ namespace Microsoft.Extensions.Logging.Xunit
             // category and event id
             logBuilder.Append(LoglevelPadding);
             logBuilder.Append(logName);
-            logBuilder.Append("[");
+            logBuilder.Append('[');
             logBuilder.Append(eventId);
             logBuilder.AppendLine("]");
 

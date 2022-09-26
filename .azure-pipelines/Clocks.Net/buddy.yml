@@ -16,13 +16,13 @@ steps:
   displayName: Check if is main branch
   condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
 
-- template: /.azure-pipelines/build.yml@self
+- template: /.azure-pipelines/common/build.yml@self
   parameters:
     isOfficial: 'false'
     packProjects: 'true'
     projects: 'Clocks.Net/dirs.proj'
 
-- template: /.azure-pipelines/publish.yml@self
+- template: /.azure-pipelines/common/publish.yml@self
   parameters:
     isOfficial: 'false'
     tagPrefix: 'Clocks.Net'

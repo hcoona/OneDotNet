@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.435" />
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
   </ItemGroup>
 

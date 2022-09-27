@@ -11,7 +11,7 @@ namespace RateLimiter.Tests
 {
     public class RateLimiterTest
     {
-        private readonly FakeStopwatchProviderAndBlocker stopwatchProviderAndBlocker = new ();
+        private readonly FakeStopwatchProviderAndBlocker stopwatchProviderAndBlocker = new();
 
         [Fact]
         public void TestSimple()
@@ -22,9 +22,10 @@ namespace RateLimiter.Tests
             limiter.Acquire(); // R0.20
             Assert.Equal(
                 new[]
-            {
-                0L, TimeSpan.FromSeconds(0.2).Ticks, TimeSpan.FromSeconds(0.2).Ticks,
-            }, this.stopwatchProviderAndBlocker.Events);
+                {
+                    0L, TimeSpan.FromSeconds(0.2).Ticks, TimeSpan.FromSeconds(0.2).Ticks,
+                },
+                this.stopwatchProviderAndBlocker.Events);
         }
 
         [Fact]

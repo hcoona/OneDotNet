@@ -7,13 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="xunit.abstractions" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="1.1.2" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.1'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
 </Project>

@@ -11,16 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" VersionOverride="4.4.0" />
-    <PackageReference Include="Newtonsoft.Json" VersionOverride="13.0.1" />
-    <PackageReference Include="System.Net.Http" VersionOverride="4.3.4" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" VersionOverride="1.1.1" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.1'">
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" VersionOverride="2.0.0" />
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.Net.Http" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" />
   </ItemGroup>
 
 </Project>

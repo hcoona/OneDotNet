@@ -1,5 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Condition="!$([MSBuild]::IsOSUnixLike())" Include="CRC32C.NET\Crc32C.NET\Crc32C.NET.csproj" />
-  </ItemGroup>
-</Project>

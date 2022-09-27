@@ -43,3 +43,4 @@ These packages are deprecated and source code removed. The link can redirect you
 
 * link:https://github.com/hcoona/OneDotNet/tree/5ab8904/TimeLimiter[TimeLimiter]. This package is ill-designed & has performance issue. Please do not use it.
 * link:https://github.com/hcoona/OneDotNet/tree/b687bee/SwigDoc2Latex[SwigDoc2Latex]. Converting link:https://www.swig.org/[SWIG(Simplified Wrapper and Interface Generator)] documents to LaTeX format. This application is unmaintained & may not work due to website changing.
+* link:https://github.com/hcoona/OneDotNet/tree/73a338a/GeothermalResearchInstitute[GeothermalResearchInstitute]. This is a part-time work for Geothermal Research Institute. Didn't maintain.

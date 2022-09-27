@@ -2,6 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="Clocks.Net\dirs.proj" />
     <ProjectReference Include="codelab\dirs.proj" />
+    <ProjectReference Include="GrpcAdapter\HCOONa.Grpc.MicrosoftExtension.Logging.csproj" />
     <ProjectReference Include="Memoization.Net\dirs.proj" />
     <ProjectReference Include="MicrosoftExtensions\dirs.proj" />
     <ProjectReference Include="PhiFailureDetector\dirs.proj" />

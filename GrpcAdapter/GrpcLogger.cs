@@ -9,7 +9,7 @@ using ExtensionILogger = Microsoft.Extensions.Logging.ILogger;
 using ExtensionILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using GrpcILogger = Grpc.Core.Logging.ILogger;
 
-namespace HCOONa.MicrosoftExtensions.Logging.GrpcAdapater
+namespace HCOONa.Grpc.MicrosoftExtensions.Logging
 {
     public class GrpcLogger : GrpcILogger
     {

@@ -22,7 +22,7 @@ steps:
     git lfs ls-files
   displayName: "List Git-LFS files"
 
-- task: UseDotNet@2
+- task: UseDotNet@2.207.2
   displayName: 'Install DotNet SDK'
   inputs:
     useGlobalJson: true

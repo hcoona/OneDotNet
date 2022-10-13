@@ -27,7 +27,7 @@ steps:
   inputs:
     useGlobalJson: true
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.210.0
   displayName: Install NBGV tool
   inputs:
     command: custom
@@ -47,7 +47,7 @@ steps:
     path: '$(NUGET_PACKAGES)'
     cacheHitVar: 'CACHE_RESTORED'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.210.0
   displayName: 'Build projects'
   inputs:
     command: 'build'
@@ -55,7 +55,7 @@ steps:
     arguments: '-c $(buildConfiguration)'
     buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.210.0
   displayName: 'Test projects'
   inputs:
     command: 'test'
@@ -63,7 +63,7 @@ steps:
     arguments: '--no-restore --no-build -c $(buildConfiguration) --collect "Code coverage"'
     publishTestResults: $(isWindows)
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.210.0
   displayName: 'Pack projects'
   condition: and(succeeded(), eq('${{ parameters.packProjects }}', 'true'), eq(variables['isWindows'], 'true'))
   inputs:

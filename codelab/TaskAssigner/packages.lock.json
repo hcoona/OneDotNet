@@ -148,9 +148,9 @@
       },
       "Google.Protobuf": {
         "type": "CentralTransitive",
-        "requested": "[3.21.6, )",
-        "resolved": "3.21.6",
-        "contentHash": "HSYHFnfuTu/O4Ijy0mCW9zxLI8MJfCZJ10dk3JGPrkLaRR4LsiPKzZrrnapf2G0tP2yRMkHCl+2LKLTXqGBn2A=="
+        "requested": "[3.21.7, )",
+        "resolved": "3.21.7",
+        "contentHash": "0Q+wYqtEVjRxVbtfxXzTUzwLGMZJKqhmIgdDpwWyg8J4ykYqfPn0M60FPBcZkjiGgtJqvZp+8t2van9rxTCLWQ=="
       }
     }
   }

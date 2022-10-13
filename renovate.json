@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "prConcurrentLimit": 1,
+  "packageRules": [
+    {
+      "matchManagers": [
+        "azure-pipelines"
+      ],
+      "automerge": true
+    }
   ]
 }

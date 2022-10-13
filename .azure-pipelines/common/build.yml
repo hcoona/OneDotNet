@@ -37,7 +37,7 @@ steps:
 - script: $(Agent.ToolsDirectory)/nbgv cloud -a -p ./Clocks.Net
   displayName: NBGV set environment variables
 
-- task: Cache@2
+- task: Cache@2.198.0
   displayName: 'Restore nuget cache'
   inputs:
     key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'

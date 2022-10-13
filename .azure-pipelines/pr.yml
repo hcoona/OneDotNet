@@ -1,7 +1,23 @@
 trigger: none
 
 pr:
-- main
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - '*'
+    - .azure-pipelines
+    - .azure-pipelines/common/build.yml
+    exclude:
+    - .azure-pipelines/Clocks.Net
+    - .azure-pipelines/common
+    - .editorconfig
+    - .gitattributes
+    - .gitignore
+    - LICENSE
+    - README.adoc
+    - renovate.json
 
 strategy:
   matrix:

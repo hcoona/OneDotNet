@@ -102,7 +102,7 @@
   </ItemGroup>
 
   <ItemGroup Label="FSharp">
-    <PackageVersion Include="FSharp.Core" Version="6.0.4" />
+    <PackageVersion Include="FSharp.Core" Version="6.0.6" />
     <PackageVersion Include="FSharp.Data" Version="4.2.9" />
 
     <PackageVersion Include="SourceLink.Create.CommandLine" Version="2.8.3" />

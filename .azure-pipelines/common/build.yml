@@ -74,7 +74,7 @@ steps:
     nobuild: true
     buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
-- task: PublishPipelineArtifact@1
+- task: PublishPipelineArtifact@1.199.0
   displayName: 'Publish artifacts'
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)/artifacts

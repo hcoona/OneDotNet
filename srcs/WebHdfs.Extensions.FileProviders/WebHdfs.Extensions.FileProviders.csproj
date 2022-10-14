@@ -17,4 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="README.adoc" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
 </Project>

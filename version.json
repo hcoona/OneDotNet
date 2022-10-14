@@ -4,6 +4,7 @@
   "pathFilters": [
     "^srcs/Clocks.Net",
     "^srcs/Memoization",
+    "^srcs/WebHdfs.Extensions.FileProviders",
     "^MicrosoftExtensions",
     "^PhiFailureDetector",
     "^RateLimiter"

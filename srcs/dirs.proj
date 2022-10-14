@@ -2,5 +2,6 @@
   <ItemGroup>
     <ProjectReference Include="Clocks.Net\dirs.proj" />
     <ProjectReference Include="Memoization\Memoization.csproj" />
+    <ProjectReference Include="WebHdfs.Extensions.FileProviders\WebHdfs.Extensions.FileProviders.csproj" />
   </ItemGroup>
 </Project>

@@ -16,6 +16,10 @@
         "azure-pipelines"
       ],
       "automerge": true
+    },
+    {
+      "matchPackagePrefixes": ["grpc"],
+      "groupName": "grpc_legacy"
     }
   ]
 }

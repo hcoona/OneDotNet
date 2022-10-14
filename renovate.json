@@ -12,6 +12,13 @@
   "platformCommit": true,
   "packageRules": [
     {
+      "matchFiles": [
+        // Manage it manually.
+        "Directory.Packages.Abstractions.props"
+      ],
+      "enabled": false
+    },
+    {
       "matchManagers": [
         "azure-pipelines"
       ],

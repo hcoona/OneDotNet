@@ -65,9 +65,9 @@
   </ItemGroup>
 
   <ItemGroup Label="Entity Framework">
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>

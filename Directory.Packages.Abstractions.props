@@ -8,21 +8,18 @@
     <PackageVersion Update="Microsoft.Extensions.Options" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'netstandard1.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net45' AND '$(TargetFramework)' != 'netstandard1.1' AND '$(TargetFramework)' != 'netstandard2.0'">
-    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
     <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="1.1.1" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.1'">
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="2.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

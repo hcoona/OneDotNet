@@ -18,7 +18,7 @@
       "automerge": true
     },
     {
-      "matchPackagePrefixes": ["grpc"],
+      "matchPackageNames": ["Grpc", "Grpc.Core", "Grpc.Core.Testing", "Grpc.Tools"],
       "groupName": "grpc_legacy"
     },
     {

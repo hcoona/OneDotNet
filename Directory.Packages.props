@@ -44,18 +44,12 @@
     <PackageVersion Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup Label="Entity Framework">

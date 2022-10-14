@@ -13,6 +13,12 @@
         "azure-pipelines"
       ],
       "automerge": true
+    },
+    {
+      "matchFiles": [
+        "MicrosoftExtensions/FileProviders/WebHdfs/WebHdfs.Extensions.FileProviders.UnitTest/WebHdfs.Extensions.FileProviders.UnitTest.csproj"
+      ],
+      "enabled": false
     }
   ]
 }

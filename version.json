@@ -8,7 +8,7 @@
     "^srcs/WebHdfs.Extensions.FileProviders",
     "^srcs/MicrosoftExtensions.Options.DedupChangeExtensions",
     "^srcs/PhiFailureDetector",
-    "^RateLimiter"
+    "^srcs/RateLimiter"
   ],
   "gitCommitIdShortFixedLength": 7,
   "gitCommitIdShortAutoMinimum": 7,

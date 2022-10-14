@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RateLimiter\RateLimiter.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\RateLimiter\RateLimiter.csproj" />
   </ItemGroup>
 
 </Project>

@@ -58,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' != 'net45'">
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />

@@ -103,7 +103,7 @@
 
   <ItemGroup Label="FSharp">
     <PackageVersion Include="FSharp.Core" Version="6.0.4" />
-    <PackageVersion Include="FSharp.Data" Version="4.2.9" />
+    <PackageVersion Include="FSharp.Data" Version="5.0.2" />
 
     <PackageVersion Include="SourceLink.Create.CommandLine" Version="2.8.3" />
     <PackageVersion Include="SourceLink.Embed.PaketFiles" Version="2.8.3" />

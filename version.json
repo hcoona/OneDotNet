@@ -6,7 +6,7 @@
     "^srcs/Memoization",
     "^srcs/MicrosoftExtensions.Logging.Xunit",
     "^srcs/WebHdfs.Extensions.FileProviders",
-    "^MicrosoftExtensions",
+    "^srcs/MicrosoftExtensions.Options.DedupChangeExtensions",
     "^PhiFailureDetector",
     "^RateLimiter"
   ],

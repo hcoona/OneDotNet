@@ -34,7 +34,7 @@ steps:
     custom: tool
     arguments: install --tool-path $(Agent.ToolsDirectory) nbgv
 
-- script: $(Agent.ToolsDirectory)/nbgv cloud -a -p ./Clocks.Net
+- script: $(Agent.ToolsDirectory)/nbgv cloud -a
   displayName: NBGV set environment variables
 
 - task: Cache@2.198.0

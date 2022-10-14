@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
     <ProjectReference Include="Clocks.Net\dirs.proj" />
+    <ProjectReference Include="Memoization\Memoization.csproj" />
   </ItemGroup>
 </Project>

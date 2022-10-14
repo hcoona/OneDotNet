@@ -74,7 +74,7 @@
     <PackageVersion Include="Extended.Wpf.Toolkit" Version="4.4.0" />
     <PackageVersion Include="Google.OrTools" Version="9.4.1874" />
     <PackageVersion Include="Google.Protobuf" Version="3.21.7" />
-    <PackageVersion Include="Grpc" Version="2.46.3" />
+    <PackageVersion Include="Grpc" Version="2.46.5" />
     <PackageVersion Include="Grpc.Core" Version="2.46.3" />
     <PackageVersion Include="Grpc.Core.Testing" Version="2.46.3" />
     <PackageVersion Include="Grpc.Tools" Version="2.46.3" />

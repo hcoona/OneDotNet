@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
     <ProjectReference Include="codelab\dirs.proj" />
-    <ProjectReference Include="SharpCircularList\dirs.proj" />
     <ProjectReference Include="srcs\dirs.proj" />
     <ProjectReference Include="tests\dirs.proj" />
   </ItemGroup>

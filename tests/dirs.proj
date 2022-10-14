@@ -3,6 +3,7 @@
     <ProjectReference Include="Memoization.Tests\Memoization.Tests.csproj" />
     <ProjectReference Include="MicrosoftExtensions.Logging.Xunit.Tests\MicrosoftExtensions.Logging.Xunit.Tests.csproj" />
     <ProjectReference Include="PhiFailureDetector.UnitTest\PhiFailureDetector.UnitTest.csproj" />
+    <ProjectReference Include="RateLimiter.Tests\RateLimiter.Tests.csproj" />
     <!-- Need to prepare config.dev.ini -->
     <!-- <ProjectReference Include="WebHdfs.Extensions.FileProviders.UnitTest\WebHdfs.Extensions.FileProviders.UnitTest.csproj" /> -->
   </ItemGroup>

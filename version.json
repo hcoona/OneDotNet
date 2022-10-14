@@ -7,7 +7,7 @@
     "^srcs/MicrosoftExtensions.Logging.Xunit",
     "^srcs/WebHdfs.Extensions.FileProviders",
     "^srcs/MicrosoftExtensions.Options.DedupChangeExtensions",
-    "^PhiFailureDetector",
+    "^srcs/PhiFailureDetector",
     "^RateLimiter"
   ],
   "gitCommitIdShortFixedLength": 7,

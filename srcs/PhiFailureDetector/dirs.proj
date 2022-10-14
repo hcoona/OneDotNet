@@ -2,6 +2,5 @@
   <ItemGroup>
     <ProjectReference Include="PhiFailureDetector\PhiFailureDetector.csproj" />
     <ProjectReference Include="PhiFailureDetector.Console\PhiFailureDetector.ConsoleApp.csproj" />
-    <ProjectReference Include="PhiFailureDetector.UnitTest\PhiFailureDetector.UnitTest.csproj" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="WebHdfs.Extensions.FileProviders\WebHdfs.Extensions.FileProviders.csproj" />
-    <!-- TODO(zhangshuai.ustc): need config file. -->
-    <!-- <ProjectReference Include="WebHdfs.Extensions.FileProviders.UnitTest\WebHdfs.Extensions.FileProviders.UnitTest.csproj" /> -->
-  </ItemGroup>
-</Project>

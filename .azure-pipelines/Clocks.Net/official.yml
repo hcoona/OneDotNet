@@ -20,10 +20,10 @@ steps:
   parameters:
     isOfficial: 'true'
     packProjects: 'true'
-    projects: 'Clocks.Net/dirs.proj'
+    projects: 'srcs/Clocks.Net/dirs.proj'
 
 - template: /.azure-pipelines/common/publish.yml@self
   parameters:
     isOfficial: 'true'
     tagPrefix: 'Clocks.Net'
-    releaseNotesFilePath: '$(Build.SourcesDirectory)/Clocks.Net/ReleaseNotes.md'
+    releaseNotesFilePath: 'srcs/Clocks.Net/ReleaseNotes.md'

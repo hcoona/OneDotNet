@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="CircularList\CircularList.csproj" />
-    <ProjectReference Include="CircularList.UnitTest\CircularList.UnitTest.csproj" />
-  </ItemGroup>
-</Project>

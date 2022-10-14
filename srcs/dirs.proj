@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
+    <ProjectReference Include="CircularList\CircularList.csproj" />
     <ProjectReference Include="Clocks.Net\dirs.proj" />
     <ProjectReference Include="Memoization\Memoization.csproj" />
     <ProjectReference Include="MicrosoftExtensions.Logging.MSTest\MicrosoftExtensions.Logging.MSTest.csproj" />

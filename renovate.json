@@ -20,6 +20,10 @@
     {
       "matchPackagePrefixes": ["grpc"],
       "groupName": "grpc_legacy"
+    },
+    {
+      "matchPackagePrefixes": ["Microsoft.Extensions."],
+      "groupName": "microsoft_extensions"
     }
   ]
 }

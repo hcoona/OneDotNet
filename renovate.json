@@ -3,6 +3,9 @@
   "extends": [
     "config:base"
   ],
+  "ignorePaths": [
+    "MicrosoftExtensions/FileProviders/WebHdfs/WebHdfs.Extensions.FileProviders.UnitTest/WebHdfs.Extensions.FileProviders.UnitTest.csproj"
+  ],
   "labels": ["renovate"],
   "prConcurrentLimit": 1,
   "platformAutomerge": true,
@@ -13,12 +16,6 @@
         "azure-pipelines"
       ],
       "automerge": true
-    },
-    {
-      "matchFiles": [
-        "MicrosoftExtensions/FileProviders/WebHdfs/WebHdfs.Extensions.FileProviders.UnitTest/WebHdfs.Extensions.FileProviders.UnitTest.csproj"
-      ],
-      "enabled": false
     }
   ]
 }

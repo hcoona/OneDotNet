@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhiFailureDetector\PhiFailureDetector.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\PhiFailureDetector\PhiFailureDetector\PhiFailureDetector.csproj" />
   </ItemGroup>
 
   <ItemGroup>

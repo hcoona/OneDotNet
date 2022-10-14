@@ -3,7 +3,7 @@
   "version": "2.0-beta",
   "pathFilters": [
     "^srcs/Clocks.Net",
-    "^Memoization.Net",
+    "^srcs/Memoization",
     "^MicrosoftExtensions",
     "^PhiFailureDetector",
     "^RateLimiter"

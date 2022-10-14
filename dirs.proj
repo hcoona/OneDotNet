@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
     <ProjectReference Include="codelab\dirs.proj" />
-    <ProjectReference Include="Memoization.Net\dirs.proj" />
     <ProjectReference Include="MicrosoftExtensions\dirs.proj" />
     <ProjectReference Include="PhiFailureDetector\dirs.proj" />
     <ProjectReference Include="RateLimiter\dirs.proj" />
     <ProjectReference Include="SharpCircularList\dirs.proj" />
     <ProjectReference Include="srcs\dirs.proj" />
+    <ProjectReference Include="tests\dirs.proj" />
   </ItemGroup>
 </Project>

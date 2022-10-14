@@ -3,7 +3,7 @@
   <!-- Please order items in each group lexicographically -->
 
   <ItemGroup>
-    <PackageVersion Update="Microsoft.CSharp" Version="4.4.0" />
+    <PackageVersion Update="Microsoft.CSharp" Version="4.7.0" />
     <PackageVersion Update="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
     <PackageVersion Update="Microsoft.Extensions.Options" Version="2.0.0" />
   </ItemGroup>

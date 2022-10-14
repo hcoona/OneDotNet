@@ -25,6 +25,15 @@
     <NoWarn>NU1507</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup Label="Global References" Condition="'$(MSBuildProjectExtension)' != '.proj'">
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+    <PackageReference Include="DotNet.ReproducibleBuilds" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+  </ItemGroup>
+
   <!-- TF_BUILD is automatically set in Azure Pipelines -->
   <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables-devops-services -->
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">

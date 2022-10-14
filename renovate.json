@@ -24,6 +24,10 @@
     {
       "matchPackagePrefixes": ["Microsoft.Extensions."],
       "groupName": "microsoft_extensions"
+    },
+    {
+      "matchPackagePrefixes": ["System."],
+      "groupName": "system"
     }
   ]
 }

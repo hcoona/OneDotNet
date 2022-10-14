@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="Xunit\MicrosoftExtensions.Logging.Xunit\MicrosoftExtensions.Logging.Xunit.csproj" />
-    <ProjectReference Include="Xunit\MicrosoftExtensions.Logging.Xunit.Tests\MicrosoftExtensions.Logging.Xunit.Tests.csproj" />
-  </ItemGroup>
-</Project>

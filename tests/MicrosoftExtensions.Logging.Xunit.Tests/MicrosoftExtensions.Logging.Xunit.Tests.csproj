@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicrosoftExtensions.Logging.Xunit\MicrosoftExtensions.Logging.Xunit.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\MicrosoftExtensions.Logging.Xunit\MicrosoftExtensions.Logging.Xunit.csproj" />
   </ItemGroup>
 
 </Project>

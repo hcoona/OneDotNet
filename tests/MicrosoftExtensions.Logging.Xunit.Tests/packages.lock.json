@@ -360,7 +360,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "[2.2.0, )",
-          "xunit.abstractions": "[2.0.3, )"
+          "xunit.abstractions": "[2.0.1, )"
         }
       },
       "Microsoft.CodeCoverage": {

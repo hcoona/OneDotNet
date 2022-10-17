@@ -1234,9 +1234,9 @@
       },
       "System.Security.Cryptography.OpenSsl": {
         "type": "CentralTransitive",
-        "requested": "[4.7.0, )",
-        "resolved": "4.7.0",
-        "contentHash": "SnyVFMSDyiXJuAdO6aDoqTN9r0htkh+ff2//4Hjnnynzfgw1mREDKcrUwwB3dlTK/QTSSxFFf+Kmwea2JSYgnA=="
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "D3aDrPOPBORUl6V/WJ2AtN3Ae48aSH0W7yChBIecvu1lyoAhopPORmMpNTjv5/Kay7Z+h3KXpfbvteIm7x7miA=="
       },
       "System.Security.Cryptography.Primitives": {
         "type": "CentralTransitive",

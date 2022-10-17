@@ -359,8 +359,8 @@
       "Memoization.Net": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "[2.1.0, )",
-          "System.ValueTuple": "[4.5.0, )"
+          "Microsoft.Extensions.Caching.Abstractions": "[2.0.0, )",
+          "System.ValueTuple": "[4.4.0, )"
         }
       },
       "Microsoft.CodeCoverage": {

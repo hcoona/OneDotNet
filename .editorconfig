@@ -45,6 +45,7 @@ max_line_length = 80
 # Modifications:
 #   1. Use our license header (IDE0073).
 #   2. csharp_style_var_elsewhere = false:slience.
+#   3. Disable SA1636 (but seems not work).
 
 [.{cs,vb}]
 
@@ -159,7 +160,9 @@ dotnet_diagnostic.RS2008.severity = none
 
 # IDE0073: File header
 dotnet_diagnostic.IDE0073.severity = warning
-file_header_template = <copyright file="{fileName}" company="Shuai Zhang">\nCopyright Shuai Zhang. All rights reserved.\nLicensed under the GPLv3 license. See LICENSE file in the project root for full license information.\n</copyright>
+file_header_template = Copyright (c) 2022 Zhang Shuai<zhangshuai.ustc@gmail.com>.\nAll rights reserved.\n\nThis file is part of OneDotNet.\n\nOneDotNet is free software: you can redistribute it and/or modify it under\nthe terms of the GNU General Public License as published by the Free\nSoftware Foundation, either version 3 of the License, or (at your option)\nany later version.\n\nOneDotNet is distributed in the hope that it will be useful, but WITHOUT ANY\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS\nFOR A PARTICULAR PURPOSE. See the GNU General Public License for more\ndetails.\n\nYou should have received a copy of the GNU General Public License along with\nOneDotNet. If not, see <https://www.gnu.org/licenses/>.
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
 
 # IDE0035: Remove unreachable code
 dotnet_diagnostic.IDE0035.severity = warning

@@ -16,7 +16,7 @@ steps:
   parameters:
     isOfficial: 'false'
     packProjects: 'true'
-    projects: 'srcs/Clocks.Net/dirs.proj'
+    projects: 'srcs/public/Clocks.Net/dirs.proj'
 
 - template: /.azure-pipelines/common/publish.yml@self
   parameters:

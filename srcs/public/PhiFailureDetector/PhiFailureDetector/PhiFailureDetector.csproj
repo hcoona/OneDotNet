@@ -11,6 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)\srcs\Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj" />
   </ItemGroup>
 </Project>

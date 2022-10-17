@@ -16,9 +16,9 @@
       },
       "Itc4net": {
         "type": "Direct",
-        "requested": "[1.2.0, )",
-        "resolved": "1.2.0",
-        "contentHash": "2XyCpiilPVJa1iljK3Reta4Cn7Ha0QaWpqw7p86PTx/v6peBtnrTwTD3AoBMfPVsCXPfykbPYMPff2iFbUBKlw==",
+        "requested": "[1.2.1, )",
+        "resolved": "1.2.1",
+        "contentHash": "alSshpbhJAZU7Zm/ofGDXPHun0gxbiElHhqxGDl8o6+8ueHlZZboZ+AT8FrtSfXMctPK8RmHpiUl6AUE2FCVZw==",
         "dependencies": {
           "System.ValueTuple": "4.4.0"
         }

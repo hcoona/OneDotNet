@@ -6,7 +6,7 @@
     <PackageVersion Update="Microsoft.CSharp" Version="4.4.0" />
     <PackageVersion Update="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
     <PackageVersion Update="Microsoft.Extensions.Options" Version="2.0.0" />
-    <PackageVersion Update="System.Runtime.CompilerServices.Unsafe" Version="4.3.0" />
+    <PackageVersion Update="System.Runtime.CompilerServices.Unsafe" Version="4.5.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
@@ -29,7 +29,6 @@
     <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageVersion Update="Microsoft.Extensions.Primitives" Version="2.1.0" />
     <PackageVersion Update="System.Diagnostics.DiagnosticSource" Version="4.3.0" />
-    <PackageVersion Update="System.Runtime.CompilerServices.Unsafe" Version="4.5.3" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@
     {
       "matchFiles": [
         // Manage it manually.
-        "srcs/private/Directory.Packages.props"
+        "srcs/public/Directory.Packages.props"
       ],
       "enabled": false
     },

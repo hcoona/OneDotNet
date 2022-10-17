@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)\srcs\CircularList\CircularList.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\CircularList\CircularList.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)\srcs\Memoization\Memoization.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\Memoization\Memoization.csproj" />
   </ItemGroup>
 
 </Project>

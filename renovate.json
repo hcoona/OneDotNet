@@ -14,7 +14,7 @@
     {
       "matchFiles": [
         // Manage it manually.
-        "Directory.Packages.Abstractions.props"
+        "Directory.Packages.LegacySupport.props"
       ],
       "enabled": false
     },

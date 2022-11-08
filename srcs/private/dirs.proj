@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.Traversal">
   <ItemGroup>
     <ProjectReference Include="DotNetLockFileLister\DotNetLockFileLister.csproj" />
+    <ProjectReference Include="OxfordWordlistExtractor\OxfordWordlistExtractor.csproj" />
   </ItemGroup>
 </Project>

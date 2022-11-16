@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="oxford-phrase-list.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="oxford3000-5000.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -17,6 +17,7 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Immutable;
+using System.Net;
 using System.Text;
 using HtmlAgilityPack;
 
@@ -28,7 +29,7 @@ using (var fs = File.OpenText("oxford3000-5000.html"))
 
 var words = from node in document.DocumentNode.SelectNodes("//div[@id='wordlistsContentPanel']/ul/li")
             select new WordEntry(
-                node.GetDataAttribute("hw").Value,
+                WebUtility.HtmlDecode(node.GetDataAttribute("hw").Value),
                 Enum.Parse<CefrLevel>(node.GetDataAttribute("ox3000")?.Value ?? "Unspecified", true),
                 Enum.Parse<CefrLevel>(node.GetDataAttribute("ox5000")?.Value ?? "Unspecified", true));
 
@@ -53,6 +54,28 @@ foreach (var group in words
     await File
         .WriteAllLinesAsync(
             $"oxford5000_{group.Key}.txt",
+            group.Select(entry => entry.Name),
+            Encoding.UTF8)
+        .ConfigureAwait(/*continueOnCapturedContext=*/false);
+}
+
+using (var fs = File.OpenText("oxford-phrase-list.html"))
+{
+    document.Load(fs);
+}
+
+var phases = from node in document.DocumentNode.SelectNodes("//div[@id='wordlistsContentPanel']/ul/li")
+             select new PhaseEntry(
+                 WebUtility.HtmlDecode(node.GetDataAttribute("hw").Value),
+                 Enum.Parse<CefrLevel>(node.GetDataAttribute("oxford_phrase_list")?.Value ?? "Unspecified", true));
+
+foreach (var group in phases
+    .GroupBy(entry => entry.Level)
+    .OrderBy(group => group.Key))
+{
+    await File
+        .WriteAllLinesAsync(
+            $"oxford_phrase_{group.Key}.txt",
             group.Select(entry => entry.Name),
             Encoding.UTF8)
         .ConfigureAwait(/*continueOnCapturedContext=*/false);

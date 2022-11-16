@@ -97,7 +97,7 @@
   <ItemGroup Label="Third-party">
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="Google.OrTools" Version="9.4.1874" />
-    <PackageVersion Include="Google.Protobuf" Version="3.21.7" />
+    <PackageVersion Include="Google.Protobuf" Version="3.21.9" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageVersion Include="Itc4net" Version="1.2.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />

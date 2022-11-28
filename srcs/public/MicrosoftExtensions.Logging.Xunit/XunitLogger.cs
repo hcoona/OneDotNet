@@ -31,7 +31,8 @@ namespace Microsoft.Extensions.Logging.Xunit
             ' ',
             GetLogLevelString(LogLevel.Information).Length + LoglevelPadding.Length);
 
-        private static readonly string NewLineWithMessagePadding = Environment.NewLine + MessagePadding;
+        private static readonly string NewLineWithMessagePadding =
+            Environment.NewLine + MessagePadding;
 
         [ThreadStatic]
         private static StringBuilder logBuilder;
@@ -54,7 +55,12 @@ namespace Microsoft.Extensions.Logging.Xunit
 
         public bool IsEnabled(LogLevel logLevel) => true;
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
+            Func<TState, Exception, string> formatter)
         {
             if (formatter == null)
             {
@@ -69,7 +75,8 @@ namespace Microsoft.Extensions.Logging.Xunit
             }
         }
 
-        public virtual void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception)
+        public virtual void WriteMessage(
+            LogLevel logLevel, string logName, int eventId, string message, Exception exception)
         {
             var logBuilder = XunitLogger.logBuilder;
             XunitLogger.logBuilder = null;
@@ -98,7 +105,11 @@ namespace Microsoft.Extensions.Logging.Xunit
 
                 var len = logBuilder.Length;
                 logBuilder.AppendLine(message);
-                logBuilder.Replace(Environment.NewLine, NewLineWithMessagePadding, len, message.Length);
+                logBuilder.Replace(
+                    Environment.NewLine,
+                    NewLineWithMessagePadding,
+                    len,
+                    message.Length);
             }
 
             // Example:
@@ -117,7 +128,8 @@ namespace Microsoft.Extensions.Logging.Xunit
                 // Queue log message
                 if (hasLevel)
                 {
-                    this.testOutputHelper.WriteLine(logLevelString + logBuilder.ToString().TrimEnd());
+                    this.testOutputHelper.WriteLine(
+                        logLevelString + logBuilder.ToString().TrimEnd());
                 }
                 else
                 {

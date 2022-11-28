@@ -73,7 +73,9 @@ namespace WebHdfs.Extensions.FileProviders
         private DateTime GetLastWriteTimeUtc()
         {
             this.fileInfo.Refresh();
-            return this.fileInfo.Exists ? this.fileInfo.LastModified.UtcDateTime : DateTime.MinValue;
+            return this.fileInfo.Exists
+                ? this.fileInfo.LastModified.UtcDateTime
+                : DateTime.MinValue;
         }
     }
 }

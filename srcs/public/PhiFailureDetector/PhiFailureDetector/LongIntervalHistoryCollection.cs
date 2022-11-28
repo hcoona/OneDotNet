@@ -23,8 +23,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PhiFailureDetector
 {
-    [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "By-design")]
-    public class LongIntervalHistoryCollection : IEnumerable<long>, ICollection, IEnumerable, IWithStatistics
+    [SuppressMessage(
+        "Design",
+        "CA1010:Generic interface should also be implemented",
+        Justification = "By-design")]
+    public class LongIntervalHistoryCollection :
+        IEnumerable<long>, ICollection, IEnumerable, IWithStatistics
     {
         private readonly Queue<long> queue;
         private readonly int capacity;
@@ -43,7 +47,8 @@ namespace PhiFailureDetector
 
         public double Avg => this.avg;
 
-        public double Variance => ((double)this.squaredSum / this.Count) - (this.avg * this.avg);
+        public double Variance =>
+            ((double)this.squaredSum / this.Count) - (this.avg * this.avg);
 
         public double StdDeviation => Math.Sqrt(this.Variance);
 
@@ -81,7 +86,8 @@ namespace PhiFailureDetector
 
         public bool Contains(long item) => this.queue.Contains(item);
 
-        public void Copylongo(long[] array, int arrayIndex) => this.queue.CopyTo(array, arrayIndex);
+        public void Copylongo(long[] array, int arrayIndex) =>
+            this.queue.CopyTo(array, arrayIndex);
 
         public long Peek() => this.queue.Peek();
 

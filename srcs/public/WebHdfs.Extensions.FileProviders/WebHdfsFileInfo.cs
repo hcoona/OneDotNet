@@ -39,7 +39,10 @@ namespace WebHdfs.Extensions.FileProviders
             this.NameNodeUri = nameNodeUri;
             this.RelativePath = relativePath;
             this.httpClient = new HttpClient();
-            this.fileWebHdfsUriBuilder = new UriBuilder(new Uri(this.NameNodeUri, $"/webhdfs/v1/{this.RelativePath.Trim('/')}"));
+            this.fileWebHdfsUriBuilder =
+                new UriBuilder(new Uri(
+                    this.NameNodeUri,
+                    $"/webhdfs/v1/{this.RelativePath.Trim('/')}"));
 
             this.Refresh();
         }
@@ -49,7 +52,10 @@ namespace WebHdfs.Extensions.FileProviders
             this.NameNodeUri = nameNodeUri;
             this.RelativePath = relativePath;
             this.httpClient = new HttpClient();
-            this.fileWebHdfsUriBuilder = new UriBuilder(new Uri(this.NameNodeUri, $"/webhdfs/v1/{this.RelativePath.Trim('/')}"));
+            this.fileWebHdfsUriBuilder =
+                new UriBuilder(new Uri(
+                    this.NameNodeUri,
+                    $"/webhdfs/v1/{this.RelativePath.Trim('/')}"));
 
             this.SetFileStatus(fileStatus);
         }
@@ -66,7 +72,8 @@ namespace WebHdfs.Extensions.FileProviders
 
         public string Name => Path.GetFileName(this.RelativePath);
 
-        public DateTimeOffset LastModified => FromUnixTimeMilliseconds(this.fileStatus.ModificationTime);
+        public DateTimeOffset LastModified =>
+            FromUnixTimeMilliseconds(this.fileStatus.ModificationTime);
 
         public bool IsDirectory => this.fileStatus.Type == WebHdfsFileType.DIRECTORY;
 
@@ -74,7 +81,8 @@ namespace WebHdfs.Extensions.FileProviders
         {
             if (this.IsDirectory)
             {
-                throw new InvalidOperationException("You cannot create read stream against a directory.");
+                throw new InvalidOperationException(
+                    "You cannot create read stream against a directory.");
             }
 
             this.fileWebHdfsUriBuilder.Query = "OP=OPEN";
@@ -104,7 +112,8 @@ namespace WebHdfs.Extensions.FileProviders
         internal async Task<string> GetFileStatuses()
         {
             this.fileWebHdfsUriBuilder.Query = "OP=LISTSTATUS";
-            var response = await this.httpClient.GetAsync(this.fileWebHdfsUriBuilder.Uri).ConfigureAwait(false);
+            var response = await this.httpClient.GetAsync(this.fileWebHdfsUriBuilder.Uri)
+                .ConfigureAwait(false);
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
@@ -113,16 +122,23 @@ namespace WebHdfs.Extensions.FileProviders
             }
             else
             {
-                var responseContentObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                var responseContentObject =
+                    JsonConvert.DeserializeObject<dynamic>(responseContent);
                 string message = responseContentObject.RemoteException.message;
                 switch (response.StatusCode)
                 {
-                    case HttpStatusCode.BadRequest: throw new ArgumentException(message);
-                    case HttpStatusCode.Unauthorized: throw new System.Security.SecurityException(message);
-                    case HttpStatusCode.Forbidden: throw new IOException(message);
-                    case HttpStatusCode.NotFound: throw new FileNotFoundException(message, this.Name);
-                    case HttpStatusCode.InternalServerError: throw new InvalidOperationException(message);
-                    default: throw new InvalidOperationException(message);
+                    case HttpStatusCode.BadRequest:
+                        throw new ArgumentException(message);
+                    case HttpStatusCode.Unauthorized:
+                        throw new System.Security.SecurityException(message);
+                    case HttpStatusCode.Forbidden:
+                        throw new IOException(message);
+                    case HttpStatusCode.NotFound:
+                        throw new FileNotFoundException(message, this.Name);
+                    case HttpStatusCode.InternalServerError:
+                        throw new InvalidOperationException(message);
+                    default:
+                        throw new InvalidOperationException(message);
                 }
             }
         }
@@ -157,13 +173,23 @@ namespace WebHdfs.Extensions.FileProviders
             // Number of days in 400 years
             const int DaysPer400Years = (DaysPer100Years * 4) + 1; // 146097
 
-            const int DaysTo1970 = (DaysPer400Years * 4) + (DaysPer100Years * 3) + (DaysPer4Years * 17) + DaysPerYear; // 719,162
+            const int DaysTo1970 =
+                (DaysPer400Years * 4)
+                    + (DaysPer100Years * 3)
+                    + (DaysPer4Years * 17)
+                    + DaysPerYear; // 719,162
 
-            const long UnixEpochTicks = TimeSpan.TicksPerDay * DaysTo1970; // 621,355,968,000,000,000
-            const long UnixEpochMilliseconds = UnixEpochTicks / TimeSpan.TicksPerMillisecond; // 62,135,596,800,000
+            const long UnixEpochTicks =
+                TimeSpan.TicksPerDay * DaysTo1970; // 621,355,968,000,000,000
+            const long UnixEpochMilliseconds =
+                UnixEpochTicks / TimeSpan.TicksPerMillisecond; // 62,135,596,800,000
 
-            long minMilliseconds = (DateTime.MinValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
-            long maxMilliseconds = (DateTime.MaxValue.Ticks / TimeSpan.TicksPerMillisecond) - UnixEpochMilliseconds;
+            long minMilliseconds =
+                (DateTime.MinValue.Ticks / TimeSpan.TicksPerMillisecond)
+                    - UnixEpochMilliseconds;
+            long maxMilliseconds =
+                (DateTime.MaxValue.Ticks / TimeSpan.TicksPerMillisecond)
+                    - UnixEpochMilliseconds;
 
             if (milliseconds < minMilliseconds || milliseconds > maxMilliseconds)
             {
@@ -198,25 +224,34 @@ namespace WebHdfs.Extensions.FileProviders
         private async Task<string> GetFileStatus()
         {
             this.fileWebHdfsUriBuilder.Query = "OP=GETFILESTATUS";
-            var response = await this.httpClient.GetAsync(this.fileWebHdfsUriBuilder.Uri).ConfigureAwait(false);
+            var response = await this.httpClient.GetAsync(this.fileWebHdfsUriBuilder.Uri)
+                .ConfigureAwait(false);
 
-            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var responseContent = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return responseContent;
             }
             else
             {
-                var responseContentObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                var responseContentObject =
+                    JsonConvert.DeserializeObject<dynamic>(responseContent);
                 string message = responseContentObject.RemoteException.message;
                 switch (response.StatusCode)
                 {
-                    case HttpStatusCode.BadRequest: throw new ArgumentException(message);
-                    case HttpStatusCode.Unauthorized: throw new System.Security.SecurityException(message);
-                    case HttpStatusCode.Forbidden: throw new IOException(message);
-                    case HttpStatusCode.NotFound: throw new FileNotFoundException(message, this.Name);
-                    case HttpStatusCode.InternalServerError: throw new InvalidOperationException(message);
-                    default: throw new InvalidOperationException(message);
+                    case HttpStatusCode.BadRequest:
+                        throw new ArgumentException(message);
+                    case HttpStatusCode.Unauthorized:
+                        throw new System.Security.SecurityException(message);
+                    case HttpStatusCode.Forbidden:
+                        throw new IOException(message);
+                    case HttpStatusCode.NotFound:
+                        throw new FileNotFoundException(message, this.Name);
+                    case HttpStatusCode.InternalServerError:
+                        throw new InvalidOperationException(message);
+                    default:
+                        throw new InvalidOperationException(message);
                 }
             }
         }

@@ -31,7 +31,8 @@ namespace Microsoft.Extensions.Logging.MSTest
             ' ',
             GetLogLevelString(LogLevel.Information).Length + LoglevelPadding.Length);
 
-        private static readonly string NewLineWithMessagePadding = Environment.NewLine + MessagePadding;
+        private static readonly string NewLineWithMessagePadding =
+            Environment.NewLine + MessagePadding;
 
         [ThreadStatic]
         private static StringBuilder logBuilder;
@@ -50,7 +51,12 @@ namespace Microsoft.Extensions.Logging.MSTest
 
         public bool IsEnabled(LogLevel logLevel) => true;
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
+            Func<TState, Exception, string> formatter)
         {
             if (formatter == null)
             {
@@ -65,7 +71,8 @@ namespace Microsoft.Extensions.Logging.MSTest
             }
         }
 
-        public virtual void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception)
+        public virtual void WriteMessage(
+            LogLevel logLevel, string logName, int eventId, string message, Exception exception)
         {
             var logBuilder = MsTestLogger.logBuilder;
             MsTestLogger.logBuilder = null;
@@ -94,7 +101,8 @@ namespace Microsoft.Extensions.Logging.MSTest
 
                 var len = logBuilder.Length;
                 logBuilder.AppendLine(message);
-                logBuilder.Replace(Environment.NewLine, NewLineWithMessagePadding, len, message.Length);
+                logBuilder.Replace(
+                    Environment.NewLine, NewLineWithMessagePadding, len, message.Length);
             }
 
             // Example:

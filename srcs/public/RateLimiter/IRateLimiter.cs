@@ -63,7 +63,8 @@ namespace RateLimiter
 #if !NET20
         Task<TryAcquireResult> TryAcquireAsync(TimeSpan timeout);
 
-        Task<TryAcquireResult> TryAcquireAsync(TimeSpan timeout, CancellationToken cancellationToken);
+        Task<TryAcquireResult> TryAcquireAsync(
+            TimeSpan timeout, CancellationToken cancellationToken);
 #endif
 
         TryAcquireResult TryAcquire(int permits, TimeSpan timeout);
@@ -71,7 +72,8 @@ namespace RateLimiter
 #if !NET20
         Task<TryAcquireResult> TryAcquireAsync(int permits, TimeSpan timeout);
 
-        Task<TryAcquireResult> TryAcquireAsync(int permits, TimeSpan timeout, CancellationToken cancellationToken);
+        Task<TryAcquireResult> TryAcquireAsync(
+            int permits, TimeSpan timeout, CancellationToken cancellationToken);
 #endif
 
         TimeSpan Reserve(int permits);

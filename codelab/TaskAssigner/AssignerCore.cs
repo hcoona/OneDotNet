@@ -36,7 +36,8 @@ namespace TaskAssigner
             this.solver = solver ?? throw new ArgumentNullException(nameof(solver));
             this.assignment = assignment ?? throw new ArgumentNullException(nameof(assignment));
             this.costs = ComputeCosts(assignment);
-            this.variables = this.solver.MakeBoolVarMatrix(assignment.Nodes.Count, assignment.Tasks.Count);
+            this.variables =
+                this.solver.MakeBoolVarMatrix(assignment.Nodes.Count, assignment.Tasks.Count);
         }
 
         public AssignmentDescription Run()
@@ -72,7 +73,8 @@ namespace TaskAssigner
                             }
 
                             tasks.Add(j);
-                            Console.WriteLine($"Task {j} assigned to node {i} with cost {this.costs[i, j]}.");
+                            Console.WriteLine(
+                                $"Task {j} assigned to node {i} with cost {this.costs[i, j]}.");
                         }
                     }
                 }

@@ -27,11 +27,14 @@ using (var fs = File.OpenText("oxford3000-5000.html"))
     document.Load(fs);
 }
 
-var words = from node in document.DocumentNode.SelectNodes("//div[@id='wordlistsContentPanel']/ul/li")
+var words = from node in document.DocumentNode.SelectNodes(
+                "//div[@id='wordlistsContentPanel']/ul/li")
             select new WordEntry(
                 WebUtility.HtmlDecode(node.GetDataAttribute("hw").Value),
-                Enum.Parse<CefrLevel>(node.GetDataAttribute("ox3000")?.Value ?? "Unspecified", true),
-                Enum.Parse<CefrLevel>(node.GetDataAttribute("ox5000")?.Value ?? "Unspecified", true));
+                Enum.Parse<CefrLevel>(
+                    node.GetDataAttribute("ox3000")?.Value ?? "Unspecified", true),
+                Enum.Parse<CefrLevel>(
+                    node.GetDataAttribute("ox5000")?.Value ?? "Unspecified", true));
 
 foreach (var group in words
     .Where(entry => entry.Oxford3000 != CefrLevel.Unspecified)
@@ -47,7 +50,8 @@ foreach (var group in words
 }
 
 foreach (var group in words
-    .Where(entry => entry.Oxford3000 == CefrLevel.Unspecified && entry.Oxford5000 != CefrLevel.Unspecified)
+    .Where(entry => entry.Oxford3000 == CefrLevel.Unspecified
+                    && entry.Oxford5000 != CefrLevel.Unspecified)
     .GroupBy(entry => entry.Oxford5000)
     .OrderBy(group => group.Key))
 {
@@ -64,10 +68,12 @@ using (var fs = File.OpenText("oxford-phrase-list.html"))
     document.Load(fs);
 }
 
-var phases = from node in document.DocumentNode.SelectNodes("//div[@id='wordlistsContentPanel']/ul/li")
+var phases = from node in document.DocumentNode.SelectNodes(
+                "//div[@id='wordlistsContentPanel']/ul/li")
             select new PhaseEntry(
                 WebUtility.HtmlDecode(node.GetDataAttribute("hw").Value),
-                Enum.Parse<CefrLevel>(node.GetDataAttribute("oxford_phrase_list")?.Value ?? "Unspecified", true));
+                Enum.Parse<CefrLevel>(
+                    node.GetDataAttribute("oxford_phrase_list")?.Value ?? "Unspecified", true));
 
 foreach (var group in phases
     .GroupBy(entry => entry.Level)

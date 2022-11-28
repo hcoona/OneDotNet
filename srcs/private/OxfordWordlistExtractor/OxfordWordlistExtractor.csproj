@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.html *.ps1</DefaultArtifactsFileMatch>
     <ArtifactsPath>$(BaseArtifactsPath)\OxfordWordlistExtractor</ArtifactsPath>
 
     <RootNamespace>HCOONa.OxfordWordlistExtractor</RootNamespace>
@@ -22,6 +23,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="oxford3000-5000.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Update-OxfordPhraseList.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Update-OxfordWordlists.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

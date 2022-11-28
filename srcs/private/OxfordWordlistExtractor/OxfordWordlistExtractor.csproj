@@ -10,8 +10,6 @@
 
     <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.html *.ps1</DefaultArtifactsFileMatch>
     <ArtifactsPath>$(BaseArtifactsPath)\OxfordWordlistExtractor</ArtifactsPath>
-
-    <RootNamespace>HCOONa.OxfordWordlistExtractor</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

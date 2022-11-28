@@ -26,7 +26,7 @@ using Clocks;
 
 namespace RateLimiter
 {
-    public abstract class RateLimiterBase : IRateLimiter
+    public abstract class RateLimiterBase : IRateLimiter, IDisposable
     {
         internal readonly IStopwatchProvider<long> StopwatchProvider;
 #if NET20
@@ -104,6 +104,12 @@ namespace RateLimiter
 #endif
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            ((IDisposable)this.semaphoreSlim).Dispose();
+            GC.SuppressFinalize(this);
         }
 
         [DebuggerStepThrough]

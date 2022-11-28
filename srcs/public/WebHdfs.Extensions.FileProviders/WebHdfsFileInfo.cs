@@ -17,6 +17,7 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -168,7 +169,11 @@ namespace WebHdfs.Extensions.FileProviders
             {
                 throw new ArgumentOutOfRangeException(
                     nameof(milliseconds),
-                    string.Format("Valid value between {0} and {1} (included).", minMilliseconds, maxMilliseconds));
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Valid value between {0} and {1} (included).",
+                        minMilliseconds,
+                        maxMilliseconds));
             }
 
             long ticks = (milliseconds * TimeSpan.TicksPerMillisecond) + UnixEpochTicks;

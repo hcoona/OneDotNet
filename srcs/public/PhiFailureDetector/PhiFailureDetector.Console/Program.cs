@@ -32,7 +32,7 @@ namespace PhiFailureDetector.ConsoleApp
 
             Console.WriteLine("===== Normal Distribution =====");
 
-            var arrivalWindow = new LongIntervalHistory(1000);
+            var arrivalWindow = new LongIntervalHistoryCollection(1000);
             var mean = TimeSpan.FromSeconds(1).TotalMilliseconds;
             var stdDeviation = mean / 4;
             arrivalWindow.Enqueue((long)(mean - stdDeviation));
@@ -57,7 +57,7 @@ namespace PhiFailureDetector.ConsoleApp
 
             Console.WriteLine("===== Exponential Distribution =====");
 
-            arrivalWindow = new LongIntervalHistory(4);
+            arrivalWindow = new LongIntervalHistoryCollection(4);
             arrivalWindow.Enqueue(111 * ToNano);
             arrivalWindow.Enqueue(111 * ToNano);
             arrivalWindow.Enqueue(111 * ToNano);
@@ -74,7 +74,7 @@ namespace PhiFailureDetector.ConsoleApp
             Console.WriteLine();
         }
 
-        private static void PrintPhi(int nowTimestamp, long lastTimestamp, LongIntervalHistory arrivalWindow, PhiFailureDetector.PhiFunc phiFunc)
+        private static void PrintPhi(int nowTimestamp, long lastTimestamp, LongIntervalHistoryCollection arrivalWindow, PhiFailureDetector.PhiFunc phiFunc)
         {
             Console.WriteLine("Phi({0}) = {1:F3}", nowTimestamp, phiFunc(nowTimestamp * ToNano, lastTimestamp, arrivalWindow));
         }

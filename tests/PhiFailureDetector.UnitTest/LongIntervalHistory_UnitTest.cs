@@ -27,7 +27,7 @@ namespace PhiFailureDetector.UnitTest
         [TestMethod]
         public void Test_Baseline()
         {
-            var arrivalWindow = new LongIntervalHistory(5);
+            var arrivalWindow = new LongIntervalHistoryCollection(5);
 
             arrivalWindow.Enqueue(1);
             arrivalWindow.Enqueue(2);

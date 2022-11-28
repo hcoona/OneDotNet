@@ -29,7 +29,7 @@ namespace RateLimiter
 
         protected TimeSpan stableInterval;
 
-        private long nextFreeTicketTimestamp = 0;
+        private long nextFreeTicketTimestamp;
 
 #if !NET20
         internal SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider, IAsyncBlocker asyncBlocker)
@@ -71,12 +71,12 @@ namespace RateLimiter
             return this.nextFreeTicketTimestamp;
         }
 
-        protected sealed override long ReserveEarliestAvailable(int requiredPermits, long nowTimestamp)
+        protected sealed override long ReserveEarliestAvailable(int permits, long nowTimestamp)
         {
             this.Resync(nowTimestamp);
             var returnValue = this.nextFreeTicketTimestamp;
-            var storedPermitsToSpend = Math.Min(requiredPermits, this.storedPermits);
-            var freshPermits = requiredPermits - storedPermitsToSpend;
+            var storedPermitsToSpend = Math.Min(permits, this.storedPermits);
+            var freshPermits = permits - storedPermitsToSpend;
             var waitTimeout = this.StoredPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
                 + this.FreshPermitsToWaitTime(freshPermits);
             this.nextFreeTicketTimestamp = this.StopwatchProvider.GetNextTimestamp(this.nextFreeTicketTimestamp, waitTimeout);

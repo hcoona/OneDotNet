@@ -23,7 +23,7 @@ namespace PhiFailureDetector
 {
     public class PhiFailureDetector
     {
-        private readonly LongIntervalHistory arrivalWindow;
+        private readonly LongIntervalHistoryCollection arrivalWindow;
         private readonly long initialHeartbeatInterval;
         private readonly IStopwatchProvider<long> stopwatchProvider;
         private readonly PhiFunc phiFunc;
@@ -36,7 +36,7 @@ namespace PhiFailureDetector
             IStopwatchProvider<long> stopwatchProvider,
             PhiFunc phiFunc)
         {
-            this.arrivalWindow = new LongIntervalHistory(capacity);
+            this.arrivalWindow = new LongIntervalHistoryCollection(capacity);
             this.initialHeartbeatInterval = initialHeartbeatInterval;
             this.stopwatchProvider = stopwatchProvider;
             this.phiFunc = phiFunc;

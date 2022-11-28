@@ -12,12 +12,12 @@
     <PackageVersion Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageVersion Include="System.Console" Version="4.3.1" />
     <PackageVersion Include="System.Diagnostics.Debug" Version="4.3.0" />
-    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="7.0.0" />
     <PackageVersion Include="System.Diagnostics.TextWriterTraceListener" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.TraceSource" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.Tracing" Version="4.3.0" />
-    <PackageVersion Include="System.Formats.Asn1" Version="6.0.0" />
+    <PackageVersion Include="System.Formats.Asn1" Version="7.0.0" />
     <PackageVersion Include="System.Globalization" Version="4.3.0" />
     <PackageVersion Include="System.Globalization.Calendars" Version="4.3.0" />
     <PackageVersion Include="System.Globalization.Extensions" Version="4.3.0" />
@@ -38,7 +38,7 @@
     <PackageVersion Include="System.Reflection.Emit.ILGeneration" Version="4.7.0" />
     <PackageVersion Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
     <PackageVersion Include="System.Reflection.Extensions" Version="4.3.0" />
-    <PackageVersion Include="System.Reflection.Metadata" Version="6.0.1" />
+    <PackageVersion Include="System.Reflection.Metadata" Version="7.0.0" />
     <PackageVersion Include="System.Reflection.Primitives" Version="4.3.0" />
     <PackageVersion Include="System.Reflection.TypeExtensions" Version="4.7.0" />
     <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
@@ -54,18 +54,18 @@
     <PackageVersion Include="System.Security.Cryptography.Csp" Version="4.3.0" />
     <PackageVersion Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
     <PackageVersion Include="System.Security.Cryptography.OpenSsl" Version="5.0.0" />
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="6.0.1" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="7.0.0" />
     <PackageVersion Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
-    <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="6.0.0" />
+    <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="7.0.0" />
     <PackageVersion Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
     <PackageVersion Include="System.Text.Encoding" Version="4.3.0" />
     <PackageVersion Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageVersion Include="System.Text.Encodings.Web" Version="6.0.0" />
-    <PackageVersion Include="System.Text.Json" Version="6.0.6" />
+    <PackageVersion Include="System.Text.Encodings.Web" Version="7.0.0" />
+    <PackageVersion Include="System.Text.Json" Version="7.0.0" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageVersion Include="System.Threading" Version="4.3.0" />
     <PackageVersion Include="System.Threading.Tasks" Version="4.3.0" />
-    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
+    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageVersion Include="System.Threading.Timer" Version="4.3.0" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />

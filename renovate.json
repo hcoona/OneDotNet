@@ -58,6 +58,11 @@
       "matchFiles": [
         "Directory.Packages.props"
       ],
+      "excludePackageNames": ["Microsoft.CSharp"],
+      "excludePackagePrefixes": [
+        "Microsoft.Extensions.",
+        "System."
+      ],
       "groupName": "third-party"
     },
     {

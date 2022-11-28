@@ -110,7 +110,7 @@ Console.WriteLine("Suggest pin these dependencies");
 var packageVersionsHashSet = packageVersions.Select(packageVersion => packageVersion.Key).ToImmutableHashSet();
 foreach (var targetGroup in from ttd in targetTypeDependencies
                             where ttd.Type == PackageDependencyType.Transitive
-                                && !ttd.Dependency.Id.StartsWith("runtime.")
+                                && !ttd.Dependency.Id.StartsWith("runtime.", StringComparison.InvariantCulture)
                             where !packageVersionsHashSet.Contains(ttd.Dependency.Id)
                             where !ttd.Dependency.Id.Contains(".runtime.")
                             group ttd.Dependency by ttd.TargetName into g

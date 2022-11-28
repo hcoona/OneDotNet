@@ -71,12 +71,12 @@ foreach (var filename in Directory.EnumerateFiles(args[0], "packages.lock.json",
 }
 
 var targetTypeDependencies = (from kvp in database
-                              select new
-                              {
-                                  TargetName = kvp.Key.Item1,
-                                  kvp.Value.Type,
-                                  Dependency = kvp.Value,
-                              }).ToList();
+                            select new
+                            {
+                                TargetName = kvp.Key.Item1,
+                                kvp.Value.Type,
+                                Dependency = kvp.Value,
+                            }).ToList();
 
 XDocument centralPackageVersionsFile;
 using (var reader = XmlReader.Create($"{args[0]}/Directory.Packages.props", new XmlReaderSettings { Async = true }))
@@ -110,7 +110,7 @@ Console.WriteLine("Suggest pin these dependencies");
 var packageVersionsHashSet = packageVersions.Select(packageVersion => packageVersion.Key).ToImmutableHashSet();
 foreach (var targetGroup in from ttd in targetTypeDependencies
                             where ttd.Type == PackageDependencyType.Transitive
-                               && !ttd.Dependency.Id.StartsWith("runtime.")
+                                && !ttd.Dependency.Id.StartsWith("runtime.")
                             where !packageVersionsHashSet.Contains(ttd.Dependency.Id)
                             where !ttd.Dependency.Id.Contains(".runtime.")
                             group ttd.Dependency by ttd.TargetName into g

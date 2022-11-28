@@ -11,9 +11,9 @@ Each `acquire()` blocks if necessary until a permit is available, and then takes
 Once acquired, permits need not be released.
 
 RateLimiter is **safe** for concurrent use: It will restrict the total rate of calls from all threads.
-Note, however, that it does not guarantee fairness. 
+Note, however, that it does not guarantee fairness.
 
-As an example, imagine that we have a list of tasks to execute, but we don't want to submit more than 2 per second: 
+As an example, imagine that we have a list of tasks to execute, but we don't want to submit more than 2 per second:
 
 ```csharp
 var rateLimiter = RateLimiter.create(2.0, new SystemStopwatchProvider()); // rate is "2 permits per second"
@@ -24,7 +24,7 @@ for (var task : tasks) {
 ```
 
 As another example, imagine that we produce a stream of data, and we want to cap it at 5kb per second.
-This could be accomplished by requiring a permit per byte, and specifying a rate of 5000 permits per second: 
+This could be accomplished by requiring a permit per byte, and specifying a rate of 5000 permits per second:
 
 ```csharp
 IRateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second

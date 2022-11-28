@@ -22,6 +22,15 @@ steps:
     git lfs ls-files
   displayName: "List Git-LFS files"
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm exec editorconfig-checker
+  displayName: 'editorconfig-checker'
+
 - task: UseDotNet@2.207.2
   displayName: 'Install DotNet SDK'
   inputs:

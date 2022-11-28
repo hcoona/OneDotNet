@@ -21,6 +21,11 @@
       "enabled": false
     },
     {
+      "matchPackageNames": ["dotnet-sdk"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "matchPackagePrefixes": ["Microsoft.Extensions."],
       "matchUpdateTypes": ["major"],
       "enabled": false

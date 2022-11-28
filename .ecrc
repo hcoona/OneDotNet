@@ -1,0 +1,11 @@
+{
+  "Exclude": [
+    "LICENSE",
+    "srcs/private/OxfordWordlistExtractor/oxford-phrase-list.html",
+    "srcs/private/OxfordWordlistExtractor/oxford3000-5000.html",
+    "**/packages.lock.json"
+  ],
+  "Disable": {
+    "MaxLineLength": true
+  }
+}

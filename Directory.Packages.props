@@ -97,12 +97,12 @@
   <ItemGroup Label="Third-party">
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="Google.OrTools" Version="9.4.1874" />
-    <PackageVersion Include="Google.Protobuf" Version="3.21.7" />
+    <PackageVersion Include="Google.Protobuf" Version="3.21.9" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageVersion Include="Itc4net" Version="1.2.1" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageVersion Include="NuGet.Frameworks" Version="6.3.1" />
-    <PackageVersion Include="NuGet.ProjectModel" Version="6.3.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageVersion Include="NuGet.Frameworks" Version="6.4.0" />
+    <PackageVersion Include="NuGet.ProjectModel" Version="6.4.0" />
     <PackageVersion Include="Serilog" Version="2.12.0" />
     <PackageVersion Include="Serilog.Enrichers.Thread" Version="3.1.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="3.1.0" />
@@ -113,8 +113,8 @@
   </ItemGroup>
 
   <ItemGroup Label="Tests">
-    <PackageVersion Include="Microsoft.CodeCoverage" Version="17.3.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageVersion Include="Microsoft.CodeCoverage" Version="17.4.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="2.2.10" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageVersion Include="xunit" Version="2.4.2" />

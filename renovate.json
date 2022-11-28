@@ -39,7 +39,7 @@
         "Microsoft.CSharp",
         "System."
       ],
-      "groupName": "System",
+      "groupName": "system",
       "automerge": true
     },
     {
@@ -48,7 +48,7 @@
       ],
       "matchPackagePrefixes": ["Microsoft.Extensions."],
       "matchUpdateTypes": ["minor","patch"],
-      "groupName": "MicrosoftExtension",
+      "groupName": "microsoft-extension",
       "automerge": true
     },
     {
@@ -58,7 +58,7 @@
       "matchFiles": [
         "Directory.Packages.props"
       ],
-      "groupName": "ThirdParty"
+      "groupName": "third-party"
     },
     {
       "extends": [
@@ -67,7 +67,7 @@
       "matchFiles": [
         "Directory.Packages.Global.props"
       ],
-      "groupName": "GlobalPackages",
+      "groupName": "global-packages",
       "automerge": true
     },
     {
@@ -77,7 +77,7 @@
       "matchFiles": [
         ".config/dotnet-tools.json"
       ],
-      "groupName": "CliPackages",
+      "groupName": "cli-packages",
       "automerge": true
     },
     {
@@ -90,7 +90,7 @@
         "Microsoft.Build.NoTargets",
         "Microsoft.Build.Traversal"
       ],
-      "groupName": "DotNetBuildSdk",
+      "groupName": "dotnet-build-sdk",
       "automerge": true
     },
     {
@@ -105,7 +105,7 @@
     // Grouping only.
     {
       "matchPackageNames": ["Grpc", "Grpc.Core", "Grpc.Core.Testing", "Grpc.Tools"],
-      "groupName": "grpc_legacy"
+      "groupName": "grpc-legacy"
     }
   ]
 }

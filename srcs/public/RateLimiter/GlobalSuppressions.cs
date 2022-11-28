@@ -28,3 +28,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "<挂起>", Scope = "member", Target = "~F:RateLimiter.SmoothRateLimiter.maxPermits")]
 [assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "<挂起>", Scope = "member", Target = "~F:RateLimiter.SmoothRateLimiter.stableInterval")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1636:File header copyright text should match", Justification = "Reviewed")]
+[assembly: SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "<挂起>", Scope = "member", Target = "~F:RateLimiter.SmoothRateLimiter.storedPermits")]
+[assembly: SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "<挂起>", Scope = "member", Target = "~F:RateLimiter.SmoothRateLimiter.maxPermits")]
+[assembly: SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "<挂起>", Scope = "member", Target = "~F:RateLimiter.SmoothRateLimiter.stableInterval")]

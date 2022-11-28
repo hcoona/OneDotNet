@@ -28,7 +28,7 @@ namespace PhiFailureDetector.UnitTest
         {
             const long toNano = 1000000L;
 
-            var intervalHistory = new LongIntervalHistory(4);
+            var intervalHistory = new LongIntervalHistoryCollection(4);
             intervalHistory.Enqueue(111 * toNano);
             intervalHistory.Enqueue(111 * toNano);
             intervalHistory.Enqueue(111 * toNano);

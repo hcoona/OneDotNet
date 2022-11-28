@@ -89,7 +89,7 @@
   <PropertyGroup Label="Code Analysis">
     <AnalysisLevel>6.0</AnalysisLevel>
     <!-- Use 'Recommended' in the future. -->
-    <AnalysisMode>Minimum</AnalysisMode>
+    <AnalysisMode>Recommended</AnalysisMode>
     <!-- CA2253: Temporarily. -->
     <!-- CA2254: https://stackoverflow.com/questions/70955861/the-logging-message-template-should-not-vary-between-calls-ca2254-when-only-pa -->
     <NoWarn>$(NoWarn);CA2253;CA2254</NoWarn>

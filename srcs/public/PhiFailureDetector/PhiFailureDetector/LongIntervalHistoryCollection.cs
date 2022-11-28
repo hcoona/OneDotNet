@@ -19,10 +19,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PhiFailureDetector
 {
-    public class LongIntervalHistory : IEnumerable<long>, ICollection, IEnumerable, IWithStatistics
+    [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "By-design")]
+    public class LongIntervalHistoryCollection : IEnumerable<long>, ICollection, IEnumerable, IWithStatistics
     {
         private readonly Queue<long> queue;
         private readonly int capacity;
@@ -31,7 +33,7 @@ namespace PhiFailureDetector
         private long squaredSum;
         private double avg;
 
-        public LongIntervalHistory(int capacity)
+        public LongIntervalHistoryCollection(int capacity)
         {
             this.capacity = capacity;
             this.queue = new Queue<long>(capacity);

@@ -22,7 +22,7 @@ steps:
     inputs:
       gitHubConnection: GitHub
       isPreRelease: ${{ ne(variables['NBGV_PrereleaseVersion'], '') }}
-      assets: $(Build.SourcesDirectory)/artifacts/packages/**
+      assets: $(Build.SourcesDirectory)/out/packages/**
       releaseNotesFilePath: '${{ parameters.releaseNotesFilePath }}'
 
   - task: AzureKeyVault@2
@@ -32,11 +32,11 @@ steps:
       keyVaultName: 'shuaizhang-akv'
       secretsFilter: 'NuGetOrgApiKey'
 
-  - script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetOrgApiKey)
+  - script: dotnet nuget push $(Build.SourcesDirectory)\out\packages\*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetOrgApiKey)
     displayName: 'Push NuGet packages to nuget.org'
 - ${{ else }}:
   - task: NuGetAuthenticate@1
     displayName: Setup NuGet authentication
 
-  - script: dotnet nuget push $(Build.SourcesDirectory)\artifacts\packages\*.nupkg --source https://pkgs.dev.azure.com/zhangshuai89/4debf70e-9948-4d59-9745-b27035b12245/_packaging/OneDotNet/nuget/v3/index.json --api-key AzureDevOps"
+  - script: dotnet nuget push $(Build.SourcesDirectory)\out\packages\*.nupkg --source https://pkgs.dev.azure.com/zhangshuai89/4debf70e-9948-4d59-9745-b27035b12245/_packaging/OneDotNet/nuget/v3/index.json --api-key AzureDevOps"
     displayName: 'Push NuGet packages to internal feed'

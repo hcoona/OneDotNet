@@ -697,4 +697,4 @@ $RECYCLE.BIN/
 *.sln
 
 # Artifacts folder
-/artifacts
+/out

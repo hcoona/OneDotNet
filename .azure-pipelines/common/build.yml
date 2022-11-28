@@ -70,12 +70,12 @@ steps:
     command: 'pack'
     packagesToPack: '${{ parameters.projects }}'
     configuration: '$(buildConfiguration)'
-    packDirectory: $(System.DefaultWorkingDirectory)/artifacts/packages
+    packDirectory: $(System.DefaultWorkingDirectory)/out/packages
     nobuild: true
     buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
 - task: PublishPipelineArtifact@1.199.0
   displayName: 'Publish artifacts'
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/artifacts
+    targetPath: $(System.DefaultWorkingDirectory)/out
     artifactName: OneDotNet-$(osSuffix)

@@ -59,19 +59,27 @@ namespace Clocks
         T GetTimestamp();
 
         /// <summary>
-        /// Parses the duration from <paramref name="fromTimestamp"/> to <paramref name="toTimestamp"/> to a readable <seealso cref="TimeSpan"/>.
+        /// Parses the duration from <paramref name="fromTimestamp"/> to
+        /// <paramref name="toTimestamp"/> to a readable <seealso cref="TimeSpan"/>.
         /// </summary>
         /// <param name="fromTimestamp">The starting timestamp.</param>
         /// <param name="toTimestamp">The ending timestamp.</param>
-        /// <returns>The readable <seealso cref="TimeSpan"/> representing the duration from <paramref name="fromTimestamp"/> to <paramref name="toTimestamp"/>.</returns>
+        /// <returns>
+        /// The readable <seealso cref="TimeSpan"/> representing
+        /// the duration from <paramref name="fromTimestamp"/>
+        /// to <paramref name="toTimestamp"/>.
+        /// </returns>
         TimeSpan ParseDuration(T fromTimestamp, T toTimestamp);
 
         /// <summary>
-        /// Gets the next timestamp elapsed <paramref name="interval"/> from <paramref name="from"/>.
+        /// Gets the next timestamp elapsed <paramref name="interval"/>
+        /// from <paramref name="from"/>.
         /// </summary>
         /// <param name="from">The starting timestamp.</param>
         /// <param name="interval">The elpased interval.</param>
-        /// <returns>The next timestamp elapsed <paramref name="interval"/> from <paramref name="from"/>.</returns>
+        /// <returns>
+        /// The next timestamp elapsed <paramref name="interval"/> from <paramref name="from"/>.
+        /// </returns>
         T GetNextTimestamp(T from, TimeSpan interval);
     }
 }

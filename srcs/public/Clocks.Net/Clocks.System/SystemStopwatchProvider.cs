@@ -22,9 +22,9 @@ using System.Diagnostics;
 namespace Clocks
 {
     /// <summary>
-    /// System built-in stopwatch provider implemented by <seealso cref="Stopwatch"/>
+    /// System built-in stopwatch provider implemented by <seealso cref="Stopwatch"/>.
     /// </summary>
-    /// <seealso cref="Clocks.IStopwatchProvider{System.Int64}" />
+    /// <seealso cref="Clocks.IStopwatchProvider{long}" />
     public class SystemStopwatchProvider : IStopwatchProvider<long>
     {
         public bool IsHighResolution => Stopwatch.IsHighResolution;
@@ -46,7 +46,8 @@ namespace Clocks
 
         public TimeSpan ParseDuration(long fromTimestamp, long toTimestamp)
         {
-            return TimeSpan.FromSeconds((toTimestamp - fromTimestamp) / (double)Stopwatch.Frequency);
+            return
+                TimeSpan.FromSeconds((toTimestamp - fromTimestamp) / (double)Stopwatch.Frequency);
         }
 
         public IStopwatch StartNew()

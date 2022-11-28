@@ -42,13 +42,15 @@ namespace PhiFailureDetector
             this.phiFunc = phiFunc;
         }
 
-        public delegate double PhiFunc(long timestamp, long lastTimestamp, IWithStatistics statistics);
+        public delegate double PhiFunc(
+            long timestamp, long lastTimestamp, IWithStatistics statistics);
 
         /**
         * https://issues.apache.org/jira/browse/CASSANDRA-2597
-        * Regular message transmissions experiencing typical random jitter will follow a normal distribution,
-        * but since gossip messages from endpoint A to endpoint B are sent at random intervals,
-        * they likely make up a Poisson process, making the exponential distribution appropriate.
+        * Regular message transmissions experiencing typical random jitter will follow a normal
+        * distribution, but since gossip messages from endpoint A to endpoint B are sent at random
+        * intervals, they likely make up a Poisson process, making the exponential distribution
+        * appropriate.
         *
         * P_later(t) = 1 - F(t)
         * P_later(t) = 1 - (1 - e^(-Lt))
@@ -63,14 +65,15 @@ namespace PhiFailureDetector
         * phi(t) = (t/mean) / log(10)
         * phi(t) = 0.4342945 * t/mean
         */
-        public static double Exponential(long nowTimestamp, long lastTimestamp, IWithStatistics statistics)
+        public static double Exponential(
+            long nowTimestamp, long lastTimestamp, IWithStatistics statistics)
         {
             var duration = nowTimestamp - lastTimestamp;
             return duration / statistics.Avg;
         }
 
         /**
-        * https://github.com/akka/akka/blob/master/akka-remote/src/main/scala/akka/remote/PhiAccrualFailureDetector.scala
+        * https://github.com/akka/akka/blob/master/akka-remote/src/main/scala/akka/remote/PhiAccrualFailureDetector.scala  // editorconfig-checker-disable-line
         * Calculation of phi, derived from the Cumulative distribution function for
         * N(mean, stdDeviation) normal distribution, given by
         * 1.0 / (1.0 + math.exp(-y * (1.5976 + 0.070566 * y * y)))
@@ -79,7 +82,8 @@ namespace PhiFailureDetector
         * Error is 0.00014 at +- 3.16
         * The calculated value is equivalent to -log10(1 - CDF(y))
         */
-        public static double Normal(long nowTimestamp, long lastTimestamp, IWithStatistics statistics)
+        public static double Normal(
+            long nowTimestamp, long lastTimestamp, IWithStatistics statistics)
         {
             var duration = nowTimestamp - lastTimestamp;
             var y = (duration - statistics.Avg) / statistics.StdDeviation;
@@ -96,7 +100,10 @@ namespace PhiFailureDetector
 
         public double Phi()
         {
-            return this.phiFunc(this.stopwatchProvider.GetTimestamp(), this.last, this.arrivalWindow);
+            return this.phiFunc(
+                this.stopwatchProvider.GetTimestamp(),
+                this.last,
+                this.arrivalWindow);
         }
 
         public void Report()

@@ -42,7 +42,8 @@ namespace RateLimiter
             IAsyncBlocker asyncBlocker)
         {
             this.asyncBlocker = asyncBlocker ?? TaskDelayAsyncBlocker.Instance;
-            this.StopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
+            this.StopwatchProvider =
+                stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
         }
 
         protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
@@ -52,7 +53,8 @@ namespace RateLimiter
 #else
         protected RateLimiterBase(IStopwatchProvider<long> stopwatchProvider)
         {
-            this.StopwatchProvider = stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
+            this.StopwatchProvider =
+                stopwatchProvider ?? throw new ArgumentNullException(nameof(stopwatchProvider));
         }
 #endif
 
@@ -195,7 +197,8 @@ namespace RateLimiter
         }
 
         [DebuggerStepThrough]
-        public Task<TryAcquireResult> TryAcquireAsync(int permits, CancellationToken cancellationToken)
+        public Task<TryAcquireResult> TryAcquireAsync(
+            int permits, CancellationToken cancellationToken)
         {
             return this.TryAcquireAsync(permits, TimeSpan.Zero, cancellationToken);
         }
@@ -215,7 +218,8 @@ namespace RateLimiter
         }
 
         [DebuggerStepThrough]
-        public Task<TryAcquireResult> TryAcquireAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        public Task<TryAcquireResult> TryAcquireAsync(
+            TimeSpan timeout, CancellationToken cancellationToken)
         {
             return this.TryAcquireAsync(1, timeout, cancellationToken);
         }
@@ -227,7 +231,9 @@ namespace RateLimiter
         public TryAcquireResult TryAcquire(int permits, TimeSpan timeout)
 #if !NET20
         {
-            return this.TryAcquireAsync(permits, timeout, CancellationToken.None).GetAwaiter().GetResult();
+            return this.TryAcquireAsync(permits, timeout, CancellationToken.None)
+                .GetAwaiter()
+                .GetResult();
         }
 
         [DebuggerStepThrough]
@@ -236,7 +242,8 @@ namespace RateLimiter
             return this.TryAcquireAsync(permits, timeout, CancellationToken.None);
         }
 
-        public async Task<TryAcquireResult> TryAcquireAsync(int permits, TimeSpan timeout, CancellationToken cancellationToken)
+        public async Task<TryAcquireResult> TryAcquireAsync(
+            int permits, TimeSpan timeout, CancellationToken cancellationToken)
 #endif
         {
             if (!(permits > 0))
@@ -317,7 +324,9 @@ namespace RateLimiter
 #endif
             try
             {
-                return this.ReserveAndGetWaitLength(permits, this.StopwatchProvider.GetTimestamp());
+                return this.ReserveAndGetWaitLength(
+                    permits,
+                    this.StopwatchProvider.GetTimestamp());
             }
             finally
             {
@@ -341,7 +350,8 @@ namespace RateLimiter
             return momentAvailable.Ticks > 0 ? momentAvailable : TimeSpan.Zero;
         }
 
-        protected bool CanAcquire(long nowTimestamp, TimeSpan timeout, out TimeSpan momentAvailableInterval)
+        protected bool CanAcquire(
+            long nowTimestamp, TimeSpan timeout, out TimeSpan momentAvailableInterval)
         {
             momentAvailableInterval = this.StopwatchProvider.ParseDuration(
                 nowTimestamp,

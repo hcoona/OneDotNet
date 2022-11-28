@@ -49,7 +49,9 @@ namespace Clocks
         /// Parses the time point to readable type <seealso cref="System.DateTime"/>.
         /// </summary>
         /// <param name="timepoint">The timepoint.</param>
-        /// <returns>The readable type <seealso cref="System.DateTime"/> representing the given time point.</returns>
+        /// <returns>
+        /// The readable type <seealso cref="System.DateTime"/> representing the given time point.
+        /// </returns>
         DateTime ParseTimePoint(T timepoint);
     }
 }

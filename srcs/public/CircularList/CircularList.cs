@@ -127,7 +127,11 @@ namespace IO.Github.Hcoona.Collections
             }
             else
             {
-                return this.Skip(this.firstItemIdx).Take(this.Count).Concat(this.Take(this.Count - this.firstItemIdx)).GetEnumerator();
+                return this
+                    .Skip(this.firstItemIdx)
+                    .Take(this.Count)
+                    .Concat(this.Take(this.Count - this.firstItemIdx))
+                    .GetEnumerator();
             }
         }
 

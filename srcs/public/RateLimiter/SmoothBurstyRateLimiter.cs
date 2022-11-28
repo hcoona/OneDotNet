@@ -57,11 +57,14 @@ namespace RateLimiter
             }
             else
             {
-                this.storedPermits = (oldMaxPermits == 0) ? 0 : this.storedPermits * this.maxPermits / oldMaxPermits;
+                this.storedPermits = (oldMaxPermits == 0)
+                    ? 0
+                    : this.storedPermits * this.maxPermits / oldMaxPermits;
             }
         }
 
-        protected override TimeSpan StoredPermitsToWaitTime(double storedPermits, double permitsToTake)
+        protected override TimeSpan StoredPermitsToWaitTime(
+            double storedPermits, double permitsToTake)
         {
             return TimeSpan.Zero;
         }

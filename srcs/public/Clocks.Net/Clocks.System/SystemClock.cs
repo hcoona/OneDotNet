@@ -27,21 +27,25 @@ namespace Clocks
     public class SystemClock : IPhysicalClock<DateTime>
     {
         /// <summary>
-        /// Gets a value indicating whether the instance is high resolution. Always <c>false</c> because <seealso cref="DateTime"/> is not high resolution.
+        /// Gets a value indicating whether the instance is high resolution.
+        /// Always <c>false</c> because <seealso cref="DateTime"/> is not high resolution.
         /// </summary>
         /// <value>
         /// Always <c>false</c>.
         /// </value>
-        // The Ticks property expresses date and time values in units of one ten-millionth of a second
+        // The Ticks property expresses date and time values in units of one ten-millionth
+        // of a second.
         public bool IsHighResolution => false;
 
         /// <summary>
-        /// Gets a value indicating whether this instance is monotonic. Always <c>false</c> because <seealso cref="DateTime"/> is not monotonic.
+        /// Gets a value indicating whether this instance is monotonic.
+        /// Always <c>false</c> because <seealso cref="DateTime"/> is not monotonic.
         /// </summary>
         /// <value>
         /// Always <c>false</c>.
         /// </value>
-        // Using repeated calls to the DateTime.Now property to measure elapsed time is dependent on the system clock.
+        // Using repeated calls to the DateTime.Now property to measure
+        // elapsed time is dependent on the system clock.
         public bool IsMonotonic => false;
 
         public DateTime Now => DateTime.Now;

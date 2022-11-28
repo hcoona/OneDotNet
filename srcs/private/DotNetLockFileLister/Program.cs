@@ -24,13 +24,18 @@ using System.Xml.XPath;
 using NuGet.Packaging;
 using NuGet.ProjectModel;
 
-var database = new ConcurrentDictionary<Tuple<string /* target */, string /* id */>, LockFileDependency>();
+var database = new ConcurrentDictionary<
+    Tuple<string /* target */, string /* id */>,
+    LockFileDependency>();
 
-foreach (var filename in Directory.EnumerateFiles(args[0], "packages.lock.json", new EnumerationOptions()
-{
-    MatchType = MatchType.Simple,
-    RecurseSubdirectories = true,
-}))
+foreach (var filename in Directory.EnumerateFiles(
+    args[0],
+    "packages.lock.json",
+    new EnumerationOptions()
+    {
+        MatchType = MatchType.Simple,
+        RecurseSubdirectories = true,
+    }))
 {
     var packagesLockFileFormat = PackagesLockFileFormat.Read(filename);
     foreach (var target in packagesLockFileFormat.Targets)
@@ -79,9 +84,12 @@ var targetTypeDependencies = (from kvp in database
                             }).ToList();
 
 XDocument centralPackageVersionsFile;
-using (var reader = XmlReader.Create($"{args[0]}/Directory.Packages.props", new XmlReaderSettings { Async = true }))
+using (var reader = XmlReader.Create(
+    $"{args[0]}/Directory.Packages.props",
+    new XmlReaderSettings { Async = true }))
 {
-    centralPackageVersionsFile = await XDocument.LoadAsync(reader, LoadOptions.SetLineInfo, CancellationToken.None);
+    centralPackageVersionsFile =
+        await XDocument.LoadAsync(reader, LoadOptions.SetLineInfo, CancellationToken.None);
 }
 
 var packageVersions = centralPackageVersionsFile
@@ -93,7 +101,8 @@ var packageVersions = centralPackageVersionsFile
         elem => elem.Attribute("Version")?.Value);
 
 Console.WriteLine("Can remove these dependencies");
-var dependenciesHashSet = targetTypeDependencies.Select(obj => obj.Dependency.Id).ToImmutableHashSet();
+var dependenciesHashSet =
+    targetTypeDependencies.Select(obj => obj.Dependency.Id).ToImmutableHashSet();
 foreach (var packageVersion in packageVersions)
 {
     if (dependenciesHashSet.Contains(packageVersion.Key))
@@ -107,10 +116,13 @@ foreach (var packageVersion in packageVersions)
 Console.WriteLine();
 
 Console.WriteLine("Suggest pin these dependencies");
-var packageVersionsHashSet = packageVersions.Select(packageVersion => packageVersion.Key).ToImmutableHashSet();
+var packageVersionsHashSet =
+    packageVersions.Select(packageVersion => packageVersion.Key).ToImmutableHashSet();
 foreach (var targetGroup in from ttd in targetTypeDependencies
                             where ttd.Type == PackageDependencyType.Transitive
-                                && !ttd.Dependency.Id.StartsWith("runtime.", StringComparison.InvariantCulture)
+                                && !ttd.Dependency.Id.StartsWith(
+                                    "runtime.",
+                                    StringComparison.InvariantCulture)
                             where !packageVersionsHashSet.Contains(ttd.Dependency.Id)
                             where !ttd.Dependency.Id.Contains(".runtime.")
                             group ttd.Dependency by ttd.TargetName into g
@@ -120,6 +132,8 @@ foreach (var targetGroup in from ttd in targetTypeDependencies
     Console.WriteLine($"\tTargetName={targetGroup.Key}");
     foreach (var dependency in targetGroup.OrderBy(d => d.Id))
     {
-        Console.WriteLine($"    <PackageVersion Include=\"{dependency.Id}\" Version=\"{dependency.ResolvedVersion}\" />");
+        Console.WriteLine(
+            $"    <PackageVersion Include=\"{dependency.Id}\"" +
+            $" Version=\"{dependency.ResolvedVersion}\" />");
     }
 }

@@ -32,7 +32,8 @@ namespace RateLimiter
         private long nextFreeTicketTimestamp;
 
 #if !NET20
-        internal SmoothRateLimiter(IStopwatchProvider<long> stopwatchProvider, IAsyncBlocker asyncBlocker)
+        internal SmoothRateLimiter(
+            IStopwatchProvider<long> stopwatchProvider, IAsyncBlocker asyncBlocker)
             : base(stopwatchProvider, asyncBlocker)
         {
         }
@@ -77,20 +78,25 @@ namespace RateLimiter
             var returnValue = this.nextFreeTicketTimestamp;
             var storedPermitsToSpend = Math.Min(permits, this.storedPermits);
             var freshPermits = permits - storedPermitsToSpend;
-            var waitTimeout = this.StoredPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
-                + this.FreshPermitsToWaitTime(freshPermits);
-            this.nextFreeTicketTimestamp = this.StopwatchProvider.GetNextTimestamp(this.nextFreeTicketTimestamp, waitTimeout);
+            var waitTimeout =
+                this.StoredPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
+                    + this.FreshPermitsToWaitTime(freshPermits);
+            this.nextFreeTicketTimestamp =
+                this.StopwatchProvider.GetNextTimestamp(this.nextFreeTicketTimestamp, waitTimeout);
             this.storedPermits -= storedPermitsToSpend;
             return returnValue;
         }
 
-        protected abstract TimeSpan StoredPermitsToWaitTime(double storedPermits, double permitsToTake);
+        protected abstract TimeSpan StoredPermitsToWaitTime(
+            double storedPermits, double permitsToTake);
 
         protected void Resync(long nowTimestamp)
         {
             if (nowTimestamp > this.nextFreeTicketTimestamp)
             {
-                var newDuration = this.StopwatchProvider.ParseDuration(this.nextFreeTicketTimestamp, nowTimestamp);
+                var newDuration = this.StopwatchProvider.ParseDuration(
+                    this.nextFreeTicketTimestamp,
+                    nowTimestamp);
                 double newPermits = newDuration.Ticks / (double)this.CoolDownInterval.Ticks;
                 this.storedPermits = Math.Min(this.maxPermits, this.storedPermits + newPermits);
                 this.nextFreeTicketTimestamp = nowTimestamp;

@@ -74,9 +74,16 @@ namespace PhiFailureDetector.ConsoleApp
             Console.WriteLine();
         }
 
-        private static void PrintPhi(int nowTimestamp, long lastTimestamp, LongIntervalHistoryCollection arrivalWindow, PhiFailureDetector.PhiFunc phiFunc)
+        private static void PrintPhi(
+            int nowTimestamp,
+            long lastTimestamp,
+            LongIntervalHistoryCollection arrivalWindow,
+            PhiFailureDetector.PhiFunc phiFunc)
         {
-            Console.WriteLine("Phi({0}) = {1:F3}", nowTimestamp, phiFunc(nowTimestamp * ToNano, lastTimestamp, arrivalWindow));
+            Console.WriteLine(
+                "Phi({0}) = {1:F3}",
+                nowTimestamp,
+                phiFunc(nowTimestamp * ToNano, lastTimestamp, arrivalWindow));
         }
 
         private static double CDF(double phi)

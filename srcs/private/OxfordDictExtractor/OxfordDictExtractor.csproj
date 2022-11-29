@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Microsoft.Build.Artifacts" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(CurrentTargetFramework)</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.tsv</DefaultArtifactsFileMatch>
+    <ArtifactsPath>$(BaseArtifactsPath)\OxfordDictExtractor</ArtifactsPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="System.IO.Compression.ZipFile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dict.tsv.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="../OxfordWordlistExtractor/oxford3000-5000.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -100,6 +100,7 @@
     <PackageVersion Include="Google.Protobuf" Version="3.21.9" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageVersion Include="Itc4net" Version="1.2.1" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.26.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageVersion Include="NuGet.Frameworks" Version="6.4.0" />
     <PackageVersion Include="NuGet.ProjectModel" Version="6.4.0" />

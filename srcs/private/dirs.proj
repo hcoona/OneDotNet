@@ -2,5 +2,6 @@
   <ItemGroup>
     <ProjectReference Include="DotNetLockFileLister\DotNetLockFileLister.csproj" />
     <ProjectReference Include="OxfordWordlistExtractor\OxfordWordlistExtractor.csproj" />
+    <ProjectReference Include="QiDianBookDownloader\QiDianBookDownloader.csproj" />
   </ItemGroup>
 </Project>

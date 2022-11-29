@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(CurrentTargetFramework)</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- https://playwright.dev/dotnet/docs/library -->
+    <PlaywrightPlatform>all</PlaywrightPlatform>
+
+    <ArtifactsPath>$(BaseArtifactsPath)\QiDianBookDownloader</ArtifactsPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Microsoft.Playwright" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\Clocks.Net\Clocks.System\Clocks.System.csproj" />
+    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\RateLimiter\RateLimiter.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

@@ -16,35 +16,48 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using System.Diagnostics;
+using GitLfsService.Api.DataAccesses;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+Activity.DefaultIdFormat = ActivityIdFormat.W3C;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<
+    ILfsObjectManager,
+    LocalFileSystemLfsObjectManager>();
+
+builder.Services.AddRouting();
+builder.Services.AddHttpContextAccessor();
+builder.Services
+    .AddControllers()
+
+    // Use NewtonsoftJson until .NET7 because its JSON didn't support DataContract
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+    });
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.FullName);
+});
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
-var summaries = new[]
-{
-    "Freezing",
-    "Bracing",
-    "Chilly",
-    "Cool",
-    "Mild",
-    "Warm",
-    "Balmy",
-    "Hot",
-    "Sweltering",
-    "Scorching",
-};
-
-app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast(
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]))
-        .ToArray();
-    return forecast;
-});
+app.MapControllers();
 
 app.Run();

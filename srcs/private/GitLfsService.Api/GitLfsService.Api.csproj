@@ -7,4 +7,9 @@
     <UserSecretsId>c91cf2dc-1788-4942-9fa7-cf5ab4d40ff3</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+  </ItemGroup>
+
 </Project>

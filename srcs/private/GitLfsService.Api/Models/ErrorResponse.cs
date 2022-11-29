@@ -16,7 +16,20 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
+using System.Runtime.Serialization;
+
+namespace GitLfsService.Api.Models
 {
-    public int TemperatureF => 32 + (int)(this.TemperatureC / 0.5556);
+    [DataContract]
+    public record ErrorResponse
+    {
+        [DataMember(Name = "message", IsRequired = true, Order = 1)]
+        public string Message { get; init; } = default!;
+
+        [DataMember(Name = "request_id", IsRequired = false, Order = 2)]
+        public string? RequestId { get; init; }
+
+        [DataMember(Name = "documentation_url", IsRequired = false, Order = 3)]
+        public string? DocumentationUrl { get; init; }
+    }
 }

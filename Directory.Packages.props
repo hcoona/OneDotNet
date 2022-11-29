@@ -71,6 +71,7 @@
     <PackageVersion Include="System.Xml.XDocument" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Label="Microsoft Extensions">
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
@@ -102,6 +103,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageVersion Include="NuGet.Frameworks" Version="6.4.0" />
     <PackageVersion Include="NuGet.ProjectModel" Version="6.4.0" />
+    <PackageVersion Include="RocksDB" Version="7.7.3.33461" />
     <PackageVersion Include="Serilog" Version="2.12.0" />
     <PackageVersion Include="Serilog.Enrichers.Thread" Version="3.1.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="3.1.0" />
@@ -109,7 +111,7 @@
     <PackageVersion Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageVersion Include="RocksDB" Version="7.7.3.33461" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
   <ItemGroup Label="Tests">
     <PackageVersion Include="Microsoft.CodeCoverage" Version="17.4.0" />

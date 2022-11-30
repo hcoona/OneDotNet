@@ -30,11 +30,21 @@ using (var sr = new StreamReader(fs, Encoding.UTF8))
 }
 
 var words = (from node in document.DocumentNode.SelectNodes(
-                "//div[@id='wordlistsContentPanel']/ul/li")
-             select WebUtility.HtmlDecode(node.GetDataAttribute("hw").Value).Trim())
-            .ToImmutableSortedSet();
+                "//div[@id='wordlistsContentPanel']/ul/li/a")
+             select WebUtility.HtmlDecode(node.GetDirectInnerText()).Trim())
+            .ToHashSet();
 
-var dict = new Dictionary<string, string>();
+var specialRules = new Dictionary<string, string>
+{
+    ["august"] = "August",
+    ["id"] = "ID",
+    ["it"] = "IT",
+    ["march"] = "March",
+    ["may"] = "May",
+    ["o’clock"] = "o'clock",
+};
+
+var dict = new SortedDictionary<string, string>();
 using (var fs = ZipFile.OpenRead("dict.tsv.zip").Entries.Single().Open())
 using (var sr = new StreamReader(fs))
 {
@@ -45,9 +55,30 @@ using (var sr = new StreamReader(fs))
         if (words.Contains(parts[0]))
         {
             dict.Add(parts[0], parts[1]);
+            continue;
+        }
+
+        // Special rules
+        if (specialRules.ContainsKey(parts[0]))
+        {
+            Console.WriteLine($"Hit special rule: {parts[0]} -> {specialRules[parts[0]]}");
+            dict.Add(specialRules[parts[0]], parts[1]);
+            continue;
         }
     }
 }
 
 Console.WriteLine($"Load {dict.Count}/{words.Count} words.");
-Console.WriteLine($"The missing words are {string.Join(", ", words.Except(dict.Keys))}.");
+if (dict.Count != words.Count)
+{
+    Console.WriteLine($"The missing words are {string.Join(", ", words.Except(dict.Keys))}.");
+}
+
+using (var fs = File.OpenWrite("wordlist.tsv"))
+using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+{
+    foreach (var (key, value) in dict)
+    {
+        sw.WriteLine($"{key}\t{value}");
+    }
+}

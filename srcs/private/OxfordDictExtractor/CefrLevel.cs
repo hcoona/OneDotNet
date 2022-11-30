@@ -16,25 +16,16 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Immutable;
-using System.IO.Compression;
-using System.Net;
-using System.Text;
-using OxfordDictExtractor;
-
-using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())
-using (var sr = new StreamReader(fs))
+namespace OxfordDictExtractor
 {
-    string? line;
-    while ((line = sr.ReadLine()) != null)
+    public enum CefrLevel
     {
-        var parts = line.Split('\t', 2, StringSplitOptions.TrimEntries);
-        if (parts[1].StartsWith("@@@", StringComparison.InvariantCulture))
-        {
-            Console.WriteLine("Skip linking word: " + parts[0]);
-            continue;
-        }
-
-        Word.ParseFromDictContent(parts[0], parts[1]).PrintDebug(Console.Out);
+        Unspecified,
+        A1,
+        A2,
+        B1,
+        B2,
+        C1,
+        C2,
     }
 }

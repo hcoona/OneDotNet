@@ -20,65 +20,23 @@ using System.Collections.Immutable;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
-using HtmlAgilityPack;
-
-var document = new HtmlDocument();
-using (var fs = File.OpenRead("oxford3000-5000.html"))
-using (var sr = new StreamReader(fs, Encoding.UTF8))
-{
-    document.Load(sr);
-}
-
-var words = (from node in document.DocumentNode.SelectNodes(
-                "//div[@id='wordlistsContentPanel']/ul/li/a")
-             select WebUtility.HtmlDecode(node.GetDirectInnerText()).Trim())
-            .ToHashSet();
-
-var specialRules = new Dictionary<string, string>
-{
-    ["august"] = "August",
-    ["id"] = "ID",
-    ["it"] = "IT",
-    ["march"] = "March",
-    ["may"] = "May",
-    ["o’clock"] = "o'clock",
-};
 
 var dict = new SortedDictionary<string, string>();
-using (var fs = ZipFile.OpenRead("dict.tsv.zip").Entries.Single().Open())
+using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())
 using (var sr = new StreamReader(fs))
 {
     string? line;
     while ((line = sr.ReadLine()) != null)
     {
         var parts = line.Split('\t', 2, StringSplitOptions.TrimEntries);
-        if (words.Contains(parts[0]))
+        if (parts[1].StartsWith("@@@", StringComparison.InvariantCulture))
         {
-            dict.Add(parts[0], parts[1]);
+            Console.WriteLine("Skip linking word: " + parts[0]);
             continue;
         }
 
-        // Special rules
-        if (specialRules.ContainsKey(parts[0]))
-        {
-            Console.WriteLine($"Hit special rule: {parts[0]} -> {specialRules[parts[0]]}");
-            dict.Add(specialRules[parts[0]], parts[1]);
-            continue;
-        }
+        dict.Add(parts[0], parts[1]);
     }
 }
 
-Console.WriteLine($"Load {dict.Count}/{words.Count} words.");
-if (dict.Count != words.Count)
-{
-    Console.WriteLine($"The missing words are {string.Join(", ", words.Except(dict.Keys))}.");
-}
-
-using (var fs = File.OpenWrite("wordlist.tsv"))
-using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
-{
-    foreach (var (key, value) in dict)
-    {
-        sw.WriteLine($"{key}\t{value}");
-    }
-}
+Console.WriteLine($"Total words: {dict.Count}");

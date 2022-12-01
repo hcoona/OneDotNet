@@ -34,7 +34,11 @@ namespace OxfordDictExtractor.GenModel
                 await writer.WriteAsync(sense.Grammar);
                 await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"labels\">");
                 await writer.WriteAsync(sense.Labels);
-                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"def-chn\">");
+                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"cf\">");
+                await writer.WriteAsync(sense.CombinationForm);
+                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"dis-g\">（");
+                await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
+                await writer.WriteAsync("）</span><span class=\"sep\"></span><span class=\"def-chn\">");
                 await writer.WriteAsync(sense.ChineseDefinition);
                 await writer.WriteAsync("</span></p>");
             }
@@ -53,7 +57,11 @@ namespace OxfordDictExtractor.GenModel
                     await writer.WriteAsync(sense.Grammar);
                     await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"labels\">");
                     await writer.WriteAsync(sense.Labels);
-                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"def-chn\">");
+                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"cf\">");
+                    await writer.WriteAsync(sense.CombinationForm);
+                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"dis-g\">（");
+                    await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
+                    await writer.WriteAsync("）</span><span class=\"sep\"></span><span class=\"def-chn\">");
                     await writer.WriteAsync(sense.ChineseDefinition);
                     await writer.WriteAsync("</span></p>");
                     await writer.WriteAsync("</li>");
@@ -78,6 +86,10 @@ namespace OxfordDictExtractor.GenModel
                 await writer.WriteAsync("&nbsp;");
                 await writer.WriteAsync(sense.Labels);
                 await writer.WriteAsync("&nbsp;");
+                await writer.WriteAsync(sense.CombinationForm);
+                await writer.WriteAsync("&nbsp;（");
+                await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
+                await writer.WriteAsync("）&nbsp;");
                 await writer.WriteAsync(sense.ChineseDefinition);
                 await writer.WriteAsync("</p>");
             }
@@ -96,6 +108,10 @@ namespace OxfordDictExtractor.GenModel
                     await writer.WriteAsync("&nbsp;");
                     await writer.WriteAsync(sense.Labels);
                     await writer.WriteAsync("&nbsp;");
+                    await writer.WriteAsync(sense.CombinationForm);
+                    await writer.WriteAsync("&nbsp;（");
+                    await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
+                    await writer.WriteAsync("）&nbsp;");
                     await writer.WriteAsync(sense.ChineseDefinition);
                     await writer.WriteAsync("</li>");
                 }

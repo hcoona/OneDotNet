@@ -1,5 +1,7 @@
 # Prime Examples
 
+## Normal cases
+
 * derive: only phrasal verbs.
 * namely: single word class.
 * dog: 2 word classes.
@@ -11,7 +13,15 @@
 * dog: CEFR marked to meaning.
 * dog: CEFR marked only to topic instead of meaning.
 
-* wake: broken source
+## Special cases
+
+* advice: the grammar tagged on entry level instead of the sense level.
+* afraid: should extract `class="cf"`
+* blonde: should extract `class="dis-g"`.
+
+## Exception cases
+
+* wake: broken source.
 
 ## HTML analysis
 

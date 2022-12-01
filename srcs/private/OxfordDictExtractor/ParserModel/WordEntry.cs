@@ -125,7 +125,6 @@ namespace OxfordDictExtractor
                 };
             }
 
-            // TODO(hcoona): merge entry level labels.
             // TODO(hcoona): also want to check phrasal verb links & idioms.
             return new WordEntry
             {

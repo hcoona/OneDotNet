@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using System.Net;
 using HtmlAgilityPack;
 
 namespace OxfordDictExtractor
@@ -38,6 +39,12 @@ namespace OxfordDictExtractor
 
         public string? Labels { get; init; }
 
+        public string? CombinationForm { get; init; }
+
+        public string? EnglishDisG { get; init; }
+
+        public string? ChineseDisG { get; init; }
+
         public string EnglishDefinition { get; init; } = default!;
 
         public string? ChineseDefinition { get; init; }
@@ -53,7 +60,10 @@ namespace OxfordDictExtractor
             writer.WriteLine($"{indent}CefrLevel={this.CefrLevel}");
             writer.WriteLine($"{indent}Grammar={this.Grammar}");
             writer.WriteLine($"{indent}Labels={this.Labels}");
+            writer.WriteLine($"{indent}CombinationForm={this.CombinationForm}");
+            writer.WriteLine($"{indent}EnglishDisG={this.EnglishDisG}");
             writer.WriteLine($"{indent}EnglishDefinition={this.EnglishDefinition}");
+            writer.WriteLine($"{indent}ChineseDisG={this.ChineseDisG}");
             writer.WriteLine($"{indent}ChineseDefinition={this.ChineseDefinition}");
             writer.WriteLine($"{indent}Examples.Count={this.Examples.Count}");
             writer.WriteLine();
@@ -106,6 +116,23 @@ namespace OxfordDictExtractor
                 }
             }
 
+            var disG = liNode.SelectSingleNode(".//span[@class='dis-g']");
+
+            string? englishDisG = null;
+            string? chineseDisG = null;
+            if (disG != null)
+            {
+                var dtxt = disG.SelectSingleNode(".//span[@class='dtxt']")
+                    ?? throw new InvalidDataException("Found dis-g but no dtxt.");
+                englishDisG = dtxt.InnerText;
+
+                var dtxtChn = disG.SelectSingleNode(".//chn");
+                if (dtxtChn != null)
+                {
+                    chineseDisG = dtxtChn.InnerText;
+                }
+            }
+
             return new WordSense
             {
                 SenseNumber = liNode.GetAttributeValue("sensenum", 0),
@@ -127,10 +154,21 @@ namespace OxfordDictExtractor
                     "c2" => CefrLevel.C2,
                     _ => CefrLevel.Unspecified,
                 },
-                Grammar = liNode.SelectSingleNode(".//span[@class='grammar']")?.InnerText,
-                Labels = liNode.SelectSingleNode("./span[@class='labels']")?.InnerText,
+                Grammar = liNode.SelectSingleNode(".//span[@class='grammar']")?.InnerText
+                    ?? liNode
+                        .ParentNode
+                        .ParentNode
+                        .SelectSingleNode(".//div[@class='top-g']//span[@class='grammar']")?.InnerText,
+                Labels = liNode.SelectSingleNode("./span[@class='labels']")?.InnerText
+                    ?? liNode
+                        .ParentNode
+                        .ParentNode
+                        .SelectSingleNode(".//div[@class='top-g']//span[@class='labels']")?.InnerText,
+                CombinationForm = liNode.SelectSingleNode(".//span[@class='cf']")?.InnerText,
+                EnglishDisG = englishDisG,
                 EnglishDefinition = def.InnerText
                     ?? throw new InvalidDataException("Cannot parse def span."),
+                ChineseDisG = chineseDisG,
                 ChineseDefinition = defChn?.InnerText
                     ?? throw new InvalidDataException("Cannot parse defT/chn."),
             };

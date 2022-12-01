@@ -41,34 +41,46 @@ using (var sr = new StreamReader(fs))
     }
 }
 
-var wordClassEntries = from word in words
-                       from entry in word.Entries
-                       where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
-                       from sense in entry.Senses
-                       where !sense.IsXrefOnly
-                       where sense.CefrLevel == CefrLevel.A1
-                       group sense by new { entry.Name, entry.WordClass } into g
-                       select new WordClassEntry(g.Key.Name, g.Key.WordClass, g.ToList());
-var entries = (from wce in wordClassEntries
-               group wce by wce.Name into g
-               select new OxfordDictExtractor.GenModel.WordEntry(g.Key, g.ToList())).ToList();
-
-using (var fs = File.OpenWrite("words.tsv"))
-using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unspecified))
 {
-    foreach (var entry in entries)
+    var wordClassEntries = from word in words
+                           from entry in word.Entries
+                           where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
+                           from sense in entry.Senses
+                           where !sense.IsXrefOnly
+                           where sense.CefrLevel <= level && sense.CefrLevel != CefrLevel.Unspecified
+                           group sense by new { entry.Name, entry.WordClass } into g
+                           select new WordClassEntry(g.Key.Name, g.Key.WordClass, g.ToList());
+    var entries = (from wce in wordClassEntries
+                   group wce by wce.Name into g
+                   where g.Any(wce => wce.WordSenses.Any(s => s.CefrLevel == level))
+                   select new OxfordDictExtractor.GenModel.WordEntry(g.Key, g.ToList())).ToList();
+
+    using (var fs = File.Open(
+        $"words_{level}.tsv",
+        FileMode.OpenOrCreate | FileMode.Truncate,
+        FileAccess.Write,
+        FileShare.Read))
+    using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
     {
-        await entry.ToStyledDelimitedHtml(sw, delimiter: '\t');
-        await sw.WriteLineAsync();
+        foreach (var entry in entries)
+        {
+            await entry.ToStyledDelimitedHtml(sw, delimiter: '\t');
+            await sw.WriteLineAsync();
+        }
     }
-}
 
-using (var fs = File.OpenWrite("words_unstyled.csv"))
-using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
-{
-    foreach (var entry in entries)
+    using (var fs = File.Open(
+        $"words_unstyled_{level}.csv",
+        FileMode.OpenOrCreate | FileMode.Truncate,
+        FileAccess.Write,
+        FileShare.Read))
+    using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
     {
-        await entry.ToNoStyledDelimitedHtml(sw, delimiter: ',');
-        await sw.WriteLineAsync();
+        foreach (var entry in entries)
+        {
+            await entry.ToNoStyledDelimitedHtml(sw, delimiter: ',');
+            await sw.WriteLineAsync();
+        }
     }
 }

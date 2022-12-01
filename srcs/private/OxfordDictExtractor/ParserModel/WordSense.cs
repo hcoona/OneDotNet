@@ -164,7 +164,7 @@ namespace OxfordDictExtractor
                         .ParentNode
                         .ParentNode
                         .SelectSingleNode(".//div[@class='top-g']//span[@class='labels']")?.InnerText,
-                CombinationForm = liNode.SelectSingleNode(".//span[@class='cf']")?.InnerText,
+                CombinationForm = sensetop.SelectSingleNode("./span[@class='cf']")?.InnerText,
                 EnglishDisG = englishDisG,
                 EnglishDefinition = def.InnerText
                     ?? throw new InvalidDataException("Cannot parse def span."),

@@ -17,6 +17,7 @@
 
 * advice: the grammar tagged on entry level instead of the sense level.
 * afraid: should extract `class="cf"`
+* amazing: multiple `class="cf"` but not attached to the sense. They're attached to examples instead.
 * blonde: should extract `class="dis-g"`.
 
 ## Exception cases

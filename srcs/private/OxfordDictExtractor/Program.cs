@@ -21,6 +21,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using OxfordDictExtractor;
+using OxfordDictExtractor.GenModel;
 
 var words = new List<Word>();
 using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())
@@ -41,23 +42,33 @@ using (var sr = new StreamReader(fs))
 }
 
 var wordClassEntries = from word in words
-                  from entry in word.Entries
-                  where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
-                  from sense in entry.Senses
-                  where !sense.IsXrefOnly
-                  where sense.CefrLevel == CefrLevel.A1
-                  group sense by new { entry.Name, entry.WordClass } into g
-                  select new
-                  {
-                      Name = g.Key.Name,
-                      WordClass = g.Key.WordClass,
-                      Senses = string.Join(
-                          "<br/>",
-                          g
-                              .OrderBy(s => s.SenseNumber)
-                              .Select(s => $"{s.SenseNumber}.&lt;{s.CefrLevel}&gt;{s.Grammar}{s.Labels}{s.ChineseDefinition}")),
-                  };
-var entries = from wce in wordClassEntries
-              group wce by wce.Name into g
-              select $"\"{g.Key}\",\"<ul>{string.Join(string.Empty, g.Select(wce => $"<li><p>{wce.WordClass}</p><p>{wce.Senses}</p></li>"))}</ul>\"";
-File.WriteAllLines("words.csv", entries, new UTF8Encoding(false));
+                       from entry in word.Entries
+                       where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
+                       from sense in entry.Senses
+                       where !sense.IsXrefOnly
+                       where sense.CefrLevel == CefrLevel.A1
+                       group sense by new { entry.Name, entry.WordClass } into g
+                       select new WordClassEntry(g.Key.Name, g.Key.WordClass, g.ToList());
+var entries = (from wce in wordClassEntries
+               group wce by wce.Name into g
+               select new OxfordDictExtractor.GenModel.WordEntry(g.Key, g.ToList())).ToList();
+
+using (var fs = File.OpenWrite("words.tsv"))
+using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+{
+    foreach (var entry in entries)
+    {
+        await entry.ToStyledDelimitedHtml(sw, delimiter: '\t');
+        await sw.WriteLineAsync();
+    }
+}
+
+using (var fs = File.OpenWrite("words_unstyled.csv"))
+using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+{
+    foreach (var entry in entries)
+    {
+        await entry.ToNoStyledDelimitedHtml(sw, delimiter: ',');
+        await sw.WriteLineAsync();
+    }
+}

@@ -12,3 +12,4 @@ The origin data is filtered according to [Oxford 3000 and 5000 wordlists](https:
 
 1. Extract phrasal verbs.
 1. Extract Idioms.
+1. Rule out variants from labels (whose parent node is `class="v-g"`)

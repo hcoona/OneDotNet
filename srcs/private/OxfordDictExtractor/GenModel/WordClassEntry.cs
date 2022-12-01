@@ -28,19 +28,24 @@ namespace OxfordDictExtractor.GenModel
 
                 await writer.WriteAsync("<p><span class=\"word-class\">");
                 await writer.WriteAsync(this.WordClass);
-                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"cefr\">");
+                await writer.WriteAsync(
+                    "</span><span class=\"sep\"></span><span class=\"cefr\">");
                 await writer.WriteAsync(sense.CefrLevel.ToString());
-                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"grammar\">");
+                await writer.WriteAsync(
+                    "</span><span class=\"sep\"></span><span class=\"grammar\">");
                 await writer.WriteAsync(sense.Grammar);
-                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"labels\">");
+                await writer.WriteAsync(
+                    "</span><span class=\"sep\"></span><span class=\"labels\">");
                 await writer.WriteAsync(sense.Labels);
-                await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"cf\">");
+                await writer.WriteAsync(
+                    "</span><span class=\"sep\"></span><span class=\"cf\">");
                 await writer.WriteAsync(sense.CombinationForm);
                 await writer.WriteAsync("</span>");
 
                 if (sense.ChineseDisG != null || sense.EnglishDisG != null)
                 {
-                    await writer.WriteAsync("<span class=\"sep\"></span><span class=\"dis-g\">（");
+                    await writer.WriteAsync(
+                        "<span class=\"sep\"></span><span class=\"dis-g\">（");
                     await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
                     await writer.WriteAsync("）</span>");
                 }
@@ -52,7 +57,8 @@ namespace OxfordDictExtractor.GenModel
             else
             {
                 await writer.WriteAsync("<ol>");
-                await writer.WriteAsync("<li style=\"list-style-type: none\"><p><span class=\"word-class\">");
+                await writer.WriteAsync(
+                    "<li style=\"list-style-type: none\"><p><span class=\"word-class\">");
                 await writer.WriteAsync(this.WordClass);
                 await writer.WriteAsync("</span></p></li>");
                 foreach (WordSense sense in this.WordSenses)
@@ -60,22 +66,27 @@ namespace OxfordDictExtractor.GenModel
                     await writer.WriteAsync($"<li value=\"{sense.SenseNumber}\">");
                     await writer.WriteAsync("<p><span class=\"cefr\">");
                     await writer.WriteAsync(sense.CefrLevel.ToString());
-                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"grammar\">");
+                    await writer.WriteAsync(
+                        "</span><span class=\"sep\"></span><span class=\"grammar\">");
                     await writer.WriteAsync(sense.Grammar);
-                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"labels\">");
+                    await writer.WriteAsync(
+                        "</span><span class=\"sep\"></span><span class=\"labels\">");
                     await writer.WriteAsync(sense.Labels);
-                    await writer.WriteAsync("</span><span class=\"sep\"></span><span class=\"cf\">");
+                    await writer.WriteAsync(
+                        "</span><span class=\"sep\"></span><span class=\"cf\">");
                     await writer.WriteAsync(sense.CombinationForm);
                     await writer.WriteAsync("</span>");
 
                     if (sense.ChineseDisG != null || sense.EnglishDisG != null)
                     {
-                        await writer.WriteAsync("<span class=\"sep\"></span><span class=\"dis-g\">（");
+                        await writer.WriteAsync(
+                            "<span class=\"sep\"></span><span class=\"dis-g\">（");
                         await writer.WriteAsync(sense.ChineseDisG ?? sense.EnglishDisG);
                         await writer.WriteAsync("）</span>");
                     }
 
-                    await writer.WriteAsync("<span class=\"sep\"></span><span class=\"def-chn\">");
+                    await writer.WriteAsync(
+                        "<span class=\"sep\"></span><span class=\"def-chn\">");
                     await writer.WriteAsync(sense.ChineseDefinition);
                     await writer.WriteAsync("</span></p>");
                     await writer.WriteAsync("</li>");

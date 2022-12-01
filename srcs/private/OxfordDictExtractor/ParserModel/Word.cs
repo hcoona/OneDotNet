@@ -47,7 +47,8 @@ namespace OxfordDictExtractor
             HtmlDocument html = new();
             html.LoadHtml(content);
 
-            var htmlEntries = html.DocumentNode.SelectNodes("/div[@id='entryContent']/div[@class='entry']");
+            var htmlEntries =
+                html.DocumentNode.SelectNodes("/div[@id='entryContent']/div[@class='entry']");
             return new Word
             {
                 Key = key,

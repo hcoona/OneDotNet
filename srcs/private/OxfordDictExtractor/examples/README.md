@@ -37,17 +37,17 @@ Can also be determined by entries `div id="entryContent"`.
 ### Layouts
 
 1. `top-container`: metadata.
-   1.  `h1 class="headword"` contains the word name.
-   2.  `span class="pos"` contains the word class.
-   3.  Sometimes `span class="labels"` contains the labels for all senses.
+    1.  `h1 class="headword"` contains the word name.
+    2.  `span class="pos"` contains the word class.
+    3.  Sometimes `span class="labels"` contains the labels for all senses.
 2. `sense_single`/`senses_multiple` both are ordered list, each item in it contains a sense.
-   1. The `li` could be attributed with
-      1. `sensenum` only for multiple senses.
-      2. `fkox3000`/`fkox5000` in Oxford 3000/5000 wordlist.
-      3. `fkcefr` the CEFR level.
-   2. `span class="def"` contains the English meaning.
-   3. The following `defT` contains the translated meaning.
-   4. The following `ul class="examples"` contains the example sentences.
-   5. Should ignore things after `defT` for meanings.
-   6. Could appear some labels before `def`. `<span class="grammar" hclass="grammar" htag="span">[plural]</span> <span class="labels" htag="span" hclass="labels">(British English, informal)</span>`
+    1. The `li` could be attributed with
+        1. `sensenum` only for multiple senses.
+        2. `fkox3000`/`fkox5000` in Oxford 3000/5000        wordlist.
+        3. `fkcefr` the CEFR level.
+    2. `span class="def"` contains the English meaning.
+    3. The following `defT` contains the translated   meaning.
+    4. The following `ul class="examples"` contains the   example sentences.
+    5. Should ignore things after `defT` for meanings.
+    6. Could appear some labels before `def`. `<span class="grammar" hclass="grammar" htag="span">[plural]</span> <span class="labels" htag="span" hclass="labels">(British English, informal)</span>`
 3. `phrasal_verb_links`

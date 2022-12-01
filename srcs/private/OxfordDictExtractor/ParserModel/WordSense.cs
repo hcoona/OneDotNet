@@ -158,12 +158,20 @@ namespace OxfordDictExtractor
                     ?? liNode
                         .ParentNode
                         .ParentNode
-                        .SelectSingleNode("./div[@class='top-container']/div[@class='top-g']//span[@class='grammar']")?.InnerText,
+                        .SelectSingleNode(
+                            "./div[@class='top-container']"
+                            + "/div[@class='top-g']"
+                            + "//span[@class='grammar']")
+                        ?.InnerText,
                 Labels = liNode.SelectSingleNode("./span[@class='labels']")?.InnerText
                     ?? liNode
                         .ParentNode
                         .ParentNode
-                        .SelectSingleNode("./div[@class='top-container']/div[@class='top-g']//span[@class='labels']")?.InnerText,
+                        .SelectSingleNode(
+                            "./div[@class='top-container']"
+                            + "/div[@class='top-g']"
+                            + "//span[@class='labels']")
+                        ?.InnerText,
                 CombinationForm = sensetop.SelectSingleNode("./span[@class='cf']")?.InnerText,
                 EnglishDisG = englishDisG,
                 EnglishDefinition = def.InnerText

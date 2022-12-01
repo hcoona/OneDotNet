@@ -36,6 +36,12 @@ max_line_length = 100
 indent_size = 4
 max_line_length = 80
 
+[**/*.adoc]
+indent_size = 2
+
+[**/*.md]
+indent_size = 4
+
 ###############################
 # .NET Coding Conventions     #
 ###############################

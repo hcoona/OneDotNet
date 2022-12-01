@@ -60,11 +60,14 @@ namespace OxfordDictExtractor
             }
 
             var ol = entryDiv.SelectSingleNode("./ol");
-            var phrasal_verb_links = entryDiv.SelectSingleNode("./aside[@class='phrasal_verb_links']");
+            var phrasal_verb_links =
+                entryDiv.SelectSingleNode("./aside[@class='phrasal_verb_links']");
             var idioms = entryDiv.SelectSingleNode("./div[@class='idioms']");
             if (ol == null)
             {
-                if (posSpan != null && posSpan.InnerText.Trim() == "verb" && phrasal_verb_links != null)
+                if (posSpan != null
+                    && posSpan.InnerText.Trim() == "verb"
+                    && phrasal_verb_links != null)
                 {
                     return new WordEntry
                     {
@@ -121,7 +124,10 @@ namespace OxfordDictExtractor
                 {
                     Name = h1Node.GetDirectInnerText(),
                     WordClass = posSpan?.GetDirectInnerText()!,
-                    Senses = ol?.SelectNodes(".//li[@class='sense']")?.Select(WordSense.ParseFromDictContent)?.ToList() ?? new(),
+                    Senses = ol
+                        ?.SelectNodes(".//li[@class='sense']")
+                        ?.Select(WordSense.ParseFromDictContent)
+                        ?.ToList() ?? new(),
                 };
             }
 
@@ -130,7 +136,10 @@ namespace OxfordDictExtractor
             {
                 Name = h1Node.GetDirectInnerText(),
                 WordClass = posSpan?.GetDirectInnerText()!,
-                Senses = ol?.SelectNodes("./li")?.Select(WordSense.ParseFromDictContent)?.ToList() ?? new(),
+                Senses = ol
+                    ?.SelectNodes("./li")
+                    ?.Select(WordSense.ParseFromDictContent)
+                    ?.ToList() ?? new(),
             };
         }
     }

@@ -191,6 +191,7 @@
         "type": "Project",
         "dependencies": {
           "HtmlAgilityPack": "[1.11.46, )",
+          "Nito.Guids": "[1.1.1, )",
           "System.IO.Compression.ZipFile": "[4.3.0, )"
         }
       },
@@ -211,6 +212,12 @@
         "requested": "[13.0.2, )",
         "resolved": "13.0.2",
         "contentHash": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg=="
+      },
+      "Nito.Guids": {
+        "type": "CentralTransitive",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "RVQpF6O8CGtiVrTDmjEq2Eq5n+zrF6OEsZSdVy8l5/ffM2z7y9IR5WSptLWeEmTiHmHEtEFakyuaxzwxAZLh9w=="
       },
       "NuGet.Frameworks": {
         "type": "CentralTransitive",

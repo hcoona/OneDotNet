@@ -16,16 +16,12 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-namespace OxfordDictExtractor.ParserModel
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace OxfordDictExtractor.UnitTest
 {
-    public enum CefrLevel
+    [TestClass]
+    public partial class TestWordParsing
     {
-        Unspecified,
-        A1,
-        A2,
-        B1,
-        B2,
-        C1,
-        C2,
     }
 }

@@ -18,8 +18,8 @@
 
 using System.IO.Compression;
 using System.Text;
-using OxfordDictExtractor;
 using OxfordDictExtractor.GenModel;
+using OxfordDictExtractor.ParserModel;
 
 var words = new List<Word>();
 using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())

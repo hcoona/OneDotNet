@@ -22,6 +22,7 @@
 
 ## Exception cases
 
+* clean: broken source.
 * wake: broken source.
 
 ## HTML analysis

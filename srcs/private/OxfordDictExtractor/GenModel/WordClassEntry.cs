@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using WordSense = OxfordDictExtractor.ParserModel.WordSense;
+
 namespace OxfordDictExtractor.GenModel
 {
     public record WordClassEntry(string Name, string WordClass, List<WordSense> WordSenses)

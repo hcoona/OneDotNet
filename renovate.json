@@ -26,7 +26,11 @@
       "enabled": false
     },
     {
-      "matchPackagePrefixes": ["Microsoft.Extensions."],
+      "matchPackagePrefixes": [
+        "Microsoft.AspNetCore.",
+        "Microsoft.EntityFrameworkCore.",
+        "Microsoft.Extensions."
+      ],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
@@ -46,7 +50,11 @@
       "extends": [
         "schedule:daily"
       ],
-      "matchPackagePrefixes": ["Microsoft.Extensions."],
+      "matchPackagePrefixes": [
+        "Microsoft.AspNetCore.",
+        "Microsoft.EntityFrameworkCore.",
+        "Microsoft.Extensions."
+      ],
       "matchUpdateTypes": ["minor","patch"],
       "groupName": "microsoft-extension",
       "automerge": true

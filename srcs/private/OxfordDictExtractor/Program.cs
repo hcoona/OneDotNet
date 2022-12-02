@@ -16,9 +16,7 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Immutable;
 using System.IO.Compression;
-using System.Net;
 using System.Text;
 using OxfordDictExtractor;
 using OxfordDictExtractor.GenModel;
@@ -61,9 +59,15 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
     // editorconfig-checker-enable
     using (var fs = File.Open(
         $"words_{level}.tsv",
-        FileMode.OpenOrCreate | FileMode.Truncate,
-        FileAccess.Write,
-        FileShare.Read))
+        new FileStreamOptions
+        {
+            Access = FileAccess.Write,
+            BufferSize = 4096,
+            Mode = FileMode.Create,
+            Options = FileOptions.Asynchronous,
+            PreallocationSize = 4096 * 1024,
+            Share = FileShare.Read,
+        }))
     using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
     {
         foreach (var entry in entries)
@@ -75,9 +79,15 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
 
     using (var fs = File.Open(
         $"words_unstyled_{level}.csv",
-        FileMode.OpenOrCreate | FileMode.Truncate,
-        FileAccess.Write,
-        FileShare.Read))
+        new FileStreamOptions
+        {
+            Access = FileAccess.Write,
+            BufferSize = 4096,
+            Mode = FileMode.Create,
+            Options = FileOptions.Asynchronous,
+            PreallocationSize = 4096 * 1024,
+            Share = FileShare.Read,
+        }))
     using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
     {
         foreach (var entry in entries)

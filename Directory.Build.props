@@ -6,6 +6,9 @@
     <CurrentTargetFramework>net6.0</CurrentTargetFramework>
     <CurrentWpfTargetFramework>net6.0-windows</CurrentWpfTargetFramework>
 
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+
     <ProduceReferenceAssembly Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</ProduceReferenceAssembly>
 
     <Deterministic>true</Deterministic>

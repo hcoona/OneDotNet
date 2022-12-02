@@ -17,7 +17,9 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System.IO.Compression;
+using System.Reflection.Emit;
 using System.Text;
+using OxfordDictExtractor;
 using OxfordDictExtractor.GenModel;
 using OxfordDictExtractor.ParserModel;
 
@@ -39,6 +41,24 @@ using (var sr = new StreamReader(fs))
     }
 }
 
+using var ankiFileStream = File.Open(
+    $"anki_words.tsv",
+    new FileStreamOptions
+    {
+        Access = FileAccess.Write,
+        BufferSize = 4096,
+        Mode = FileMode.Create,
+        Options = FileOptions.Asynchronous,
+        PreallocationSize = 4096 * 1024,
+        Share = FileShare.Read,
+    });
+using var ankiStreamWriter = new StreamWriter(ankiFileStream, new UTF8Encoding(false));
+
+await ankiStreamWriter.WriteLineAsync("#separator:Tab");
+await ankiStreamWriter.WriteLineAsync("#columns:Word\tSenses\tGUID\ttags");
+await ankiStreamWriter.WriteLineAsync("#guid column:3");
+await ankiStreamWriter.WriteLineAsync("#tags column:4");
+
 foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unspecified))
 {
     // editorconfig-checker-disable
@@ -57,24 +77,15 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
                    select new OxfordDictExtractor.GenModel.WordEntry(g.Key, g.ToList())).ToList();
 
     // editorconfig-checker-enable
-    using (var fs = File.Open(
-        $"anki_words_{level}.tsv",
-        new FileStreamOptions
-        {
-            Access = FileAccess.Write,
-            BufferSize = 4096,
-            Mode = FileMode.Create,
-            Options = FileOptions.Asynchronous,
-            PreallocationSize = 4096 * 1024,
-            Share = FileShare.Read,
-        }))
-    using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+    foreach (var entry in entries)
     {
-        foreach (var entry in entries)
-        {
-            await entry.WriteAnkiTsv(sw, delimiter: '\t');
-            await sw.WriteLineAsync();
-        }
+        await entry.WriteAnkiTsv(ankiStreamWriter, delimiter: '\t');
+        await ankiStreamWriter.WriteAsync('\t');
+        await ankiStreamWriter.WriteAsync(Nito.Guids.GuidFactory.CreateSha1(
+            Constants.AnkiGuidNamespace,
+            Encoding.UTF8.GetBytes($"{entry.Name}_{level}")).ToString());
+        await ankiStreamWriter.WriteAsync('\t');
+        await ankiStreamWriter.WriteLineAsync(level.ToString());
     }
 
     using (var fs = File.Open(

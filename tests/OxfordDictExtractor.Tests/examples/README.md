@@ -25,6 +25,50 @@
 * clean: broken source.
 * wake: broken source.
 
+## Known failure cases
+
+```
+Name=big
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=buddy
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=glory
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=hot
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=kit
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=leg
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=rat
+WordClass=verb
+IsOnlyPhrasalVerb=False
+
+Name=sake
+WordClass=noun
+IsOnlyPhrasalVerb=False
+
+Name=span
+WordClass=adjective
+IsOnlyPhrasalVerb=False
+
+Name=sum
+WordClass=verb
+IsOnlyPhrasalVerb=False
+```
+
 ## HTML analysis
 
 `ol class="sense_single"` if there was only single meanings.

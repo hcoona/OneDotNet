@@ -118,30 +118,6 @@ namespace OxfordDictExtractor.ParserModel
                     IsOnlyIdioms = true,
                 };
             }
-            else if (name == "wake" && posSpan?.InnerText == "verb")
-            {
-                return new WordEntry
-                {
-                    Name = h1Node.GetDirectInnerText(),
-                    WordClass = posSpan?.GetDirectInnerText()!,
-                    Senses = ol
-                        ?.SelectNodes(".//li[@class='sense']")
-                        ?.Select(WordSense.ParseFromDictContent)
-                        ?.ToList() ?? new(),
-                };
-            }
-            else if (name == "clean")
-            {
-                return new WordEntry
-                {
-                    Name = h1Node.GetDirectInnerText(),
-                    WordClass = posSpan?.GetDirectInnerText()!,
-                    Senses = ol
-                        ?.SelectNodes(".//li[@class='sense']")
-                        ?.Select(WordSense.ParseFromDictContent)
-                        ?.ToList() ?? new(),
-                };
-            }
 
             // TODO(hcoona): also want to check phrasal verb links & idioms.
             return new WordEntry
@@ -149,7 +125,7 @@ namespace OxfordDictExtractor.ParserModel
                 Name = h1Node.GetDirectInnerText(),
                 WordClass = posSpan?.GetDirectInnerText()!,
                 Senses = ol
-                    ?.SelectNodes("./li")
+                    ?.SelectNodes(".//li[@class='sense']")
                     ?.Select(WordSense.ParseFromDictContent)
                     ?.ToList() ?? new(),
             };

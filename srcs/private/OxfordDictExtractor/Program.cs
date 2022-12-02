@@ -58,7 +58,7 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
 
     // editorconfig-checker-enable
     using (var fs = File.Open(
-        $"words_{level}.tsv",
+        $"anki_words_{level}.tsv",
         new FileStreamOptions
         {
             Access = FileAccess.Write,
@@ -72,13 +72,13 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
     {
         foreach (var entry in entries)
         {
-            await entry.ToStyledDelimitedHtml(sw, delimiter: '\t');
+            await entry.WriteAnkiTsv(sw, delimiter: '\t');
             await sw.WriteLineAsync();
         }
     }
 
     using (var fs = File.Open(
-        $"words_unstyled_{level}.csv",
+        $"unstyled_words_{level}.csv",
         new FileStreamOptions
         {
             Access = FileAccess.Write,
@@ -92,7 +92,7 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
     {
         foreach (var entry in entries)
         {
-            await entry.ToNoStyledDelimitedHtml(sw, delimiter: ',');
+            await entry.WriteUnstyledCsv(sw, delimiter: ',');
             await sw.WriteLineAsync();
         }
     }

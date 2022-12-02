@@ -20,7 +20,7 @@ namespace OxfordDictExtractor.GenModel
 {
     public record WordEntry(string Name, List<WordClassEntry> WordClassEntries)
     {
-        public async Task ToStyledDelimitedHtml(StreamWriter writer, char delimiter = ',')
+        public async Task WriteAnkiTsv(StreamWriter writer, char delimiter = '\t')
         {
             await writer.WriteAsync(this.Name);
             await writer.WriteAsync(delimiter);
@@ -30,7 +30,7 @@ namespace OxfordDictExtractor.GenModel
             }
         }
 
-        public async Task ToNoStyledDelimitedHtml(StreamWriter writer, char delimiter = ',')
+        public async Task WriteUnstyledCsv(StreamWriter writer, char delimiter = ',')
         {
             await writer.WriteAsync(this.Name);
             await writer.WriteAsync(delimiter);

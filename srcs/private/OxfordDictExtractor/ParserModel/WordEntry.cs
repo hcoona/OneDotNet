@@ -18,7 +18,7 @@
 
 using HtmlAgilityPack;
 
-namespace OxfordDictExtractor
+namespace OxfordDictExtractor.ParserModel
 {
     public record WordEntry
     {
@@ -119,6 +119,18 @@ namespace OxfordDictExtractor
                 };
             }
             else if (name == "wake" && posSpan?.InnerText == "verb")
+            {
+                return new WordEntry
+                {
+                    Name = h1Node.GetDirectInnerText(),
+                    WordClass = posSpan?.GetDirectInnerText()!,
+                    Senses = ol
+                        ?.SelectNodes(".//li[@class='sense']")
+                        ?.Select(WordSense.ParseFromDictContent)
+                        ?.ToList() ?? new(),
+                };
+            }
+            else if (name == "clean")
             {
                 return new WordEntry
                 {

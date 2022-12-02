@@ -23,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
-namespace OxfordDictExtractor
+namespace OxfordDictExtractor.ParserModel
 {
     public record Word
     {

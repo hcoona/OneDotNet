@@ -17,12 +17,16 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Net;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace OxfordDictExtractor
+namespace OxfordDictExtractor.ParserModel
 {
     public record WordSense
     {
+        private static readonly Regex WhitespacesNormalizer =
+            new Regex(@"(\s+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
         // 0: if single sense.
         // positive number if multiple sense.
         public int SenseNumber { get; init; }
@@ -174,11 +178,17 @@ namespace OxfordDictExtractor
                         ?.InnerText,
                 CombinationForm = sensetop.SelectSingleNode("./span[@class='cf']")?.InnerText,
                 EnglishDisG = englishDisG,
-                EnglishDefinition = def.InnerText
-                    ?? throw new InvalidDataException("Cannot parse def span."),
+                EnglishDefinition = WhitespacesNormalizer.Replace(
+                    WebUtility.HtmlDecode(def.InnerText
+                        ?? throw new InvalidDataException("Cannot parse def span."))
+                        .Trim(),
+                    " "),
                 ChineseDisG = chineseDisG,
-                ChineseDefinition = defChn?.InnerText
-                    ?? throw new InvalidDataException("Cannot parse defT/chn."),
+                ChineseDefinition = WhitespacesNormalizer.Replace(
+                    WebUtility.HtmlDecode(defChn.InnerText
+                        ?? throw new InvalidDataException("Cannot parse def span."))
+                        .Trim(),
+                    " "),
             };
         }
 

@@ -6,7 +6,7 @@
   "msbuild-sdks": {
     "DotNet.ReproducibleBuilds.Isolated": "1.1.1",
     "Microsoft.Build.Artifacts": "4.2.0",
-    "Microsoft.Build.NoTargets": "3.6.0",
+    "Microsoft.Build.NoTargets": "3.7.0",
     "Microsoft.Build.Traversal": "3.2.0"
   }
 }

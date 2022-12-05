@@ -18,7 +18,8 @@
 
 namespace OxfordDictExtractor.GenModel
 {
-    public record WordEntry(string Name, List<WordClassEntry> WordClassEntries)
+    public record WordEntry(
+        string Name, List<WordClassEntry> WordClassEntries, string OriginContent)
     {
         public async Task WriteAnkiTsv(StreamWriter writer, char delimiter = '\t')
         {

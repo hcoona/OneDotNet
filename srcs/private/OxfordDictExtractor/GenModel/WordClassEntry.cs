@@ -20,7 +20,8 @@ using WordSense = OxfordDictExtractor.ParserModel.WordSense;
 
 namespace OxfordDictExtractor.GenModel
 {
-    public record WordClassEntry(string Name, string WordClass, List<WordSense> WordSenses)
+    public record WordClassEntry(
+        string Name, string WordClass, List<WordSense> WordSenses, string OriginContent)
     {
         public async Task ToStyledHtml(StreamWriter writer)
         {

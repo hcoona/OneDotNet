@@ -55,7 +55,7 @@ using var ankiFileStream = File.Open(
 using var ankiStreamWriter = new StreamWriter(ankiFileStream, new UTF8Encoding(false));
 
 await ankiStreamWriter.WriteLineAsync("#separator:Tab");
-await ankiStreamWriter.WriteLineAsync("#columns:Word\tSenses\tGUID\ttags");
+await ankiStreamWriter.WriteLineAsync("#columns:Word\tSenses\tGUID\ttags\tDictContent");
 await ankiStreamWriter.WriteLineAsync("#guid column:3");
 await ankiStreamWriter.WriteLineAsync("#tags column:4");
 
@@ -69,12 +69,18 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
                            where !sense.IsXrefOnly
                            where sense.CefrLevel <= level
                               && sense.CefrLevel != CefrLevel.Unspecified
-                           group sense by new { entry.Name, entry.WordClass } into g
-                           select new WordClassEntry(g.Key.Name, g.Key.WordClass, g.ToList());
+                           group new { Sense = sense, word.OriginContent }
+                           by new { entry.Name, entry.WordClass } into g
+                           select new WordClassEntry(
+                               g.Key.Name,
+                               g.Key.WordClass,
+                               g.Select(c => c.Sense).ToList(),
+                               g.First().OriginContent);
     var entries = (from wce in wordClassEntries
                    group wce by wce.Name into g
                    where g.Any(wce => wce.WordSenses.Any(s => s.CefrLevel == level))
-                   select new OxfordDictExtractor.GenModel.WordEntry(g.Key, g.ToList())).ToList();
+                   select new OxfordDictExtractor.GenModel.WordEntry(
+                       g.Key, g.ToList(), g.First().OriginContent)).ToList();
 
     // editorconfig-checker-enable
     foreach (var entry in entries)
@@ -85,7 +91,10 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
             Constants.AnkiGuidNamespace,
             Encoding.UTF8.GetBytes($"{entry.Name}_{level}")).ToString());
         await ankiStreamWriter.WriteAsync('\t');
-        await ankiStreamWriter.WriteLineAsync(level.ToString());
+        await ankiStreamWriter.WriteAsync(level.ToString());
+        await ankiStreamWriter.WriteAsync('\t');
+        await ankiStreamWriter.WriteAsync(entry.OriginContent.ToString());
+        await ankiStreamWriter.WriteLineAsync();
     }
 
     using (var fs = File.Open(

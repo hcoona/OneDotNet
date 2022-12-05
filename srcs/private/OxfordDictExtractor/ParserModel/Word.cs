@@ -31,6 +31,8 @@ namespace OxfordDictExtractor.ParserModel
 
         public List<WordEntry> Entries { get; init; } = new();
 
+        public string OriginContent { get; init; } = default!;
+
         public void PrintDebug(TextWriter writer, int nestLevel = 0)
         {
             writer.WriteLine(new string('\t', nestLevel) + this.Key);
@@ -55,6 +57,7 @@ namespace OxfordDictExtractor.ParserModel
                 Entries = htmlEntries
                     .Select(WordEntry.ParseFromDictContent)
                     .ToList(),
+                OriginContent = content,
             };
         }
     }

@@ -24,9 +24,6 @@ namespace OxfordDictExtractor.ParserModel
 {
     public record WordSense
     {
-        private static readonly Regex WhitespacesNormalizer =
-            new Regex(@"(\s+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-
         // 0: if single sense.
         // positive number if multiple sense.
         public int SenseNumber { get; init; }
@@ -178,13 +175,13 @@ namespace OxfordDictExtractor.ParserModel
                         ?.InnerText,
                 CombinationForm = sensetop.SelectSingleNode("./span[@class='cf']")?.InnerText,
                 EnglishDisG = englishDisG,
-                EnglishDefinition = WhitespacesNormalizer.Replace(
+                EnglishDefinition = Constants.WhitespacesNormalizer.Replace(
                     WebUtility.HtmlDecode(def.InnerText
                         ?? throw new InvalidDataException("Cannot parse def span."))
                         .Trim(),
                     " "),
                 ChineseDisG = chineseDisG,
-                ChineseDefinition = WhitespacesNormalizer.Replace(
+                ChineseDefinition = Constants.WhitespacesNormalizer.Replace(
                     WebUtility.HtmlDecode(defChn.InnerText
                         ?? throw new InvalidDataException("Cannot parse def span."))
                         .Trim(),

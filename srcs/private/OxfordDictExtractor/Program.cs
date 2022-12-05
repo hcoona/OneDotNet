@@ -22,6 +22,7 @@ using System.Text;
 using OxfordDictExtractor;
 using OxfordDictExtractor.GenModel;
 using OxfordDictExtractor.ParserModel;
+using WebMarkupMin.Core;
 
 var words = new List<Word>();
 using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())
@@ -40,6 +41,13 @@ using (var sr = new StreamReader(fs))
         words.Add(Word.ParseFromDictContent(parts[0], parts[1]));
     }
 }
+
+var minifier = new HtmlMinifier(new HtmlMinificationSettings
+{
+    WhitespaceMinificationMode = WhitespaceMinificationMode.Safe,
+    PreserveNewLines = false,
+    NewLineStyle = NewLineStyle.Unix,
+});
 
 using var ankiFileStream = File.Open(
     $"anki_words.tsv",
@@ -85,6 +93,27 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
     // editorconfig-checker-enable
     foreach (var entry in entries)
     {
+        var result = minifier.Minify(entry.OriginContent);
+        if (result.Errors.Count != 0)
+        {
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine(error.Message);
+            }
+
+            throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+        }
+
+        if (result.Warnings.Count != 0)
+        {
+            foreach (var warning in result.Warnings)
+            {
+                Console.WriteLine(warning.Message);
+            }
+
+            throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+        }
+
         await entry.WriteAnkiTsv(ankiStreamWriter, delimiter: '\t');
         await ankiStreamWriter.WriteAsync('\t');
         await ankiStreamWriter.WriteAsync(Nito.Guids.GuidFactory.CreateSha1(
@@ -93,7 +122,9 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
         await ankiStreamWriter.WriteAsync('\t');
         await ankiStreamWriter.WriteAsync(level.ToString());
         await ankiStreamWriter.WriteAsync('\t');
-        await ankiStreamWriter.WriteAsync(entry.OriginContent.ToString());
+
+        // magics only apply to this specific data content.
+        await ankiStreamWriter.WriteAsync(result.MinifiedContent.ReplaceLineEndings(string.Empty));
         await ankiStreamWriter.WriteLineAsync();
     }
 

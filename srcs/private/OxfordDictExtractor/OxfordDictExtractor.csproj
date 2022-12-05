@@ -16,6 +16,7 @@
     <PackageReference Include="HtmlAgilityPack" />
     <PackageReference Include="Nito.Guids" />
     <PackageReference Include="System.IO.Compression.ZipFile" />
+    <PackageReference Include="WebMarkupMin.Core" />
   </ItemGroup>
 
   <ItemGroup>

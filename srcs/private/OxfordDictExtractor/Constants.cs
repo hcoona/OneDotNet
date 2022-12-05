@@ -16,11 +16,16 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using System.Text.RegularExpressions;
+
 namespace OxfordDictExtractor
 {
     internal static class Constants
     {
         public static readonly Guid AnkiGuidNamespace =
             Guid.Parse("0ec11014-8a1f-4fe4-83d1-60c540e70637");
+
+        public static readonly Regex WhitespacesNormalizer =
+            new(@"(\s+)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     }
 }

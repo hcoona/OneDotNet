@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.IO.Compression;
 using System.Reflection.Emit;
 using System.Text;
@@ -60,14 +61,122 @@ using var ankiFileStream = File.Open(
         PreallocationSize = 4096 * 1024,
         Share = FileShare.Read,
     });
-using var ankiStreamWriter = new StreamWriter(ankiFileStream, new UTF8Encoding(false));
 
-await ankiStreamWriter.WriteLineAsync("#separator:Tab");
-await ankiStreamWriter.WriteLineAsync("#columns:Word\tSenses\tGUID\ttags\tDictContent");
-await ankiStreamWriter.WriteLineAsync("#guid column:3");
-await ankiStreamWriter.WriteLineAsync("#tags column:4");
+const int SuperMemoXmlEntryCountPerFileMax = 100;
+Task.WaitAll(
+    GenerateAnkiImportingFile(ankiFileStream, minifier),
+    GenerateCsvImportingFiles(),
+    GenerateSuperMemoImportingXmlFiles(SuperMemoXmlEntryCountPerFileMax));
 
-foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unspecified))
+IEnumerable<(CefrLevel, IEnumerable<OxfordDictExtractor.GenModel.WordEntry>)> GetWordEntriesByCefrLevels()
+{
+    foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unspecified))
+    {
+        // editorconfig-checker-disable
+        var wordClassEntries = from word in words
+                               from entry in word.Entries
+                               where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
+                               from sense in entry.Senses
+                               where !sense.IsXrefOnly
+                               where sense.CefrLevel <= level
+                                  && sense.CefrLevel != CefrLevel.Unspecified
+                               group new { Sense = sense, word.OriginContent }
+                               by new { entry.Name, entry.WordClass } into g
+                               select new WordClassEntry(
+                                   g.Key.Name,
+                                   g.Key.WordClass,
+                                   g.Select(c => c.Sense).ToList(),
+                                   g.First().OriginContent);
+        var entries = (from wce in wordClassEntries
+                       group wce by wce.Name into g
+                       where g.Any(wce => wce.WordSenses.Any(s => s.CefrLevel == level))
+                       select new OxfordDictExtractor.GenModel.WordEntry(
+                           g.Key, g.ToList(), g.First().OriginContent)).ToList();
+
+        // editorconfig-checker-enable
+        yield return (level, entries);
+    }
+}
+
+async Task GenerateAnkiImportingFile(Stream fs, HtmlMinifier minifier)
+{
+    using var ankiStreamWriter = new StreamWriter(fs, new UTF8Encoding(false));
+
+    await ankiStreamWriter.WriteLineAsync("#separator:Tab");
+    await ankiStreamWriter.WriteLineAsync("#columns:Word\tSenses\tGUID\ttags\tDictContent");
+    await ankiStreamWriter.WriteLineAsync("#guid column:3");
+    await ankiStreamWriter.WriteLineAsync("#tags column:4");
+
+    foreach (var pair in GetWordEntriesByCefrLevels())
+    {
+        var level = pair.Item1;
+        foreach (var entry in pair.Item2)
+        {
+            var result = minifier.Minify(entry.OriginContent);
+            if (result.Errors.Count != 0)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine(error.Message);
+                }
+
+                throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+            }
+
+            if (result.Warnings.Count != 0)
+            {
+                foreach (var warning in result.Warnings)
+                {
+                    Console.WriteLine(warning.Message);
+                }
+
+                throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+            }
+
+            await entry.WriteAnkiTsv(ankiStreamWriter, delimiter: '\t');
+            await ankiStreamWriter.WriteAsync('\t');
+            await ankiStreamWriter.WriteAsync(Nito.Guids.GuidFactory.CreateSha1(
+                Constants.AnkiGuidNamespace,
+                Encoding.UTF8.GetBytes($"{entry.Name}_{level}")).ToString());
+            await ankiStreamWriter.WriteAsync('\t');
+            await ankiStreamWriter.WriteAsync(level.ToString());
+            await ankiStreamWriter.WriteAsync('\t');
+
+            // magics only apply to this specific data content.
+            await ankiStreamWriter.WriteAsync(result.MinifiedContent.ReplaceLineEndings(string.Empty));
+            await ankiStreamWriter.WriteLineAsync();
+        }
+    }
+}
+
+async Task GenerateCsvImportingFiles()
+{
+    foreach (var pair in GetWordEntriesByCefrLevels())
+    {
+        var level = pair.Item1;
+        using (var fs = File.Open(
+            $"unstyled_words_{level}.csv",
+            new FileStreamOptions
+            {
+                Access = FileAccess.Write,
+                BufferSize = 4096,
+                Mode = FileMode.Create,
+                Options = FileOptions.Asynchronous,
+                PreallocationSize = 4096 * 1024,
+                Share = FileShare.Read,
+            }))
+        using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+        {
+            foreach (var entry in pair.Item2)
+            {
+                await entry.WriteUnstyledCsv(sw, delimiter: ',');
+                await sw.WriteLineAsync();
+            }
+        }
+    }
+}
+
+async Task GenerateSuperMemoImportingXmlFiles(int entriesPerFile)
 {
     // editorconfig-checker-disable
     var wordClassEntries = from word in words
@@ -75,8 +184,7 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
                            where !entry.IsOnlyPhrasalVerb && !entry.IsOnlyIdioms
                            from sense in entry.Senses
                            where !sense.IsXrefOnly
-                           where sense.CefrLevel <= level
-                              && sense.CefrLevel != CefrLevel.Unspecified
+                           where sense.CefrLevel != CefrLevel.Unspecified
                            group new { Sense = sense, word.OriginContent }
                            by new { entry.Name, entry.WordClass } into g
                            select new WordClassEntry(
@@ -86,65 +194,70 @@ foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unsp
                                g.First().OriginContent);
     var entries = (from wce in wordClassEntries
                    group wce by wce.Name into g
-                   where g.Any(wce => wce.WordSenses.Any(s => s.CefrLevel == level))
                    select new OxfordDictExtractor.GenModel.WordEntry(
                        g.Key, g.ToList(), g.First().OriginContent)).ToList();
 
     // editorconfig-checker-enable
+    int fileCounter = 0;
+    int counter = 0;
+    StreamWriter? writer = null;
     foreach (var entry in entries)
     {
-        var result = minifier.Minify(entry.OriginContent);
-        if (result.Errors.Count != 0)
+        if (counter == 0)
         {
-            foreach (var error in result.Errors)
+            if (writer != null)
             {
-                Console.WriteLine(error.Message);
+                await writer.WriteLineAsync("</SuperMemoCollection>").ConfigureAwait(false);
+                await writer.DisposeAsync().ConfigureAwait(false);
             }
 
-            throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+            writer = new StreamWriter(
+                File.Open(
+                    $"sm_{fileCounter:D4}.xml",
+                    new FileStreamOptions
+                    {
+                        Access = FileAccess.Write,
+                        BufferSize = 4096,
+                        Mode = FileMode.Create,
+                        Options = FileOptions.Asynchronous,
+                        PreallocationSize = 4096 * 1024,
+                        Share = FileShare.Read,
+                    }),
+                new UTF8Encoding(false));
+            fileCounter++;
+            await writer.WriteLineAsync("<SuperMemoCollection>").ConfigureAwait(false);
         }
 
-        if (result.Warnings.Count != 0)
+        await writer!.WriteLineAsync("    <SuperMemoElement>").ConfigureAwait(false);
+        await writer!.WriteLineAsync("        <Type>Item</Type>").ConfigureAwait(false);
+        await writer!.WriteLineAsync("        <Content>").ConfigureAwait(false);
+
+        await writer!.WriteLineAsync("            <Question><![CDATA[").ConfigureAwait(false);
+        await writer!.WriteLineAsync(entry.Name).ConfigureAwait(false);
+        await writer!.WriteLineAsync("            ]]></Question>").ConfigureAwait(false);
+
+        await writer!.WriteLineAsync("            <Answer><![CDATA[").ConfigureAwait(false);
+
+        foreach (var wordClassEntry in entry.WordClassEntries)
         {
-            foreach (var warning in result.Warnings)
-            {
-                Console.WriteLine(warning.Message);
-            }
-
-            throw new InvalidDataException($"Failed to minify html for {entry.Name}({level}).");
+            await wordClassEntry.ToNoStyledHtml(writer);
         }
 
-        await entry.WriteAnkiTsv(ankiStreamWriter, delimiter: '\t');
-        await ankiStreamWriter.WriteAsync('\t');
-        await ankiStreamWriter.WriteAsync(Nito.Guids.GuidFactory.CreateSha1(
-            Constants.AnkiGuidNamespace,
-            Encoding.UTF8.GetBytes($"{entry.Name}_{level}")).ToString());
-        await ankiStreamWriter.WriteAsync('\t');
-        await ankiStreamWriter.WriteAsync(level.ToString());
-        await ankiStreamWriter.WriteAsync('\t');
+        await writer!.WriteLineAsync("            ]]></Answer>").ConfigureAwait(false);
 
-        // magics only apply to this specific data content.
-        await ankiStreamWriter.WriteAsync(result.MinifiedContent.ReplaceLineEndings(string.Empty));
-        await ankiStreamWriter.WriteLineAsync();
+        await writer!.WriteLineAsync("        </Content>").ConfigureAwait(false);
+        await writer!.WriteLineAsync("    </SuperMemoElement>").ConfigureAwait(false);
+
+        counter++;
+        if (counter == entriesPerFile)
+        {
+            counter = 0;
+        }
     }
 
-    using (var fs = File.Open(
-        $"unstyled_words_{level}.csv",
-        new FileStreamOptions
-        {
-            Access = FileAccess.Write,
-            BufferSize = 4096,
-            Mode = FileMode.Create,
-            Options = FileOptions.Asynchronous,
-            PreallocationSize = 4096 * 1024,
-            Share = FileShare.Read,
-        }))
-    using (var sw = new StreamWriter(fs, new UTF8Encoding(false)))
+    if (writer != null)
     {
-        foreach (var entry in entries)
-        {
-            await entry.WriteUnstyledCsv(sw, delimiter: ',');
-            await sw.WriteLineAsync();
-        }
+        await writer.WriteLineAsync("</SuperMemoCollection>").ConfigureAwait(false);
+        await writer.DisposeAsync().ConfigureAwait(false);
     }
 }

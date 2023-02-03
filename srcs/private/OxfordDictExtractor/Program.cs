@@ -62,7 +62,7 @@ using var ankiFileStream = File.Open(
         Share = FileShare.Read,
     });
 
-const int SuperMemoXmlEntryCountPerFileMax = 100;
+const int SuperMemoXmlEntryCountPerFileMax = 500;
 Task.WaitAll(
     GenerateAnkiImportingFile(ankiFileStream, minifier),
     GenerateCsvImportingFiles(),

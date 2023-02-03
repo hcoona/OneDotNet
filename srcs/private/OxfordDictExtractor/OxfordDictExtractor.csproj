@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.tsv</DefaultArtifactsFileMatch>
+    <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) wordlist.tsv.zip</DefaultArtifactsFileMatch>
     <ArtifactsPath>$(BaseArtifactsPath)\OxfordDictExtractor</ArtifactsPath>
   </PropertyGroup>
 

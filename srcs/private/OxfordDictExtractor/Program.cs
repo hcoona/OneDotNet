@@ -16,10 +16,8 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Compression;
-using System.Reflection.Emit;
 using System.Text;
 using OxfordDictExtractor;
 using OxfordDictExtractor.GenModel;
@@ -243,6 +241,7 @@ async Task GenerateSuperMemoImportingXmlFiles(int entriesPerFile)
         foreach (var wordClassEntry in entry.WordClassEntries)
         {
             stream.Seek(0, SeekOrigin.Begin);
+            stream.SetLength(0);
             using (var writer2 = new StreamWriter(stream, new UTF8Encoding(false), leaveOpen: true))
             {
                 await wordClassEntry.ToNoStyledHtml(writer2);

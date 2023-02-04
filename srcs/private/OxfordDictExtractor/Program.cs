@@ -17,6 +17,7 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Compression;
 using System.Reflection.Emit;
 using System.Text;
@@ -238,9 +239,30 @@ async Task GenerateSuperMemoImportingXmlFiles(int entriesPerFile)
 
         await writer!.WriteLineAsync("            <Answer><![CDATA[").ConfigureAwait(false);
 
+        using var stream = new MemoryStream();
         foreach (var wordClassEntry in entry.WordClassEntries)
         {
-            await wordClassEntry.ToNoStyledHtml(writer);
+            stream.Seek(0, SeekOrigin.Begin);
+            using (var writer2 = new StreamWriter(stream, new UTF8Encoding(false), leaveOpen: true))
+            {
+                await wordClassEntry.ToNoStyledHtml(writer2);
+            }
+
+            var str = Encoding.UTF8.GetString(stream.GetBuffer().AsSpan(0, (int)stream.Length));
+            foreach (char ch in str)
+            {
+                var value = Convert.ToInt32(ch);
+                if (value > 127)
+                {
+                    await writer.WriteAsync("&#").ConfigureAwait(false);
+                    await writer.WriteAsync(value.ToString(CultureInfo.InvariantCulture)).ConfigureAwait(false);
+                    await writer.WriteAsync(";").ConfigureAwait(false);
+                }
+                else
+                {
+                    await writer.WriteAsync(ch).ConfigureAwait(false);
+                }
+            }
         }
 
         await writer!.WriteLineAsync("            ]]></Answer>").ConfigureAwait(false);

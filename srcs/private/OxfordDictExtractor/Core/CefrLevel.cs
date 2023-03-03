@@ -16,11 +16,11 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-namespace OxfordDictExtractor.ParserModel
+namespace OxfordDictExtractor.Core
 {
     public enum CefrLevel
     {
-        Unspecified,
+        Unspecified = 0,
         A1,
         A2,
         B1,

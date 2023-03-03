@@ -196,6 +196,7 @@
         "type": "Project",
         "dependencies": {
           "HtmlAgilityPack": "[1.11.46, )",
+          "LemmaGenerator": "[1.1.0, )",
           "Nito.Guids": "[1.1.1, )",
           "System.IO.Compression.ZipFile": "[4.3.0, )",
           "WebMarkupMin.Core": "[2.13.0, )"
@@ -206,6 +207,12 @@
         "requested": "[1.11.46, )",
         "resolved": "1.11.46",
         "contentHash": "dLMn4EVfJBHWmWK4Uh0XGD76FPLHI0qr2Tm0s1m/xmgiHb1JUb9zB8AzO8HtrkBBlMN6JfCUBYddhqC0hZNR+g=="
+      },
+      "LemmaGenerator": {
+        "type": "CentralTransitive",
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "K6beYwJIcRS4lyqjaq7wS8FSrMxG9f0n0dBp+xRhnswnB+WR45AGvLBZ1So1x9RBjHGDCjqYBJ1hktJG0qegRQ=="
       },
       "Microsoft.CodeCoverage": {
         "type": "CentralTransitive",

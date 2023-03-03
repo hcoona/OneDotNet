@@ -19,6 +19,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using OxfordDictExtractor.Core;
 
 namespace OxfordDictExtractor.ParserModel
 {

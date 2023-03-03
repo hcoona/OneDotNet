@@ -16,10 +16,13 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO.Compression;
 using System.Text;
+using LemmaSharp.Classes;
 using OxfordDictExtractor;
+using OxfordDictExtractor.Core;
 using OxfordDictExtractor.GenModel;
 using OxfordDictExtractor.ParserModel;
 using WebMarkupMin.Core;
@@ -41,6 +44,43 @@ using (var sr = new StreamReader(fs))
         words.Add(Word.ParseFromDictContent(parts[0], parts[1]));
     }
 }
+
+List<CocaWordFrequencyLemmaEntry> cocaWordFrequencyLemmaEntries = new();
+using (var fs = File.OpenRead("Data\\lemmas.20230303.csv"))
+using (var sr = new StreamReader(fs, Encoding.UTF8))
+{
+    bool isFirstLine = true;
+    string? line;
+    while ((line = sr.ReadLine()) != null)
+    {
+        if (isFirstLine)
+        {
+            isFirstLine = false;
+            continue;
+        }
+
+        if (string.IsNullOrEmpty(line))
+        {
+            continue;
+        }
+
+        var parts = line.Split(',', StringSplitOptions.TrimEntries);
+        if (!int.TryParse(parts[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out var rank))
+        {
+            throw new InvalidDataException("Failed to parse rank for line. " + line);
+        }
+
+        cocaWordFrequencyLemmaEntries.Add(new CocaWordFrequencyLemmaEntry(
+            int.Parse(parts[0], CultureInfo.InvariantCulture),
+            parts[1],
+            parts[2]));
+    }
+}
+
+var cocaLemmaLookupIndex = cocaWordFrequencyLemmaEntries.ToLookup(entry => entry.Lemma);
+
+using var lemmatizerDataStream = File.OpenRead("Data\\full7z-mlteast-en-modified.lem");
+Lemmatizer lemmatizer = new(lemmatizerDataStream);
 
 var minifier = new HtmlMinifier(new HtmlMinificationSettings
 {
@@ -194,7 +234,21 @@ async Task GenerateSuperMemoImportingXmlFiles(int entriesPerFile)
     var entries = (from wce in wordClassEntries
                    group wce by wce.Name into g
                    select new OxfordDictExtractor.GenModel.WordEntry(
-                       g.Key, g.ToList(), g.First().OriginContent)).ToList();
+                       g.Key, g.ToList(), g.First().OriginContent))
+                  .OrderBy(entry =>
+                  {
+                      var key = lemmatizer.Lemmatize(entry.Name);
+                      var lemmas = cocaLemmaLookupIndex[key].ToList();
+                      if (lemmas.Any())
+                      {
+                          return lemmas.MinBy(entry => entry.Rank)!.Rank;
+                      }
+
+                      Console.WriteLine($"Failed to find lemma {key}");
+
+                      return int.MaxValue;
+                  })
+                  .ToList();
 
     // editorconfig-checker-enable
     int fileCounter = 0;

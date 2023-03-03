@@ -18,7 +18,7 @@
 
 namespace OxfordDictExtractor.Core
 {
-    internal enum CefrLevel
+    public enum CefrLevel
     {
         Unspecified = 0,
         A1,

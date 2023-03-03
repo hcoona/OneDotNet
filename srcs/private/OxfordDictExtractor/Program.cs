@@ -25,7 +25,7 @@ using OxfordDictExtractor.ParserModel;
 using WebMarkupMin.Core;
 
 var words = new List<Word>();
-using (var fs = ZipFile.OpenRead("wordlist.tsv.zip").Entries.Single().Open())
+using (var fs = ZipFile.OpenRead("Data\\wordlist.tsv.zip").Entries.Single().Open())
 using (var sr = new StreamReader(fs))
 {
     string? line;

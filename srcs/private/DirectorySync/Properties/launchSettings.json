@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DirectorySync": {
+      "commandName": "Project",
+      "commandLineArgs": "--source A\r\n--destination B\r\n--dry-run"
+    }
+  }
+}

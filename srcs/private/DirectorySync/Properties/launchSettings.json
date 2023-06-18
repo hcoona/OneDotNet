@@ -2,7 +2,7 @@
   "profiles": {
     "DirectorySync": {
       "commandName": "Project",
-      "commandLineArgs": "--source A\r\n--destination B\r\n--dry-run"
+      "commandLineArgs": "--source Z:\\\r\n--destination C:\\opt\\sm18-lazy-package-1.4.0\\sm18\r\n--dry-run"
     }
   }
 }

@@ -16,10 +16,9 @@
 // You should have received a copy of the GNU General Public License along with
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
-using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 using System.CommandLine;
-using Microsoft.Extensions.Logging;
 
 var loggerFactory = LoggerFactory.Create(builder =>
 {
@@ -79,18 +78,33 @@ Task DoSync(DirectoryInfo source, DirectoryInfo destination, bool dryRun)
         destination,
         dryRun);
 
-    var indexedSourceFiles = source
-        .EnumerateFiles(
-            searchPattern: AllFilesSearchPattern,
-            enumerationOptions: new EnumerationOptions
-            {
-                IgnoreInaccessible = false,
-                MatchType = MatchType.Simple,
-                RecurseSubdirectories = true,
-            })
-        .ToImmutableSortedDictionary(
-            keySelector: file => Path.GetRelativePath(source.FullName, file.FullName),
-            elementSelector: file => file);
+    //var indexedSourceFiles = source
+    //    .EnumerateFiles(
+    //        searchPattern: AllFilesSearchPattern,
+    //        enumerationOptions: new EnumerationOptions
+    //        {
+    //            IgnoreInaccessible = false,
+    //            MatchType = MatchType.Simple,
+    //            RecurseSubdirectories = true,
+    //            ReturnSpecialDirectories = false,
+    //        })
+    //    .Where(file => !file.FullName.Contains('\0'))
+    //    .ToImmutableSortedDictionary(
+    //        keySelector: file => Path.GetRelativePath(source.FullName, file.FullName),
+    //        elementSelector: file => file);
+
+    var indexedSourceFiles = ImmutableDictionary<string, FileInfo>.Empty;
+    foreach (var file in source.EnumerateFiles())
+    {
+        logger.LogInformation("Source file {File} {Valid}", file, !file.FullName.Trim('\0').Contains('\0'));
+    }
+
+    foreach (var dir in source.EnumerateDirectories())
+    {
+        logger.LogInformation("Source directory {Dir} {Valid}", dir, !dir.FullName.Trim('\0').Contains('\0'));
+    }
+
+    return Task.CompletedTask;
 
     var indexedDestinationFiles = destination
         .EnumerateFiles(
@@ -112,8 +126,32 @@ Task DoSync(DirectoryInfo source, DirectoryInfo destination, bool dryRun)
         cancellationTokenSource.Token,
         (key, cancellationToken) =>
         {
+            FileInfo sourceFileInfo = indexedSourceFiles[key];
+            FileInfo destinationFileInfo = indexedDestinationFiles[key];
+
+            bool fileEquality = (sourceFileInfo.Length == destinationFileInfo.Length)
+                && (sourceFileInfo.LastWriteTimeUtc == destinationFileInfo.LastWriteTimeUtc);
+            if (fileEquality)
+            {
+                logger.LogInformation("== {Key}", key);
+            }
+            else
+            {
+                logger.LogInformation("<> {Key}", key);
+            }
+
             return default;
         });
 
-    throw new NotImplementedException();
+    foreach (var key in indexedSourceFiles.Keys.Except(indexedDestinationFiles.Keys))
+    {
+        logger.LogInformation("<  {Key}", key);
+    }
+
+    foreach (var key in indexedDestinationFiles.Keys.Except(indexedSourceFiles.Keys))
+    {
+        logger.LogInformation(" > {Key}", key);
+    }
+
+    return Task.CompletedTask;
 }

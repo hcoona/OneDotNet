@@ -67,7 +67,8 @@ Task.WaitAll(
     GenerateCsvImportingFiles(),
     GenerateSuperMemoImportingXmlFiles(SuperMemoXmlEntryCountPerFileMax));
 
-IEnumerable<(CefrLevel, IEnumerable<OxfordDictExtractor.GenModel.WordEntry>)> GetWordEntriesByCefrLevels()
+IEnumerable<(CefrLevel, IEnumerable<OxfordDictExtractor.GenModel.WordEntry>)>
+GetWordEntriesByCefrLevels()
 {
     foreach (var level in Enum.GetValues<CefrLevel>().Where(l => l != CefrLevel.Unspecified))
     {
@@ -142,7 +143,8 @@ async Task GenerateAnkiImportingFile(Stream fs, HtmlMinifier minifier)
             await ankiStreamWriter.WriteAsync('\t');
 
             // magics only apply to this specific data content.
-            await ankiStreamWriter.WriteAsync(result.MinifiedContent.ReplaceLineEndings(string.Empty));
+            await ankiStreamWriter.WriteAsync(
+                result.MinifiedContent.ReplaceLineEndings(string.Empty));
             await ankiStreamWriter.WriteLineAsync();
         }
     }
@@ -254,7 +256,9 @@ async Task GenerateSuperMemoImportingXmlFiles(int entriesPerFile)
                 if (value > 127)
                 {
                     await writer.WriteAsync("&#").ConfigureAwait(false);
-                    await writer.WriteAsync(value.ToString(CultureInfo.InvariantCulture)).ConfigureAwait(false);
+                    await writer
+                        .WriteAsync(value.ToString(CultureInfo.InvariantCulture))
+                        .ConfigureAwait(false);
                     await writer.WriteAsync(";").ConfigureAwait(false);
                 }
                 else

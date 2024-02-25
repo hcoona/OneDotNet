@@ -3,8 +3,8 @@
   <PropertyGroup>
     <EnlistmentRoot>$(MSBuildThisFileDirectory.TrimEnd('\\'))</EnlistmentRoot>
 
-    <CurrentTargetFramework>net6.0</CurrentTargetFramework>
-    <CurrentWpfTargetFramework>net6.0-windows</CurrentWpfTargetFramework>
+    <CurrentTargetFramework>net8.0</CurrentTargetFramework>
+    <CurrentWpfTargetFramework>net8.0-windows</CurrentWpfTargetFramework>
 
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
@@ -13,6 +13,7 @@
 
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
     <RestorePackagesConfig>true</RestorePackagesConfig>
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
 
@@ -32,7 +33,6 @@
     <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageReference Include="DotNet.ReproducibleBuilds" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
   </ItemGroup>
@@ -84,7 +84,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Artifacts">
-    <BaseArtifactsPath>$(EnlistmentRoot)\out</BaseArtifactsPath>
+    <ArtifactsPath>$(EnlistmentRoot)\out</ArtifactsPath>
 
     <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json</DefaultArtifactsFileMatch>
   </PropertyGroup>

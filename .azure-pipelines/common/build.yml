@@ -61,7 +61,7 @@ steps:
   inputs:
     command: 'build'
     projects: '${{ parameters.projects }}'
-    arguments: '-c $(buildConfiguration)'
+    arguments: '-c $(buildConfiguration) -p RestoreLockedMode=true'
     buildProperties: 'PublicRelease=${{ parameters.isOfficial }}'
 
 - task: DotNetCoreCLI@2.210.0

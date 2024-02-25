@@ -7,8 +7,6 @@
 
     <!-- https://playwright.dev/dotnet/docs/library -->
     <PlaywrightPlatform>all</PlaywrightPlatform>
-
-    <ArtifactsPath>$(BaseArtifactsPath)\QiDianBookDownloader</ArtifactsPath>
   </PropertyGroup>
 
   <ItemGroup>

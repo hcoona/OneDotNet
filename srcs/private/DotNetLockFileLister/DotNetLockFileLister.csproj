@@ -7,8 +7,6 @@
     <TargetFramework>$(CurrentTargetFramework)</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <ArtifactsPath>$(BaseArtifactsPath)\DotNetLockFileLister</ArtifactsPath>
   </PropertyGroup>
 
   <ItemGroup>

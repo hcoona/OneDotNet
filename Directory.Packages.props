@@ -15,7 +15,7 @@
     <PackageVersion Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.TraceSource" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.Tracing" Version="4.3.0" />
-    <PackageVersion Include="System.Formats.Asn1" Version="7.0.0" />
+    <PackageVersion Include="System.Formats.Asn1" Version="8.0.0" />
     <PackageVersion Include="System.Globalization" Version="4.3.0" />
     <PackageVersion Include="System.Globalization.Calendars" Version="4.3.0" />
     <PackageVersion Include="System.Globalization.Extensions" Version="4.3.0" />
@@ -52,7 +52,7 @@
     <PackageVersion Include="System.Security.Cryptography.Csp" Version="4.3.0" />
     <PackageVersion Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
     <PackageVersion Include="System.Security.Cryptography.OpenSsl" Version="5.0.0" />
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="7.0.0" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
     <PackageVersion Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
     <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="7.0.0" />
     <PackageVersion Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />

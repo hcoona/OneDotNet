@@ -9,7 +9,6 @@
     <Nullable>enable</Nullable>
 
     <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) wordlist.tsv.zip</DefaultArtifactsFileMatch>
-    <ArtifactsPath>$(BaseArtifactsPath)\OxfordDictExtractor</ArtifactsPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -22,9 +22,9 @@ steps:
     git lfs ls-files
   displayName: "List Git-LFS files"
 
-- task: NodeTool@0
+- task: UseNode@1
   inputs:
-    versionSpec: '16.x'
+    version: '20.x'
   displayName: 'Install Node.js'
 
 - script: |

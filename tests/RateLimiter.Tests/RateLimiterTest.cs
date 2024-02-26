@@ -18,6 +18,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RateLimiter.Tests
@@ -50,12 +51,13 @@ namespace RateLimiter.Tests
         }
 
         [Fact]
-        public void TestDoubleMinValueCanAcquireExactlyOnce()
+        public async Task TestDoubleMinValueCanAcquireExactlyOnceAsync()
         {
             var r = this.Create(double.Epsilon);
             Assert.True(r.TryAcquire().Succeed, "Unable to acquire initial permit");
             Assert.False(r.TryAcquire().Succeed, "Capable of acquiring an additional permit");
-            this.stopwatchProviderAndBlocker.WaitAsync(TimeSpan.MaxValue.Subtract(TimeSpan.FromTicks(1)), CancellationToken.None).GetAwaiter().GetResult();
+            await this.stopwatchProviderAndBlocker
+                .WaitAsync(TimeSpan.MaxValue.Subtract(TimeSpan.FromTicks(1)), CancellationToken.None);
             Assert.False(r.TryAcquire().Succeed, "Capable of acquiring an additional permit after sleeping");
         }
 

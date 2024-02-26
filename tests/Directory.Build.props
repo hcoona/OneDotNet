@@ -5,4 +5,9 @@
   <PropertyGroup Label="Code Analysis">
     <AnalysisMode>Minimum</AnalysisMode>
   </PropertyGroup>
+
+  <PropertyGroup Label="Artifacts">
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+  </PropertyGroup>
+
 </Project>

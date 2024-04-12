@@ -9,25 +9,25 @@
       ]
     },
     "fantomas": {
-      "version": "5.1.5",
+      "version": "5.2.4",
       "commands": [
         "fantomas"
       ]
     },
     "dotnet-ef": {
-      "version": "7.0.1",
+      "version": "7.0.18",
       "commands": [
         "dotnet-ef"
       ]
     },
     "microsoft.visualstudio.slngen.tool": {
-      "version": "9.3.1",
+      "version": "9.6.9",
       "commands": [
         "slngen"
       ]
     },
     "nbgv": {
-      "version": "3.5.119",
+      "version": "3.6.133",
       "commands": [
         "nbgv"
       ]

@@ -90,6 +90,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Code Analysis">
+    <!-- TODO(shuaizhang): update to 8.0 -->
     <AnalysisLevel>6.0</AnalysisLevel>
     <!-- Use 'Recommended' in the future. -->
     <AnalysisMode>Recommended</AnalysisMode>

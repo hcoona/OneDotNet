@@ -21,4 +21,9 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.3" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.435" />
   </ItemGroup>
+
+  <ItemGroup Label="CopyOnWrite">
+    <PackageVersion Include="Microsoft.Build.CopyOnWrite" Version="1.0.315" />
+    <PackageReference Include="Microsoft.Build.CopyOnWrite" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
+  </ItemGroup>
 </Project>

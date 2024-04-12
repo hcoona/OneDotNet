@@ -9,19 +9,19 @@
       ]
     },
     "fantomas": {
-      "version": "5.2.4",
+      "version": "6.3.2",
       "commands": [
         "fantomas"
       ]
     },
     "dotnet-ef": {
-      "version": "7.0.18",
+      "version": "8.0.4",
       "commands": [
         "dotnet-ef"
       ]
     },
     "microsoft.visualstudio.slngen.tool": {
-      "version": "9.6.9",
+      "version": "11.2.6",
       "commands": [
         "slngen"
       ]

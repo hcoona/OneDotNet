@@ -2,6 +2,12 @@
   "version": 2,
   "dependencies": {
     ".NETFramework,Version=v4.5": {
+      "Microsoft.Build.CopyOnWrite": {
+        "type": "Direct",
+        "requested": "[1.0.315, )",
+        "resolved": "1.0.315",
+        "contentHash": "z0WkyvnBFWCzgLJ1ORD9t6R5nvQSlTl7ernOPq2a6bdfJEGWRQbgiew4TFD18hQjBE8JGRDtWAkFDzhkRK8LNg=="
+      },
       "Microsoft.NETFramework.ReferenceAssemblies": {
         "type": "Direct",
         "requested": "[1.0.3, )",

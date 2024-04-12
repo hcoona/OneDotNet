@@ -32,20 +32,6 @@ namespace OxfordDictExtractor.ParserModel
 
         public List<WordSense> Senses { get; init; } = new();
 
-        internal void PrintDebug(TextWriter writer, int nestLevel)
-        {
-            var indent = new string('\t', nestLevel);
-            writer.WriteLine($"{indent}Name={this.Name}");
-            writer.WriteLine($"{indent}WordClass={this.WordClass}");
-            writer.WriteLine($"{indent}IsOnlyPhrasalVerb={this.IsOnlyPhrasalVerb}");
-            foreach (var sense in this.Senses)
-            {
-                sense.PrintDebug(writer, nestLevel + 1);
-            }
-
-            writer.WriteLine();
-        }
-
         public static WordEntry ParseFromDictContent(HtmlNode entryDiv)
         {
             var h1Node = entryDiv.SelectSingleNode(".//h1[@class='headword']");
@@ -129,6 +115,20 @@ namespace OxfordDictExtractor.ParserModel
                     ?.Select(WordSense.ParseFromDictContent)
                     ?.ToList() ?? new(),
             };
+        }
+
+        internal void PrintDebug(TextWriter writer, int nestLevel)
+        {
+            var indent = new string('\t', nestLevel);
+            writer.WriteLine($"{indent}Name={this.Name}");
+            writer.WriteLine($"{indent}WordClass={this.WordClass}");
+            writer.WriteLine($"{indent}IsOnlyPhrasalVerb={this.IsOnlyPhrasalVerb}");
+            foreach (var sense in this.Senses)
+            {
+                sense.PrintDebug(writer, nestLevel + 1);
+            }
+
+            writer.WriteLine();
         }
     }
 }

@@ -10,7 +10,7 @@
     <PackageVersion Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageVersion Include="System.Console" Version="4.3.1" />
     <PackageVersion Include="System.Diagnostics.Debug" Version="4.3.0" />
-    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.0" />
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
     <PackageVersion Include="System.Diagnostics.TextWriterTraceListener" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageVersion Include="System.Diagnostics.TraceSource" Version="4.3.0" />
@@ -59,7 +59,7 @@
     <PackageVersion Include="System.Text.Encoding" Version="4.3.0" />
     <PackageVersion Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageVersion Include="System.Text.Encodings.Web" Version="8.0.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.2" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.3" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageVersion Include="System.Threading" Version="4.3.0" />
     <PackageVersion Include="System.Threading.Tasks" Version="4.3.0" />

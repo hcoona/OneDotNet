@@ -2,6 +2,15 @@
   "version": 2,
   "dependencies": {
     ".NETStandard,Version=v1.0": {
+      "Clocks.Abstraction": {
+        "type": "Direct",
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "Un6U2CPZioVHOC9yoqV59SzrFOgKiMDXip3Pg4b/dTIStZVekCWyQ1j3+33GTr6rD4v5k2+zkPpfgcKK2K31xw==",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        }
+      },
       "DotNet.ReproducibleBuilds": {
         "type": "Direct",
         "requested": "[1.1.1, )",
@@ -359,12 +368,6 @@
           "System.IO": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
-        }
-      },
-      "clocks.abstraction": {
-        "type": "Project",
-        "dependencies": {
-          "NETStandard.Library": "[1.6.1, )"
         }
       }
     }

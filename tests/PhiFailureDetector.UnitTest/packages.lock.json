@@ -383,17 +383,20 @@
         "resolved": "8.0.0",
         "contentHash": "AurL6Y5BA1WotzlEvVaIDpqzpIPvYnnldxru8oXJU2yFxFUy3+pNXjXd1ymO+RA0rq0+590Q8gaz2l3Sr7fmqg=="
       },
-      "clocks.abstraction": {
-        "type": "Project",
-        "dependencies": {
-          "NETStandard.Library": "[1.6.1, )"
-        }
-      },
       "phifailuredetector": {
         "type": "Project",
         "dependencies": {
-          "Clocks.Abstraction": "[1.0.0, )",
+          "Clocks.Abstraction": "[1.4.0, )",
           "NETStandard.Library": "[1.6.1, )"
+        }
+      },
+      "Clocks.Abstraction": {
+        "type": "CentralTransitive",
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "Un6U2CPZioVHOC9yoqV59SzrFOgKiMDXip3Pg4b/dTIStZVekCWyQ1j3+33GTr6rD4v5k2+zkPpfgcKK2K31xw==",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Microsoft.CodeCoverage": {

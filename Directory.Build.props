@@ -9,10 +9,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
 
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization#invariant-mode -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+
     <ProduceReferenceAssembly Condition="'$(MSBuildProjectExtension)' == '.csproj'">true</ProduceReferenceAssembly>
 
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Pipeline build must follow lock file instead of update them. -->
     <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
     <RestorePackagesConfig>true</RestorePackagesConfig>
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
@@ -21,13 +25,21 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
-
-    <!-- https://github.com/dotnet/fsharp/issues/12315 -->
-    <DisableImplicitFSharpCoreReference Condition="'$(MSBuildProjectExtension)' == '.fsproj'">true</DisableImplicitFSharpCoreReference>
-    <!-- https://github.com/NuGet/Home/issues/11949#issuecomment-1212508955 -->
-    <!-- Also for Microsoft.CodeAnalysis.NetAnalyzers -->
-    <NoWarn>NU1507</NoWarn>
   </PropertyGroup>
+
+  <!-- TF_BUILD is automatically set in Azure Pipelines -->
+  <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables-devops-services -->
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nerdbank.GitVersioning">
+    <!--
+    https://github.com/dotnet/Nerdbank.GitVersioning/blob/v3.5.119/doc/msbuild.md#reducing-getbuildversion-invocations -->
+    <GitVersionBaseDirectory>$(MSBuildThisFileDirectory)</GitVersionBaseDirectory>
+  </PropertyGroup>
+
+  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
 
   <ItemGroup Label="Global References" Condition="'$(MSBuildProjectExtension)' != '.proj'">
     <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
@@ -36,14 +48,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
   </ItemGroup>
-
-  <!-- TF_BUILD is automatically set in Azure Pipelines -->
-  <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables-devops-services -->
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
-
-  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
 
   <PropertyGroup Label="SourceLink">
     <ProjectUrl>https://github.com/hcoona/OneDotNet</ProjectUrl>

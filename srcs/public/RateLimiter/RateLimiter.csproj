@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\Clocks.Net\Clocks.Abstraction\Clocks.Abstraction.csproj" />
+    <PackageReference Include="Clocks.Abstraction" />
   </ItemGroup>
 
 </Project>

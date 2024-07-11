@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="PhiFailureDetector\PhiFailureDetector.csproj" />
-    <ProjectReference Include="PhiFailureDetector.Console\PhiFailureDetector.ConsoleApp.csproj" />
-  </ItemGroup>
-</Project>

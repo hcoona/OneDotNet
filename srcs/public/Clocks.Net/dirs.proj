@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="Clocks.Abstraction\Clocks.Abstraction.csproj" />
-    <ProjectReference Include="Clocks.IntervalTreeClocks\Clocks.IntervalTreeClocks.csproj" />
-    <ProjectReference Include="Clocks.LamportClock\Clocks.LamportClock.csproj" />
-    <ProjectReference Include="Clocks.System\Clocks.System.csproj" />
-  </ItemGroup>
-</Project>

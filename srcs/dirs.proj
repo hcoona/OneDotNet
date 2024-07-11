@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.Build.Traversal">
-  <ItemGroup>
-    <ProjectReference Include="private\dirs.proj" />
-    <ProjectReference Include="public\dirs.proj" />
-  </ItemGroup>
-</Project>

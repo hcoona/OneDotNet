@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- Please order items in each group lexicographically -->
-
   <Import Project="$(EnlistmentRoot)/Directory.Packages.Global.props" />
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageVersion Include="Itc4net" Version="1.2.0" />
+    <PackageVersion Include="Itc4net" VersionOverride="1.2.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+    <PackageVersion Include="Clocks.Abstraction" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
@@ -16,6 +18,10 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="xunit.abstractions" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <PackageVersion Include="Clocks.Abstraction" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

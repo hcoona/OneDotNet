@@ -94,10 +94,13 @@
   </ItemGroup>
   <ItemGroup Label="Third-party">
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
+    <PackageVersion Include="Clocks.Abstraction" Version="1.4.0" />
+    <PackageVersion Include="Clocks.System" Version="1.4.0" />
     <PackageVersion Include="Google.OrTools" Version="9.10.4067" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.1 " />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.61" />
     <PackageVersion Include="Itc4net" Version="1.2.1" />
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.44.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Nito.Guids" Version="1.1.1" />

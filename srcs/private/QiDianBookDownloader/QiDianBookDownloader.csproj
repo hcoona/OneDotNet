@@ -11,11 +11,11 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Clocks.System" />
     <PackageReference Include="Microsoft.Playwright" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(EnlistmentRoot)\srcs\public\Clocks.Net\Clocks.System\Clocks.System.csproj" />
     <ProjectReference Include="$(EnlistmentRoot)\srcs\public\RateLimiter\RateLimiter.csproj" />
   </ItemGroup>
 

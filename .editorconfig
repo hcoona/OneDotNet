@@ -12,37 +12,37 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[**/*.json5]
+[**.json5]
 tab_width = 4
 
-[**/*.sln]
+[**.sln]
 indent_style = tab
 tab_width = 2
 
-[**/*.cs]
+[**.cs]
 indent_size = 4
 max_line_length = 100
 
-[**/*.tt]
+[**.tt]
 indent_size = 4
 end_of_line = crlf
 
-[**/*.xaml]
+[**.xaml]
 indent_style = 4
 max_line_length = 100
 
-[**/*.fs]
+[**.fs]
 indent_size = 4
 max_line_length = 100
 
-[**/*.sky]
+[**.sky]
 indent_size = 4
 max_line_length = 80
 
-[**/*.adoc]
+[**.adoc]
 indent_size = 2
 
-[**/*.md]
+[**.md]
 indent_size = 4
 
 ###############################

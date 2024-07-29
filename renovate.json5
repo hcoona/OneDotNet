@@ -40,6 +40,12 @@
             enabled: true,
             automerge: true,
         },
+        {
+            matchFileNames: [
+                "srcs/public/Directory.Packages.props",
+            ],
+            enabled: false,
+        },
 
         // Grouping only.
         {

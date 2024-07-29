@@ -3,7 +3,7 @@
   <!-- Please order items in each group lexicographically -->
 
   <ItemGroup Label="Git Versioning">
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.133" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.139" />
   </ItemGroup>
 
   <ItemGroup Label="Reproducible Builds">

@@ -1,9 +1,12 @@
 {
     $schema: "https://docs.renovatebot.com/renovate-schema.json",
     extends: [
-        "config:base",
+        "config:best-practices",
+        ":preserveSemverRanges",
+        ":rebaseStalePrs",
+        "schedule:weekly",
+        ":automergeMinor",
     ],
-    ignorePaths: [],
     labels: [
         "renovate",
     ],
@@ -12,19 +15,13 @@
     platformCommit: true,
     timezone: "Asia/Hong_Kong",
 
+    "enabledManagers": ["azure-pipelines", "nuget"],
+
     // https://github.com/hcoona/OneDotNet/issues/101
     packageRules: [
-        // Manually rules.
         {
-            matchFiles: [
-                // Manage it manually.
-                "srcs/public/Directory.Packages.props",
-            ],
-            enabled: false,
-        },
-        {
-            matchPackageNames: [
-                "dotnet-sdk",
+            extends: [
+                "monorepo:dotnet",
             ],
             matchUpdateTypes: [
                 "major",
@@ -32,101 +29,15 @@
             enabled: false,
         },
         {
-            matchPackagePrefixes: [
-                "Microsoft.AspNetCore.",
-                "Microsoft.EntityFrameworkCore.",
-                "Microsoft.Extensions.",
-            ],
-            matchUpdateTypes: [
-                "major",
-            ],
-            enabled: false,
-        },
-
-        // Auto-merge rules.
-        {
             extends: [
-                "schedule:daily",
-            ],
-            matchPackagePrefixes: [
-                "Microsoft.CSharp",
-                "System.",
-            ],
-            groupName: "system",
-            automerge: true,
-        },
-        {
-            extends: [
-                "schedule:daily",
-            ],
-            matchPackagePrefixes: [
-                "Microsoft.AspNetCore.",
-                "Microsoft.EntityFrameworkCore.",
-                "Microsoft.Extensions.",
+                "monorepo:dotnet",
             ],
             matchUpdateTypes: [
                 "minor",
                 "patch",
+                "digest",
             ],
-            groupName: "microsoft-extension",
-            automerge: true,
-        },
-        {
-            extends: [
-                "schedule:monthly",
-            ],
-            matchFiles: [
-                "Directory.Packages.props",
-            ],
-            excludePackageNames: [
-                "Microsoft.CSharp",
-            ],
-            excludePackagePrefixes: [
-                "Microsoft.Extensions.",
-                "System.",
-            ],
-            groupName: "third-party",
-        },
-        {
-            extends: [
-                "schedule:monthly",
-            ],
-            matchFiles: [
-                "Directory.Packages.Global.props",
-            ],
-            groupName: "global-packages",
-            automerge: true,
-        },
-        {
-            extends: [
-                "schedule:monthly",
-            ],
-            matchFiles: [
-                ".config/dotnet-tools.json",
-            ],
-            groupName: "cli-packages",
-            automerge: true,
-        },
-        {
-            extends: [
-                "schedule:weekly",
-            ],
-            matchPackageNames: [
-                "DotNet.ReproducibleBuilds.Isolated",
-                "Microsoft.Build.Artifacts",
-                "Microsoft.Build.NoTargets",
-                "Microsoft.Build.Traversal",
-            ],
-            groupName: "dotnet-build-sdk",
-            automerge: true,
-        },
-        {
-            extends: [
-                "schedule:weekly",
-            ],
-            matchManagers: [
-                "azure-pipelines",
-            ],
+            enabled: true,
             automerge: true,
         },
 
@@ -139,6 +50,22 @@
                 "Grpc.Tools",
             ],
             groupName: "grpc-legacy",
+        },
+        {
+            extends: [
+                "monorepo:azure azure-libraries-for-net",
+                "monorepo:azure azure-sdk-for-net",
+                "monorepo:azure azure-storage-net",
+            ],
+            groupName: "azure",
+        },
+        {
+            extends: [
+                "monorepo:applicationinsights-dotnet",
+                "monorepo:opentelemetry-dotnet",
+                "monorepo:opentelemetry-dotnet-contrib",
+            ],
+            groupName: "opentelemetry",
         },
     ],
 }

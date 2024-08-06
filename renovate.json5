@@ -1,77 +1,75 @@
 {
-    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
     extends: [
-        "config:best-practices",
-        ":preserveSemverRanges",
-        ":rebaseStalePrs",
-        "schedule:weekly",
-        ":automergeMinor",
+        'config:best-practices',
+        ':preserveSemverRanges',
+        ':rebaseStalePrs',
+        'schedule:weekly',
+        ':automergeMinor',
     ],
     labels: [
-        "renovate",
+        'renovate',
     ],
     prConcurrentLimit: 1,
     platformAutomerge: true,
-    platformCommit: true,
-    timezone: "Asia/Hong_Kong",
-
-    "enabledManagers": ["azure-pipelines", "nuget"],
-
-    // https://github.com/hcoona/OneDotNet/issues/101
+    platformCommit: 'enabled',
+    timezone: 'Asia/Hong_Kong',
+    enabledManagers: [
+        'azure-pipelines',
+        'nuget',
+    ],
     packageRules: [
         {
             extends: [
-                "monorepo:dotnet",
+                'monorepo:dotnet',
             ],
             matchUpdateTypes: [
-                "major",
+                'major',
             ],
             enabled: false,
         },
         {
             extends: [
-                "monorepo:dotnet",
+                'monorepo:dotnet',
             ],
             matchUpdateTypes: [
-                "minor",
-                "patch",
-                "digest",
+                'minor',
+                'patch',
+                'digest',
             ],
             enabled: true,
             automerge: true,
         },
         {
             matchFileNames: [
-                "srcs/public/Directory.Packages.props",
+                'srcs/public/Directory.Packages.props',
             ],
             enabled: false,
         },
-
-        // Grouping only.
         {
             matchPackageNames: [
-                "Grpc",
-                "Grpc.Core",
-                "Grpc.Core.Testing",
-                "Grpc.Tools",
+                'Grpc',
+                'Grpc.Core',
+                'Grpc.Core.Testing',
+                'Grpc.Tools',
             ],
-            groupName: "grpc-legacy",
+            groupName: 'grpc-legacy',
         },
         {
             extends: [
-                "monorepo:azure azure-libraries-for-net",
-                "monorepo:azure azure-sdk-for-net",
-                "monorepo:azure azure-storage-net",
+                'monorepo:azure azure-libraries-for-net',
+                'monorepo:azure azure-sdk-for-net',
+                'monorepo:azure azure-storage-net',
             ],
-            groupName: "azure",
+            groupName: 'azure',
         },
         {
             extends: [
-                "monorepo:applicationinsights-dotnet",
-                "monorepo:opentelemetry-dotnet",
-                "monorepo:opentelemetry-dotnet-contrib",
+                'monorepo:applicationinsights-dotnet',
+                'monorepo:opentelemetry-dotnet',
+                'monorepo:opentelemetry-dotnet-contrib',
             ],
-            groupName: "opentelemetry",
+            groupName: 'opentelemetry',
         },
     ],
 }

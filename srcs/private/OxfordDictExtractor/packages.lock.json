@@ -10,9 +10,9 @@
       },
       "HtmlAgilityPack": {
         "type": "Direct",
-        "requested": "[1.11.62, )",
-        "resolved": "1.11.62",
-        "contentHash": "KS4h7ZjWsO6YixRfQgYdR+PZMbTaZod1LBPi+1Ph7dJCARzQm7DOKe5HPhP/o0EWX5l7QCgAZHa4VOa4pQa8JQ=="
+        "requested": "[1.11.63, )",
+        "resolved": "1.11.63",
+        "contentHash": "cAWxtzqcCcv3ZpnpPXa6Rj309hqkMP9UajmhWZ3nje0murYIzR0cpdNGqz/aNK8BNwlof1R04bqom9VsNglZyg=="
       },
       "Microsoft.Build.CopyOnWrite": {
         "type": "Direct",

@@ -208,7 +208,7 @@
       "oxforddictextractor": {
         "type": "Project",
         "dependencies": {
-          "HtmlAgilityPack": "[1.11.63, )",
+          "HtmlAgilityPack": "[1.11.64, )",
           "Nito.Guids": "[1.1.1, )",
           "System.IO.Compression.ZipFile": "[4.3.0, )",
           "WebMarkupMin.Core": "[2.16.2, )"
@@ -216,9 +216,9 @@
       },
       "HtmlAgilityPack": {
         "type": "CentralTransitive",
-        "requested": "[1.11.63, )",
-        "resolved": "1.11.63",
-        "contentHash": "cAWxtzqcCcv3ZpnpPXa6Rj309hqkMP9UajmhWZ3nje0murYIzR0cpdNGqz/aNK8BNwlof1R04bqom9VsNglZyg=="
+        "requested": "[1.11.64, )",
+        "resolved": "1.11.64",
+        "contentHash": "5GtlZ7Y/L1k5zBokuOGW96PVTItRv/QCUJWlXiZ5YvYN2DI8wFto+WXBxkF55DdG0WabAG/F3ghqOMGdo89Rlg=="
       },
       "Microsoft.CodeCoverage": {
         "type": "CentralTransitive",

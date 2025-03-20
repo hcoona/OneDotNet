@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup Label="CopyOnWrite">
-    <PackageVersion Include="Microsoft.Build.CopyOnWrite" Version="1.0.315" />
+    <PackageVersion Include="Microsoft.Build.CopyOnWrite" Version="1.0.334" />
     <PackageReference Include="Microsoft.Build.CopyOnWrite" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
   </ItemGroup>
 </Project>

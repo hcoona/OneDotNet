@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(EnlistmentRoot)/Directory.Packages.Global.props" />
+
+  <Import Project="$(EnlistmentRoot)/Directory.Packages.props" />
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageVersion Include="Itc4net" VersionOverride="[1.2.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="[1.1.2,)" />
+    <PackageVersion Update="Itc4net" Version="[1.2.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="[1.1.2,)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
-    <PackageVersion Include="Clocks.Abstraction" Version="[1.4.0,)" />
+    <PackageVersion Update="Clocks.Abstraction" Version="[1.4.0,)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
-    <PackageVersion Include="Microsoft.CSharp" Version="[4.4.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.FileProviders.Abstractions" Version="[1.1.1,)" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="[1.1.2,)" />
-    <PackageVersion Include="Newtonsoft.Json" Version="[13.0.1,)" />
-    <PackageVersion Include="System.Net.Http" Version="[4.3.4,)" />
-    <PackageVersion Include="xunit.abstractions" Version="[2.0.1,)" />
+    <PackageVersion Update="Microsoft.CSharp" Version="[4.4.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="[1.1.1,)" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="[1.1.2,)" />
+    <PackageVersion Update="Newtonsoft.Json" Version="[13.0.1,)" />
+    <PackageVersion Update="System.Net.Http" Version="[4.3.4,)" />
+    <PackageVersion Update="xunit.abstractions" Version="[2.0.1,)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageVersion Include="Clocks.Abstraction" Version="[1.4.0,)" />
+    <PackageVersion Update="Clocks.Abstraction" Version="[1.4.0,)" />
+    <PackageVersion Update="System.Diagnostics.DiagnosticSource" Version="[4.3.0,)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageVersion Include="Itc4net" Version="[1.2.1,)" />
-    <PackageVersion Include="Microsoft.CSharp" Version="[4.4.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="[2.0.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[2.0.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.FileProviders.Abstractions" Version="[2.0.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="[2.2.0,)" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="[2.0.0,)" />
-    <PackageVersion Include="MSTest.TestFramework" Version="[2.2.10,)" />
-    <PackageVersion Include="Newtonsoft.Json" Version="[13.0.1,)" />
-    <PackageVersion Include="System.Net.Http" Version="[4.3.4,)" />
-    <PackageVersion Include="System.ValueTuple" Version="[4.4.0,)" />
-    <PackageVersion Include="xunit.abstractions" Version="[2.0.1,)" />
+    <PackageVersion Update="Itc4net" Version="[1.2.1,)" />
+    <PackageVersion Update="Microsoft.CSharp" Version="[4.4.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.Caching.Abstractions" Version="[2.0.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[2.0.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.FileProviders.Abstractions" Version="[2.0.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="[2.2.0,)" />
+    <PackageVersion Update="Microsoft.Extensions.Options" Version="[2.0.0,)" />
+    <PackageVersion Update="MSTest.TestFramework" Version="[2.2.10,)" />
+    <PackageVersion Update="Newtonsoft.Json" Version="[13.0.1,)" />
+    <PackageVersion Update="System.Net.Http" Version="[4.3.4,)" />
+    <PackageVersion Update="System.ValueTuple" Version="[4.4.0,)" />
+    <PackageVersion Update="xunit.abstractions" Version="[2.0.1,)" />
   </ItemGroup>
 
 </Project>

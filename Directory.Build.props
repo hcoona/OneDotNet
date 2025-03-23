@@ -17,7 +17,7 @@
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <!-- Pipeline build must follow lock file instead of update them. -->
-    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
+    <RestoreLockedMode Condition="'$(TF_BUILD)' == 'true'">true</RestoreLockedMode>
     <RestorePackagesConfig>true</RestorePackagesConfig>
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
 
@@ -27,27 +27,14 @@
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
   </PropertyGroup>
 
-  <!-- TF_BUILD is automatically set in Azure Pipelines -->
-  <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables-devops-services -->
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
+  <Sdk Name="Microsoft.Build.CopyOnWrite" />
 
   <PropertyGroup Label="Nerdbank.GitVersioning">
     <!--
     https://github.com/dotnet/Nerdbank.GitVersioning/blob/v3.5.119/doc/msbuild.md#reducing-getbuildversion-invocations -->
     <GitVersionBaseDirectory>$(MSBuildThisFileDirectory)</GitVersionBaseDirectory>
   </PropertyGroup>
-
-  <Sdk Name="DotNet.ReproducibleBuilds.Isolated" />
-
-  <ItemGroup Label="Global References" Condition="'$(MSBuildProjectExtension)' != '.proj'">
-    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageReference Include="DotNet.ReproducibleBuilds" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" IncludeAssets="Analyzers;Build" />
-  </ItemGroup>
 
   <PropertyGroup Label="SourceLink">
     <ProjectUrl>https://github.com/hcoona/OneDotNet</ProjectUrl>
@@ -88,7 +75,8 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Artifacts">
-    <ArtifactsPath>$(EnlistmentRoot)\out</ArtifactsPath>
+    <UseArtifactsOutput>false</UseArtifactsOutput>
+    <BaseArtifactsPath>$(EnlistmentRoot)\out</BaseArtifactsPath>
 
     <DefaultArtifactsFileMatch>$(DefaultArtifactsFileMatch) *.exe *.dll *.exe.config *.deps.json *.runtimeconfig.json</DefaultArtifactsFileMatch>
   </PropertyGroup>

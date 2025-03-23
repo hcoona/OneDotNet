@@ -17,23 +17,11 @@
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
-      "Microsoft.Build.CopyOnWrite": {
-        "type": "Direct",
-        "requested": "[1.0.315, )",
-        "resolved": "1.0.315",
-        "contentHash": "z0WkyvnBFWCzgLJ1ORD9t6R5nvQSlTl7ernOPq2a6bdfJEGWRQbgiew4TFD18hQjBE8JGRDtWAkFDzhkRK8LNg=="
-      },
       "Microsoft.CodeAnalysis.BannedApiAnalyzers": {
         "type": "Direct",
         "requested": "[3.3.4, )",
         "resolved": "3.3.4",
         "contentHash": "0k2Jwpc8eq0hjOtX6TxRkHm9clkJ2PAQ3heEHgqIJZcsfdFosC/iyz18nsgTVDDWpID80rC7aiYK7ripx+Qndg=="
-      },
-      "Microsoft.NETFramework.ReferenceAssemblies": {
-        "type": "Direct",
-        "requested": "[1.0.3, )",
-        "resolved": "1.0.3",
-        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg=="
       },
       "Microsoft.SourceLink.GitHub": {
         "type": "Direct",
@@ -117,7 +105,8 @@
         "contentHash": "zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ=="
       },
       "System.Collections": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "3Dcj85/TBdVpL5Zr+gEEBUuFe2icOnLalmEh9hfck1PTYbbyWuZgh4fmm2ysCLTrqLQw6t3TgTyJ+VLp+Qb+Lw==",
         "dependencies": {
@@ -127,7 +116,8 @@
         }
       },
       "System.Diagnostics.Debug": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "ZUhUOdqmaG5Jk3Xdb8xi5kIyQYAA4PnTNlHx1mu9ZY3qv4ELIdKbnL/akbGaKi2RnNUWaZsAs31rvzFdewTj2g==",
         "dependencies": {
@@ -137,7 +127,8 @@
         }
       },
       "System.Diagnostics.Tools": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "UUvkJfSYJMM6x527dJg2VyWPSRqIVB0Z7dbjHst1zmwTXz5CcXSYJFWRpuigfbO1Lf7yfZiIaEUesfnl/g5EyA==",
         "dependencies": {
@@ -147,7 +138,8 @@
         }
       },
       "System.Globalization": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "kYdVd2f2PAdFGblzFswE4hkNANJBKRmsfa2X5LG2AcWE1c7/4t0pYae1L8vfZ5xvE2nK/R9JprtToA61OSHWIg==",
         "dependencies": {
@@ -157,7 +149,8 @@
         }
       },
       "System.IO": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "3qjaHvxQPDpSOYICjUoTsmoq5u6QJAFRUITgeT/4gqkF1bajbSmb1kwSxEA8AHlofqgcKJcM8udgieRNhaJ5Cg==",
         "dependencies": {
@@ -169,7 +162,8 @@
         }
       },
       "System.Linq": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "5DbqIUpsDp0dFftytzuMmc0oeMdQwjcP/EWxsksIz/w1TcFRkZ3yKKz0PqiYFMmEwPSWw+qNVqD7PJ889JzHbw==",
         "dependencies": {
@@ -178,7 +172,8 @@
         }
       },
       "System.Linq.Expressions": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "PGKkrd2khG4CnlyJwxwwaWWiSiWFNBGlgXvJpeO0xCXrZ89ODrQ6tjEWS/kOqZ8GwEOUATtKtzp1eRgmYNfclg==",
         "dependencies": {
@@ -187,7 +182,8 @@
         }
       },
       "System.Net.Primitives": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.1, )",
         "resolved": "4.3.0",
         "contentHash": "qOu+hDwFwoZPbzPvwut2qATe3ygjeQBDQj91xlsaqGFQUI5i4ZnZb8yyQuLGpDGivEPIt8EJkd1BVzVoP31FXA==",
         "dependencies": {
@@ -197,7 +193,8 @@
         }
       },
       "System.ObjectModel": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "bdX+80eKv9bN6K4N+d77OankKHGn6CH711a6fcOpMQu2Fckp/Ft4L/kW9WznHpyR0NRAvJutzOMHNNlBGvxQzQ==",
         "dependencies": {
@@ -205,7 +202,8 @@
         }
       },
       "System.Reflection": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
         "dependencies": {
@@ -217,7 +215,8 @@
         }
       },
       "System.Reflection.Extensions": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "rJkrJD3kBI5B712aRu4DpSIiHRtr6QlfZSQsb0hYHrDCZORXCFjQfoipo2LaMUHoT9i1B7j7MnfaEKWDFmFQNQ==",
         "dependencies": {
@@ -228,7 +227,8 @@
         }
       },
       "System.Reflection.Primitives": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "5RXItQz5As4xN2/YUDxdpsEkMhvw3e6aNveFXUn4Hl/udNTCNhnKp8lT9fnc3MhvGKh1baak5CovpuQUXHAlIA==",
         "dependencies": {
@@ -238,7 +238,8 @@
         }
       },
       "System.Resources.ResourceManager": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "/zrcPkkWdZmI4F92gL/TPumP98AVDu/Wxr3CSJGQQ+XN6wbRZcyfSKVoPo17ilb3iOr0cCRqJInGwNMolqhS8A==",
         "dependencies": {
@@ -250,7 +251,8 @@
         }
       },
       "System.Runtime": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.1, )",
         "resolved": "4.3.0",
         "contentHash": "JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
         "dependencies": {
@@ -259,7 +261,8 @@
         }
       },
       "System.Runtime.Extensions": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.1, )",
         "resolved": "4.3.0",
         "contentHash": "guW0uK0fn5fcJJ1tJVXYd7/1h5F+pea1r7FLSOz/f8vPEqbR2ZAknuRDvTQ8PzAilDveOxNjSfr0CHfIQfFk8g==",
         "dependencies": {
@@ -269,7 +272,8 @@
         }
       },
       "System.Text.Encoding": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "BiIg+KWaSDOITze6jGQynxg64naAPtqGHBwDrLaCtixsa5bKiR8dpPOHA7ge3C0JJQizJE+sfkz1wV+BAKAYZw==",
         "dependencies": {
@@ -279,7 +283,8 @@
         }
       },
       "System.Text.Encoding.Extensions": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "YVMK0Bt/A43RmwizJoZ22ei2nmrhobgeiYwFzC4YAN+nue8RF6djXDMog0UCn+brerQoYVyaS+ghy9P/MUVcmw==",
         "dependencies": {
@@ -290,7 +295,8 @@
         }
       },
       "System.Text.RegularExpressions": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.1, )",
         "resolved": "4.3.0",
         "contentHash": "RpT2DA+L660cBt1FssIE9CAGpLFdFPuheB7pLpKpn6ZXNby7jDERe8Ua/Ne2xGiwLVG2JOqziiaVCGDon5sKFA==",
         "dependencies": {
@@ -298,7 +304,8 @@
         }
       },
       "System.Threading": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "VkUS0kOBcUf3Wwm0TSbrevDDZ6BlM+b/HRiapRFWjM5O0NS0LviG0glKmFK+hhPDd1XFeSdU1GmlLhb2CoVpIw==",
         "dependencies": {
@@ -307,7 +314,8 @@
         }
       },
       "System.Threading.Tasks": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
         "dependencies": {
@@ -317,7 +325,8 @@
         }
       },
       "System.Xml.ReaderWriter": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.1, )",
         "resolved": "4.3.0",
         "contentHash": "GrprA+Z0RUXaR4N7/eW71j1rgMnEnEVlgii49GZyAjTH7uliMnrOU3HNFBr6fEDBCJCIdlVNq9hHbaDR621XBA==",
         "dependencies": {
@@ -328,7 +337,8 @@
         }
       },
       "System.Xml.XDocument": {
-        "type": "Transitive",
+        "type": "CentralTransitive",
+        "requested": "[4.3.0, )",
         "resolved": "4.3.0",
         "contentHash": "5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
         "dependencies": {

@@ -5,3 +5,6 @@
 /Interactive
 /BinaryLogger
 /IgnoreProjectExtensions:.sln
+# See static graph build information at https://github.com/dotnet/msbuild/blob/main/documentation/specs/static-graph.md
+/p:RestoreUseStaticGraphEvaluation=true
+/GraphBuild

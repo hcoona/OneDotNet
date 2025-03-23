@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Please order items in each group lexicographically -->
-  <Import Project="$(EnlistmentRoot)/Directory.Packages.Global.props" />
+  <ItemGroup Label="Global">
+    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.6.139" />
+    <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+  </ItemGroup>
   <ItemGroup Label="System">
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageVersion Include="System.AppContext" Version="4.3.0" />

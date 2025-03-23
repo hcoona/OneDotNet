@@ -411,7 +411,7 @@
       },
       "System.Runtime.CompilerServices.Unsafe": {
         "type": "CentralTransitive",
-        "requested": "[6.0.0, )",
+        "requested": "[6.1.1, )",
         "resolved": "4.3.0",
         "contentHash": "rcnXA1U9W3QUtMSGoyoNHH6w4V5Rxa/EKXmzpORUYlDAlDB34hIQoU57ATXl8xHa83VvzRm6PcElEizgUd7U5w==",
         "dependencies": {
@@ -990,7 +990,7 @@
       },
       "System.Runtime.CompilerServices.Unsafe": {
         "type": "CentralTransitive",
-        "requested": "[6.0.0, )",
+        "requested": "[6.1.1, )",
         "resolved": "4.4.0",
         "contentHash": "9dLLuBxr5GNmOfl2jSMcsHuteEg32BEfUotmmUkmZjpR3RpVHE8YQwt0ow3p6prwA1ME8WqDVZqrr8z6H8G+Kw=="
       },

@@ -231,7 +231,7 @@
       },
       "System.Buffers": {
         "type": "CentralTransitive",
-        "requested": "[4.5.1, )",
+        "requested": "[4.6.1, )",
         "resolved": "4.3.0",
         "contentHash": "ratu44uTIHgeBeI0dE8DWvmXVBSo4u7ozRZZHOMmK/JPpYyo0dAfgSiHlpiObMQ5lEtEyIXA40sKRYg5J6A8uQ==",
         "dependencies": {

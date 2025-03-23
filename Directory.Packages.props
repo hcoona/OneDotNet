@@ -119,7 +119,7 @@
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageVersion Include="RocksDB" Version="9.4.0.50294" />
+    <PackageVersion Include="RocksDB" Version="9.10.0.55496" />
     <PackageVersion Include="WebMarkupMin.Core" Version="2.16.2" />
   </ItemGroup>
   <ItemGroup Label="Tests">

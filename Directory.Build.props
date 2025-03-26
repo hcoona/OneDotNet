@@ -20,6 +20,7 @@
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'true'">true</RestoreLockedMode>
     <RestorePackagesConfig>true</RestorePackagesConfig>
     <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
+    <RestoreEnablePackagePruning>true</RestoreEnablePackagePruning>
 
     <!-- https://devblogs.microsoft.com/nuget/introducing-central-package-management/ -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>

@@ -75,7 +75,8 @@ namespace OxfordDictExtractor.ParserModel
             var sensetop = liNode.SelectSingleNode("./span[@class='sensetop']");
             if (sensetop.ChildNodes.Count == 1)
             {
-                if (sensetop.ChildNodes.Single().GetAttributeValue("class", string.Empty) == "xrefs")
+                if (sensetop.ChildNodes.Single()
+                        .GetAttributeValue("class", string.Empty) == "xrefs")
                 {
                     return new WordSense
                     {

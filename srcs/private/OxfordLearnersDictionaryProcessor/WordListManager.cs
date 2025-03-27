@@ -33,12 +33,12 @@ namespace OxfordLearnersDictionaryProcessor
     {
         private static readonly Dictionary<OxfordLearnersDictionaryWordList, string /*url*/>
             WordListUrlDictionary = new()
-        {
-            [OxfordLearnersDictionaryWordList.Oxford3000And5000] =
+            {
+                [OxfordLearnersDictionaryWordList.Oxford3000And5000] =
                 @"https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000",
-            [OxfordLearnersDictionaryWordList.Opal] =
+                [OxfordLearnersDictionaryWordList.Opal] =
                 @"https://www.oxfordlearnersdictionaries.com/wordlists/opal",
-        };
+            };
 
         public async Task<HtmlDocument> LoadWordListHtmlDocumentAsync(
             OxfordLearnersDictionaryWordList wordList,
@@ -66,7 +66,7 @@ namespace OxfordLearnersDictionaryProcessor
             if (forceRefresh
                 || !rocksDb.HasKey($"WordList_WordMetadata_{wordList}_LastWriteTimeUtc"))
             {
-                Console.Error.WriteLine($"The word list {wordList} needs to be downloaded.");
+                this.LogWordListNeedsToBeDownloaded(wordList);
                 await this.DoExtractStructuredDataFromWordListAsync(wordList, cancellationToken);
             }
 
@@ -79,6 +79,12 @@ namespace OxfordLearnersDictionaryProcessor
                 .Seek($"WordList_WordMetadata_{wordList}_{lastWriteTimeUtc:o}");
             while (iterator.Valid() && !cancellationToken.IsCancellationRequested)
             {
+                if (!iterator.StringKey().StartsWith(
+                        $"WordList_WordMetadata_{wordList}_{lastWriteTimeUtc:o}_"))
+                {
+                    break;
+                }
+
                 yield return iterator.StringValue();
                 iterator.Next();
             }
@@ -137,6 +143,11 @@ namespace OxfordLearnersDictionaryProcessor
                     Console.Error.WriteLine("Ignore failed extraction world: " + li.OuterHtml);
                 }
 
+                if (wordMetadata!.Headword == "terror")
+                {
+                    wordMetadata = wordMetadata with { Link = "/definition/english/terror" };
+                }
+
                 byte[] hash = XxHash128.Hash(Encoding.UTF8.GetBytes(li.OuterHtml));
                 var hashHex = Convert.ToHexString(hash);
 
@@ -191,6 +202,13 @@ namespace OxfordLearnersDictionaryProcessor
                 PartOfSpeech: posSpanNode?.InnerText.Trim());
             return true;
         }
+
+        [LoggerMessage(
+            EventId = Constants.EventIdWordListFileNeedsToBeDownloaded,
+            Level = LogLevel.Information,
+            Message = "The word list {wordList} needs to be downloaded.")]
+        private partial void LogWordListNeedsToBeDownloaded(
+            OxfordLearnersDictionaryWordList wordList);
 
         [LoggerMessage(
             EventId = Constants.EventIdWordListWordCefrLevelAbsence,

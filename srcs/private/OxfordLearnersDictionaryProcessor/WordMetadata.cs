@@ -22,13 +22,22 @@ namespace OxfordLearnersDictionaryProcessor
         string HeadWord,
         string PartOfSpeech,
         WordMetadataPhonetics Phonetics,
-        List<WordMetadataSense> Senses);
+        List<WordMetadataSense> Senses,
+        string? WordOrigin);
 
     public record WordMetadataPhonetics(string Uk, string Us);
 
     public record WordMetadataSense(
         int SenseNumber,
+        string? CefrLevel,
+        List<string> Variants,
+        List<string> Uses,
+        string? Grammar,
+        string? Confer,
         string Definition,
         List<string> Examples,
-        string? Topic);
+        List<string> ExtraExamples,
+        List<string> Topic);
+
+    public record WordExample(string? Confer, string Sentence);
 }

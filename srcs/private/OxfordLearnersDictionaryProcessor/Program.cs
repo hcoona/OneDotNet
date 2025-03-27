@@ -17,6 +17,7 @@
 // OneDotNet. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Text.Json;
+using HtmlAgilityPack;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
@@ -35,16 +36,18 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 #pragma warning disable SKEXP0010
-IKernelBuilder kernelBuilder = Kernel.CreateBuilder()
-#if false
-    .AddAzureOpenAIChatCompletion(
+IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+#if true
+var azureOpenAiApiKey = Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY")
+    ?? throw new InvalidOperationException(
+        "You must set AZURE_OPENAI_API_KEY environment variable.");
+kernelBuilder.AddAzureOpenAIChatCompletion(
         deploymentName: "gpt-4o-mini",
         endpoint: "https://shuaizhang-oai-westus.openai.azure.com/",
-        apiKey: Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY")
-            ?? throw new InvalidOperationException("You must set AZURE_OPENAI_API_KEY."));
+        apiKey: azureOpenAiApiKey);
 #elif true
-    .AddOpenAIChatCompletion(
-        modelId: "phi4-mini",
+kernelBuilder.AddOpenAIChatCompletion(
+        modelId: "phi4",
         endpoint: new Uri("http://127.0.0.1:11434/v1"),
         apiKey: null);
 #endif
@@ -73,7 +76,7 @@ var options = new DbOptions()
             .SetFormatVersion(6)
             .SetWholeKeyFiltering(false))
     .SetLevelCompactionDynamicLevelBytes(true)
-    .SetPrefixExtractor(SliceTransform.CreateFixedPrefix(3));
+    .SetPrefixExtractor(SliceTransform.CreateFixedPrefix(5));
 using var db = RocksDb.Open(options, "cache");
 services.AddSingleton(db);
 
@@ -121,6 +124,10 @@ AzureOpenAIPromptExecutionSettings executionSettings = new()
 KernelFunction questionAndAnswer = kernel.CreateFunctionFromPrompt(
     """
     Extract meaningful information into exact JSON format without any additional commentary.
+    ox3ksym_b1 in the class attribute means oxford 3000 word list with CEFR B1 level.
+    We have 3k & 5k word list, CEFR levels A1, A2, B1, B2, C1, C2.
+
+    ------
 
     {{$input}}
     """,
@@ -136,15 +143,20 @@ await foreach (var wordMetadataJson in wordListManager
     .LoadExtractedStructuredDataFromWordListAsync(wordListTag, forceRefresh: false, cts.Token)
     .ConfigureAwait(continueOnCapturedContext: false))
 {
-    counter++;
-    if (counter <= 1)
+    if (DateTimeOffset.TryParse(wordMetadataJson, out var _))
     {
-        Console.WriteLine(wordMetadataJson);
+        continue;
+    }
+
+    counter++;
+    if (counter == 3)
+    {
         var wordMetadata = JsonSerializer.Deserialize<WordListWordMetadata>(wordMetadataJson)
             ?? throw new InvalidOperationException("Impossible");
         var document = await wordManager
             .LoadWordHtmlDocumentAsync(wordMetadata, forceRefresh: false, cts.Token)
             .ConfigureAwait(continueOnCapturedContext: false);
+        document.OptionEmptyCollection = true;
 
         // TODO(shuaizhang): Cleanup the HTML content before feeding it to the model.
         var divNode = document.DocumentNode.SelectSingleNode("//div[@id='entryContent']");

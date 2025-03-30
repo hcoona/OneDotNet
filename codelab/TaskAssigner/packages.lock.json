@@ -95,9 +95,9 @@
       },
       "Google.Protobuf": {
         "type": "CentralTransitive",
-        "requested": "[3.30.1, )",
-        "resolved": "3.30.1",
-        "contentHash": "HeWXDQBabQn/sCGicbeLJ0HMunknfC4FdLrOQOsaMJHcpqx3HVIpyyJqTrqJlWnza870twhOb+rBcaTiC/TlNA=="
+        "requested": "[3.30.2, )",
+        "resolved": "3.30.2",
+        "contentHash": "Y2aOVLIt75yeeEWigg9V9YnjsEm53sADtLGq0gLhwaXpk3iu8tYSoauolyhenagA2sWno2TQ2WujI0HQd6s1Vw=="
       }
     }
   }
